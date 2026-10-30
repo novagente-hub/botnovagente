@@ -14,7 +14,7 @@ import { localDatabase, localRunner } from "./pg-runner";
  * handoffs, memory, learning, the self-host banner). In local mode each of those gets this object
  * instead. What it answers:
  *  - threads: from the runtime's thread store, which `PostgresAgentRunner` keeps durable;
- *  - run locks: one run per thread, held in this process (the server is a single process);
+ *  - run locks: one run per thread, a lease row in Postgres guarded by an advisory lock;
  *  - memory / learning / entitlements: refused with a 503, which OpenBot already treats as
  *    "Intelligence unavailable" and falls back to its own Postgres memory store (`memory/store.ts`).
  * Anything else is refused the same way rather than silently pretending to work.
@@ -29,7 +29,21 @@ type Thread = {
 };
 
 const created = new Map<string, Thread>();
-const locks = new Map<string, { runId: string; userId: string; expires: number }>();
+type LocalSql = ReturnType<typeof localDatabase>["sql"];
+let locksReady: Promise<void> | undefined;
+async function withThreadLocks<T>(work: (sql: LocalSql) => Promise<T>): Promise<T> {
+  const { sql, ready } = localDatabase();
+  locksReady ??= ready.then(async () => {
+    await sql.unsafe(`CREATE TABLE IF NOT EXISTS nb_thread_locks (
+      thread_id  text PRIMARY KEY,
+      run_id     text NOT NULL,
+      user_id    text NOT NULL,
+      expires_at timestamptz NOT NULL
+    )`);
+  });
+  await locksReady;
+  return work(sql);
+}
 
 function unavailable(what: string): never {
   throw new PlatformRequestError(`${what} is not available in NovaBot local mode.`, 503, false);
@@ -101,23 +115,51 @@ export function createLocalIntelligence(): CopilotKitIntelligence {
         messages: runner.getThreadMessages(params.threadId, { ownerId: params.userId }),
       };
     },
+    /*
+     * Run locks live in Postgres (nb_thread_locks), so they hold across server restarts and across
+     * more than one server process. Each acquire/renew runs in a transaction that first takes
+     * `pg_advisory_xact_lock(hashtext(thread_id))`, which serialises competing runs on the same
+     * thread; the row is the lease (run id + expiry) that outlives the transaction.
+     */
     async ɵacquireThreadLock(params: { threadId: string; runId: string; userId: string }) {
-      const now = Date.now();
-      const held = locks.get(params.threadId);
-      if (held && held.expires > now && held.runId !== params.runId)
-        throw new PlatformRequestError("Thread is already running", 409, true, "thread_locked");
-      locks.set(params.threadId, { runId: params.runId, userId: params.userId, expires: now + 120_000 });
-      return { threadId: params.threadId, runId: params.runId, joinToken: randomUUID(), ttlSeconds: 120 };
+      const ttl = 120;
+      const ok = await withThreadLocks(async (sql) =>
+        sql.begin(async (tx) => {
+          await tx`SELECT pg_advisory_xact_lock(hashtext(${params.threadId}))`;
+          const rows = await tx`
+            INSERT INTO nb_thread_locks (thread_id, run_id, user_id, expires_at)
+            VALUES (${params.threadId}, ${params.runId}, ${params.userId}, now() + make_interval(secs => ${ttl}))
+            ON CONFLICT (thread_id) DO UPDATE
+              SET run_id = EXCLUDED.run_id, user_id = EXCLUDED.user_id, expires_at = EXCLUDED.expires_at
+              WHERE nb_thread_locks.expires_at < now() OR nb_thread_locks.run_id = EXCLUDED.run_id
+            RETURNING run_id`;
+          return rows.length > 0;
+        }),
+      );
+      if (!ok) throw new PlatformRequestError("Thread is already running", 409, true, "thread_locked");
+      return { threadId: params.threadId, runId: params.runId, joinToken: randomUUID(), ttlSeconds: ttl };
     },
     async ɵrenewThreadLock(params: { threadId: string; runId?: string; ttlSeconds?: number }) {
-      const held = locks.get(params.threadId);
-      if (!held) return { ttlSeconds: 0, status: "completed", threadId: params.threadId };
       const ttl = params.ttlSeconds ?? 120;
-      held.expires = Date.now() + ttl * 1000;
-      return { ttlSeconds: ttl, status: "renewed", threadId: params.threadId, runId: held.runId };
+      const rows = (await withThreadLocks((sql) =>
+        sql.begin(async (tx) => {
+          await tx`SELECT pg_advisory_xact_lock(hashtext(${params.threadId}))`;
+          return params.runId
+            ? tx`UPDATE nb_thread_locks SET expires_at = now() + make_interval(secs => ${ttl})
+                 WHERE thread_id = ${params.threadId} AND run_id = ${params.runId} RETURNING run_id`
+            : tx`UPDATE nb_thread_locks SET expires_at = now() + make_interval(secs => ${ttl})
+                 WHERE thread_id = ${params.threadId} RETURNING run_id`;
+        }),
+      )) as { run_id: string }[];
+      if (rows.length === 0) return { ttlSeconds: 0, status: "completed", threadId: params.threadId };
+      return { ttlSeconds: ttl, status: "renewed", threadId: params.threadId, runId: rows[0]!.run_id };
     },
-    async ɵcleanupThreadLock(params: { threadId: string }) {
-      locks.delete(params.threadId);
+    async ɵcleanupThreadLock(params: { threadId: string; runId?: string }) {
+      await withThreadLocks((sql) =>
+        params.runId
+          ? sql`DELETE FROM nb_thread_locks WHERE thread_id = ${params.threadId} AND run_id = ${params.runId}`
+          : sql`DELETE FROM nb_thread_locks WHERE thread_id = ${params.threadId}`,
+      );
     },
     ɵgetRunnerWsUrl: () => `${LOCAL_INTELLIGENCE_SETTINGS.gatewayWsUrl}/runner`,
     ɵgetRunnerAuthToken: () => LOCAL_INTELLIGENCE_SETTINGS.apiKey,

@@ -1,0 +1,65 @@
+/* NOVAGENTE brand theme for NovaBot: black #0A0A0A, white, chevron blue #1E7BFF. */
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+  --primary: #1e7bff;
+  --primary-foreground: #ffffff;
+  --secondary: #f2f5fa;
+  --secondary-foreground: #0a0a0a;
+  --muted: #f4f5f7;
+  --muted-foreground: #5b6170;
+  --accent: #e8f1ff;
+  --accent-foreground: #0a0a0a;
+  --destructive: #e5484d;
+  --border: #e4e7ec;
+  --input: #e4e7ec;
+  --ring: #1e7bff;
+  --chart-1: #1e7bff;
+  --chart-2: #0a0a0a;
+  --chart-3: #5ea2ff;
+  --chart-4: #9aa3b2;
+  --chart-5: #b8d4ff;
+  --radius: 0.75rem;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #1e7bff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #ffffff;
+}
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --card: #121212;
+  --card-foreground: #ffffff;
+  --popover: #121212;
+  --popover-foreground: #ffffff;
+  --primary: #1e7bff;
+  --primary-foreground: #ffffff;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1a1a;
+  --muted-foreground: #a1a7b3;
+  --accent: #10284d;
+  --accent-foreground: #ffffff;
+  --destructive: #ff6369;
+  --border: #262626;
+  --input: #262626;
+  --ring: #1e7bff;
+  --chart-1: #1e7bff;
+  --chart-2: #ffffff;
+  --chart-3: #5ea2ff;
+  --chart-4: #6b7280;
+  --chart-5: #10284d;
+  --radius: 0.75rem;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #1e7bff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #ffffff;
+}

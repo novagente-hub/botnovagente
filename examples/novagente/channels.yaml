@@ -1,0 +1,16 @@
+channels:
+  - id: general-assistant
+    name: NovaBot
+    description: Peça ajuda no trabalho do dia a dia.
+    permitted_agents: [general-assistant]
+    allowed_groups: [all]
+  - id: risk-and-compliance
+    name: Análises e processos
+    description: Investigue processos, políticas e evidências.
+    permitted_agents: [knowledge, risk-analyst]
+    allowed_groups: [risk, compliance]
+  - id: company-knowledge
+    name: Base de conhecimento
+    description: Encontre respostas nos documentos da NOVAGENTE.
+    permitted_agents: [knowledge]
+    allowed_groups: [all]

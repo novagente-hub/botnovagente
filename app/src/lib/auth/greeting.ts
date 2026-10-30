@@ -7,6 +7,6 @@ export function firstConversationGreeting(
 ): string {
   const name = user?.name?.trim();
   if (!noConversations || !name || user?.needsName || name === user?.email)
-    return "Start a conversation";
-  return `Hi ${name}, what would you like to work on?`;
+    return "Comece uma conversa";
+  return `Oi, ${name}! Em que vamos trabalhar hoje?`;
 }

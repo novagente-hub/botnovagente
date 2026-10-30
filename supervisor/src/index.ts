@@ -19,6 +19,7 @@ import { environmentFor } from "./environment";
 import { registerEntry } from "./identity";
 import { listenPort } from "./listen-port";
 import { legacyNamesFor, namesFor } from "./names";
+import { beforeEnsure, NotEnoughMemoryError, startIdleReaper } from "./novabot-limits";
 
 /**
  * The container supervisor: the only thing here that holds the Docker socket.
@@ -144,6 +145,7 @@ app.post("/computers/:kind/:id/ensure", async (context) => {
   try {
     // Registered before the computer is handed out, so it can prove whose it is from its first
     // request.
+    await beforeEnsure(parsed.names.kind, parsed.names.id);
     const identity = await registerEntry(parsed.names);
 
     const state = await ensure(parsed.names, {
@@ -176,6 +178,9 @@ app.post("/computers/:kind/:id/ensure", async (context) => {
   } catch (error) {
     // A held name is not an outage. 409 says the conflict is with something already there, so an
     // operator reads the message rather than going to look at a daemon that is working.
+    if (error instanceof NotEnoughMemoryError) {
+      return context.json({ error: error.message }, 503);
+    }
     if (error instanceof NameHeldError) {
       return context.json({ error: error.message }, 409);
     }
@@ -258,6 +263,7 @@ void retireLegacyComputers()
     ),
   );
 
+startIdleReaper();
 serve({ port, fetch: app.fetch, idleTimeout: 120 });
 
 console.info(

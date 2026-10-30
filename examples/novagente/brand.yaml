@@ -1,0 +1,6 @@
+# NovaBot, o agente da NOVAGENTE.
+tenant:
+  id: novagente
+  product_name: NovaBot
+skin:
+  stylesheet: theme.css

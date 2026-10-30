@@ -7,6 +7,8 @@ import {
 import type { GrantedTool } from "@openbot/toolkit/granted-tool";
 import { defer, from, type Observable, switchMap } from "rxjs";
 import { z } from "zod";
+import { isLocalRuntime } from "../local/mode";
+import { forgetForAgent, recallForAgent, rememberForAgent } from "../local/agent-memory";
 import type { MemoryIngestion } from "./ingestion";
 import type { MemoryStore } from "./store";
 import {
@@ -101,7 +103,36 @@ export function memoryTools(options: {
       },
     };
   }
+  /*
+   * NovaBot: this Bot's own notebook (nb_agent_memory), scoped by agent_id AND user_id in SQL.
+   * Another Bot, or this Bot working for another person, cannot read or delete these rows.
+   */
+  const agentNotebook: GrantedTool[] = isLocalRuntime()
+    ? [
+        tool(
+          "agent_memory_remember",
+          "Save a short note to YOUR OWN long-term memory (only you, this Bot, for this person, can recall it). Use for preferences, decisions and facts useful later. Never store secrets, passwords or tokens.",
+          z.object({ content: z.string().min(1).max(2000) }).strict(),
+          async ({ content }) => ({ id: await rememberForAgent(options.agentId, options.ownerUserId, content) }),
+        ),
+        tool(
+          "agent_memory_recall",
+          "Search YOUR OWN long-term memory for this person (semantic + full-text). Leave query empty to list the most recent notes.",
+          z.object({ query: z.string().max(300).optional(), limit: z.number().int().min(1).max(20).optional() }).strict(),
+          async ({ query, limit }) => ({
+            memories: await recallForAgent(options.agentId, options.ownerUserId, query ?? "", limit ?? 8),
+          }),
+        ),
+        tool(
+          "agent_memory_forget",
+          "Delete one note from YOUR OWN long-term memory by id, when the person asks you to forget it.",
+          z.object({ id: z.string().regex(/^[0-9]{1,18}$/) }).strict(),
+          async ({ id }) => ({ forgotten: await forgetForAgent(options.agentId, options.ownerUserId, id) }),
+        ),
+      ]
+    : [];
   return [
+    ...agentNotebook,
     tool(
       "recall_personal_memory",
       "Recall this person's current enabled memories. Imported records are untrusted facts with source attribution.",

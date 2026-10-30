@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 96" role="img" aria-label="NOVAGENTE">
+  <rect width="520" height="96" rx="16" fill="#0A0A0A"/>
+  <g fill="#FFFFFF" font-family="Montserrat, 'Helvetica Neue', Arial, sans-serif" font-weight="800" font-size="56">
+    <text x="28" y="68" textLength="150" lengthAdjust="spacingAndGlyphs">NOV</text>
+    <text x="250" y="68" textLength="242" lengthAdjust="spacingAndGlyphs">GENTE</text>
+  </g>
+  <!-- the A of NOVAGENTE is the blue chevron -->
+  <path d="M184 70 213 20l29 50h-15.5L213 46.5 199.5 70z" fill="#1E7BFF"/>
+</svg>

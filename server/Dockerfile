@@ -33,6 +33,9 @@ RUN bun install --frozen-lockfile
 
 
 FROM deps AS app-build
+# NovaBot: the tenant package the app is branded from (brand name, theme, Bots).
+ARG TENANT_PACKAGE_DIR=../examples/fintech
+ENV TENANT_PACKAGE_DIR=${TENANT_PACKAGE_DIR}
 
 # `prebuild` generates the app's config, so the app is built through its own script rather than by
 # calling vite directly, or the generated file is missing and the build fails on an import.

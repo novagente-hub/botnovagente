@@ -228,6 +228,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="font-semibold text-[14px] tracking-tighter h-full leading-tight"
               render={(props) => (
                 <Link {...appLinkOptions} {...props}>
+                  <img
+                    alt=""
+                    aria-hidden="true"
+                    className="size-5 shrink-0"
+                    src="/novabot-mark.svg"
+                  />
                   {appConfig.brand.productName}
                 </Link>
               )}

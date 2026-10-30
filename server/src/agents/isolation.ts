@@ -113,6 +113,14 @@ export async function runsIsolated(
     .from(agentProfiles)
     .where(eq(agentProfiles.agentId, botId))
     .limit(1);
+  /*
+   * NovaBot: NOVABOT_ISOLATE_EVERY_BOT=true gives EVERY Bot its own computer (own container, own
+   * browser profile and workspace volumes, no shared cookies), not only those marked isolated.
+   */
+  if (process.env.NOVABOT_ISOLATE_EVERY_BOT === "true") {
+    if (!row) return true; // built-in/config Bots have no profile row
+    return !row.deletedAt;
+  }
   if (!row || row.deletedAt || !row.isolated || !row.ownerUserId) return false;
   return mayIsolate(row.ownerUserId);
 }

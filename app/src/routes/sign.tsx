@@ -196,7 +196,7 @@ function SignScreen() {
           transition={{ duration: ENTRANCE_SECONDS, ease: EASE_OUT }}
           variants={{ hidden, shown }}
         >
-          Sign in to {appConfig.brand.productName}
+          Entrar no {appConfig.brand.productName}
         </motion.h1>
         <motion.div
           className="mt-8 w-full"

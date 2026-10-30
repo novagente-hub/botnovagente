@@ -1,6 +1,7 @@
 # NovaBot, o agente da NOVAGENTE.
 tenant:
-  id: novagente
+  # Internal id kept as "openbot" so Bots seeded by the first install stay owned by this package.
+  id: openbot
   product_name: NovaBot
 skin:
   stylesheet: theme.css

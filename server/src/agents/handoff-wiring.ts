@@ -1,3 +1,5 @@
+import { isLocalRuntime } from "../local/mode";
+import { localRunner } from "../local/pg-runner";
 import { randomUUID } from "node:crypto";
 import { IntelligenceAgentRunner } from "@copilotkit/runtime/v2";
 import { workOwner } from "@openbot/shared/work-owner";
@@ -125,9 +127,10 @@ export async function startHandoffDelivery(deps: {
       // The same address and the same token the runtime uses. Assembling either from configuration
       // produced a runner every join was refused for, because the thread's active run is a lock the
       // platform issues rather than something an API key can claim.
-      runner: new IntelligenceAgentRunner(
-        copilotRuntime.runnerConnection(),
-      ) as never,
+      // NovaBot: local mode hands off on the shared Postgres runner.
+      runner: (isLocalRuntime()
+        ? localRunner()
+        : new IntelligenceAgentRunner(copilotRuntime.runnerConnection())) as never,
     }),
   });
 

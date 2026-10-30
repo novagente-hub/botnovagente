@@ -1,3 +1,4 @@
+import { isLocalRuntime, LOCAL_INTELLIGENCE_SETTINGS } from "./local/mode";
 /**
  * What the runtime can do. There is exactly one answer because CopilotKit Intelligence is required
  * for durable threads and memory. Configuration the product cannot function without belongs at the
@@ -1013,6 +1014,18 @@ function runtimeCapabilities(environment: Environment): RuntimeCapabilities {
   })
     .filter(([, value]) => !value)
     .map(([name]) => name);
+
+  // NovaBot: local mode runs without Intelligence (threads in PostgreSQL); see local/mode.ts.
+  if (isLocalRuntime(environment as Record<string, string | undefined>)) {
+    return {
+      mode: "intelligence",
+      durableHistory: true,
+      intelligence: {
+        ...LOCAL_INTELLIGENCE_SETTINGS,
+        licenseToken: settings.licenseToken,
+      } as IntelligenceSettings,
+    };
+  }
 
   if (missing.length > 0) {
     throw new Error(

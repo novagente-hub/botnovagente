@@ -1,3 +1,5 @@
+import { createLocalIntelligence } from "../local/local-intelligence";
+import { isLocalRuntime } from "../local/mode";
 import { CopilotKitIntelligence } from "@copilotkit/runtime/v2";
 import {
   AUTOMATIC_LEARNING_CONTAINER_ID,
@@ -160,6 +162,7 @@ export function runtimeKeyClient(
   apiKey: string,
   wsUrl?: string,
 ) {
+  if (isLocalRuntime()) return createLocalIntelligence();
   return new CopilotKitIntelligence({
     apiUrl,
     apiKey,

@@ -1,0 +1,65 @@
+name: novabot
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment: {POSTGRES_DB: openbot, POSTGRES_USER: openbot, POSTGRES_PASSWORD: "${PG_PASSWORD}"}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    mem_limit: 512m
+    command: ["postgres","-c","shared_buffers=128MB","-c","max_connections=50"]
+    healthcheck: {test: ["CMD-SHELL","pg_isready -U openbot -d openbot"], interval: 5s, retries: 10}
+    restart: unless-stopped
+    networks: [data]
+  migrate:
+    build: {context: ., dockerfile: server/Dockerfile}
+    image: novabot-server:latest
+    command: ["bun","scripts/migrate.ts"]
+    environment: {DATABASE_URL: "postgres://openbot:${PG_PASSWORD}@postgres:5432/openbot"}
+    depends_on: {postgres: {condition: service_healthy}}
+    restart: "no"
+    mem_limit: 384m
+    networks: [data]
+  server:
+    image: novabot-server:latest
+    env_file: [.env]
+    environment:
+      PORT: "3001"
+      SERVER_PORT: "3001"
+      NOVABOT_LOCAL_RUNTIME: "true"
+      DATABASE_URL: "postgres://openbot:${PG_PASSWORD}@postgres:5432/openbot"
+      MANAGED_AGENT_AG_UI_URL: ""
+    user: "1001:1001"
+    volumes: ["./.openbot:/openbot"]
+    ports: ["127.0.0.1:13010:3001"]
+    depends_on: {migrate: {condition: service_completed_successfully}}
+    restart: unless-stopped
+    mem_limit: 896m
+    healthcheck:
+      test: ["CMD-SHELL", "bun -e \"const r = await fetch('http://127.0.0.1:3001/health'); process.exit(r.ok ? 0 : 1)\""]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks: [data, default]
+  worker:
+    image: novabot-server:latest
+    command: ["bun","../worker/src/index.ts"]
+    environment:
+      DATABASE_URL: "postgres://openbot:${PG_PASSWORD}@postgres:5432/openbot"
+      SERVER_INTERNAL_URL: http://server:3001
+      WORKER_SHARED_SECRET: "${WORKER_SHARED_SECRET}"
+    depends_on: {server: {condition: service_started}}
+    restart: unless-stopped
+    mem_limit: 256m
+    networks: [data]
+  agent-bot:
+    build: {context: ., dockerfile: agent-bot/Dockerfile}
+    image: novabot-agent-bot:latest
+    environment:
+      OPENAI_API_KEY: "${OPENAI_API_KEY}"
+      OPENAI_BASE_URL: https://api.deepseek.com
+      BOT_MODEL: deepseek-flash
+      MANAGED_AGENT_TOKEN: "${MANAGED_AGENT_TOKEN}"
+    restart: unless-stopped
+    mem_limit: 256m
+    networks: [default]
+networks: {data: {internal: true}, default: {}}
+volumes: {pgdata: {}}

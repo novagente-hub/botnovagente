@@ -43,6 +43,7 @@ COPY toolkit toolkit
 # The server's source too: `generate-app-config` reads the tenant package through
 # `server/src/tenant-package`, so the app cannot be built without it.
 COPY server server
+COPY agent-computer/src agent-computer/src
 COPY examples examples
 RUN bun run --cwd app build
 
@@ -77,6 +78,10 @@ COPY examples examples
 # it, which is already here.
 COPY worker/package.json worker/package.json
 COPY worker/src worker/src
+# NovaBot: the server imports agent-computer/src/egress.ts and web-bot-auth.ts (source only, no Chromium).
+COPY agent-computer/src agent-computer/src
+# Its one npm import (web-bot-auth) is also a server dependency; resolve it from there.
+RUN ln -s ../server/node_modules agent-computer/node_modules
 
 # The built app, served by the process below. `APP_DIST_DIR` is what turns that on, so an image
 # without this layer is still a working API.

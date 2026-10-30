@@ -1,3 +1,5 @@
+import { createLocalIntelligence } from "./local/local-intelligence";
+import { isLocalRuntime } from "./local/mode";
 import { CopilotKitIntelligence } from "@copilotkit/runtime/v2";
 import type { IntelligenceSettings } from "./config";
 import {
@@ -72,6 +74,7 @@ export function observeIntelligenceAuthentication<
 export function createIntelligenceClient(
   settings: IntelligenceSettings,
 ): CopilotKitIntelligence {
+  if (isLocalRuntime()) return createLocalIntelligence();
   return observeIntelligenceAuthentication(
     new CopilotKitIntelligence({
       apiUrl: settings.apiUrl,

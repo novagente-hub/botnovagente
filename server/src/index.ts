@@ -292,6 +292,9 @@ import { createUserInstructionsStore } from "./user-instructions";
 import { createUserPreferencesStore } from "./user-preferences";
 import { createVoiceSessionStore } from "./voice/sessions";
 import { createVoiceSummarizer } from "./voice/summary";
+import { createLocalIntelligence } from "./local/local-intelligence";
+import { isLocalRuntime } from "./local/mode";
+import { localRunner } from "./local/pg-runner";
 import { repeatAfterEach } from "./work/loop";
 import { createWorkQueue, type WorkOfferedListener } from "./work/queue";
 
@@ -751,13 +754,16 @@ const chooseSkills = createModelCompleter({
  * connection, but its `threads` map is per instance, and a runner per turn would fragment the
  * already-running check that keeps two turns off one thread. See `toolkit/run-turn.ts`.
  */
-const routineIntelligence = observeIntelligenceAuthentication(
-  new CopilotKitIntelligence({
-    apiUrl: config.runtime.intelligence.apiUrl,
-    wsUrl: config.runtime.intelligence.gatewayWsUrl,
-    apiKey: config.runtime.intelligence.apiKey,
-  }),
-);
+// NovaBot: in local mode the Postgres-backed stand-in answers instead (local/local-intelligence.ts).
+const routineIntelligence = isLocalRuntime()
+  ? createLocalIntelligence()
+  : observeIntelligenceAuthentication(
+      new CopilotKitIntelligence({
+        apiUrl: config.runtime.intelligence.apiUrl,
+        wsUrl: config.runtime.intelligence.gatewayWsUrl,
+        apiKey: config.runtime.intelligence.apiKey,
+      }),
+    );
 const approvalComputerTools = async (
   ownerUserId: string,
   agentId: string,
@@ -1758,10 +1764,13 @@ const buildAgentFor = async ({
   }
   return agent;
 };
-const routineAgentRunner = new IntelligenceAgentRunner({
-  url: routineIntelligence.ɵgetRunnerWsUrl(),
-  authToken: routineIntelligence.ɵgetRunnerAuthToken(),
-});
+// NovaBot: routines run on the same durable Postgres runner as chat in local mode.
+const routineAgentRunner = isLocalRuntime()
+  ? (localRunner() as unknown as IntelligenceAgentRunner)
+  : new IntelligenceAgentRunner({
+      url: routineIntelligence.ɵgetRunnerWsUrl(),
+      authToken: routineIntelligence.ɵgetRunnerAuthToken(),
+    });
 
 const routineRunner = createRoutineRunner({
   routineStore,

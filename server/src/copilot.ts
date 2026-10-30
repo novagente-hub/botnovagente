@@ -1,3 +1,6 @@
+import { createLocalIntelligence } from "./local/local-intelligence";
+import { isLocalRuntime } from "./local/mode";
+import { localRunner } from "./local/pg-runner";
 import type { Message, RunAgentInput } from "@ag-ui/client";
 import { type AbstractAgent, HttpAgent } from "@ag-ui/client";
 import type {
@@ -1827,8 +1830,10 @@ export function mountCopilotRuntime(
    * One client, used by the runtime and by anything reading a thread beside it, so a hop reads the
    * history a person's run would read rather than a second view of it that could disagree.
    */
-  const intelligenceClient: CopilotKitIntelligence =
-    observeIntelligenceAuthentication(
+  const local = isLocalRuntime();
+  const intelligenceClient: CopilotKitIntelligence = local
+    ? createLocalIntelligence()
+    : observeIntelligenceAuthentication(
       new IntelligenceKnowingANewThread({
         apiUrl: intelligence.apiUrl,
         wsUrl: intelligence.gatewayWsUrl,
@@ -1875,8 +1880,10 @@ export function mountCopilotRuntime(
     identifyUser,
     // The subclass, not the base: a thread nobody has run yet reads as empty rather than as a 500.
     // See IntelligenceKnowingANewThread.
-    intelligence: intelligenceClient,
-    licenseToken: intelligence.licenseToken,
+    // NovaBot: local mode is the runtime's self-hosted SSE mode on the durable Postgres runner.
+    ...(local
+      ? { runner: localRunner() }
+      : { intelligence: intelligenceClient, licenseToken: intelligence.licenseToken }),
     // Carried on the events the runtime already sends, so OpenBot's traffic is separable from any
     // other deployment's. Adds no events of its own.
     telemetryProperties: {

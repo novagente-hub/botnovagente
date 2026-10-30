@@ -86,8 +86,10 @@ export class PostgresAgentRunner extends InMemoryAgentRunner {
       SELECT thread_id, owner_id, agent_id, name, runs, messages, created_at
       FROM nb_threads ORDER BY updated_at ASC`) as ThreadRow[];
     for (const row of rows) {
-      const runs = (row.runs as StoredRun[]) ?? [];
-      const messages = (row.messages as Message[]) ?? [];
+      const json = <T>(value: unknown): T =>
+        (typeof value === "string" ? JSON.parse(value) : value) as T;
+      const runs = json<StoredRun[]>(row.runs) ?? [];
+      const messages = json<Message[]>(row.messages) ?? [];
       if (ɵGLOBAL_STORE.peek(row.thread_id)) continue;
       const writer = ɵGLOBAL_STORE.getOrCreate(row.thread_id, row.owner_id);
       runs.forEach((run, index) => {
@@ -134,8 +136,8 @@ export class PostgresAgentRunner extends InMemoryAgentRunner {
     const owner = store.ownerId || ownerHint;
     await this.#db.sql`
       INSERT INTO nb_threads (thread_id, owner_id, agent_id, runs, messages, updated_at)
-      VALUES (${threadId}, ${owner}, ${agentId}, ${JSON.stringify(runs)}::jsonb,
-              ${JSON.stringify(store.messagesSnapshot)}::jsonb, now())
+      VALUES (${threadId}, ${owner}, ${agentId}, (${JSON.stringify(runs)}::text)::jsonb,
+              (${JSON.stringify(store.messagesSnapshot)}::text)::jsonb, now())
       ON CONFLICT (thread_id) DO UPDATE SET
         agent_id = EXCLUDED.agent_id, runs = EXCLUDED.runs,
         messages = EXCLUDED.messages, updated_at = now()`;

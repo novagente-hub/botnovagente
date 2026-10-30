@@ -294,7 +294,7 @@ import { createVoiceSessionStore } from "./voice/sessions";
 import { createVoiceSummarizer } from "./voice/summary";
 import { createLocalIntelligence } from "./local/local-intelligence";
 import { isLocalRuntime } from "./local/mode";
-import { localRunner } from "./local/pg-runner";
+import { localRunner, registerLocalSql } from "./local/pg-runner";
 import { repeatAfterEach } from "./work/loop";
 import { createWorkQueue, type WorkOfferedListener } from "./work/queue";
 
@@ -306,6 +306,8 @@ clearLearningRevisionFallback();
 // `serverPort` in config.ts for what `process.env.PORT ?? …` did with `PORT=` instead.
 const port = config.port;
 const database = createDatabase(config.databaseUrl);
+// NovaBot: the local runtime stores threads through the same pool.
+registerLocalSql(database.$client);
 const profileStore = createProfileStore(database);
 // Every dispatch point asks this database whether its person paused the Bot. See agents/lifecycle.ts.
 configureBotLifecycle({ database });

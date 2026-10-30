@@ -34,11 +34,21 @@ type StoredRun = {
 };
 
 let shared: { sql: SQL; ready: Promise<void> } | undefined;
+let registered: SQL | undefined;
+
+/**
+ * Hand the server's own connection pool to the local runtime. `db/client.ts` removes
+ * `DATABASE_URL` from the environment once it has opened the pool, so the pool is the only
+ * address left; index.ts calls this right after `createDatabase`.
+ */
+export function registerLocalSql(sql: SQL): void {
+  registered ??= sql;
+}
 
 export function localDatabase(url = process.env.DATABASE_URL): { sql: SQL; ready: Promise<void> } {
   if (shared) return shared;
-  if (!url) throw new Error("NovaBot local runtime needs DATABASE_URL.");
-  const sql = new SQL(url);
+  if (!registered && !url) throw new Error("NovaBot local runtime needs the server's database.");
+  const sql = registered ?? new SQL(url as string);
   const ready = (async () => {
     await sql.unsafe(`
       CREATE TABLE IF NOT EXISTS nb_threads (

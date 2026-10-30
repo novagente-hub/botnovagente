@@ -17,3 +17,4 @@
 - Learning (skills aprendidas), transcript e canais gerenciados do Intelligence ficam desativados.
 - O browser em tempo real "assistir run em andamento" usa o connect/replay do runner em memória.
 - `nb_agent_memory` ainda não exposta como ferramenta; recall semântico depende de um provedor de embeddings.
+- `examples/fintech/model.yaml`: modelo padrão `deepseek-flash` (bots built-in); o compose define `COPILOTKIT_OPENAI_API=chat` e o Risk Analyst aponta para o agent-bot (DeepSeek).

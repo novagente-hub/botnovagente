@@ -26,7 +26,9 @@ services:
       SERVER_PORT: "3001"
       NOVABOT_LOCAL_RUNTIME: "true"
       DATABASE_URL: "postgres://openbot:${PG_PASSWORD}@postgres:5432/openbot"
-      MANAGED_AGENT_AG_UI_URL: ""
+      MANAGED_AGENT_AG_UI_URL: http://agent-bot:4200/ag-ui
+      COPILOTKIT_OPENAI_API: chat
+      OPENAI_BASE_URL: https://api.deepseek.com
     user: "1001:1001"
     volumes: ["./.openbot:/openbot"]
     ports: ["127.0.0.1:13010:3001"]

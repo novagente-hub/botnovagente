@@ -5,7 +5,7 @@ import {
   ɵGLOBAL_STORE,
 } from "@copilotkit/runtime/v2";
 import type { BaseEvent, Message } from "@ag-ui/client";
-import type { Observable } from "rxjs";
+import { defer, finalize, from, type Observable, shareReplay, switchMap } from "rxjs";
 
 /**
  * NovaBot: the CopilotKit in-memory runner, made durable with PostgreSQL.
@@ -108,8 +108,21 @@ export class PostgresAgentRunner extends InMemoryAgentRunner {
     console.info(JSON.stringify({ type: "novabot-threads-loaded", count: rows.length }));
   }
 
+  /*
+   * One run per thread across every server process: before the in-memory run starts, a lease row
+   * in `nb_thread_locks` is taken inside a transaction holding `pg_advisory_xact_lock`, and it is
+   * released when the run ends. A thread already leased by a live run answers with an error event,
+   * the same outcome as the runtime's own in-process "already running" guard.
+   */
   override run(request: AgentRunnerRunRequest): Observable<BaseEvent> {
-    const observable = super.run(request);
+    const runId = request.input.runId;
+    const observable = defer(() => from(acquireThreadLease(request.threadId, runId, request.ownerId ?? ""))).pipe(
+      switchMap(() => super.run(request)),
+      finalize(() => {
+        void releaseThreadLease(request.threadId, runId).catch(() => {});
+      }),
+      shareReplay({ refCount: false }),
+    );
     const persist = () =>
       // appendRun lands on the runner's own finalize; give it a moment, then write.
       setTimeout(() => {
@@ -149,4 +162,65 @@ let runner: PostgresAgentRunner | undefined;
 export function localRunner(): PostgresAgentRunner {
   runner ??= new PostgresAgentRunner();
   return runner;
+}
+
+/* ---- Postgres thread leases (advisory lock + lease row) ---- */
+const LEASE_SECONDS = 600;
+let leasesReady: Promise<void> | undefined;
+function leases() {
+  const db = localDatabase();
+  leasesReady ??= db.ready.then(async () => {
+    await db.sql.unsafe(`CREATE TABLE IF NOT EXISTS nb_thread_locks (
+      thread_id  text PRIMARY KEY,
+      run_id     text NOT NULL,
+      user_id    text NOT NULL,
+      expires_at timestamptz NOT NULL
+    )`);
+  });
+  return { sql: db.sql, ready: leasesReady };
+}
+
+export class ThreadLeasedError extends Error {
+  constructor(threadId: string) {
+    super(`Thread ${threadId} is already running in another process.`);
+    this.name = "ThreadLeasedError";
+  }
+}
+
+export async function acquireThreadLease(threadId: string, runId: string, userId: string, ttl = LEASE_SECONDS) {
+  const { sql, ready } = leases();
+  await ready;
+  const ok = await sql.begin(async (tx) => {
+    await tx`SELECT pg_advisory_xact_lock(hashtext(${threadId}))`;
+    const rows = await tx`
+      INSERT INTO nb_thread_locks (thread_id, run_id, user_id, expires_at)
+      VALUES (${threadId}, ${runId}, ${userId}, now() + make_interval(secs => ${ttl}))
+      ON CONFLICT (thread_id) DO UPDATE
+        SET run_id = EXCLUDED.run_id, user_id = EXCLUDED.user_id, expires_at = EXCLUDED.expires_at
+        WHERE nb_thread_locks.expires_at < now() OR nb_thread_locks.run_id = EXCLUDED.run_id
+      RETURNING run_id`;
+    return rows.length > 0;
+  });
+  if (!ok) throw new ThreadLeasedError(threadId);
+}
+
+export async function renewThreadLease(threadId: string, runId: string | undefined, ttl = LEASE_SECONDS) {
+  const { sql, ready } = leases();
+  await ready;
+  return (await sql.begin(async (tx) => {
+    await tx`SELECT pg_advisory_xact_lock(hashtext(${threadId}))`;
+    return runId
+      ? tx`UPDATE nb_thread_locks SET expires_at = now() + make_interval(secs => ${ttl})
+           WHERE thread_id = ${threadId} AND run_id = ${runId} RETURNING run_id`
+      : tx`UPDATE nb_thread_locks SET expires_at = now() + make_interval(secs => ${ttl})
+           WHERE thread_id = ${threadId} RETURNING run_id`;
+  })) as { run_id: string }[];
+}
+
+export async function releaseThreadLease(threadId: string, runId?: string) {
+  const { sql, ready } = leases();
+  await ready;
+  await (runId
+    ? sql`DELETE FROM nb_thread_locks WHERE thread_id = ${threadId} AND run_id = ${runId}`
+    : sql`DELETE FROM nb_thread_locks WHERE thread_id = ${threadId}`);
 }

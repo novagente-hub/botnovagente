@@ -45,6 +45,10 @@ const isRunning = (status: string) => /^(running|up)/i.test(status);
 const admission = createComputerAdmissionGate({
   maxComputers,
   minAvailableMb,
+  estimatedStartupMb: Math.ceil(
+    (Number(process.env.COMPUTER_MEMORY_BYTES ?? 671088640) || 671088640) /
+      (1024 * 1024),
+  ),
   listComputers: listOwned,
   availableMb,
   onActivity: (kind, id) => lastUsed.set(`${kind}/${id}`, Date.now()),

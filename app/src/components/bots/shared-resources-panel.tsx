@@ -206,7 +206,9 @@ export function SharedResourcesPanel() {
                 Sem autorização, o Bot não pode nem visualizar o documento.
               </p>
               <div className="space-y-2">
-                {(agents.data ?? []).map((agent) => (
+                {(agents.data ?? [])
+                  .filter((agent) => agent.systemOwned || agent.mine)
+                  .map((agent) => (
                   <div
                     key={agent.id}
                     className="flex flex-wrap items-center justify-between gap-2 rounded-md border p-2"

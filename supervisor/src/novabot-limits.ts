@@ -1,12 +1,15 @@
 import { readFileSync } from "node:fs";
 import { listOwned, stop } from "./docker";
 import { namesFor } from "./names";
+import { createComputerAdmissionGate } from "./novabot-capacity";
+export { ComputerCapacityError, NotEnoughMemoryError } from "./novabot-capacity";
 
 /**
  * NovaBot guard rails for a small shared VPS.
  *
  *  - NOVABOT_MAX_COMPUTERS (default 1): at most this many computers run at once. Asking for one more
- *    stops the least recently used computer first (its profile volume is kept, so nothing is lost).
+ *    rejects a NEW start at capacity. Never interrupt a possibly active Bot; the idle reaper
+ *    frees slots after inactivity, and capacity is increased only after a host upgrade.
  *  - NOVABOT_MIN_AVAILABLE_MB (default 3072): a computer is only started while the host has at least
  *    this much MemAvailable. Otherwise /ensure answers 503 and the Bot is told the computer is off.
  *  - NOVABOT_COMPUTER_IDLE_MINUTES (default 15): a computer no `/ensure` touched for this long is
@@ -17,8 +20,6 @@ const minAvailableMb = Number(process.env.NOVABOT_MIN_AVAILABLE_MB ?? 3072) || 3
 const idleMs = (Number(process.env.NOVABOT_COMPUTER_IDLE_MINUTES ?? 15) || 15) * 60_000;
 
 const lastUsed = new Map<string, number>(); // "kind/id" -> epoch ms
-
-export class NotEnoughMemoryError extends Error {}
 
 export function availableMb(meminfo = "/proc/meminfo"): number {
   try {
@@ -31,30 +32,20 @@ export function availableMb(meminfo = "/proc/meminfo"): number {
 
 const isRunning = (status: string) => /^(running|up)/i.test(status);
 
-/** Called before `ensure`: memory gate and the running-computer cap. */
-export async function beforeEnsure(kind: string, id: string): Promise<void> {
-  const key = `${kind}/${id}`;
-  lastUsed.set(key, Date.now());
-  const running = (await listOwned()).filter((c) => isRunning(c.status));
-  if (running.some((c) => `${c.kind}/${c.id}` === key)) return; // already up: just activity
-  const mb = availableMb();
-  if (mb < minAvailableMb) {
-    throw new NotEnoughMemoryError(
-      `Not starting a computer: the host has ${mb} MB available, under the ${minAvailableMb} MB floor.`,
-    );
-  }
-  const excess = running.length - maxComputers + 1;
-  if (excess <= 0) return;
-  const oldestFirst = running.sort(
-    (a, b) => (lastUsed.get(`${a.kind}/${a.id}`) ?? 0) - (lastUsed.get(`${b.kind}/${b.id}`) ?? 0),
-  );
-  for (const victim of oldestFirst.slice(0, excess)) {
-    const parsed = namesFor(victim.kind, victim.id);
-    if (parsed.ok) {
-      console.log(JSON.stringify({ type: "novabot-computer-evicted", kind: victim.kind, id: victim.id }));
-      await stop(parsed.names);
-    }
-  }
+const admission = createComputerAdmissionGate({
+  maxComputers,
+  minAvailableMb,
+  listComputers: listOwned,
+  availableMb,
+  onActivity: (kind, id) => lastUsed.set(`${kind}/${id}`, Date.now()),
+});
+
+/**
+ * Reserve a slot through the end of the Docker ensure call.
+ * The caller MUST release in finally, including if Docker startup fails.
+ */
+export function beforeEnsure(kind: string, id: string): Promise<() => void> {
+  return admission.acquire(kind, id);
 }
 
 /** Stops computers nobody used for `idleMs`. */

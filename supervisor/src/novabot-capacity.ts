@@ -64,7 +64,9 @@ export function createComputerAdmissionGate(options: {
         // A running computer needs no new slot. Nor does a second caller
         // trying to start the same computer while the first is still pending.
         if (
-          running.some((computer) => `${computer.kind}/${computer.id}` === key) ||
+          running.some(
+            (computer) => `${computer.kind}/${computer.id}` === key,
+          ) ||
           pending.has(key)
         ) {
           options.onActivity?.(kind, id);

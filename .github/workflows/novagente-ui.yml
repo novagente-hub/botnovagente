@@ -1,0 +1,37 @@
+name: NOVAGENTE UI
+
+on:
+  pull_request:
+    paths:
+      - 'app/**'
+      - '.github/workflows/novagente-ui.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: novagente-ui-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  interface:
+    name: NOVAGENTE interface contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: 1.4.3
+      - run: bun install --frozen-lockfile
+      - name: Check changed interface formatting
+        run: |
+          bunx biome format app/src/components/app-sidebar/app-sidebar.tsx app/src/components/app-sidebar/bot-directory.tsx app/src/routes/_authed/_app.tsx 'app/src/routes/_authed/_app/channel/$channelId.tsx' app/src/routes/_authed/_app/index.tsx app/tests/agent-roster-error.test.tsx app/tests/channel-pagination.test.tsx app/tests/skins-openduet-frame.test.tsx app/tests/novagente-bot-directory.test.tsx
+      - name: Typecheck application
+        run: bun run --cwd app typecheck
+      - name: Chat and sidebar navigation regression tests
+        run: |
+          bun test app/tests/agent-roster-error.test.tsx app/tests/channel-pagination.test.tsx app/tests/skins-openduet-frame.test.tsx app/tests/novagente-bot-directory.test.tsx app/tests/home-fallback-routing.test.tsx
+      - name: Build user interface
+        run: bun run --cwd app build

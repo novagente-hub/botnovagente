@@ -44,6 +44,7 @@ import { BotsNavBadge } from "../bot-profile/attention";
 import { BrowserNavItem } from "../browser/browser-nav-item";
 import { Button } from "../ui/button";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "../ui/empty";
+import { BotDirectory } from "./bot-directory";
 import { Channel } from "./channel";
 import { ChannelPagination } from "./channel-pagination";
 import { useSignOut } from "./use-sign-out";
@@ -257,15 +258,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent ref={scrollRoot} className="scroll-fade-b">
+      <SidebarContent
+        ref={scrollRoot}
+        className="scroll-fade-b novagente-sidebar-content"
+      >
         <SidebarMenu>
           <SidebarGroup className="gap-px">
             <SidebarMenuItem>
-              <InputGroup className="bg-background text-sm rounded-lg h-9">
+              <InputGroup className="novagente-sidebar-search text-sm rounded-xl h-10">
                 <InputGroupInput
-                  aria-label="Search conversations"
+                  aria-label="Buscar agentes ou conversas"
                   onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Search…"
+                  placeholder="Buscar bots ou conversas…"
                   value={search}
                 />
                 <InputGroupAddon>
@@ -273,58 +277,50 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </InputGroupAddon>
               </InputGroup>
             </SidebarMenuItem>
-            <div className="w-full h-2" />
-            {/*
-             * TWO DIFFERENT NOTHINGS, AND SAYING THE WRONG ONE IS ALARMING. A roster nobody has
-             * used yet needs telling how to start. A roster that simply does not match what is in
-             * the box has to say so and quote it back — told "you don't have channels yet" while
-             * holding a typo, a person reads their conversations as gone.
-             */}
-            {searching && visibleChannels.length === 0 ? (
-              <div className="py-4">
-                <Empty className="border border-dashed min-h-[40dvh]">
-                  <EmptyHeader>
-                    <EmptyTitle>
-                      {channels.hasNextPage
-                        ? "No loaded conversations match your search"
-                        : "No conversations match your search"}
-                    </EmptyTitle>
-                    <EmptyDescription className="text-pretty">
-                      {channels.hasNextPage
-                        ? "Load older conversations to search more of your history."
-                        : `No conversation has “${search.trim()}” in its name or latest message.`}
-                    </EmptyDescription>
-                  </EmptyHeader>
-                </Empty>
-              </div>
-            ) : null}
-            {!searching && channels.data?.length === 0 ? (
-              <div className="py-4">
-                <Empty className="border border-dashed min-h-[40dvh]">
-                  <EmptyHeader>
-                    <EmptyTitle>No conversations yet</EmptyTitle>
-                    <EmptyDescription className="text-pretty">
-                      Start a conversation with a Bot and it shows up here.
-                    </EmptyDescription>
-                  </EmptyHeader>
-                </Empty>
-              </div>
-            ) : null}
-            <AnimatePresence initial={false}>
-              {visibleChannels.map((channel) => (
-                <ChannelRow
-                  emphasis={emphasis}
-                  key={channel.id}
-                  animateOrder={animateOrder}
-                  channel={channel}
+            <BotDirectory channels={channels.data ?? []} search={search} />
+            <details
+              className="novagente-history"
+              open={searching ? true : undefined}
+            >
+              <summary className="novagente-history-title">
+                Conversas anteriores
+                <span>{visibleChannels.length}</span>
+              </summary>
+              <div className="novagente-history-rows">
+                {searching && visibleChannels.length === 0 ? (
+                  <p className="novagente-directory-note">
+                    {channels.hasNextPage
+                      ? "Nenhuma conversa carregada corresponde à busca. Carregue as mais antigas para ampliar."
+                      : "Nenhuma conversa corresponde à busca."}
+                  </p>
+                ) : null}
+                {!searching && channels.data?.length === 0 ? (
+                  <Empty className="min-h-32 border border-dashed">
+                    <EmptyHeader>
+                      <EmptyTitle>Sem conversas anteriores</EmptyTitle>
+                      <EmptyDescription>
+                        Escolha um agente acima para começar.
+                      </EmptyDescription>
+                    </EmptyHeader>
+                  </Empty>
+                ) : null}
+                <AnimatePresence initial={false}>
+                  {visibleChannels.map((channel) => (
+                    <ChannelRow
+                      emphasis={emphasis}
+                      key={channel.id}
+                      animateOrder={animateOrder}
+                      channel={channel}
+                    />
+                  ))}
+                </AnimatePresence>
+                <ChannelPagination
+                  query={channels}
+                  scrollRoot={scrollRoot}
+                  searching={searching}
                 />
-              ))}
-            </AnimatePresence>
-            <ChannelPagination
-              query={channels}
-              scrollRoot={scrollRoot}
-              searching={searching}
-            />
+              </div>
+            </details>
           </SidebarGroup>
         </SidebarMenu>
       </SidebarContent>

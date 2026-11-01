@@ -143,24 +143,20 @@ function renderHome(queryClient: QueryClient) {
 test("a failed roster on / reports the failure and explains the disabled composer", async () => {
   const view = renderHome(failingQueryClient());
 
+  // The new chat-first home has no Explore carousel. It must report the
+  // failed roster beside its disabled composer, never claim there are no Bots.
   expect(
     await view.findByText(
-      "Couldn't load the Bots shared with you.",
+      "Não foi possível carregar os agentes. Recarregue a página.",
       {},
       HOME_FIND_TIMEOUT,
     ),
   ).toBeTruthy();
-  expect(view.queryByText("Nobody has shared a Bot with you yet.")).toBeNull();
-
-  // The composer goes `disabled={!fallback}` on the very same failure, with nothing on screen
-  // saying why unless this alert renders.
   expect(
-    await view.findByText(
-      "Couldn't load your Bots, so there's no one to send this to. Reload the page.",
-      {},
-      HOME_FIND_TIMEOUT,
+    view.queryByText(
+      "Sua primeira conversa ficará salva no histórico do agente.",
     ),
-  ).toBeTruthy();
+  ).toBeNull();
 });
 
 test("a failed REFETCH on / keeps the roster and does not disclaim the composer", async () => {
@@ -182,18 +178,15 @@ test("a failed REFETCH on / keeps the roster and does not disclaim the composer"
   // evidence that the composer is not the disabled, nothing-to-send-to state its alert describes.
   expect(
     await view.findByText(
-      "OpenBot picks the right Bot.",
+      "O NovaBot pode escolher o agente mais adequado.",
       { exact: false },
       HOME_FIND_TIMEOUT,
     ),
   ).toBeTruthy();
   expect(
     view.queryByText(
-      "Couldn't load your Bots, so there's no one to send this to. Reload the page.",
+      "Não foi possível carregar os agentes. Recarregue a página.",
     ),
-  ).toBeNull();
-  expect(
-    view.queryByText("Couldn't load the Bots shared with you."),
   ).toBeNull();
 });
 
@@ -205,7 +198,7 @@ test("a failed REFETCH on / keeps the roster and does not disclaim the composer"
  * sibling, right beside a section rendering real cards from that very same query. The real cards
  * are the proof: the response came back, and this slice of it is just empty.
  */
-test("a failed REFETCH on / with explore empty shows it as empty, not broken", async () => {
+test("a failed REFETCH on / with no shared Bots preserves the own Bot shortcut", async () => {
   const mine = agent({ id: "mine-1", name: "Mine Agent", mine: true });
   const queryClient = staleQueryClient([mine]);
 
@@ -213,20 +206,13 @@ test("a failed REFETCH on / with explore empty shows it as empty, not broken", a
   await waitForFailedRefetch(queryClient);
 
   expect(
-    await view.findByText(
-      "Nobody has shared a Bot with you yet.",
-      {},
-      HOME_FIND_TIMEOUT,
-    ),
+    await view.findByRole("link", { name: "Mine Agent" }, HOME_FIND_TIMEOUT),
   ).toBeTruthy();
-  expect(
-    view.queryByText("Couldn't load the Bots shared with you."),
-  ).toBeNull();
   // `agents` loaded (it holds "Mine Agent"), so `fallback` falls back to it and the composer is
   // enabled — the alert claiming a load failure must not appear beside that working composer.
   expect(
     view.queryByText(
-      "Couldn't load your Bots, so there's no one to send this to. Reload the page.",
+      "Não foi possível carregar os agentes. Recarregue a página.",
     ),
   ).toBeNull();
 });

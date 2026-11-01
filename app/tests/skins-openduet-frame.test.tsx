@@ -411,7 +411,7 @@ describe("the frame reaches every OpenBot surface", () => {
     expect(bar?.tagName).toBe("DIV");
     expect(bar?.querySelector("a")?.textContent).toContain("Home");
     fireEvent.click(back);
-    await view.findByRole("heading", { name: "Comece uma conversa" });
+    await view.findByRole("heading", { name: "Start a conversation" });
   });
 
   test("Chat and Tasks are phone-shaped, other pages keep OpenBot's width, and an open computer gets OpenBot's pane", async () => {

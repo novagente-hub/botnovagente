@@ -107,7 +107,7 @@ function RouteComponent() {
     >
       <div className="flex flex-col">
         <div
-          className="min-h-12 border-b border-border sticky top-0 flex flex-row flex-wrap items-center justify-between px-3 py-2 gap-2"
+          className="min-h-12 border-b border-border sticky top-0 flex flex-row flex-wrap items-center justify-between px-3 py-2 gap-2 novagente-conversation-header"
           data-slot="conversation-header"
         >
           {/* Keyed on the displayed name so cold channel loads animate the resolved name, not the id. */}
@@ -125,7 +125,7 @@ function RouteComponent() {
             >
               <ChannelAvatar
                 participantIds={channel.data?.agentIds ?? []}
-                size={22}
+                size={34}
               />
             </motion.div>
             <motion.span
@@ -134,7 +134,7 @@ function RouteComponent() {
                   ? { opacity: 1 }
                   : { opacity: 1, transform: "translateY(0px)" }
               }
-              className="min-w-0 text-sm tracking-tight truncate"
+              className="min-w-0 text-sm font-semibold tracking-tight truncate"
               initial={
                 prefersReducedMotion
                   ? { opacity: 0 }

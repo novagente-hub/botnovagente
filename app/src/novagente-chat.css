@@ -243,14 +243,14 @@
 .novagente-history-rows { padding-top: 5px; }
 .novagente-history-rows a { color: #d9d9df; }
 
-.novagente-chat-shell [data-slot="conversation-header"] {
+.novagente-chat-shell .novagente-conversation-header {
   background: #111113;
   border-color: #27272d;
   min-height: 65px;
   padding-inline: clamp(12px, 3vw, 30px);
 }
 
-.novagente-chat-shell [data-slot="conversation-header"] [data-slot="message"] {
+.novagente-chat-shell .novagente-conversation-header [data-slot="message"] {
   color: #f5f5f7;
 }
 

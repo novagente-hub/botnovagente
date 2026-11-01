@@ -1486,7 +1486,7 @@ const loadToolsForActor =
       ownerUserId: actorId,
       agentId: botId,
     }),
-    ...sharedResourceTools(sharedResourceStore, actorId, botId),
+    ...sharedResourceTools(sharedResourceStore, actorId, botId, bootAuditStore),
     /*
      * Held by every Bot, granted or not: how a Bot puts an app it cannot reach in front of the
      * person with the step that fixes it, instead of naming an administrator. A read; see the file.
@@ -2621,6 +2621,7 @@ const app = createApp(
       sharedResourceStore,
       actorId,
       botId,
+      bootAuditStore,
     ).find((candidate) => candidate.name === name);
     if (sharedResource) {
       const text = await sharedResource.execute(args);

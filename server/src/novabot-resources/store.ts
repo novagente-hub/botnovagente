@@ -19,8 +19,8 @@ function validate(title: string, content: string) {
   }
   if (content.length > RESOURCE_CONTENT_LIMIT) {
     throw new ResourceRefusedError(
-      "Content exceeds the 16,000-character limit.",
-    );
+          "Content exceeds the 16,000-character limit.",
+        );
   }
 }
 
@@ -189,8 +189,8 @@ export function createSharedResourceStore(database: Database) {
     ) {
       if (content.length > RESOURCE_CONTENT_LIMIT) {
         throw new ResourceRefusedError(
-      "Content exceeds the 16,000-character limit.",
-    );
+          "Content exceeds the 16,000-character limit.",
+        );
       }
       // The permission is checked INSIDE the UPDATE statement to ensure that
       // revocation taking effect before this write cannot be bypassed.

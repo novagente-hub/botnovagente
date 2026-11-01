@@ -96,6 +96,10 @@ jobs:
         working-directory: ${{ matrix.package }}
       - run: bun run typecheck
         working-directory: ${{ matrix.package }}
+      - name: NovaBot computer capacity (supervisor)
+        if: matrix.package == 'supervisor'
+        run: bun test tests/novabot-capacity.test.ts
+        working-directory: supervisor
 
   mobile:
     name: native types

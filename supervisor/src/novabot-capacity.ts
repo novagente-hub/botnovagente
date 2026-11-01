@@ -22,7 +22,7 @@ export class ComputerCapacityError extends Error {
 export class NotEnoughMemoryError extends Error {
   constructor(available: number, floor: number) {
     super(
-      `Not starting a computer: the host has ${available} MB available, under the ${floor} MB floor.`,
+      `Not starting a computer: estimated RAM after computer reservations is ${available} MB, under the ${floor} MB safety floor.`,
     );
     this.name = "NotEnoughMemoryError";
   }

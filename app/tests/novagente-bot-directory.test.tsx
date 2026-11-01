@@ -1,10 +1,4 @@
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  expect,
-  test,
-} from "bun:test";
+import { afterAll, afterEach, beforeAll, expect, test } from "bun:test";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -79,8 +73,18 @@ function fixture(search = "") {
   ]);
   const channels = [
     channel("old", "jojo", "Mensagem antiga", "2026-10-01T12:00:00.000Z"),
-    channel("recent-jojo", "jojo", "Último relatório da Jojo", "2026-11-01T12:00:00.000Z"),
-    channel("media", "nova-midia", "Campanha revisada", "2026-11-01T11:00:00.000Z"),
+    channel(
+      "recent-jojo",
+      "jojo",
+      "Último relatório da Jojo",
+      "2026-11-01T12:00:00.000Z",
+    ),
+    channel(
+      "media",
+      "nova-midia",
+      "Campanha revisada",
+      "2026-11-01T11:00:00.000Z",
+    ),
   ];
   const root = createRootRoute({
     component: () => <BotDirectory channels={channels} search={search} />,

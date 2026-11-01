@@ -258,7 +258,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent ref={scrollRoot} className="scroll-fade-b novagente-sidebar-content">
+      <SidebarContent
+        ref={scrollRoot}
+        className="scroll-fade-b novagente-sidebar-content"
+      >
         <SidebarMenu>
           <SidebarGroup className="gap-px">
             <SidebarMenuItem>
@@ -275,7 +278,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </InputGroup>
             </SidebarMenuItem>
             <BotDirectory channels={channels.data ?? []} search={search} />
-            <details className="novagente-history" open={searching ? true : undefined}>
+            <details
+              className="novagente-history"
+              open={searching ? true : undefined}
+            >
               <summary className="novagente-history-title">
                 Conversas anteriores
                 <span>{visibleChannels.length}</span>

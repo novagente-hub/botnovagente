@@ -61,7 +61,10 @@ export function BotDirectory({
 
   const latestFor = (botId: string) =>
     channels
-      .filter((channel) => channel.agentIds.length === 1 && channel.agentIds[0] === botId)
+      .filter(
+        (channel) =>
+          channel.agentIds.length === 1 && channel.agentIds[0] === botId,
+      )
       .sort((a, b) =>
         (b.lastMessageAt ?? b.createdAt).localeCompare(
           a.lastMessageAt ?? a.createdAt,
@@ -106,7 +109,9 @@ export function BotDirectory({
         </p>
       ) : matching.length === 0 ? (
         <p className="novagente-directory-note">
-          {search ? "Nenhum agente corresponde à busca." : "Crie seu primeiro agente em Bots."}
+          {search
+            ? "Nenhum agente corresponde à busca."
+            : "Crie seu primeiro agente em Bots."}
         </p>
       ) : (
         <div className="novagente-bot-list">
@@ -114,7 +119,10 @@ export function BotDirectory({
             const latest = latestFor(bot.id);
             const chosen = latest?.id === activeChannelId;
             const description =
-              latest?.lastMessage || latest?.summary || bot.roleDescription || bot.title;
+              latest?.lastMessage ||
+              latest?.summary ||
+              bot.roleDescription ||
+              bot.title;
             const content = (
               <>
                 <BotAvatar bot={bot} />
@@ -123,7 +131,10 @@ export function BotDirectory({
                   <span>{description}</span>
                 </span>
                 {latest?.busy ? (
-                  <span className="novagente-bot-busy" aria-label="Trabalhando" />
+                  <span
+                    className="novagente-bot-busy"
+                    aria-label="Trabalhando"
+                  />
                 ) : null}
               </>
             );

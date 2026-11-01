@@ -20,10 +20,7 @@ export const Route = createFileRoute("/_authed/_app/")({
 /** Chat is the product's front door. The sidebar is the Bot directory. */
 function RouteComponent() {
   const channels = useInfiniteQuery(channelListQueryOptions());
-  const {
-    data: agents,
-    isError: failed,
-  } = useQuery(agentListQueryOptions());
+  const { data: agents, isError: failed } = useQuery(agentListQueryOptions());
   const { start, startChosen, pending } = useStartChannel();
   const [error, setError] = useState<string | null>(null);
 
@@ -37,7 +34,12 @@ function RouteComponent() {
       <header className="novagente-start-header">
         <div className="flex items-center gap-3">
           <SidebarToggle />
-          <img src="/novabot-mark.svg" alt="" aria-hidden="true" className="size-6" />
+          <img
+            src="/novabot-mark.svg"
+            alt=""
+            aria-hidden="true"
+            className="size-6"
+          />
           <span className="text-sm font-semibold tracking-wide">
             {appConfig.brand.productName}
           </span>
@@ -60,9 +62,7 @@ function RouteComponent() {
         <p className="text-xs font-semibold uppercase tracking-[0.23em] text-blue-400">
           NOVAGENTE · Escritório de agentes
         </p>
-        <h1 className="novagente-start-title">
-          O que vamos resolver hoje?
-        </h1>
+        <h1 className="novagente-start-title">O que vamos resolver hoje?</h1>
         <p className="novagente-start-subtitle">
           Escolha um agente na lateral ou comece uma conversa aqui.
         </p>
@@ -102,23 +102,25 @@ function RouteComponent() {
         </div>
         {fallback ? (
           <p className="mt-4 text-xs text-muted-foreground">
-            O NovaBot pode escolher o agente mais adequado. Use <code>@</code> para indicar um específico.
+            O NovaBot pode escolher o agente mais adequado. Use <code>@</code>{" "}
+            para indicar um específico.
           </p>
         ) : null}
         {error ? (
-          <p className="mt-3 text-sm text-destructive" role="alert">{error}</p>
+          <p className="mt-3 text-sm text-destructive" role="alert">
+            {error}
+          </p>
         ) : failed && agents === undefined ? (
           <p className="mt-3 text-sm text-destructive" role="alert">
             Não foi possível carregar os agentes. Recarregue a página.
           </p>
         ) : null}
-        <nav className="novagente-start-bots" aria-label="Começar conversa com um bot">
+        <nav
+          className="novagente-start-bots"
+          aria-label="Começar conversa com um bot"
+        >
           {(agents ?? []).slice(0, 6).map((agent) => (
-            <Link
-              key={agent.id}
-              to="/channel/new"
-              search={{ agent: agent.id }}
-            >
+            <Link key={agent.id} to="/channel/new" search={{ agent: agent.id }}>
               {agent.name}
             </Link>
           ))}

@@ -6,6 +6,7 @@
 @import "@fontsource-variable/inter";
 @import "./theme.css";
 @import "./skins/skins.css";
+@import "./novagente-chat.css";
 
 /*
  * Streamdown draws a Bot's prose, and Tailwind only ships classes it can see used. Its markup lives

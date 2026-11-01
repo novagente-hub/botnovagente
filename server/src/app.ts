@@ -1685,8 +1685,14 @@ export function createApp(
       createSharedResourceRoutes(
         coworker.resources,
         requireUser,
-        async (actor, botId) =>
-          (await agentProfileStore.get(actor, botId)) !== null,
+        async (actor, botId) => {
+          const bot = await agentProfileStore.get(actor, botId);
+          // Never grant a shared public Bot access to the owner's private
+          // documents. Only their own Bot or a deployment-managed Bot.
+          return Boolean(
+            bot && (bot.systemOwned || bot.ownerUserId === actor.id),
+          );
+        },
         auditStore,
       ),
     );

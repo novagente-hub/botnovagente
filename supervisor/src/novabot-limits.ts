@@ -2,7 +2,10 @@ import { readFileSync } from "node:fs";
 import { listOwned, stop } from "./docker";
 import { namesFor } from "./names";
 import { createComputerAdmissionGate } from "./novabot-capacity";
-export { ComputerCapacityError, NotEnoughMemoryError } from "./novabot-capacity";
+export {
+  ComputerCapacityError,
+  NotEnoughMemoryError,
+} from "./novabot-capacity";
 
 /**
  * NovaBot guard rails for a small shared VPS.
@@ -15,15 +18,22 @@ export { ComputerCapacityError, NotEnoughMemoryError } from "./novabot-capacity"
  *  - NOVABOT_COMPUTER_IDLE_MINUTES (default 15): a computer no `/ensure` touched for this long is
  *    stopped. Every Bot action calls `/ensure`, so this is "no action for N minutes".
  */
-const maxComputers = Math.max(1, Number(process.env.NOVABOT_MAX_COMPUTERS ?? 1) || 1);
-const minAvailableMb = Number(process.env.NOVABOT_MIN_AVAILABLE_MB ?? 3072) || 3072;
-const idleMs = (Number(process.env.NOVABOT_COMPUTER_IDLE_MINUTES ?? 15) || 15) * 60_000;
+const maxComputers = Math.max(
+  1,
+  Number(process.env.NOVABOT_MAX_COMPUTERS ?? 1) || 1,
+);
+const minAvailableMb =
+  Number(process.env.NOVABOT_MIN_AVAILABLE_MB ?? 3072) || 3072;
+const idleMs =
+  (Number(process.env.NOVABOT_COMPUTER_IDLE_MINUTES ?? 15) || 15) * 60_000;
 
 const lastUsed = new Map<string, number>(); // "kind/id" -> epoch ms
 
 export function availableMb(meminfo = "/proc/meminfo"): number {
   try {
-    const line = readFileSync(meminfo, "utf8").match(/^MemAvailable:\s+(\d+) kB/m);
+    const line = readFileSync(meminfo, "utf8").match(
+      /^MemAvailable:\s+(\d+) kB/m,
+    );
     return line ? Math.floor(Number(line[1]) / 1024) : Number.POSITIVE_INFINITY;
   } catch {
     return Number.POSITIVE_INFINITY;
@@ -63,12 +73,23 @@ export function startIdleReaper(): void {
         if (Date.now() - seen < idleMs) continue;
         const parsed = namesFor(c.kind, c.id);
         if (!parsed.ok) continue;
-        console.log(JSON.stringify({ type: "novabot-computer-idle-stop", kind: c.kind, id: c.id }));
+        console.log(
+          JSON.stringify({
+            type: "novabot-computer-idle-stop",
+            kind: c.kind,
+            id: c.id,
+          }),
+        );
         await stop(parsed.names);
         lastUsed.delete(key);
       }
     } catch (error) {
-      console.warn(JSON.stringify({ type: "novabot-idle-reaper-failed", error: String(error) }));
+      console.warn(
+        JSON.stringify({
+          type: "novabot-idle-reaper-failed",
+          error: String(error),
+        }),
+      );
     }
   };
   setInterval(tick, 60_000).unref?.();

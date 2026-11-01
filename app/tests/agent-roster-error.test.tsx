@@ -153,7 +153,9 @@ test("a failed roster on / reports the failure and explains the disabled compose
     ),
   ).toBeTruthy();
   expect(
-    view.queryByText("Sua primeira conversa ficará salva no histórico do agente."),
+    view.queryByText(
+      "Sua primeira conversa ficará salva no histórico do agente.",
+    ),
   ).toBeNull();
 });
 

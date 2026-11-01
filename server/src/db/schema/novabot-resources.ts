@@ -6,7 +6,8 @@
  * or resources belonging to other users. A multi-customer deployment must
  * still use a separate stack per client; this is NOT cross-tenant auth.
  */
-import { index, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import { check, index, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
 import { agents, users } from "./core";
 
 export const sharedResources = pgTable(
@@ -48,5 +49,9 @@ export const sharedResourceGrants = pgTable(
   (table) => [
     primaryKey({ columns: [table.resourceId, table.agentId] }),
     index("novabot_shared_resource_grants_agent_idx").on(table.agentId),
+    check(
+      "novabot_shared_resource_grants_permission_check",
+      sql`${table.permission} IN ('read', 'write')`,
+    ),
   ],
 );

@@ -175,6 +175,8 @@ describe("NovaBot private shared resources", () => {
     expect(f.grants.get("jojo")).toBe("read");
     expect(
       (await f.request("/" + sampleId + "/grants/jojo", "DELETE", "alice"))
+        .status,
+    ).toBe(200);
     expect(f.grants.has("jojo")).toBe(false);
   });
   it("refuses unauthorized Bot reads and writes, including after revocation", async () => {

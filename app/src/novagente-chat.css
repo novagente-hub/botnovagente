@@ -366,3 +366,21 @@
 @media (prefers-reduced-motion: reduce) {
   .novagente-bot-row { transition: none; }
 }
+
+/* The mobile sidebar is a Sheet portal outside SidebarShell. Style it explicitly. */
+:root:has(.novagente-chat-shell) [data-sidebar="sidebar"][data-mobile="true"] {
+  --background: #101012;
+  --foreground: #f5f6f8;
+  --sidebar: #0a0a0b;
+  --sidebar-foreground: #f7f7f8;
+  --muted-foreground: #a2a2ad;
+  --border: #303035;
+  color-scheme: dark;
+  color: #f7f7f8;
+  background: #0a0a0b;
+}
+:root:has(.novagente-chat-shell) [data-mobile="true"] .novagente-sidebar-search {
+  background: #1b1b1e;
+  border: 1px solid #303036;
+  color: #e9e9ee;
+}

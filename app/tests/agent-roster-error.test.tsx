@@ -186,9 +186,6 @@ test("a failed REFETCH on / keeps the roster and does not disclaim the composer"
       "Não foi possível carregar os agentes. Recarregue a página.",
     ),
   ).toBeNull();
-  expect(
-    view.queryByText("Não foi possível carregar os agentes. Recarregue a página."),
-  ).toBeNull();
 });
 
 /*
@@ -207,15 +204,8 @@ test("a failed REFETCH on / with no shared Bots preserves the own Bot shortcut",
   await waitForFailedRefetch(queryClient);
 
   expect(
-    await view.findByRole(
-      "link",
-      { name: "Mine Agent" },
-      HOME_FIND_TIMEOUT,
-    ),
+    await view.findByRole("link", { name: "Mine Agent" }, HOME_FIND_TIMEOUT),
   ).toBeTruthy();
-  expect(
-    view.queryByText("Não foi possível carregar os agentes. Recarregue a página."),
-  ).toBeNull();
   // `agents` loaded (it holds "Mine Agent"), so `fallback` falls back to it and the composer is
   // enabled — the alert claiming a load failure must not appear beside that working composer.
   expect(

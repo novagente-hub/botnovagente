@@ -1,6 +1,6 @@
 import type { GrantedTool } from "@openbot/toolkit/granted-tool";
 import { z } from "zod";
-import { recordAuditEvent, type AuditStore, type AuditEventType } from "../audit";
+import { recordAuditEvent, type AuditStore, type AuditEventType, type AuditInitiator } from "../audit";
 import { ResourceRefusedError, type SharedResourceStore } from "./store";
 
 const resourceId = z.object({ id: z.string().uuid() }).strict();
@@ -18,13 +18,14 @@ export function sharedResourceTools(
   ownerUserId: string,
   botId: string,
   audit?: AuditStore,
+  initiator?: AuditInitiator,
 ): GrantedTool[] {
   async function auditAccess(eventType: AuditEventType, id: string) {
     if (!audit) return;
     await recordAuditEvent(audit, {
       eventType,
       actorUserId: ownerUserId,
-      initiator: { kind: "handoff", id: botId },
+      ...(initiator ? { initiator } : {}),
       targetType: "shared_resource",
       targetId: id,
       payload: { botId },

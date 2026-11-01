@@ -492,6 +492,8 @@ jobs:
           python -m pytest agent-microsoft/tests -q
       - run: bun install --frozen-lockfile
       - run: bun test tests/compose.test.ts
+      - name: NovaBot separate customer Compose configurations
+        run: bun test tests/novabot-tenant-compose.test.ts
       - run: docker compose --env-file /dev/null --profile harness config --format json >/dev/null
         env:
           PICKED_HARNESS_IMAGE: openbot-agent-langgraph-agui:test

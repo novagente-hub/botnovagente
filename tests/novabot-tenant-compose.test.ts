@@ -92,12 +92,8 @@ describe("NovaBot independent tenant stacks (configuration only)", () => {
     expect(b.services.supervisor?.environment?.COMPUTER_NAMESPACE).toBe(
       "novabot-tenant-b",
     );
-    expect(a.services.supervisor?.environment?.NOVABOT_MAX_COMPUTERS).toBe(
-      "2",
-    );
-    expect(b.services.supervisor?.environment?.NOVABOT_MAX_COMPUTERS).toBe(
-      "2",
-    );
+    expect(a.services.supervisor?.environment?.NOVABOT_MAX_COMPUTERS).toBe("2");
+    expect(b.services.supervisor?.environment?.NOVABOT_MAX_COMPUTERS).toBe("2");
     expect(a.services.server?.image).toBe("novabot-tenant-a-server:latest");
     expect(b.services.server?.image).toBe("novabot-tenant-b-server:latest");
     expect(a.services.supervisor?.environment?.COMPUTER_NETWORK).not.toBe(

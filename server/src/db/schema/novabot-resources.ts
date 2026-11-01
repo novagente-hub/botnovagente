@@ -7,7 +7,14 @@
  * still use a separate stack per client; this is NOT cross-tenant auth.
  */
 import { sql } from "drizzle-orm";
-import { check, index, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  check,
+  index,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { agents, users } from "./core";
 
 export const sharedResources = pgTable(
@@ -26,7 +33,9 @@ export const sharedResources = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (table) => [index("novabot_shared_resources_owner_idx").on(table.ownerUserId)],
+  (table) => [
+    index("novabot_shared_resources_owner_idx").on(table.ownerUserId),
+  ],
 );
 
 export const sharedResourceGrants = pgTable(

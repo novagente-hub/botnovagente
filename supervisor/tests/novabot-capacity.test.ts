@@ -78,9 +78,9 @@ describe("NovaBot computer capacity", () => {
       () => 4000,
     );
     const first = await admission.acquire("bot", "jojo");
-    await expect(admission.acquire("bot", "programador")).rejects.toBeInstanceOf(
-      NotEnoughMemoryError,
-    );
+    await expect(
+      admission.acquire("bot", "programador"),
+    ).rejects.toBeInstanceOf(NotEnoughMemoryError);
     first();
   });
 

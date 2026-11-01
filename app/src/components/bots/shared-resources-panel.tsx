@@ -78,7 +78,9 @@ export function SharedResourcesPanel() {
 
   const save = () =>
     run(async () => {
-      const path = selectedId ? `${root}/${encodeURIComponent(selectedId)}` : root;
+      const path = selectedId
+        ? `${root}/${encodeURIComponent(selectedId)}`
+        : root;
       const resource = await client<Resource>(path, "resource", {
         method: selectedId ? "PUT" : "POST",
         body: { title, content },
@@ -118,11 +120,13 @@ export function SharedResourcesPanel() {
         Biblioteca compartilhada · permissões por Bot
       </summary>
       <p className="mt-2 text-sm text-muted-foreground">
-        Guarde notas e documentos de texto, autorizando cada Bot a ler ou editar.
-        Senhas, logins e sessões do navegador não são compartilhados.
+        Guarde notas e documentos de texto, autorizando cada Bot a ler ou
+        editar. Senhas, logins e sessões do navegador não são compartilhados.
       </p>
       {error ? (
-        <p role="alert" className="mt-3 text-sm text-destructive">{error}</p>
+        <p role="alert" className="mt-3 text-sm text-destructive">
+          {error}
+        </p>
       ) : null}
       <div className="mt-4 grid gap-4 md:grid-cols-[220px_1fr]">
         <div className="space-y-2">
@@ -147,7 +151,10 @@ export function SharedResourcesPanel() {
           ))}
         </div>
         <div className="space-y-3">
-          <label className="block text-sm font-medium" htmlFor="shared-resource-title">
+          <label
+            className="block text-sm font-medium"
+            htmlFor="shared-resource-title"
+          >
             Título
           </label>
           <input
@@ -158,7 +165,10 @@ export function SharedResourcesPanel() {
             value={title}
             onChange={(event) => setTitle(event.target.value)}
           />
-          <label className="block text-sm font-medium" htmlFor="shared-resource-content">
+          <label
+            className="block text-sm font-medium"
+            htmlFor="shared-resource-content"
+          >
             Conteúdo
           </label>
           <textarea
@@ -197,13 +207,19 @@ export function SharedResourcesPanel() {
               </p>
               <div className="space-y-2">
                 {(agents.data ?? []).map((agent) => (
-                  <div key={agent.id} className="flex flex-wrap items-center justify-between gap-2 rounded-md border p-2">
+                  <div
+                    key={agent.id}
+                    className="flex flex-wrap items-center justify-between gap-2 rounded-md border p-2"
+                  >
                     <span className="text-sm">{agent.name}</span>
                     <select
                       aria-label={`Permissão de ${agent.name}`}
                       disabled={busy}
                       className="rounded-md border bg-background p-1 text-xs"
-                      value={grants.find((grant) => grant.botId === agent.id)?.permission ?? "none"}
+                      value={
+                        grants.find((grant) => grant.botId === agent.id)
+                          ?.permission ?? "none"
+                      }
                       onChange={(event) =>
                         void changeGrant(
                           agent.id,
@@ -218,7 +234,9 @@ export function SharedResourcesPanel() {
                   </div>
                 ))}
                 {agents.isError ? (
-                  <p className="text-sm text-destructive">Não foi possível carregar a lista de Bots.</p>
+                  <p className="text-sm text-destructive">
+                    Não foi possível carregar a lista de Bots.
+                  </p>
                 ) : null}
               </div>
             </div>

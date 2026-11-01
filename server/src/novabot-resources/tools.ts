@@ -1,13 +1,20 @@
 import type { GrantedTool } from "@openbot/toolkit/granted-tool";
 import { z } from "zod";
-import { recordAuditEvent, type AuditStore, type AuditEventType, type AuditInitiator } from "../audit";
+import {
+  recordAuditEvent,
+  type AuditStore,
+  type AuditEventType,
+  type AuditInitiator,
+} from "../audit";
 import { ResourceRefusedError, type SharedResourceStore } from "./store";
 
 const resourceId = z.object({ id: z.string().uuid() }).strict();
-const writeInput = z.object({
-  id: z.string().uuid(),
-  content: z.string().max(16_000),
-}).strict();
+const writeInput = z
+  .object({
+    id: z.string().uuid(),
+    content: z.string().max(16_000),
+  })
+  .strict();
 
 /**
  * Each tool captures the verified person and Bot. Never accept those identities

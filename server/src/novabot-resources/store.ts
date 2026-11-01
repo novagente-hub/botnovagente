@@ -18,7 +18,9 @@ function validate(title: string, content: string) {
     throw new ResourceRefusedError("Title must have 1 to 120 characters.");
   }
   if (content.length > RESOURCE_CONTENT_LIMIT) {
-    throw new ResourceRefusedError("Content exceeds the 16,000-character limit.");
+    throw new ResourceRefusedError(
+      "Content exceeds the 16,000-character limit.",
+    );
   }
 }
 
@@ -58,17 +60,24 @@ export function createSharedResourceStore(database: Database) {
       validate(title, content);
       const [created] = await database
         .insert(resources)
-        .values({ id: randomUUID(), ownerUserId: ownerId, title: title.trim(), content })
+        .values({
+          id: randomUUID(),
+          ownerUserId: ownerId,
+          title: title.trim(),
+          content,
+        })
         .returning();
-      if (!created) throw new ResourceRefusedError("Could not create resource.");
+      if (!created)
+        throw new ResourceRefusedError("Could not create resource.");
       return mapResource(created);
     },
     async listOwned(ownerId: string) {
-      return (await database
-        .select()
-        .from(resources)
-        .where(eq(resources.ownerUserId, ownerId)))
-        .map(mapResource);
+      return (
+        await database
+          .select()
+          .from(resources)
+          .where(eq(resources.ownerUserId, ownerId))
+      ).map(mapResource);
     },
     async readOwned(ownerId: string, id: string) {
       const [row] = await database
@@ -79,7 +88,12 @@ export function createSharedResourceStore(database: Database) {
       if (!row) throw new ResourceRefusedError("Resource not found.");
       return mapResource(row);
     },
-    async updateOwned(ownerId: string, id: string, title: string, content: string) {
+    async updateOwned(
+      ownerId: string,
+      id: string,
+      title: string,
+      content: string,
+    ) {
       validate(title, content);
       const [row] = await database
         .update(resources)
@@ -94,7 +108,8 @@ export function createSharedResourceStore(database: Database) {
         .delete(resources)
         .where(owned(ownerId, id))
         .returning({ id: resources.id });
-      if (removed.length === 0) throw new ResourceRefusedError("Resource not found.");
+      if (removed.length === 0)
+        throw new ResourceRefusedError("Resource not found.");
     },
     async grantsFor(ownerId: string, id: string) {
       await ownerHas(ownerId, id);
@@ -107,7 +122,12 @@ export function createSharedResourceStore(database: Database) {
         .from(grants)
         .where(eq(grants.resourceId, id));
     },
-    async grant(ownerId: string, id: string, botId: string, permission: "read" | "write") {
+    async grant(
+      ownerId: string,
+      id: string,
+      botId: string,
+      permission: "read" | "write",
+    ) {
       if (permission !== "read" && permission !== "write") {
         throw new ResourceRefusedError("Invalid permission.");
       }
@@ -123,14 +143,15 @@ export function createSharedResourceStore(database: Database) {
         SET permission = EXCLUDED.permission, granted_by = EXCLUDED.granted_by
         RETURNING resource_id
       `);
-      if (inserted.length === 0) throw new ResourceRefusedError("Resource not found.");
+      if (inserted.length === 0)
+        throw new ResourceRefusedError("Resource not found.");
       return { botId, permission };
     },
     async revoke(ownerId: string, id: string, botId: string) {
       await ownerHas(ownerId, id);
-      await database.delete(grants).where(
-        and(eq(grants.resourceId, id), eq(grants.agentId, botId)),
-      );
+      await database
+        .delete(grants)
+        .where(and(eq(grants.resourceId, id), eq(grants.agentId, botId)));
     },
     async listForBot(ownerId: string, botId: string) {
       const rows = await database
@@ -147,31 +168,48 @@ export function createSharedResourceStore(database: Database) {
     },
     async readForBot(ownerId: string, botId: string, id: string) {
       const [row] = await database
-        .select({ id: resources.id, title: resources.title, content: resources.content })
+        .select({
+          id: resources.id,
+          title: resources.title,
+          content: resources.content,
+        })
         .from(resources)
         .innerJoin(grants, eq(resources.id, grants.resourceId))
         .where(and(botScope(ownerId, botId), eq(resources.id, id)))
         .limit(1);
-      if (!row) throw new ResourceRefusedError("Resource not found or not granted.");
+      if (!row)
+        throw new ResourceRefusedError("Resource not found or not granted.");
       return row;
     },
-    async writeForBot(ownerId: string, botId: string, id: string, content: string) {
+    async writeForBot(
+      ownerId: string,
+      botId: string,
+      id: string,
+      content: string,
+    ) {
       if (content.length > RESOURCE_CONTENT_LIMIT) {
-        throw new ResourceRefusedError("Content exceeds the 16,000-character limit.");
+        throw new ResourceRefusedError(
+      "Content exceeds the 16,000-character limit.",
+    );
       }
       // The permission is checked INSIDE the UPDATE statement to ensure that
       // revocation taking effect before this write cannot be bypassed.
       const [row] = await database
         .update(resources)
         .set({ content, updatedAt: new Date() })
-        .where(and(
-          owned(ownerId, id),
-          sql`EXISTS (SELECT 1 FROM novabot_shared_resource_grants AS g
+        .where(
+          and(
+            owned(ownerId, id),
+            sql`EXISTS (SELECT 1 FROM novabot_shared_resource_grants AS g
             WHERE g.resource_id = ${resources.id}
               AND g.agent_id = ${botId} AND g.permission = 'write')`,
-        ))
+          ),
+        )
         .returning({ id: resources.id, updatedAt: resources.updatedAt });
-      if (!row) throw new ResourceRefusedError("Resource not found or write not granted.");
+      if (!row)
+        throw new ResourceRefusedError(
+          "Resource not found or write not granted.",
+        );
       return row;
     },
   };

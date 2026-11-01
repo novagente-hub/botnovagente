@@ -313,10 +313,14 @@ test("search loads older history explicitly and includes new matches", async () 
   const view = renderSidebar();
   const user = userEvent.setup({ document: view.container.ownerDocument });
   await view.findByText("Recent conversation");
-  const search = view.getByRole("textbox", { name: "Buscar agentes ou conversas" });
+  const search = view.getByRole("textbox", {
+    name: "Buscar agentes ou conversas",
+  });
   await user.type(search, "Archived");
   expect(
-    await view.findByText("Nenhuma conversa carregada corresponde à busca. Carregue as mais antigas para ampliar."),
+    await view.findByText(
+      "Nenhuma conversa carregada corresponde à busca. Carregue as mais antigas para ampliar.",
+    ),
   ).toBeTruthy();
   expect(ScrollObserver.active.size).toBe(0);
   expect(requests).toEqual([]);

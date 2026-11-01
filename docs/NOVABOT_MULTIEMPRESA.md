@@ -142,3 +142,52 @@ mesmo host NÃO são uma fronteira de segurança forte contra comprometimento de
 containers/supervisores**. Para clientes externos, usar máquinas/hosts
 isolados, Docker rootless com desenho apropriado ou um serviço de sandbox
 com limites fortes; revisar essa superfície antes de produção multiempresa.
+
+
+## Fase 2A — biblioteca de textos com permissão por Bot (implementação experimental)
+
+A primeira entrega de colaboração inclui uma biblioteca de documentos **de texto**
+de até 16 mil caracteres por registro, gerenciada em **Bots →
+Biblioteca compartilhada**. O usuário autenticado cria a nota e pode
+conceder a cada Bot **Sem acesso**, **Pode ler** ou **Pode ler e editar**.
+Quando a permissão é revogada, as ferramentas do Bot deixam de poder
+acessar o documento em novas chamadas. Cada chamada é validada novamente
+no servidor, em SQL, com o par `owner_user_id + agent_id`.
+
+- Tabelas: `novabot_shared_resources` e
+  `novabot_shared_resource_grants` (`0070_novabot_shared_resources.sql`).
+- API com sessão: `/api/shared-resources` (CRUD próprio) e
+  `/:id/grants/:botId` (autorizar/revogar).
+- Ferramentas para os agentes: `shared_resource_list`,
+  `shared_resource_read` e `shared_resource_write`.
+- Os parâmetros de ferramentas nunca recebem `ownerUserId` ou `botId`;
+  ambos vêm do contexto assinado/verificado do turno.
+- Ações de criação, edição, exclusão, concessão, revogação e leitura/edição
+  pelos Bots são registradas na auditoria sem registrar o conteúdo.
+- A camada de pesquisa proativa conserva a regra de não oferecer ferramentas
+  de escrita desconhecidas; a delegação não concede acessos por si.
+- Limites: esta versão compartilha **documentos do mesmo usuário entre Bots**.
+  Ainda NÃO autoriza automaticamente outros membros da empresa nem oferece
+  pastas binárias, integrações, cookies, senhas ou tokens.
+- Essa biblioteca não torna uma instalação única segura para empresas
+  diferentes. Para clientes externos, continuam obrigatórias instalações
+  separadas e a revisão do acesso ao socket Docker.
+
+### Cenário de aceite
+
+1. Ti cria “Campanha novembro”, concede leitura a Jojo, edição a NovaMídia
+   e nenhum acesso ao Programador.
+2. Jojo lê o documento via ferramenta; NovaMídia lê e edita; Programador
+   recebe recusa.
+3. Ti revoga NovaMídia: nova tentativa de leitura ou edição recebe recusa.
+4. Um Bot atuando por outro usuário não enxerga o documento nem com mesmo id.
+5. O painel mostra as permissões atuais e o histórico de auditoria registra
+   ações sem copiar conteúdo sensível.
+
+### Pendências antes de liberar ao cliente
+
+- Validar testes de rota, tipos, migração SQL e renderização da tela no CI.
+- Testar concorrência de revogação/escrita com PostgreSQL real.
+- Revisar e homologar o comportamento de aprovação para edições críticas.
+- Fase 2B: compartilhamento entre **membros da mesma empresa**, com identidade
+  e permissões por pessoa e por recurso, além das permissões por Bot.

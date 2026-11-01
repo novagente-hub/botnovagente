@@ -31,6 +31,8 @@ export class NotEnoughMemoryError extends Error {
 export function createComputerAdmissionGate(options: {
   maxComputers: number;
   minAvailableMb: number;
+  /** Conservative RAM estimate for each computer that is starting. */
+  estimatedStartupMb?: number;
   listComputers: () => Promise<RunningComputer[]>;
   availableMb: () => number;
   onActivity?: (kind: string, id: string) => void;
@@ -76,8 +78,12 @@ export function createComputerAdmissionGate(options: {
           throw new ComputerCapacityError(options.maxComputers);
         }
         const available = options.availableMb();
-        if (available < options.minAvailableMb) {
-          throw new NotEnoughMemoryError(available, options.minAvailableMb);
+        // Pending starts may not yet appear in /proc/meminfo. Reserve RAM
+        // for them and for the computer we are about to start.
+        const estimatedStartupMb = Math.max(0, options.estimatedStartupMb ?? 0);
+        const remaining = available - (pending.size + 1) * estimatedStartupMb;
+        if (remaining < options.minAvailableMb) {
+          throw new NotEnoughMemoryError(remaining, options.minAvailableMb);
         }
         pending.add(key);
         options.onActivity?.(kind, id);

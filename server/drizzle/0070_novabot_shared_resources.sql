@@ -14,7 +14,7 @@ CREATE TABLE "novabot_shared_resource_grants" (
   "permission" text NOT NULL,
   "granted_by" text NOT NULL REFERENCES "users"("id") ON DELETE CASCADE,
   "created_at" timestamp with time zone DEFAULT now() NOT NULL,
-  CONSTRAINT "novabot_shared_resource_grants_pk" PRIMARY KEY ("resource_id", "agent_id"),
+  CONSTRAINT "novabot_shared_resource_grants_resource_id_agent_id_pk" PRIMARY KEY ("resource_id", "agent_id"),
   CONSTRAINT "novabot_shared_resource_grants_permission_check" CHECK ("permission" IN ('read', 'write'))
 );
 CREATE INDEX "novabot_shared_resource_grants_agent_idx" ON "novabot_shared_resource_grants" ("agent_id");

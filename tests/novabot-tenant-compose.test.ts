@@ -71,8 +71,12 @@ describe("NovaBot independent tenant stacks (configuration only)", () => {
     const aNetworks = Object.keys(a.services.server?.networks ?? {});
     const bNetworks = Object.keys(b.services.server?.networks ?? {});
     expect(aNetworks).not.toEqual(bNetworks);
-    expect(aNetworks.some((network) => network.startsWith("novabot-tenant-a_"))).toBe(true);
-    expect(bNetworks.some((network) => network.startsWith("novabot-tenant-b_"))).toBe(true);
+    expect(
+      aNetworks.some((network) => network.startsWith("novabot-tenant-a_")),
+    ).toBe(true);
+    expect(
+      bNetworks.some((network) => network.startsWith("novabot-tenant-b_")),
+    ).toBe(true);
 
     expect(a.services.postgres?.volumes?.[0]?.source).not.toBe(
       b.services.postgres?.volumes?.[0]?.source,
@@ -88,8 +92,12 @@ describe("NovaBot independent tenant stacks (configuration only)", () => {
     expect(b.services.supervisor?.environment?.COMPUTER_NAMESPACE).toBe(
       "novabot-tenant-b",
     );
-    expect(a.services.supervisor?.environment?.NOVABOT_MAX_COMPUTERS).toBe("2");
-    expect(b.services.supervisor?.environment?.NOVABOT_MAX_COMPUTERS).toBe("2");
+    expect(a.services.supervisor?.environment?.NOVABOT_MAX_COMPUTERS).toBe(
+      "2",
+    );
+    expect(b.services.supervisor?.environment?.NOVABOT_MAX_COMPUTERS).toBe(
+      "2",
+    );
     expect(a.services.server?.image).toBe("novabot-tenant-a-server:latest");
     expect(b.services.server?.image).toBe("novabot-tenant-b-server:latest");
     expect(a.services.supervisor?.environment?.COMPUTER_NETWORK).not.toBe(

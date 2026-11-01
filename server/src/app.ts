@@ -1687,6 +1687,7 @@ export function createApp(
         requireUser,
         async (actor, botId) =>
           (await agentProfileStore.get(actor, botId)) !== null,
+        auditStore,
       ),
     );
   if (coworker?.teamBots)

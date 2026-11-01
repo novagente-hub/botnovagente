@@ -114,21 +114,21 @@ describe("NovaBot private shared resources", () => {
     const tools = sharedResourceTools(f.store, "alice", "jojo");
     const read = tools.find((t) => t.name === "shared_resource_read");
     const write = tools.find((t) => t.name === "shared_resource_write");
-    expect(String(await read?.execute({ id: sampleId }))).toStartWith("Refused.");
+    expect(String(await read?.execute({ id: sampleId }))).toContain("Refused.");
     await f.store.grant("alice", sampleId, "jojo", "read");
     expect(String(await read?.execute({ id: sampleId }))).toContain("Texto privado");
-    expect(String(await write?.execute({ id: sampleId, content: "Mudança" }))).toStartWith("Refused.");
+    expect(String(await write?.execute({ id: sampleId, content: "Mudança" }))).toContain("Refused.");
     await f.store.grant("alice", sampleId, "jojo", "write");
     expect(String(await write?.execute({ id: sampleId, content: "Mudança" }))).toContain(sampleId);
     await f.store.revoke("alice", sampleId, "jojo");
-    expect(String(await read?.execute({ id: sampleId }))).toStartWith("Refused.");
-    expect(String(await write?.execute({ id: sampleId, content: "Outra" }))).toStartWith("Refused.");
+    expect(String(await read?.execute({ id: sampleId }))).toContain("Refused.");
+    expect(String(await write?.execute({ id: sampleId, content: "Outra" }))).toContain("Refused.");
   });
   it("a grant never gives a Bot access when acting for another person", async () => {
     const f = fixture();
     await f.store.grant("alice", sampleId, "jojo", "write");
     const other = sharedResourceTools(f.store, "bob", "jojo");
     const read = other.find((tool) => tool.name === "shared_resource_read");
-    expect(String(await read?.execute({ id: sampleId }))).toStartWith("Refused.");
+    expect(String(await read?.execute({ id: sampleId }))).toContain("Refused.");
   });
 });

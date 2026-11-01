@@ -10,10 +10,12 @@ const gate = (
   listComputers = async () =>
     [] as { kind: string; id: string; status: string }[],
   availableMb = () => 8192,
+  estimatedStartupMb = 640,
 ) =>
   createComputerAdmissionGate({
     maxComputers: limit,
     minAvailableMb: 3072,
+    estimatedStartupMb,
     listComputers,
     availableMb,
   });
@@ -67,6 +69,19 @@ describe("NovaBot computer capacity", () => {
     await expect(admission.acquire("bot", "jojo")).rejects.toBeInstanceOf(
       NotEnoughMemoryError,
     );
+  });
+
+  it("reserves RAM for concurrent computer startups", async () => {
+    const admission = gate(
+      3,
+      async () => [],
+      () => 4000,
+    );
+    const first = await admission.acquire("bot", "jojo");
+    await expect(admission.acquire("bot", "programador")).rejects.toBeInstanceOf(
+      NotEnoughMemoryError,
+    );
+    first();
   });
 
   it("releases slots idempotently", async () => {

@@ -5,7 +5,12 @@ import {
   NotEnoughMemoryError,
 } from "../src/novabot-capacity";
 
-const gate = (limit: number, listComputers = async () => [] as { kind: string; id: string; status: string }[], availableMb = () => 8192) =>
+const gate = (
+  limit: number,
+  listComputers = async () =>
+    [] as { kind: string; id: string; status: string }[],
+  availableMb = () => 8192,
+) =>
   createComputerAdmissionGate({
     maxComputers: limit,
     minAvailableMb: 3072,
@@ -20,7 +25,9 @@ describe("NovaBot computer capacity", () => {
       admission.acquire("bot", "jojo"),
       admission.acquire("bot", "programador"),
     ]);
-    await expect(admission.acquire("bot", "midia")).rejects.toBeInstanceOf(ComputerCapacityError);
+    await expect(admission.acquire("bot", "midia")).rejects.toBeInstanceOf(
+      ComputerCapacityError,
+    );
     releaseA();
     const releaseC = await admission.acquire("bot", "midia");
     releaseB();
@@ -31,7 +38,9 @@ describe("NovaBot computer capacity", () => {
     const admission = gate(1);
     const releaseA = await admission.acquire("bot", "jojo");
     const releaseAgain = await admission.acquire("bot", "jojo");
-    await expect(admission.acquire("bot", "programador")).rejects.toBeInstanceOf(ComputerCapacityError);
+    await expect(
+      admission.acquire("bot", "programador"),
+    ).rejects.toBeInstanceOf(ComputerCapacityError);
     releaseAgain();
     releaseA();
     const releaseB = await admission.acquire("bot", "programador");
@@ -39,15 +48,25 @@ describe("NovaBot computer capacity", () => {
   });
 
   it("never evicts a running computer to accommodate a new one", async () => {
-    const admission = gate(1, async () => [{ kind: "bot", id: "jojo", status: "running" }]);
-    await expect(admission.acquire("bot", "programador")).rejects.toBeInstanceOf(ComputerCapacityError);
+    const admission = gate(1, async () => [
+      { kind: "bot", id: "jojo", status: "running" },
+    ]);
+    await expect(
+      admission.acquire("bot", "programador"),
+    ).rejects.toBeInstanceOf(ComputerCapacityError);
     const release = await admission.acquire("bot", "jojo");
     release();
   });
 
   it("refuses new starts under the memory reserve", async () => {
-    const admission = gate(3, async () => [], () => 2048);
-    await expect(admission.acquire("bot", "jojo")).rejects.toBeInstanceOf(NotEnoughMemoryError);
+    const admission = gate(
+      3,
+      async () => [],
+      () => 2048,
+    );
+    await expect(admission.acquire("bot", "jojo")).rejects.toBeInstanceOf(
+      NotEnoughMemoryError,
+    );
   });
 
   it("releases slots idempotently", async () => {

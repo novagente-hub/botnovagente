@@ -1,0 +1,368 @@
+/*
+ * NOVAGENTE chat-first shell.
+ * Scoped to our branded application frame so Admin, Settings and selectable
+ * upstream skins are not modified. Existing message/composer interactions,
+ * attachments, voices, tool results and the computer panel remain intact.
+ */
+.novagente-chat-shell {
+  --background: #101012;
+  --foreground: #f5f6f8;
+  --card: #19191c;
+  --card-foreground: #f5f6f8;
+  --popover: #202024;
+  --popover-foreground: #fff;
+  --primary: #1e7bff;
+  --primary-foreground: #fff;
+  --secondary: #252529;
+  --secondary-foreground: #f8f8f9;
+  --muted: #232326;
+  --muted-foreground: #a2a2ad;
+  --accent: #1a3153;
+  --accent-foreground: #f5f7fb;
+  --destructive: #ff747a;
+  --border: #303035;
+  --input: #303035;
+  --ring: #1e7bff;
+  --sidebar: #0a0a0b;
+  --sidebar-foreground: #f7f7f8;
+  --sidebar-primary: #1e7bff;
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: #1e1e22;
+  --sidebar-accent-foreground: #fff;
+  --sidebar-border: #222227;
+  --sidebar-ring: #1e7bff;
+  color-scheme: dark;
+  background: #101012;
+  color: #f5f6f8;
+}
+
+.novagente-chat-shell > main {
+  background: #101012;
+  color: #f5f6f8;
+}
+
+.novagente-chat-shell [data-slot="sidebar-container"] {
+  border-color: #232329;
+}
+
+.novagente-chat-shell [data-sidebar="sidebar"] {
+  background: #0a0a0b;
+}
+
+.novagente-chat-shell [data-slot="sidebar-header"] {
+  padding: 15px 12px 9px;
+  min-height: 57px;
+}
+
+.novagente-chat-shell .novagente-sidebar-content {
+  padding: 0 10px 10px;
+  scrollbar-color: #323239 transparent;
+}
+
+.novagente-chat-shell .novagente-sidebar-search {
+  background: #1b1b1e;
+  border: 1px solid #303036;
+  color: #e9e9ee;
+  margin-bottom: 8px;
+}
+.novagente-chat-shell .novagente-sidebar-search input {
+  color: #fafafa;
+}
+.novagente-chat-shell .novagente-sidebar-search input::placeholder {
+  color: #92929a;
+}
+
+.novagente-directory {
+  width: 100%;
+}
+
+.novagente-featured-bot {
+  min-height: 145px;
+  margin: 8px auto 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 16px;
+  background: #151518;
+  border: 1px solid #222228;
+}
+
+.novagente-bot-avatar {
+  display: inline-flex;
+  width: 39px;
+  height: 39px;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex: none;
+  box-shadow: inset 0 1px 2px #ffffff15;
+}
+
+.novagente-bot-avatar-lg {
+  height: 66px;
+  width: 66px;
+  border-radius: 21px;
+  margin-bottom: 5px;
+}
+
+.novagente-featured-name {
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+}
+.novagente-featured-label {
+  font-size: 10px;
+  color: #a2a3ad;
+}
+
+.novagente-directory-title {
+  padding: 7px 5px 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #c3c3cf;
+  font-weight: 650;
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.novagente-directory-title a {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 10px;
+  color: #8eb8ff;
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.novagente-directory-note {
+  margin: 8px 5px 16px;
+  line-height: 1.5;
+  font-size: 12px;
+  color: #9293a0;
+}
+
+.novagente-bot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.novagente-bot-row {
+  display: flex;
+  min-height: 57px;
+  padding: 8px 6px;
+  gap: 10px;
+  align-items: center;
+  border-radius: 11px;
+  transition: background .15s ease;
+  text-decoration: none;
+  color: #eeeef1;
+}
+
+.novagente-bot-row:hover {
+  background: #202025;
+}
+.novagente-bot-row:focus-visible,
+.novagente-directory-title a:focus-visible {
+  outline: 2px solid #1e7bff;
+  outline-offset: 2px;
+}
+
+.novagente-bot-row-active {
+  background: #1b2536;
+}
+
+.novagente-bot-copy {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.novagente-bot-copy strong {
+  font-size: 13px;
+  line-height: 1.15;
+  font-weight: 690;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.novagente-bot-copy > span {
+  font-size: 11px;
+  line-height: 1.2;
+  color: #a2a2aa;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.novagente-bot-busy {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1e7bff;
+  box-shadow: 0 0 10px #1e7bff80;
+}
+
+.novagente-history {
+  margin: 19px 1px 8px;
+  padding-top: 10px;
+  border-top: 1px solid #29292e;
+}
+
+.novagente-history-title {
+  list-style: none;
+  cursor: pointer;
+  padding: 8px 5px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 680;
+  color: #b6b6c0;
+}
+
+.novagente-history-title::-webkit-details-marker { display: none; }
+.novagente-history-title:hover { background: #202025; }
+.novagente-history-title span {
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+  color: #858596;
+}
+.novagente-history-rows { padding-top: 5px; }
+.novagente-history-rows a { color: #d9d9df; }
+
+.novagente-chat-shell [data-slot="conversation-header"] {
+  background: #111113;
+  border-color: #27272d;
+  min-height: 65px;
+  padding-inline: clamp(12px, 3vw, 30px);
+}
+
+.novagente-chat-shell [data-slot="conversation-header"] [data-slot="message"] {
+  color: #f5f5f7;
+}
+
+.novagente-chat-shell [data-slot="message"][data-align="end"] [data-slot="bubble-content"] {
+  background: #1e6fdb;
+  color: #fff;
+  border: 1px solid #3185f7;
+  border-radius: 18px;
+  padding: 10px 14px;
+}
+
+.novagente-chat-shell [data-slot="message"][data-align="start"] [data-slot="bubble"]:not([data-variant="ghost"]) [data-slot="bubble-content"] {
+  background: #262629;
+  color: #f4f4f5;
+  border: 1px solid #303034;
+  border-radius: 18px;
+  padding: 10px 14px;
+}
+
+.novagente-chat-shell [data-slot="composer-column"] {
+  padding: 11px 14px 20px;
+  max-width: 860px;
+  border-radius: 16px;
+}
+
+.novagente-chat-shell [data-slot="composer-column"] :where(textarea, input, [contenteditable="true"]) {
+  color: #fafafa;
+}
+
+.novagente-chat-shell [data-slot="composer-column"] :where(textarea, input)::placeholder {
+  color: #a2a2aa;
+}
+
+.novagente-chat-shell .novagente-start-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.novagente-chat-shell .novagente-start-header {
+  flex: none;
+  height: 65px;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #27272d;
+  color: #f6f6f8;
+}
+
+.novagente-chat-shell .novagente-start-content {
+  width: min(100%, 770px);
+  margin: auto;
+  padding: 40px 20px 55px;
+  text-align: center;
+}
+
+.novagente-chat-shell .novagente-start-title {
+  font-size: clamp(25px, 3.4vw, 38px);
+  font-weight: 750;
+  letter-spacing: -.045em;
+  line-height: 1.2;
+  margin: 10px 0 12px;
+  color: #f6f6f8;
+}
+
+.novagente-chat-shell .novagente-start-subtitle {
+  color: #a2a2aa;
+  font-size: 13px;
+  margin-bottom: 32px;
+}
+
+.novagente-chat-shell .novagente-start-composer {
+  text-align: left;
+  background: #212125;
+  border: 1px solid #38383e;
+  border-radius: 19px;
+  padding: 5px;
+  box-shadow: 0 10px 36px #00000030;
+}
+
+.novagente-chat-shell .novagente-start-bots {
+  margin: 24px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.novagente-chat-shell .novagente-start-bots a {
+  border-radius: 99px;
+  border: 1px solid #323238;
+  color: #d4d6dd;
+  font-size: 12px;
+  padding: 8px 12px;
+  background: #1a1a1e;
+}
+
+.novagente-chat-shell .novagente-start-bots a:hover {
+  color: #fff;
+  border-color: #1e7bff;
+}
+
+@media (max-width: 768px) {
+  .novagente-chat-shell .novagente-start-content {
+    padding: 24px 14px 35px;
+  }
+  .novagente-chat-shell [data-slot="composer-column"] { padding-inline: 8px; }
+  .novagente-chat-shell .novagente-start-header { padding-inline: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .novagente-bot-row { transition: none; }
+}

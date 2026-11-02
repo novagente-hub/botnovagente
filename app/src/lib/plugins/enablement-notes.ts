@@ -67,9 +67,9 @@ export function consentBreadth(
       ? "Este app tem uma única ação, e aprová-la aprova o app."
       : `Aprovar qualquer ação deste app aprova todas as ${actionCount}.`;
   }
-  const permissions = `${permissionCount} separate ${permissionCount === 1 ? "permission" : "permissions"}`;
-  const actions = `${actionCount} ${actionCount === 1 ? "action" : "actions"}`;
-  const base = `This app uses ${permissions} across ${actions}.`;
+  const permissions = `${permissionCount} ${permissionCount === 1 ? "permissão separada" : "permissões separadas"}`;
+  const actions = `${actionCount} ${actionCount === 1 ? "ação" : "ações"}`;
+  const base = `Este app usa ${permissions} em ${actions}.`;
   const unscoped = actionCount - scopedActionCount;
   if (unscoped <= 0) return base;
   return unscoped === 1
@@ -164,7 +164,7 @@ export function consentCopy(
   const tail =
     alsoEnables.length === 0
       ? "Nenhuma outra ação exige isso."
-      : `Também ativa ${alsoEnables.length === 1 ? "esta outra ação" : `estas ${alsoEnables.length} outras ações`} que a exigem: ${alsoEnables.join(", ")}.`;
+      : `Também ativa ${alsoEnables.length === 1 ? "esta outra ação que a exige" : `estas ${alsoEnables.length} outras ações que a exigem`}: ${alsoEnables.join(", ")}.`;
   return {
     scopes,
     alsoEnables,

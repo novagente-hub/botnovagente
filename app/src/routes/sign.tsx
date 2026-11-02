@@ -76,7 +76,7 @@ export const Route = createFileRoute("/sign")({
 function SignScreen() {
   const { flow_id: flowId } = Route.useSearch();
   // Which provider is being opened, rather than whether one is: with three buttons, a single
-  // boolean would put "Opening…" on all of them.
+  // boolean would put "Abrindo…" on all of them.
   const [opening, setOpening] = useState<AuthProviderId | "sso" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { data: options } = useQuery(authProvidersQueryOptions());
@@ -248,7 +248,7 @@ function SignScreen() {
                 variant="outline"
               >
                 {opening === "sso"
-                  ? "Opening…"
+                  ? "Abrindo…"
                   : "Continuar com sua conta da empresa"}
               </Button>
             </form>

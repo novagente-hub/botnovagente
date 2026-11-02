@@ -139,7 +139,7 @@ test("required and typed fields keep the form pending until corrected", async ()
   await user.type(view.getByRole("spinbutton", { name: "Seats" }), "21");
   await user.click(view.getByRole("button", { name: "Enviar respostas" }));
   expect(view.getByText("Insira um endereço de e-mail válido.")).toBeTruthy();
-  expect(view.getByText("Enter 20 or less.")).toBeTruthy();
+  expect(view.getByText("Insira 20 ou menos.")).toBeTruthy();
   expect(answers).toEqual([]);
   await user.clear(view.getByRole("textbox", { name: "E-mail de trabalho" }));
   await user.type(
@@ -194,7 +194,7 @@ test("a failed answer preserves values and retries without duplicate submissions
   fireEvent.submit(view.getByRole("form"));
   expect(attempts).toBe(2);
   expect(
-    view.getByRole("button", { name: "Sending…" }).hasAttribute("disabled"),
+    view.getByRole("button", { name: "Enviando…" }).hasAttribute("disabled"),
   ).toBe(true);
   await act(async () => {
     release?.();
@@ -226,7 +226,7 @@ test("completed SDK results show saved values and never offer another submission
   view.rerender(
     <FormCard status="complete" args={FORM} result="unreadable result" />,
   );
-  expect(view.getByText(/saved answers are unavailable/)).toBeTruthy();
+  expect(view.getByText(/respostas salvas não estão disponíveis/)).toBeTruthy();
   expect(view.queryByRole("button")).toBeNull();
 });
 test("streaming or malformed form specifications expose no active fields", () => {

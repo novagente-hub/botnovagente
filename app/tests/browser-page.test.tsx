@@ -404,7 +404,7 @@ test("on OpenBot Desktop the page opens the browser once, says it is a window on
   // The person's narration choice, which the next Record passes on to the Recorder in their browser.
   expect(
     await view.findByText(
-      /^On\. The Recorder in your browser listens to your microphone while you record/,
+      /^Ativada\. O Recorder no seu navegador ouve seu microfone enquanto você grava/,
     ),
   ).toBeTruthy();
   // Strict mode runs the opening effect twice; the browser is still opened once.
@@ -440,7 +440,7 @@ test("on OpenBot Desktop Record starts a recording named for the task, which sho
     }),
   );
   expect(await view.findByText("Submit an expense report")).toBeTruthy();
-  expect(view.getByRole("timer").textContent).toMatch(/^0:4\d · 7 actions$/);
+  expect(view.getByRole("timer").textContent).toMatch(/^0:4\d · 7 ações$/);
 
   await user.click(view.getByRole("button", { name: "Parar" }));
   await waitFor(() =>
@@ -454,7 +454,7 @@ test("on OpenBot Desktop Record starts a recording named for the task, which sho
   // Stop says where the recording went and what it held, by its name, until the next one starts.
   const saved = await view.findByRole("status");
   expect(saved.textContent).toBe(
-    "Submit an expense reportSaved to your Learning space: 7 actions.",
+    "Submit an expense reportSalvo no seu espaço de Aprendizado: 7 ações.",
   );
 });
 
@@ -466,7 +466,7 @@ async function stopSays(view: ReturnType<typeof draw>): Promise<string> {
     said =
       statuses
         .map((status) => status.textContent ?? "")
-        .find((text) => /Saved|Nothing was recorded/.test(text)) ?? "";
+        .find((text) => /salvo|Salvo|Nada foi gravado/.test(text)) ?? "";
     expect(said).not.toBe("");
   });
   return said;
@@ -511,8 +511,8 @@ test("Stop on a recording that held no actions says nothing was recorded and why
     await recordAndStop(view, "Look up Ada Lovelace");
     expect(await stopSays(view)).toBe(
       shape === "native"
-        ? "Look up Ada LovelaceNothing was recorded. The Recorder records the pages you open on websites and what you do there, with what each step saves, AI assistant conversations and your narration, in every tab you use while it records, except sites you leave out."
-        : "Nothing was recorded in “Look up Ada Lovelace”. The Recorder records the pages you open on websites and what you do there, with what each step saves, AI assistant conversations and your narration, in every tab you use while it records, except sites you leave out.",
+        ? "Look up Ada LovelaceNada foi gravado. O Recorder grava as páginas que você abre nos sites e o que você faz nelas, com o que cada etapa salva, conversas com assistentes de IA e sua narração, em todas as abas que você usar enquanto ele grava, exceto os sites que você excluir."
+        : "Nada foi gravado em “Look up Ada Lovelace”. O Recorder grava as páginas que você abre nos sites e o que você faz nelas, com o que cada etapa salva, conversas com assistentes de IA e sua narração, em todas as abas que você usar enquanto ele grava, exceto os sites que você excluir.",
     );
     expect(view.queryByText(/Salvou/)).toBeNull();
   }
@@ -534,8 +534,8 @@ test("a recording of narration alone is saved, with its phrases, never said to h
     await recordAndStop(view, "Talk it through");
     expect(await stopSays(view)).toBe(
       shape === "native"
-        ? "Talk it throughSaved to your Learning space: 0 actions and 3 narrated phrases."
-        : "Saved “Talk it through” to your Learning space: 0 actions and 3 narrated phrases.",
+        ? "Talk it throughSalvo no seu espaço de Aprendizado: 0 ações e 3 frases narradas."
+        : "“Talk it through” salvo no seu espaço de Aprendizado: 0 ações e 3 frases narradas.",
     );
     expect(view.queryByText(/Nada foi gravado/)).toBeNull();
   }
@@ -548,14 +548,14 @@ test("after a reload the page says what the last recording held as the Recorder 
       [
         { actions: 0, phrases: 0 },
         shape === "native"
-          ? "Look up Ada LovelaceNothing was recorded. The Recorder records the pages you open on websites and what you do there, with what each step saves, AI assistant conversations and your narration, in every tab you use while it records, except sites you leave out."
-          : "Nothing was recorded in “Look up Ada Lovelace”. The Recorder records the pages you open on websites and what you do there, with what each step saves, AI assistant conversations and your narration, in every tab you use while it records, except sites you leave out.",
+          ? "Look up Ada LovelaceNada foi gravado. O Recorder grava as páginas que você abre nos sites e o que você faz nelas, com o que cada etapa salva, conversas com assistentes de IA e sua narração, em todas as abas que você usar enquanto ele grava, exceto os sites que você excluir."
+          : "Nada foi gravado em “Look up Ada Lovelace”. O Recorder grava as páginas que você abre nos sites e o que você faz nelas, com o que cada etapa salva, conversas com assistentes de IA e sua narração, em todas as abas que você usar enquanto ele grava, exceto os sites que você excluir.",
       ],
       [
         { actions: 1, phrases: 2 },
         shape === "native"
-          ? "Look up Ada LovelaceSaved to your Learning space: 1 action and 2 narrated phrases."
-          : "Saved “Look up Ada Lovelace” to your Learning space: 1 action and 2 narrated phrases.",
+          ? "Look up Ada LovelaceSalvo no seu espaço de Aprendizado: 1 ação e 2 frases narradas."
+          : "“Look up Ada Lovelace” salvo no seu espaço de Aprendizado: 1 ação e 2 frases narradas.",
       ],
     ] as const) {
       cleanup();
@@ -601,8 +601,8 @@ test("an action the page has not read yet when Stop is pressed still counts: the
     });
     expect(await stopSays(view)).toBe(
       shape === "native"
-        ? "Refund an orderSaved to your Learning space: 1 action."
-        : "Saved “Refund an order” to your Learning space: 1 action.",
+        ? "Refund an orderSalvo no seu espaço de Aprendizado: 1 ação."
+        : "“Refund an order” salvo no seu espaço de Aprendizado: 1 ação.",
     );
   }
 });
@@ -777,7 +777,7 @@ test("on hosted OpenBot the page narrates a recording, and Stop sends the phrase
   // Then the page says where the recording went, and what it held: the phrase it narrated among them.
   expect(
     await view.findByText(
-      "Saved “Submit an expense report” to your Learning space: 7 actions and 1 narrated phrase.",
+      "“Submit an expense report” salvo no seu espaço de Aprendizado: 7 ações e 1 frase narrada.",
     ),
   ).toBeTruthy();
 });
@@ -799,7 +799,7 @@ test("on hosted OpenBot a narration the Recorder refused says why, beside the na
   await waitFor(() => expect(recognitions.at(-1)?.heard).toBe(true));
   expect(
     await view.findByText(
-      "Some of what you said didn't reach the Recorder. This browser hears your voice itself.",
+      "Parte do que você disse não chegou ao Recorder. This browser hears your voice itself.",
     ),
   ).toBeTruthy();
 });
@@ -809,11 +809,11 @@ test("on hosted OpenBot narration that cannot hear the person shows its switch o
   for (const [error, sentence] of [
     [
       "not-allowed",
-      "OpenBot can't use your microphone, so narration is off. Allow the microphone for this site, then turn narration on again. Recording still works.",
+      "O OpenBot não consegue usar seu microfone, então a narração está desativada. Permita o microfone para este site e ative a narração de novo. A gravação continua funcionando.",
     ],
     [
       "audio-capture",
-      "No microphone was found, or another app is using it. Recording still works.",
+      "Nenhum microfone foi encontrado, ou outro app está usando. A gravação continua funcionando.",
     ],
   ] as const) {
     cleanup();
@@ -986,7 +986,7 @@ test("on OpenBot Desktop the narration row says what the Recorder hears, as it r
     ],
     [
       "unavailable",
-      "The Recorder can't hear your microphone, so what you say isn't recorded. The Recorder's button in your browser's toolbar says why. Recording still works.",
+      "O Recorder não consegue ouvir seu microfone, então o que você diz não é gravado. O botão do Recorder na barra de ferramentas do navegador diz o motivo. A gravação continua funcionando.",
     ],
   ] as const) {
     state = { ...nativeState(), recorder: recorder(voice) };
@@ -1001,7 +1001,7 @@ test("on hosted OpenBot in a browser with no speech recognition, the page says n
   const view = draw(<BrowserPage />);
   expect(
     await view.findByText(
-      "Narration isn't available in this browser, so what you say isn't recorded. Recording still works.",
+      "A narração não está disponível neste navegador, então o que você diz não é gravado. A gravação continua funcionando.",
     ),
   ).toBeTruthy();
   expect(view.queryByRole("switch", { name: "Narração" })).toBeNull();
@@ -1194,7 +1194,7 @@ test("on hosted OpenBot a language still to be downloaded is asked for on the sw
   await user.click(view.getByRole("button", { name: "Gravar" }));
   expect(
     await view.findByText(
-      /^Your browser has to download its .+ speech recognition to your computer first\. Turn narration on to download it\./,
+      /^Seu navegador precisa primeiro baixar o reconhecimento de fala em .+ para o seu computador\. Ative a narração para baixá-lo\./,
     ),
   ).toBeTruthy();
   expect(recognitions).toHaveLength(0);
@@ -1211,7 +1211,7 @@ test("on hosted OpenBot a language still to be downloaded is asked for on the sw
   expect(model.installs).toEqual([navigator.language]);
   expect(
     await view.findByText(
-      /^Your browser is downloading its .+ speech recognition to your computer\. Narration starts when it's ready\./,
+      /^Seu navegador está baixando o reconhecimento de fala em .+ para o seu computador\. A narração começa quando estiver pronto\./,
     ),
   ).toBeTruthy();
   expect(recognitions).toHaveLength(0);
@@ -1234,7 +1234,7 @@ test("on hosted OpenBot a browser that cannot keep speech on the computer never 
   await user.click(view.getByRole("button", { name: "Gravar" }));
   expect(
     await view.findByText(
-      "This browser can't turn speech into text on your computer, and OpenBot sends your voice nowhere else, so narration is off. Recording still works.",
+      "Este navegador não consegue transformar fala em texto no seu computador, e o OpenBot não envia sua voz para nenhum outro lugar, então a narração está desativada. A gravação continua funcionando.",
     ),
   ).toBeTruthy();
   expect(recognitions).toHaveLength(0);

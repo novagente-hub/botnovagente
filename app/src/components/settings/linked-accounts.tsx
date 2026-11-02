@@ -353,7 +353,7 @@ function AvailableAccountRow({
       </ItemContent>
       <ItemActions>
         <Button
-          aria-label={`Connect ${title}`}
+          aria-label={`Conectar ${title}`}
           size="sm"
           variant="outline"
           disabled={pending}

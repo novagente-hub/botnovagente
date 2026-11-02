@@ -62,8 +62,8 @@ function progress(
   seconds: number,
   stopping: boolean,
 ): string {
-  if (state.phase === "starting") return "Starting…";
-  if (stopping || state.phase === "stopping") return "Stopping…";
+  if (state.phase === "starting") return "Iniciando…";
+  if (stopping || state.phase === "stopping") return "Parando…";
   return `${elapsed(seconds)} · ${actionCount(state.actions)}`;
 }
 
@@ -176,7 +176,7 @@ function IdleHere({
           type="submit"
         >
           <IconPlayerRecordFilled data-icon="inline-start" />
-          {controls.recordPending ? "Starting…" : "Gravar"}
+          {controls.recordPending ? "Iniciando…" : "Gravar"}
         </Button>
       </form>
     </>

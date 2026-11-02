@@ -156,9 +156,9 @@ function draw(screen: ReactNode = <ApprovalSettings />) {
 
 test("team rules are locked for members, enforced auto-review is shown as required, and the host cap is named", async () => {
   const view = draw(<ApprovalSettings />);
-  await view.findByText("Ask before taking action (team rule)");
+  await view.findByText("Perguntar antes de agir (team rule)");
   const mine = view.getByRole("combobox", {
-    name: "Behaviour for mcp/gmail/*",
+    name: "Comportamento para mcp/gmail/*",
   });
   expect(mine.textContent).toContain("Agir sem perguntar");
   expect(view.getByText("Bloqueada")).toBeTruthy();
@@ -166,7 +166,7 @@ test("team rules are locked for members, enforced auto-review is shown as requir
   expect(review.getAttribute("aria-checked")).toBe("true");
   expect(view.getByText(/Um administrador exige isto/)).toBeTruthy();
   expect(
-    view.getByText(/An admin limits this to "Ask every time"/),
+    view.getByText(/Um administrador limita isto a "Perguntar sempre"/),
   ).toBeTruthy();
   expect(view.queryByText("Configurações da equipe")).toBeNull();
 });
@@ -174,7 +174,7 @@ test("team rules are locked for members, enforced auto-review is shown as requir
 test("a member changes a saved rule in place", async () => {
   const view = draw(<ApprovalSettings />);
   const mine = await view.findByRole("combobox", {
-    name: "Behaviour for mcp/gmail/*",
+    name: "Comportamento para mcp/gmail/*",
   });
   const user = userEvent.setup({ document });
   await user.click(mine);
@@ -189,7 +189,7 @@ test("a member changes a saved rule in place", async () => {
     }),
   );
   expect(
-    view.queryByRole("combobox", { name: "Behaviour for mcp/drive/share" }),
+    view.queryByRole("combobox", { name: "Comportamento para mcp/drive/share" }),
   ).toBeNull();
 });
 
@@ -329,7 +329,7 @@ test("rules for every Bot point to where rules for a single Bot are", async () =
   expect(link.getAttribute("href")).toBe("/bots");
   // A rule naming one Bot lives on that Bot's page, not here.
   expect(
-    view.queryByRole("combobox", { name: "Behaviour for computer_click" }),
+    view.queryByRole("combobox", { name: "Comportamento para computer_click" }),
   ).toBeNull();
 });
 
@@ -350,7 +350,7 @@ test("a rule naming no Bot this person can open is listed so it can be removed",
   const view = draw(<ApprovalSettings />);
   expect(await view.findByText("Regras para outros Bots")).toBeTruthy();
   expect(
-    view.getByRole("combobox", { name: "Behaviour for computer_click" }),
+    view.getByRole("combobox", { name: "Comportamento para computer_click" }),
   ).toBeTruthy();
 });
 
@@ -369,7 +369,7 @@ test("a pending change is drawn in the conversation where the action was, and de
     </QueryClientProvider>,
   );
   await view.findByRole("region", { name: "Aguardando sua aprovação" });
-  expect(view.getByText(/This needs you: click on shop.example/)).toBeTruthy();
+  expect(view.getByText(/Isto precisa de você: click on shop.example/)).toBeTruthy();
   // Another call's line is left to its own renderer.
   expect(view.getByText("Preencheu um campo")).toBeTruthy();
   expect(view.queryByText("Clicou na página")).toBeNull();

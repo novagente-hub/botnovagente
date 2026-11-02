@@ -257,7 +257,7 @@ function ComputersPage() {
                       size="sm"
                       variant="outline"
                     >
-                      {busy === rowId(computer) ? "Working…" : "Parar navegador"}
+                      {busy === rowId(computer) ? "Processando…" : "Parar navegador"}
                     </Button>
                     <Button
                       disabled={busy === rowId(computer)}
@@ -321,7 +321,7 @@ function ComputersPage() {
               variant="destructive"
             >
               {confirming !== null && busy === rowId(confirming)
-                ? "Resetting…"
+                ? "Redefinindo…"
                 : "Redefinir"}
             </Button>
           </DialogFooter>
@@ -364,7 +364,7 @@ function ComputersPage() {
               size="sm"
             >
               {confirmingUpdate !== null && busy === rowId(confirmingUpdate)
-                ? "Updating…"
+                ? "Atualizando…"
                 : "Atualizar"}
             </Button>
           </DialogFooter>
@@ -474,7 +474,7 @@ function HostFoldersSection({
                     size="sm"
                     variant="outline"
                   >
-                    {requestingBotId === botId ? "Waiting…" : "Escolher pasta"}
+                    {requestingBotId === botId ? "Aguardando…" : "Escolher pasta"}
                   </Button>
                 </ItemActions>
               </Item>
@@ -496,7 +496,7 @@ function HostFoldersSection({
             size="sm"
             variant="outline"
           >
-            {stopping ? "Stopping…" : "Interromper acesso à pasta"}
+            {stopping ? "Parando…" : "Interromper acesso à pasta"}
           </Button>
           <Link className="underline" to="/admin/audit">
             
@@ -547,7 +547,7 @@ function FolderGrantList({
             size="sm"
             variant="ghost"
           >
-            {revokingGrantId === grant.id ? "Revoking…" : "Revogar"}
+            {revokingGrantId === grant.id ? "Revogando…" : "Revogar"}
           </Button>
         </div>
       ))}
@@ -556,7 +556,7 @@ function FolderGrantList({
           className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm"
           key={request.operationId}
         >
-          {pendingLabel(request)} from {ownerLabel(request)}
+          {pendingLabel(request)} de {ownerLabel(request)}
           {request.displayName ? ` for ${request.displayName}` : ""}.
         </div>
       ))}
@@ -577,7 +577,7 @@ function summaryFor(
   if (active > 0)
     parts.push(`${active} ${active === 1 ? "pasta somente leitura" : "pastas somente leitura"}`);
   if (waiting > 0)
-    parts.push(`${waiting} pending ${waiting === 1 ? "request" : "requests"}`);
+    parts.push(`${waiting} ${waiting === 1 ? "solicitação pendente" : "solicitações pendentes"}`);
   return parts.length > 0 ? parts.join(" · ") : "Nenhuma pasta aprovada.";
 }
 

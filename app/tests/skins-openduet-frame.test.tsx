@@ -391,7 +391,7 @@ describe("the frame reaches every OpenBot surface", () => {
   test("a page opened over the app names itself from its own title, writes nothing to it, and has one way back that goes where the page's does", async () => {
     api("user");
     const view = renderApp("/bots");
-    const back = await view.findByRole("button", { name: "Back to Home" });
+    const back = await view.findByRole("button", { name: "Voltar para Início" });
     expect(view.queryByRole("navigation", { name: "Principal" })).toBeNull();
     expect(view.queryByRole("button", { name: "Menu" })).toBeNull();
     await waitFor(() =>
@@ -411,7 +411,7 @@ describe("the frame reaches every OpenBot surface", () => {
     expect(bar?.tagName).toBe("DIV");
     expect(bar?.querySelector("a")?.textContent).toContain("Início");
     fireEvent.click(back);
-    await view.findByRole("heading", { name: "Comece uma conversa" });
+    await view.findByRole("heading", { name: "Start a conversation" });
   });
 
   test("Chat and Tasks are phone-shaped, other pages keep OpenBot's width, and an open computer gets OpenBot's pane", async () => {
@@ -436,7 +436,7 @@ describe("the frame reaches every OpenBot surface", () => {
     api("user");
     const view = renderApp("/");
     expect(
-      await view.findByRole("link", { name: "Tasks, 2 waiting" }),
+      await view.findByRole("link", { name: "Tarefas, 2 aguardando" }),
     ).toBeTruthy();
   });
 });
@@ -452,7 +452,7 @@ describe("Tasks is OpenBot's own lists under OpenDuet's headings", () => {
     fireEvent.click(await view.findByRole("tab", { name: "Ativo" }));
     const needs = await view.findByRole("region", { name: "Precisa de resposta" });
     expect(within(needs).getByText("Precisa de resposta")).toBeTruthy();
-    expect(await within(needs).findByText(/Inbox Bot wants to/)).toBeTruthy();
+    expect(await within(needs).findByText(/Inbox Bot quer/)).toBeTruthy();
     expect(within(needs).queryByText(/drive\/share/)).toBeNull();
     expect(
       within(needs).getByText(/Which kiln should I book the repair for\?/),
@@ -556,7 +556,7 @@ describe("the frame carries the deployment's brand, not OpenDuet's", () => {
     api("admin");
     const view = renderApp("/");
     const orb = await view.findByRole("button", {
-      name: `Talk to ${appConfig.brand.productName}`,
+      name: `Falar com ${appConfig.brand.productName}`,
     });
     await openMenu(view);
     const menu = view.getByRole("dialog");

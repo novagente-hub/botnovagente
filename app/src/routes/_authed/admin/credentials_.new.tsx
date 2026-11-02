@@ -105,7 +105,7 @@ function NewCredentialPage() {
                     type="submit"
                   >
                     {isSubmitting || createCredential.isPending
-                      ? "Saving…"
+                      ? "Salvando…"
                       : "Salvar credencial"}
                   </Button>
                 )}

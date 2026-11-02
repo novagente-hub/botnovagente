@@ -24,7 +24,7 @@ test("a row drawn as a disabled button is dimmed and takes no pointer", () => {
       </ItemContent>
     </Item>,
   );
-  const row = view.getByRole("button", { name: "Executar agora" });
+  const row = view.getByRole("button", { name: "Run now" });
   expect(row.hasAttribute("disabled")).toBe(true);
   expect(row.className).toContain("disabled:opacity-50");
   expect(row.className).toContain("disabled:pointer-events-none");

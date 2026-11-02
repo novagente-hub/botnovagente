@@ -164,7 +164,7 @@ test("under The Skills I choose, each Skill in your space has a switch that open
   const view = draw();
   await view.findByText("Suas Habilidades");
   const refund = view.getByRole("switch", {
-    name: "Open refund-order to everyone",
+    name: "Abrir refund-order para todos",
   });
   const close = view.getByRole("switch", {
     name: "Open close-ticket to everyone",
@@ -188,7 +188,7 @@ test("under The Skills I choose, each Skill in your space has a switch that open
   await waitFor(() =>
     expect(
       view
-        .getByRole("switch", { name: "Open refund-order to everyone" })
+        .getByRole("switch", { name: "Abrir refund-order para todos" })
         .getAttribute("aria-checked"),
     ).toBe("true"),
   );
@@ -256,10 +256,10 @@ test("a choice made before sharing was turned off says it applies again, and an 
   answer = { ...answer, mode: "choose", sharingAllowed: false };
   const view = draw();
   await view.findByText(
-    "An admin hasn't turned on sharing Skills with every Bot, so only the Bots you use draw on yours. Your choice below applies again if an admin turns it on.",
+    "Um administrador não ativou o compartilhamento de Habilidades com todos os Bots, então só os Bots que você usa aproveitam as suas. Your choice below applies again if an admin turns it on.",
   );
   const refund = view.getByRole("switch", {
-    name: "Open refund-order to everyone",
+    name: "Abrir refund-order para todos",
   });
   const close = view.getByRole("switch", {
     name: "Open close-ticket to everyone",

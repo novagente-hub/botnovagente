@@ -506,7 +506,7 @@ export function RoutinesList({
               type="button"
               variant="destructive"
             >
-              {deleteRoutine.isPending ? "Deleting…" : "Excluir"}
+              {deleteRoutine.isPending ? "Excluindo…" : "Excluir"}
             </Button>
           </DialogFooter>
         </DialogContent>

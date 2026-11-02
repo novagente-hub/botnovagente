@@ -143,7 +143,7 @@ function ResetDialog({
               size="sm"
               variant="destructive"
             >
-              {reset.isPending ? "Resetting…" : "Excluir e redefinir"}
+              {reset.isPending ? "Redefinindo…" : "Excluir e redefinir"}
             </Button>
           )}
         </DialogFooter>
@@ -343,7 +343,7 @@ export function ManageSection({
               size="sm"
               variant="destructive"
             >
-              {remove.isPending ? "Deleting…" : "Excluir"}
+              {remove.isPending ? "Excluindo…" : "Excluir"}
             </Button>
           </DialogFooter>
         </DialogContent>

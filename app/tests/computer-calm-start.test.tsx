@@ -20,7 +20,7 @@ test("a call turned away by a computer still starting reads as not done yet, not
       notYet
     />,
   );
-  const line = view.getByText("Clicked, not done yet");
+  const line = view.getByText("Clicou, ainda não concluído");
   expect(line.closest(".text-amber-600")).toBeNull();
   expect(line.closest(".text-destructive")).toBeNull();
   expect(view.queryByText(/didn't work/)).toBeNull();
@@ -151,7 +151,7 @@ test("a computer that is starting says so, calmly, and shows no problem", async 
 
   expect(
     await view.findByText(
-      "Starting Sales's computer. The first start takes about a minute.",
+      "Iniciando o computador de Vendas. A primeira inicialização leva cerca de um minuto.",
     ),
   ).toBeDefined();
   expect(view.queryByText(/can't show the screen/i)).toBeNull();
@@ -178,7 +178,7 @@ test("failed screenshots during a start are not a problem until the grace runs o
     />,
   );
 
-  await view.findByText(/^Starting Sales's computer/);
+  await view.findByText(/^Iniciando o computador de Vendas/);
   await act(async () => {
     await new Promise((resolve) => setTimeout(resolve, 60));
   });
@@ -216,7 +216,7 @@ test("a computer the server cannot reach is a problem straight away", async () =
   );
 
   expect(
-    await view.findByText("Sales's computer can't be reached right now."),
+    await view.findByText("O computador de Vendas não pode ser acessado agora."),
   ).toBeDefined();
   // The provider's own words are for an admin, not this screen.
   expect(view.queryByText(/supervisor down/)).toBeNull();
@@ -240,7 +240,7 @@ test("a computer that is off, watched from the side panel, says it starts when t
 
   expect(
     await view.findByText(
-      "Sales's computer is off. It starts when the Bot next uses it.",
+      "O computador de Vendas está desligado. Ele liga quando o Bot usá-lo de novo.",
     ),
   ).toBeDefined();
   // Off is not stalled: waiting past the grace still shows no problem.
@@ -327,7 +327,7 @@ test("a computer that goes to sleep stops showing its last frame", async () => {
   await waitFor(() => {
     expect(
       view.getByText(
-        "Sales's computer is off. It starts when the Bot next uses it.",
+        "O computador de Vendas está desligado. Ele liga quando o Bot usá-lo de novo.",
       ),
     ).toBeDefined();
     expect(view.queryByAltText("O que o Bot está vendo")).toBeNull();

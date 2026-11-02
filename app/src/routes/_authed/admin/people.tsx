@@ -111,7 +111,7 @@ function PeoplePage() {
           <p className="mt-4 text-muted-foreground text-sm" role="status">
             
             Parado {terminate.data.stopped.length}{" "}
-            {terminate.data.stopped.length === 1 ? "computer" : "computers"}
+            {terminate.data.stopped.length === 1 ? "computador" : "computadores"}
             {terminate.data.failed.length > 0
               ? `. ${terminate.data.failed.length} não puderam ser parados`
               : ""}
@@ -229,7 +229,7 @@ function PeoplePage() {
             size="sm"
             variant="outline"
           >
-            {people.isFetchingNextPage ? "Loading…" : "Mostrar mais"}
+            {people.isFetchingNextPage ? "Carregando…" : "Mostrar mais"}
           </Button>
         ) : null}
       </PageSection>

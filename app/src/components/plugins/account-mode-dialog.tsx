@@ -60,7 +60,7 @@ export function AccountModeDialog({
       ? count > 0
         ? "A conta compartilhada será desconectada."
         : "Nenhuma conta compartilhada está conectada."
-      : `${count} ${count === 1 ? "account" : "accounts"} pessoal será desconectado.`;
+      : `${count} ${count === 1 ? "conta pessoal será desconectada" : "contas pessoais serão desconectadas"}.`;
   const action =
     target === "shared" ? `Tornar ${title} compartilhado` : `Tornar ${title} pessoal`;
 

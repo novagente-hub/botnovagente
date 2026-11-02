@@ -83,7 +83,7 @@ describe("switching an app to Shared", () => {
   test("names what goes, warns, and lists each Bot's approval before anything changes", async () => {
     const view = draw();
     expect(
-      await view.findByText("14 personal accounts will be disconnected."),
+      await view.findByText("14 contas pessoais serão desconectadas."),
     ).toBeTruthy();
     expect(
       view.getByText(
@@ -98,7 +98,7 @@ describe("switching an app to Shared", () => {
   test("confirming sends the switch once", async () => {
     const view = draw();
     await userEvent.click(
-      await view.findByRole("button", { name: "Make Linear shared" }),
+      await view.findByRole("button", { name: "Tornar Linear compartilhado" }),
     );
     expect(sent.at(-1)).toEqual({ body: { mode: "shared", confirm: true } });
   });
@@ -107,11 +107,11 @@ describe("switching an app to Shared", () => {
     failing = true;
     const view = draw();
     await userEvent.click(
-      await view.findByRole("button", { name: "Make Linear shared" }),
+      await view.findByRole("button", { name: "Tornar Linear compartilhado" }),
     );
     expect(await view.findByText("Composio said no.")).toBeTruthy();
     expect(
-      view.getByRole("button", { name: "Make Linear shared" }),
+      view.getByRole("button", { name: "Tornar Linear compartilhado" }),
     ).toBeTruthy();
   });
 });

@@ -69,7 +69,7 @@ function PasswordsPage() {
                     <ItemDescription>
                       {login.username}
                       {login.lastUsedAt
-                        ? ` · last used ${new Date(login.lastUsedAt).toLocaleDateString()}`
+                        ? ` · último uso ${new Date(login.lastUsedAt).toLocaleDateString()}`
                         : " · nunca usado"}
                     </ItemDescription>
                   </ItemContent>

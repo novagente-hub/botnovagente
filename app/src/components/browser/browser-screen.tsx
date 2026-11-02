@@ -244,7 +244,7 @@ function Screen({
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-4 text-center text-muted-foreground text-sm">
               <span>Seu navegador está fechado.</span>
               <Button disabled={reopening} onClick={reopen} size="sm">
-                {reopening ? "Opening…" : "Abrir de novo"}
+                {reopening ? "Abrindo…" : "Abrir de novo"}
               </Button>
             </div>
           ) : problem ? (

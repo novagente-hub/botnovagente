@@ -158,12 +158,12 @@ export function storeOpenedSentence(browser: RealBrowser): string {
  *
  * Unless what opened is a browser in the page after all (`window: "screen"`): OpenBot Desktop opens one where it finds
  * no Chrome or Edge to use. Its window is the Browser page, so the click takes the person there, as a hosted OpenBot's
- * button does; left where they were, they saw "Opening…" and then nothing, with the browser open on a page they could
+ * button does; left where they were, they saw "Abrindo…" and then nothing, with the browser open on a page they could
  * not see.
  *
  * Opening is busy (`aria-busy`), not disabled: the click handler ignores a click while it opens, and the row keeps its
  * full contrast and the keyboard's focus. The sidebar draws `aria-disabled` at half opacity, and the seventh end-to-end
- * run found "Opening…" too faint to read that way.
+ * run found "Abrindo…" too faint to read that way.
  *
  * The refusal stays until the person closes it, as every error toast does (components/ui/toast.tsx), and goes once an
  * open succeeds, because it is no longer true. A click that opened the Recorder's store page in the person's own
@@ -532,12 +532,12 @@ function useRecordingLabel(
     phase === "recording" ? activity?.startedAt : undefined,
   );
   if (!activity || phase === "idle") return null;
-  const named = activity.title ? `Recording: ${activity.title}` : "Gravando";
+  const named = activity.title ? `Gravando: ${activity.title}` : "Gravando";
   const progress =
     phase === "starting"
-      ? "starting"
+      ? "iniciando"
       : phase === "stopping"
-        ? "stopping"
+        ? "parando"
         : activity.startedAt === undefined
           ? null
           : elapsed(seconds);

@@ -184,7 +184,7 @@ function RuleDetail({ policy, rule }: { policy: ActionPolicy; rule: string }) {
               size="sm"
               variant="destructive"
             >
-              {savePolicy.isPending ? "Removing…" : "Remover"}
+              {savePolicy.isPending ? "Removendo…" : "Remover"}
             </Button>
           </DialogFooter>
         </DialogContent>

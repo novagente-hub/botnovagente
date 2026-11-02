@@ -476,14 +476,14 @@ for (const shows of ["native", "screen"] as const) {
     state = recording("recording", shows);
     const dot = await view.findByRole(
       "img",
-      { name: /^Recording: Submit the receipt, 1:2\d$/ },
+      { name: /^Gravando: Submit the receipt, 1:2\d$/ },
       { timeout: 2000 },
     );
     expect(reads()).toBeGreaterThan(asked);
     // The button carries the recording's name with its own, for a screen reader.
     expect(
       view.getByRole(shows === "native" ? "button" : "link", {
-        name: /^Browser Recording: Submit the receipt, 1:2\d$/,
+        name: /^Navegador Gravando: Submit the receipt, 1:2\d$/,
       }),
     ).toBeTruthy();
     expect(dot.querySelector(".bg-destructive")).not.toBeNull();
@@ -493,7 +493,7 @@ for (const shows of ["native", "screen"] as const) {
     expect(
       await view.findByRole(
         "img",
-        { name: "Recording: Submit the receipt, stopping" },
+        { name: "Gravando: Submit the receipt, parando" },
         { timeout: 2000 },
       ),
     ).toBeTruthy();
@@ -509,17 +509,17 @@ test("the red dot shows while a recording starts as well, and its tooltip names 
   const { view } = draw();
   expect(
     await view.findByRole("img", {
-      name: "Recording: Submit the receipt, starting",
+      name: "Gravando: Submit the receipt, iniciando",
     }),
   ).toBeTruthy();
   state = recording("recording");
   await view.findByRole(
     "img",
-    { name: /^Recording: Submit the receipt, 1:2\d$/ },
+    { name: /^Gravando: Submit the receipt, 1:2\d$/ },
     { timeout: 2000 },
   );
   const user = userEvent.setup({ document });
-  await user.hover(view.getByRole("button", { name: /^Browser Recording/ }));
+  await user.hover(view.getByRole("button", { name: /^Navegador Gravando/ }));
   // Base UI's tooltip is drawn for sight alone, so it says what the dot's name says.
   await waitFor(() =>
     expect(
@@ -527,7 +527,7 @@ test("the red dot shows while a recording starts as well, and its tooltip names 
         (tooltip) => tooltip.textContent,
       ),
     ).toEqual([
-      expect.stringMatching(/^Recording: Submit the receipt, 1:2\d$/),
+      expect.stringMatching(/^Gravando: Submit the receipt, 1:2\d$/),
     ]),
   );
 });
@@ -570,13 +570,13 @@ for (const shows of ["native", "screen"] as const) {
     state = { ...closedState(shows), activity: receipt("recording") };
     const { view } = draw();
     const dot = await view.findByRole("img", {
-      name: /^Recording: Submit the receipt, 1:2\d$/,
+      name: /^Gravando: Submit the receipt, 1:2\d$/,
     });
     expect(dot.querySelector(".bg-destructive")).not.toBeNull();
     expect(state.recorder).toBeUndefined();
     expect(
       view.getByRole(shows === "native" ? "button" : "link", {
-        name: /^Browser Recording: Submit the receipt, 1:2\d$/,
+        name: /^Navegador Gravando: Submit the receipt, 1:2\d$/,
       }),
     ).toBeTruthy();
 
@@ -610,7 +610,7 @@ test("on OpenBot Desktop, while a Recorder in the person's own browser is connec
   expect(
     await view.findByRole(
       "img",
-      { name: "Recording: Submit the receipt, starting" },
+      { name: "Gravando: Submit the receipt, iniciando" },
       { timeout: 2000 },
     ),
   ).toBeTruthy();

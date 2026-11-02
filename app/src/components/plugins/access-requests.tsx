@@ -88,12 +88,12 @@ export function AccessRequestsSection({ app }: { app?: string }) {
 
 /** What the request asks for, as the thing an administrator would do. */
 export function askedFor(request: AppAccessRequest): string {
-  const bot = request.botName ?? "a Bot";
+  const bot = request.botName ?? "um Bot";
   switch (request.kind) {
     case "enable":
       return `Ativar ${request.appTitle} para ${bot}`;
     case "grant":
-      return `Give ${request.appTitle} to ${bot}`;
+      return `Conceder ${request.appTitle} a ${bot}`;
     case "connect_shared":
       return `Conectar a conta compartilhada ${request.appTitle}`;
   }
@@ -118,7 +118,7 @@ function AccessRequestRow({ request }: { request: AppAccessRequest }) {
       <ItemContent>
         <ItemTitle>{askedFor(request)}</ItemTitle>
         <ItemDescription className="line-clamp-none">
-          {who} asked {relativeTime(request.createdAt)}
+          {who} pediu {relativeTime(request.createdAt)}
           {request.kind === "connect_shared" && request.botName
             ? `, para ${request.botName}`
             : ""}
@@ -135,7 +135,7 @@ function AccessRequestRow({ request }: { request: AppAccessRequest }) {
           size="sm"
           variant="ghost"
         >
-          {dismiss.isPending ? "Dismissing…" : "Dispensar"}
+          {dismiss.isPending ? "Dispensando…" : "Dispensar"}
         </Button>
         <Button
           disabled={busy}
@@ -145,7 +145,7 @@ function AccessRequestRow({ request }: { request: AppAccessRequest }) {
           }}
           size="sm"
         >
-          {approve.isPending ? "Approving…" : "Aprovar"}
+          {approve.isPending ? "Aprovando…" : "Aprovar"}
         </Button>
       </ItemActions>
       {error ? (
@@ -167,7 +167,7 @@ function AccessRequestRow({ request }: { request: AppAccessRequest }) {
 function GrantNote({ request }: { request: AppAccessRequest }) {
   if (request.kind === "connect_shared" || !request.agentId) return null;
   const bot = request.botName ?? "o Bot";
-  const where = `a página do Bot, em ${request.appTitle}`;
+  const where = `página do Bot, em ${request.appTitle}`;
   const page =
     request.kind === "grant" ? (
       <Link
@@ -181,8 +181,8 @@ function GrantNote({ request }: { request: AppAccessRequest }) {
     );
   return (
     <>
-      
-      Aprovar concede as ações somente leitura de {bot} only {request.appTitle}. Escolha outras em {page}.
+      Aprovar dá a {bot} apenas as ações somente leitura de {request.appTitle}. Escolha outras na{" "}
+      {page}.
     </>
   );
 }

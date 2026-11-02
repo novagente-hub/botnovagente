@@ -100,7 +100,7 @@ function ActivityRow({
       size="sm"
       variant="outline"
     >
-      {stop.isPending ? "Stopping…" : "Parar"}
+      {stop.isPending ? "Parando…" : "Parar"}
     </Button>
   ) : item.cancellable ? (
     <Button
@@ -109,7 +109,7 @@ function ActivityRow({
       size="sm"
       variant="outline"
     >
-      {cancel.isPending ? "Cancelling…" : "Cancelar"}
+      {cancel.isPending ? "Cancelando…" : "Cancelar"}
     </Button>
   ) : null;
   const content = (
@@ -258,7 +258,7 @@ export function activitySummary(activity: BotActivity): string {
     activity.inProgress.length
       ? `${activity.inProgress.length} em andamento`
       : null,
-    activity.scheduled.length ? `${activity.scheduled.length} agendado(s)` : null,
+    activity.scheduled.length ? `${activity.scheduled.length} ${activity.scheduled.length === 1 ? "agendada" : "agendadas"}` : null,
   ].filter(Boolean);
   if (parts.length) return parts.join(" · ");
   return activity.completed.length

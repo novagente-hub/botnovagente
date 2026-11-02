@@ -154,7 +154,7 @@ export function OpenMuseFrame({ children }: { children: ReactNode }) {
             <div className="pointer-events-none flex flex-col items-center">
               <button
                 aria-label={
-                  bot ? `${bot.name}, ${status}. Switch Bot` : "Escolha um Bot"
+                  bot ? `${bot.name}, ${status}. Trocar Bot` : "Escolha um Bot"
                 }
                 className="group pointer-events-auto flex max-w-[70%] flex-col items-center gap-px rounded-2xl outline-none transition-opacity active:opacity-65 focus-visible:ring-3 focus-visible:ring-ring/50 motion-reduce:transition-none"
                 onClick={() => setSheet("bots")}

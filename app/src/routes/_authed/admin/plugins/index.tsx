@@ -99,7 +99,7 @@ function summaryFor(
   if (server.tools.length === 0) return "Nenhuma ferramenta ainda";
 
   const bots = new Set(server.tools.flatMap((tool) => tool.grantedTo)).size;
-  const tools = `${server.tools.length} ${server.tools.length === 1 ? "tool" : "tools"}`;
+  const tools = `${server.tools.length} ${server.tools.length === 1 ? "ferramenta" : "ferramentas"}`;
   if (bots === 0) return `${tools} · nenhum Bot`;
   return `${tools} · ${bots} ${bots === 1 ? "Bot" : "Bots"}`;
 }
@@ -345,7 +345,7 @@ function PendingRequests({ count }: { count: number }) {
   if (count === 0) return null;
   return (
     <span className="font-medium text-foreground text-xs tabular-nums">
-      {count} {count === 1 ? "request" : "requests"}
+      {count} {count === 1 ? "solicitação" : "solicitações"}
     </span>
   );
 }

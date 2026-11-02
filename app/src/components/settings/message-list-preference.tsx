@@ -57,7 +57,7 @@ export function MessageListPreference() {
                   ? emphasis === "agent"
                     ? "Nome do Bot"
                     : "Título da conversa"
-                  : "Loading…"}
+                  : "Carregando…"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>

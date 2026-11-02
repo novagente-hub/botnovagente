@@ -116,7 +116,7 @@ function RouteComponent() {
    * How far through the bulk grant we are, or null when none is running.
    *
    * A count rather than a boolean, for the reason the connector page's own batch records: this is
-   * honestly N writes, each its own audit row, and a button that says only "Granting…" for the
+   * honestly N writes, each its own audit row, and a button that says only "Concedendo…" for the
    * length of forty of them gives an administrator no way to tell a slow batch from a stuck one.
    */
   const [granting, setGranting] = useState<{
@@ -458,7 +458,7 @@ function RouteComponent() {
           {ungranted.length > 0 ? (
             <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
               <p className="text-muted-foreground text-xs">
-                {`Este Bot teria então ${wouldHold} ${wouldHold === 1 ? "tool" : "tools"} deste app.`}
+                {`Este Bot teria então ${wouldHold} ${wouldHold === 1 ? "ferramenta" : "ferramentas"} deste app.`}
               </p>
               <Button
                 disabled={granting !== null}
@@ -562,7 +562,7 @@ function RouteComponent() {
                   onClick={() => void confirmSharedGrant()}
                   size="sm"
                 >
-                  {grantingShared ? "Allowing…" : "Permitir"}
+                  {grantingShared ? "Permitindo…" : "Permitir"}
                 </Button>
               </DialogFooter>
             </DialogContent>

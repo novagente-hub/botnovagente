@@ -101,7 +101,7 @@ test("a slug that already exists is offered as a replacement, not a create", () 
 
   // Saving is how an edit is spelled here, so the wording has to say which one this press is.
   expect(getByRole("button", { name: "Substituir" })).toBeTruthy();
-  expect(getByText(/This replaces Weekly summary/)).toBeTruthy();
+  expect(getByText(/Isto substitui Weekly summary/)).toBeTruthy();
 });
 
 test("a refusal from the server stays on the card and leaves the run suspended", async () => {

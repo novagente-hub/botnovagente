@@ -76,7 +76,7 @@ test("prefers the name and avatar the person knows the Bot by", () => {
     "progress-row",
   ).innerHTML;
 
-  expect(known).toContain("Asking Ana Research…");
+  expect(known).toContain("Perguntando a Ana Research…");
   // Drawn from the Bot's own seed, so it is the same face the Bot has everywhere else.
   expect(known.replace("Ana Research", "Ana")).not.toBe(unknown);
 });
@@ -104,7 +104,7 @@ test("one row for each Bot asked, and one for a routine", () => {
   ).toEqual([
     "Perguntando a Ana…",
     "Perguntando a outro Bot…",
-    "Assistant is running a routine…",
+    "Assistente está executando uma rotina…",
   ]);
 });
 

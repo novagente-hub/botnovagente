@@ -91,7 +91,7 @@ function draw(node: ReactNode) {
 test("a memory a Bot formed names the Bot that formed it", async () => {
   serving();
   const view = draw(<MemoryList />);
-  expect(await view.findByText(/Formed by Expenses/)).toBeTruthy();
+  expect(await view.findByText(/Formada por Expenses/)).toBeTruthy();
 });
 
 test("remembering a fact saves it", async () => {
@@ -120,12 +120,12 @@ test("each memory's switch is named for the memory it turns on or off", async ()
   const view = draw(<MemoryList />);
   expect(
     await view.findByRole("switch", {
-      name: "Use this memory: I prefer mornings.",
+      name: "Usar esta memória: I prefer mornings.",
     }),
   ).toBeTruthy();
   expect(
     view.getByRole("switch", {
-      name: "Use this memory: Receipts go to finance@.",
+      name: "Usar esta memória: Receipts go to finance@.",
     }),
   ).toBeTruthy();
 });

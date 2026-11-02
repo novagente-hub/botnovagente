@@ -218,9 +218,9 @@ function everythingRendered(view: ReturnType<typeof render>): string {
 
 const PAGE = "Os Bots usam isto como você e veem só o que você pode ver.";
 const CONNECTED =
-  "Signed in with Gmail. Bots you allow use your Gmail as you. Disconnecting removes their access everywhere.";
+  "Conectado com Gmail. Os Bots que você permitir usam seu Gmail como você. Desconectar remove o acesso deles em todos os lugares.";
 const DISCONNECTED =
-  "No Bot can use this as you. Connecting takes you to Gmail to approve access.";
+  "Nenhum Bot pode usar isto como você. Conectar leva você ao Gmail para aprovar o acesso.";
 
 // ---- 1 and 2: the sibling list, rendered ----
 
@@ -236,7 +236,7 @@ test("a connected app with siblings NAMES each of them in the confirmation", asy
   expect(text).toContain("googlecalendar");
   expect(text).toContain("googledocs");
   expect(text).toContain(
-    "Disconnecting also ends your access to googlecalendar and googledocs, which share this connection.",
+    "Desconectar também encerra seu acesso a googlecalendar e googledocs, que compartilham esta conexão.",
   );
   expect(text).not.toContain("gmail,");
 });
@@ -277,7 +277,7 @@ test("apps that could not be asked about are a count and never names", () => {
     "Desconectar também encerra seu acesso a slack, que compartilha esta conexão. 2 outros apps não puderam ser verificados e podem ser afetados também.",
   );
   expect(disconnectSiblingsNotice({ siblings: [], unanswered: 1 })).toBe(
-    "1 app on this connection couldn't be checked, so disconnecting may end it too.",
+    "1 app nesta conexão não pôde ser verificado, então desconectar pode encerrá-lo também.",
   );
 });
 
@@ -325,13 +325,13 @@ test("where a screen does name the broker, the vocabulary names the active one",
     "Desconectar também encerra a conta em Arcade.",
   );
   expect(brokeredDisconnectNote("composio")).toBe(
-    "Disconnecting also ends the account at Composio.",
+    "Desconectar também encerra a conta em Composio.",
   );
   expect(brokeredKeyMissing("arcade")).toBe(
-    "Set ARCADE_API_KEY on this deployment. Until then, this account can't be connected or disconnected here. The app stays turned on, and its tool grants still stand.",
+    "Defina ARCADE_API_KEY nesta implantação. Até lá, esta conta não pode ser conectada nem desconectada aqui. O app continua ativado, e as concessões de ferramentas continuam valendo.",
   );
   expect(brokeredKeyMissing("composio")).toBe(
-    "Set COMPOSIO_API_KEY on this deployment. Until then, this account can't be connected or disconnected here. The app stays turned on, and its tool grants still stand.",
+    "Defina COMPOSIO_API_KEY nesta implantação. Até lá, esta conta não pode ser conectada nem desconectada aqui. O app continua ativado, e as concessões de ferramentas continuam valendo.",
   );
 });
 
@@ -351,7 +351,7 @@ for (const provider of ["composio", "arcade"] as const) {
 test("a connected Composio page renders its sentences verbatim", async () => {
   install({ provider: "composio", connected: true });
   const view = renderScreen();
-  await view.findByText(/Disconnecting removes their access/);
+  await view.findByText(/Desconectar remove o acesso deles/);
   const text = view.container.textContent ?? "";
   expect(text).toContain(PAGE);
   expect(text).toContain(CONNECTED);
@@ -371,7 +371,7 @@ test("a disconnected Arcade page points at the action list, not at a Connect it 
   const view = renderScreen();
   await view.findByText("Aprovado por ação");
   expect(view.container.textContent).toContain(
-    "No Bot can use this as you. Authorize the actions you want below.",
+    "Nenhum Bot pode usar isto como você. Autorize as ações que quiser abaixo.",
   );
 });
 

@@ -121,10 +121,10 @@ function ConnectedBrowserRow({
             ,{" "}
             {/* A recording streams to the gateway, not to OpenBot, so its last use lags: it says so instead. */}
             {connection.recording
-              ? "recording now"
+              ? "gravando agora"
               : connection.lastUsedAt
-                ? `last used ${relativeTime(connection.lastUsedAt)}`
-                : "never used"}
+                ? `último uso ${relativeTime(connection.lastUsedAt)}`
+                : "nunca usado"}
           </ItemDescription>
         </ItemContent>
         <ItemActions>
@@ -138,7 +138,7 @@ function ConnectedBrowserRow({
               setAsking(true);
             }}
           >
-            {revoke.isPending ? "Disconnecting…" : "Desconectar"}
+            {revoke.isPending ? "Desconectando…" : "Desconectar"}
           </Button>
         </ItemActions>
       </Item>
@@ -173,7 +173,7 @@ function ConnectedBrowserRow({
                 })
               }
             >
-              {revoke.isPending ? "Disconnecting…" : "Desconectar"}
+              {revoke.isPending ? "Desconectando…" : "Desconectar"}
             </Button>
           </DialogFooter>
         </DialogContent>

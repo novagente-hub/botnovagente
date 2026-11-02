@@ -58,7 +58,7 @@ export function SharedUseRequests() {
               </ItemMedia>
               <ItemContent>
                 <ItemTitle className="line-clamp-none">
-                  {request.botName}  quer a conta compartilhada {request.title} account
+                  {request.botName} quer a conta compartilhada {request.title}
                 </ItemTitle>
                 <ItemDescription className="line-clamp-none">
                   {WHY[request.reason as SharedUseRequestReason] ??

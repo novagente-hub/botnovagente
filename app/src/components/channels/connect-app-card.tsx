@@ -112,16 +112,14 @@ export function ConnectAppCard({
         </div>
       ) : needsKey ? (
         <p className="text-sm" role="status">
-          {title}  precisa de uma chave sua.{" "}
+          {title} precisa de uma chave sua.{" "}
           <Link
             className="underline underline-offset-2"
             params={{ key: serverId }}
             to="/connections/$key"
           >
-            
-            Insira-a na {title}página de
-          </Link>
-          
+            Insira-a na página de {title}
+          </Link>{" "}
           e peça de novo.
         </p>
       ) : (
@@ -146,8 +144,7 @@ export function ConnectAppCard({
                 rel="noreferrer"
                 target="_blank"
               >
-                
-                Abrir {title}: login
+                Abrir o login de {title}
               </a>
               .
             </p>

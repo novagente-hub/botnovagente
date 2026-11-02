@@ -51,13 +51,13 @@ export function SharedAppNotice({
         waiting.has(app.serverId) ? (
           <p className="text-muted-foreground" key={app.serverId}>
             
-            Aguardando um administrador aprovar a conta compartilhada {app.title} account.
+            Aguardando um administrador aprovar a conta compartilhada {app.title}.
           </p>
         ) : app.covered ? null : (
           <div className="flex flex-wrap items-center gap-2" key={app.serverId}>
             <p className="text-amber-700 dark:text-amber-400">
               
-              Este Bot não pode usar a conta compartilhada {app.title}  até um administrador aprovar quem pode usar o Bot.
+              Este Bot não pode usar a conta compartilhada {app.title} até um administrador aprovar quem pode usar o Bot.
             </p>
             <Button
               aria-label={`Pedir aprovação para ${app.title}`}

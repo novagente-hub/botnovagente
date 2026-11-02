@@ -193,7 +193,7 @@ function AdminAction({
           }
           size="sm"
         >
-          {approve.isPending ? (disabled ? "Ativando…" : "Giving…") : label}
+          {approve.isPending ? (disabled ? "Ativando…" : "Concedendo…") : label}
         </Button>
       </div>
     );
@@ -290,7 +290,7 @@ function OwnerGiveAction({
     return (
       <Button
         render={<Link params={{ key: access.key }} to="/connections/$key" />}
-        aria-label={`Connect ${name}`}
+        aria-label={`Conectar ${name}`}
         size="sm"
         variant="outline"
       >
@@ -348,7 +348,7 @@ function OwnerGiveAction({
         size="sm"
       >
         {give.isPending
-          ? "Allowing…"
+          ? "Permitindo…"
           : waiting
             ? `Aguardando ${name}…`
             : access.needsConnect
@@ -528,7 +528,7 @@ function RequestAction({
             size="sm"
             variant="ghost"
           >
-            {cancel.isPending ? "Withdrawing…" : "Retirar"}
+            {cancel.isPending ? "Retirando…" : "Retirar"}
           </Button>
         </>
       ) : (
@@ -548,7 +548,7 @@ function RequestAction({
           size="sm"
           variant="outline"
         >
-          {request.isPending ? "Requesting…" : "Pedir acesso"}
+          {request.isPending ? "Pedindo…" : "Pedir acesso"}
         </Button>
       )}
     </div>

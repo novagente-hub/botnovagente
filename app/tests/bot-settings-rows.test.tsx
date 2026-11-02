@@ -171,6 +171,6 @@ test("the rows for responsibilities, reach, memory and rules say what this Bot h
   };
   await row("Responsabilidades", "1 active", "responsibilities");
   await row("Como falar com você", "Slack", "reach");
-  await row("Memória", "1 source", "memory");
+  await row("Memória", "1 fonte", "memory");
   await row("Regras de aprovação", "1 rule", "approvals");
 });

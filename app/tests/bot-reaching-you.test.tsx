@@ -130,7 +130,7 @@ test("linking Slack needs only a conversation, and warns that it moves the accou
   const view = draw();
   const user = await openSlackLink(view);
   expect(view.queryByRole("combobox", { name: /^Bot/ })).toBeNull();
-  expect(view.getByText(/Linking it here moves it/)).toBeTruthy();
+  expect(view.getByText(/Vincular aqui o move/)).toBeTruthy();
   await user.click(view.getByRole("combobox", { name: /^Conversa/ }));
   const options = (await view.findAllByRole("option")).map(
     (option) => option.textContent,

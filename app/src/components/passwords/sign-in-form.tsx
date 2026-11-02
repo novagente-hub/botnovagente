@@ -145,7 +145,7 @@ export function SignInForm({ requestId }: { requestId: string }) {
           <div className="flex flex-wrap gap-2">
             <Button size="sm" type="submit" disabled={busy || !code.trim()}>
               <IconShieldCheck />
-              {submitCode.isPending ? "Checking…" : "Concluir login"}
+              {submitCode.isPending ? "Verificando…" : "Concluir login"}
             </Button>
             <Button
               size="sm"
@@ -195,7 +195,7 @@ export function SignInForm({ requestId }: { requestId: string }) {
             disabled={busy}
             onClick={() => finish.mutate(requestId)}
           >
-            {finish.isPending ? "Finishing…" : "Já entrei"}
+            {finish.isPending ? "Concluindo…" : "Já entrei"}
           </Button>
           <Button
             size="sm"

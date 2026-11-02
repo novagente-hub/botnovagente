@@ -185,7 +185,7 @@ test("/bot with an empty agent query uses the normal default Bot", async () => {
   expect(view.getByTestId("copilot-chat").dataset.agentId).toBe(
     "picked-harness",
   );
-  expect(view.queryByText('There\'s no Bot called "".')).toBeNull();
+  expect(view.queryByText('Não existe Bot chamado "".')).toBeNull();
   expect(view.queryByText("Ainda não há Bots.")).toBeNull();
 });
 
@@ -223,7 +223,7 @@ test("/bot preserves an explicit unknown agent as a clear missing-bot state", as
   );
 
   expect(
-    await view.findByText('There\'s no Bot called "missing-agent".'),
+    await view.findByText('Não existe Bot chamado "missing-agent".'),
   ).toBeTruthy();
   expect(view.queryByTestId("copilot-chat")).toBeNull();
 });
@@ -246,7 +246,7 @@ test("/bot loads a hidden explicit agent from the detail endpoint", async () => 
 
   expect(await view.findByRole("heading", { name: "Hidden Bot" })).toBeTruthy();
   expect(view.getByTestId("copilot-chat").dataset.agentId).toBe("hidden-bot");
-  expect(view.queryByText('There\'s no Bot called "hidden-bot".')).toBeNull();
+  expect(view.queryByText('Não existe Bot chamado "hidden-bot".')).toBeNull();
 });
 
 test("/bot hidden lookup does not collide with the shared agent detail cache", async () => {
@@ -266,7 +266,7 @@ test("/bot hidden lookup does not collide with the shared agent detail cache", a
 
   expect(await view.findByRole("heading", { name: "Hidden Bot" })).toBeTruthy();
   expect(view.getByTestId("copilot-chat").dataset.agentId).toBe("hidden-bot");
-  expect(view.queryByText('There\'s no Bot called "hidden-bot".')).toBeNull();
+  expect(view.queryByText('Não existe Bot chamado "hidden-bot".')).toBeNull();
 });
 
 test("/bot reports an explicit agent detail load failure", async () => {

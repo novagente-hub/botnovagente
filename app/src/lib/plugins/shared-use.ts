@@ -121,9 +121,9 @@ export function describeApproval(approval: SharedUseApproval): string {
   ).length;
   const parts = [
     ...(groups.length
-      ? [`The group${groups.length > 1 ? "s" : ""} ${groups.join(", ")}`]
+      ? [`${groups.length > 1 ? "Os grupos" : "O grupo"} ${groups.join(", ")}`]
       : []),
-    ...(people ? [`${people} ${people === 1 ? "person" : "people"}`] : []),
+    ...(people ? [`${people} ${people === 1 ? "pessoa" : "pessoas"}`] : []),
   ];
-  return `${parts.join(" and ") || "Ninguém indicado"}${outside}`;
+  return `${parts.join(" e ") || "Ninguém indicado"}${outside}`;
 }

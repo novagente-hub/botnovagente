@@ -153,7 +153,7 @@ function RecordingControls({
         ) : (
           <div className="flex min-w-0 items-center gap-3">
             <span className="sr-only" role="status">
-              {transcribing ? "Transcribing…" : "Ouvindo"}
+              {transcribing ? "Transcrevendo…" : "Ouvindo"}
             </span>
             <LiveWaveform
               stream={state.stream}

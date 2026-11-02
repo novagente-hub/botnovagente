@@ -672,7 +672,7 @@ function ModelUsage() {
               <ItemTitle>{row.model}</ItemTitle>
               <ItemDescription>
                 {row.runs}  execuções por {row.people}{" "}
-                {row.people === 1 ? "person" : "people"}  em 30 dias
+                {row.people === 1 ? "pessoa" : "pessoas"}  em 30 dias
                 {row.refused > 0 ? ` · ${row.refused} fora da lista de permissões` : ""} ·{" "}
                 {row.source}
               </ItemDescription>
@@ -736,7 +736,7 @@ function SweepNow() {
         size="sm"
         variant="outline"
       >
-        {sweep.isPending ? "Stopping…" : "Parar computadores inativos agora"}
+        {sweep.isPending ? "Parando…" : "Parar computadores inativos agora"}
       </Button>
       {sweep.data ? (
         <span className="text-muted-foreground text-sm">
@@ -1038,7 +1038,7 @@ function NetworkDialog({
             size="sm"
             type="submit"
           >
-            {save.isPending ? "Saving…" : "Salvar"}
+            {save.isPending ? "Salvando…" : "Salvar"}
           </Button>
         </DialogFooter>
       </DialogContent>

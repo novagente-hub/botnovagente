@@ -123,7 +123,7 @@ test("search narrows the rows already loaded, and says how many match", async ()
     .setup({ document })
     .type(view.getByRole("searchbox", { name: "Pesquisar eventos" }), "save deal");
   await waitFor(() => expect(whats(view.container)).toEqual(["click"]));
-  expect(view.getByText("1 of 3 events")).toBeDefined();
+  expect(view.getByText("1 de 3 eventos")).toBeDefined();
 });
 
 test("each row carries what happened, for its colour", async () => {
@@ -158,5 +158,5 @@ test("the Outcome button narrows the rows to the outcomes ticked", async () => {
     await view.findByRole("menuitemcheckbox", { name: /Bloqueado/ }),
   );
   await waitFor(() => expect(whats(view.container)).toEqual(["navigate"]));
-  expect(view.getByText("1 of 3 events")).toBeTruthy();
+  expect(view.getByText("1 de 3 eventos")).toBeTruthy();
 });

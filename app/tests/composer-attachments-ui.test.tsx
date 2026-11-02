@@ -185,7 +185,7 @@ test("a composer with no channel keeps the button that says so, and takes no fil
     new File(["hello"], "ignored.txt", { type: "text/plain" }),
   ]);
   expect(container.querySelector('[role="alert"]')?.textContent).toContain(
-    "no conversation here yet",
+    "Ainda não há conversa aqui",
   );
 
   rerender(<Composer channelId="channel-1" compact onSubmit={() => {}} />);
@@ -305,7 +305,7 @@ test("a disabled composer takes no dropped file, and offers no way to pick one",
    * sent, and `Remove refused.txt` proves nothing was staged.
    */
   expect(container.querySelector('[role="alert"]')?.textContent).toContain(
-    "can no longer take messages",
+    "não aceita mais mensagens",
   );
 });
 
@@ -427,7 +427,7 @@ test("warns on a large file the browser called an image and the server read as t
 
   await uploaded(view, "notes.png");
 
-  expect(container.textContent).toContain("may be cut");
+  expect(container.textContent).toContain("pode ser cortado");
 });
 
 /** The same file under the ceiling earns no warning, so the one above is the size and not the path. */
@@ -444,5 +444,5 @@ test("does not warn on a small file the server read as text", async () => {
 
   await uploaded(view, "notes.png");
 
-  expect(container.textContent).not.toContain("may be cut");
+  expect(container.textContent).not.toContain("pode ser cortado");
 });

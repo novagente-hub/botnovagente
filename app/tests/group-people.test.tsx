@@ -82,13 +82,13 @@ const ALEX = {
 test("the top bar says how many people are in the group", async () => {
   serving([ME, ALEX]);
   const view = draw();
-  expect(await view.findByRole("button", { name: "2 people" })).toBeTruthy();
+  expect(await view.findByRole("button", { name: "2 pessoas" })).toBeTruthy();
 });
 
 test("the creator sees everyone and can take another person out", async () => {
   serving([ME, ALEX]);
   const view = draw();
-  fireEvent.click(await view.findByRole("button", { name: "2 people" }));
+  fireEvent.click(await view.findByRole("button", { name: "2 pessoas" }));
   expect(await view.findByText("Alex")).toBeTruthy();
   expect(view.getByText("Você")).toBeTruthy();
   fireEvent.click(
@@ -102,7 +102,7 @@ test("the creator sees everyone and can take another person out", async () => {
 test("adding someone by email lists them without reopening the dialog", async () => {
   serving([ME]);
   const view = draw();
-  fireEvent.click(await view.findByRole("button", { name: "1 person" }));
+  fireEvent.click(await view.findByRole("button", { name: "1 pessoa" }));
   const user = userEvent.setup({ document });
   await user.type(
     await view.findByRole("textbox", { name: "E-mail da pessoa" }),

@@ -455,7 +455,7 @@ test("while the Bot holds the wheel the bar shows where the Bot is, read only, a
   for (const name of ["Voltar", "Avançar", "Recarregar", "Nova aba"])
     expect(disabled(dialog.getByRole("button", { name }))).toBe(true);
   // The mouse's close button, which is outside the accessibility tree (the tab's Delete is its keyboard way).
-  expect(disabled(dialog.getByTitle("Close Expense report"))).toBe(true);
+  expect(disabled(dialog.getByTitle("Fechar Expense report"))).toBe(true);
   expect(disabled(second as HTMLElement)).toBe(true);
 
   // Record is the person's alone, so it waits for the wheel, and says so.
@@ -513,7 +513,7 @@ test("taking control makes the bar live at once, and it works the Bot's browser 
   const [, second] = dialog.getAllByRole("tab");
   if (second) await user.click(second);
   await user.click(dialog.getByRole("button", { name: "Nova aba" }));
-  await user.click(dialog.getByTitle("Close Expense report"));
+  await user.click(dialog.getByTitle("Fechar Expense report"));
   await user.click(dialog.getByRole("button", { name: "Voltar" }));
   await user.click(dialog.getByRole("button", { name: "Avançar" }));
   await user.click(dialog.getByRole("button", { name: "Recarregar" }));
@@ -606,7 +606,7 @@ test("Record names the task, runs while the person holds the wheel, and Stop say
         .getAllByRole("status")
         .map((status) => status.textContent)
         .find((text) => text?.includes("Salvou")),
-    ).toBe("Submit the taxi receiptSaved to your Learning space: 7 actions."),
+    ).toBe("Submit the taxi receiptSalvo no seu espaço de Aprendizado: 7 actions."),
   );
   expect(dialog.getByRole("textbox", { name: "Nome da tarefa" })).toBeTruthy();
   expect(dialog.queryByRole("alert")).toBeNull();
@@ -653,7 +653,7 @@ test("narration goes to the Bot's browser, and Stop hands over the phrase being 
   );
   expect(
     await dialog.findByText(
-      "Saved to your Learning space: 7 actions and 1 narrated phrase.",
+      "Salvo no seu espaço de Aprendizado: 7 ações e 1 frase narrada.",
     ),
   ).toBeTruthy();
 });
@@ -677,7 +677,7 @@ test("handing the wheel back while recording ends the recording, said as an endi
         .map((status) => status.textContent)
         .find((text) => text?.includes("Salvou")),
     ).toBe(
-      "Submit the taxi receiptThe recording ended when control went back to the Bot. Saved to your Learning space: 3 actions.",
+      "Submit the taxi receiptA gravação terminou quando o controle voltou para o Bot. Salvo no seu espaço de Aprendizado: 3 ações.",
     ),
   );
   expect(dialog.queryByRole("alert")).toBeNull();
@@ -713,7 +713,7 @@ test("a phrase cut off as the wheel goes back is not still reported as lost when
       ),
     ).toBe(true),
   );
-  await dialog.findByText(/The recording ended when control went back/);
+  await dialog.findByText(/A gravação terminou quando o controle voltou/);
 
   await user.click(dialog.getByRole("button", { name: "Assumir controle" }));
   await dialog.findByRole("switch", { name: "Narração" });
@@ -766,7 +766,7 @@ test("the retired Teach a browser workflow panel is gone, and nothing asks for d
 test("after a reload the person is told their last recording went to their Learning space, and never told so of someone else's", async () => {
   // Recordings this page never saw running: it was opened after they had ended.
   for (const [owner, says] of [
-    [ME, "Submit the taxi receiptSaved to your Learning space: 4 actions."],
+    [ME, "Submit the taxi receiptSalvo no seu espaço de Aprendizado: 4 ações."],
     [SOMEONE, null],
   ] as const) {
     cleanup();
@@ -899,7 +899,7 @@ test("the wheel's line never echoes the person's own take as a reason, and says 
   await user.click(dialog.getByRole("button", { name: "Assumir controle" }));
   await waitFor(() =>
     expect(line().textContent).toBe(
-      "You have control. Click and type on the page. Sign in to the bank, then hand back.",
+      "Você está com o controle. Clique e digite na página. Sign in to the bank, then hand back.",
     ),
   );
 });

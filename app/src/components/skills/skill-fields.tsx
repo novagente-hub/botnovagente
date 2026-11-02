@@ -223,7 +223,7 @@ export function SkillFields({
         >
           {([canSubmit, isSubmitting]) => (
             <Button disabled={!canSubmit || isSubmitting} type="submit">
-              {isSubmitting ? "Saving…" : submitLabel}
+              {isSubmitting ? "Salvando…" : submitLabel}
             </Button>
           )}
         </form.Subscribe>

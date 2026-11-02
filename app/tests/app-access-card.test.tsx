@@ -136,9 +136,9 @@ test("not connected: names the app and offers Connect", async () => {
   const drawn = await card(view);
   expect(drawn.textContent).toContain("Gmail");
   expect(drawn.textContent).toContain(
-    "You haven't connected your Gmail account yet.",
+    "Você ainda não conectou sua conta Gmail.",
   );
-  expect(view.getByRole("button", { name: "Connect Gmail" })).toBeTruthy();
+  expect(view.getByRole("button", { name: "Conectar Gmail" })).toBeTruthy();
 });
 
 test("connected since the refusal: says so and offers nothing stale", async () => {
@@ -146,7 +146,7 @@ test("connected since the refusal: says so and offers nothing stale", async () =
   const view = mount(<AppAccessCard prompt={prompt()} />);
   const drawn = await card(view);
   expect(drawn.textContent).toContain(
-    "Gmail is ready now. Ask again and the Bot can use it.",
+    "Gmail está pronto agora. Peça de novo e o Bot poderá usá-lo.",
   );
   expect(view.queryByRole("button")).toBeNull();
 });
@@ -171,10 +171,10 @@ test("a Shared app with no team account: Request access, not a sentence", async 
   );
   const drawn = await card(view);
   expect(drawn.textContent).toContain(
-    "Your organisation's Gmail account isn't connected yet.",
+    "A conta Gmail da sua organização ainda não está conectada.",
   );
   expect(
-    view.getByRole("button", { name: "Request access to Gmail" }),
+    view.getByRole("button", { name: "Pedir acesso a Gmail" }),
   ).toBeTruthy();
 });
 
@@ -190,7 +190,7 @@ test("an account the vendor lost: Reconnect, though the server still reads ready
   const drawn = await card(view);
   expect(drawn.getAttribute("data-state")).toBe("reconnect");
   expect(drawn.textContent).toContain(
-    "Your Gmail connection needs reconnecting.",
+    "Sua conexão Gmail precisa ser reconectada.",
   );
   expect(
     (await view.findByText("Reconectar")).closest("a")?.getAttribute("href"),
@@ -216,14 +216,14 @@ test("a team account the vendor lost: says an admin has to reconnect it, with no
   const view = mount(<AppAccessCard prompt={prompt({ reason: "shared" })} />);
   const drawn = await card(view);
   expect(drawn.textContent).toContain(
-    "Your organisation's Gmail account needs reconnecting. Only an admin can reconnect it.",
+    "A conta Gmail da sua organização precisa ser reconectada. Só um administrador pode reconectá-la.",
   );
   expect(view.queryByRole("button")).toBeNull();
 });
 
 test.each([
-  ["disabled", "enable", /Gmail isn't turned on yet/],
-  ["not_granted", "grant", /This Bot hasn't been given Gmail/],
+  ["disabled", "enable", /GmailGmail ainda não está ativado\. Só um administrador pode ativá-lo\.Pedir acesso/],
+  ["not_granted", "grant", /GmailEste Bot não recebeu Gmail\. Só um administrador pode dar\.Pedir acesso/],
 ] as const)(
   "the Bot asked about an app that is %s: Request access",
   async (state, kind, sentence) => {
@@ -234,7 +234,7 @@ test.each([
     const drawn = await card(view);
     expect(drawn.textContent).toMatch(sentence);
     expect(
-      view.getByRole("button", { name: "Request access to Gmail" }),
+      view.getByRole("button", { name: "Pedir acesso a Gmail" }),
     ).toBeTruthy();
   },
 );
@@ -262,7 +262,7 @@ test("an account lost on somebody else's Team Bot that runs on its owner's: only
   const drawn = await card(view);
   expect(drawn.getAttribute("data-state")).toBe("reconnect");
   expect(drawn.textContent).toContain(
-    "This Bot uses its owner's Gmail account, which needs reconnecting. Only the Bot's owner can reconnect it.",
+    "Este Bot usa a conta Gmail do dono, que precisa ser reconectada. Só o dono do Bot pode reconectá-la.",
   );
   expect(view.queryByRole("button")).toBeNull();
   expect(view.queryByRole("link")).toBeNull();
@@ -311,14 +311,14 @@ test("an older refusal that names no Bot asks about the Bot the surface declared
 test("with no Bot to ask about at all, it is the Connect card it always was", async () => {
   const asked = serving(null);
   const view = mount(<AppAccessCard prompt={prompt({ agentId: undefined })} />);
-  expect(await view.findByText("Connect Gmail")).toBeTruthy();
+  expect(await view.findByRole("button", { name: "Conectar Gmail" })).toBeTruthy();
   expect(asked.some((url) => url.includes("/apps/"))).toBe(false);
 });
 
 test("a live read that fails falls back to the Connect card for a connect refusal", async () => {
   serving(null);
   const view = mount(<AppAccessCard prompt={prompt()} />);
-  expect(await view.findByText("Connect Gmail")).toBeTruthy();
+  expect(await view.findByRole("button", { name: "Conectar Gmail" })).toBeTruthy();
 });
 
 test("a live read that fails says so in the person's words, never the model's", async () => {
@@ -451,7 +451,7 @@ describe("carrying the task on once the app is ready", () => {
     state.live = appAccess({ state: "ready" });
     await act(() => view.client.invalidateQueries());
     await waitFor(() => expect(view.asked).toEqual([carryOnMessage("Gmail")]));
-    expect((await card(view)).textContent).toContain("Gmail is ready now.");
+    expect((await card(view)).textContent).toContain("Gmail está pronto agora.");
     expect(view.container.textContent).not.toContain("Ask again");
     // Read again and drawn again: still the one message.
     await act(() => view.client.invalidateQueries());
@@ -478,7 +478,7 @@ describe("carrying the task on once the app is ready", () => {
     await settleReactWork();
     expect(view.asked).toEqual([]);
     expect((await card(view)).textContent).toContain(
-      "Gmail is ready now. Ask again and the Bot can use it.",
+      "Gmail está pronto agora. Peça de novo e o Bot poderá usá-lo.",
     );
   });
 
@@ -498,7 +498,7 @@ describe("carrying the task on once the app is ready", () => {
     const again = inConversation(
       <AppAccessCard place={place} prompt={prompt()} />,
     );
-    expect((await card(again)).textContent).toContain("Gmail is ready now.");
+    expect((await card(again)).textContent).toContain("Gmail está pronto agora.");
     expect(again.queryByRole("button", { name: "Continuar" })).toBeNull();
     expect(again.asked).toEqual([]);
   });

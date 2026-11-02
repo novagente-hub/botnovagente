@@ -86,7 +86,7 @@ describe("channel history notice", () => {
       unreadable: 1,
     });
 
-    expect(notice).toContain("One earlier message couldn't be read");
+    expect(notice).toContain("Uma mensagem anterior não pôde ser lida");
     expect(notice).not.toContain("different CopilotKit project");
   });
 

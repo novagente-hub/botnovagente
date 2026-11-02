@@ -220,7 +220,7 @@ function NewRulePage() {
                     disabled={!ready || savePolicy.isPending}
                     type="submit"
                   >
-                    {savePolicy.isPending ? "Adding…" : "Adicionar regra"}
+                    {savePolicy.isPending ? "Adicionando…" : "Adicionar regra"}
                   </Button>
                 </>
               }
@@ -294,7 +294,7 @@ function NewRulePage() {
                   type="button"
                   variant="outline"
                 >
-                  {testing ? "Testing…" : "Testar na atividade recente"}
+                  {testing ? "Testando…" : "Testar na atividade recente"}
                 </Button>
                 {tested ? <TestResult report={tested} /> : null}
               </div>

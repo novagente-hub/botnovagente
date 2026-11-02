@@ -58,10 +58,10 @@ function TargetFields({
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       <label className="grid gap-2 text-sm" htmlFor={`${fieldId}-container`}>
-        {label}  ID do container
+        {`ID do container (${label})`}
         <Input
           id={`${fieldId}-container`}
-          aria-label={`ID do container ${label}`}
+          aria-label={`ID do container (${label})`}
           value={target?.containerId ?? ""}
           maxLength={64}
           placeholder="support-learning"
@@ -79,7 +79,7 @@ function TargetFields({
         Revisão exata (opcional)
         <Input
           id={`${fieldId}-revision`}
-          aria-label={`${label} revision`}
+          aria-label={`Revisão (${label})`}
           value={target?.revision ?? ""}
           disabled={!target}
           placeholder="Última publicada"
@@ -124,7 +124,7 @@ function ContainerSetup({
             onClick={() => create.mutate()}
           >
             {create.isPending
-              ? "Creating…"
+              ? "Criando…"
               : `Criar o container ${automatic.containerId}`}
           </Button>
           <span className="text-muted-foreground">
@@ -317,7 +317,7 @@ export function LearningPage() {
             </fieldset>
             <div className="flex items-center gap-3">
               <Button type="submit" disabled={save.isPending}>
-                {save.isPending ? "Saving…" : "Salvar configurações de Aprendizado"}
+                {save.isPending ? "Salvando…" : "Salvar configurações de Aprendizado"}
               </Button>
               {saved && (
                 <p role="status" className="text-sm">

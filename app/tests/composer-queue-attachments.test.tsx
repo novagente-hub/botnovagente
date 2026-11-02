@@ -387,7 +387,7 @@ test("taking a queued message back releases the rows it was carrying", async () 
    * swapping the two arms of that ternary passed the whole suite.
    */
   expect(alert.textContent).toContain("removido junto com a mensagem na fila");
-  expect(alert.textContent).not.toContain("merged");
+  expect(alert.textContent).not.toContain("juntadas");
   expect(alert.textContent).not.toContain("no máximo");
 });
 
@@ -697,7 +697,7 @@ test("a ninth pick behind eight parked files is refused here, without a round tr
   // strip the person is looking at and can see is empty.
   expect(alert.textContent).toContain("ninth.txt");
   expect(alert.textContent).toContain(
-    `at most ${MAX_ATTACHMENTS_PER_MESSAGE} attachments`,
+    `no máximo ${MAX_ATTACHMENTS_PER_MESSAGE} anexos`,
   );
 
   // AND IT NEVER LEFT THE BROWSER. This is the half that says the refusal came from here: the

@@ -179,7 +179,7 @@ for (const refusal of [
       error: "More than one coworker matches that name.",
       names: ["Analista de dados", "Risk Analyst"],
     },
-    message: "Data Analyst, Risk Analyst",
+    message: "Analista de dados, Risk Analyst",
   },
 ]) {
   test(`routing refusal ${refusal.status} preserves the draft and shows the explanation without starting a fallback`, async () => {

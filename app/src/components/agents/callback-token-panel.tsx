@@ -78,7 +78,7 @@ export function CallbackTokenPanel({
             variant="outline"
           >
             {issue.isPending
-              ? "Generating…"
+              ? "Gerando…"
               : hasToken
                 ? "Criar uma nova chave"
                 : "Gerar chave"}
@@ -90,7 +90,7 @@ export function CallbackTokenPanel({
               size="sm"
               variant="outline"
             >
-              {revoke.isPending ? "Revoking…" : "Revogar chave"}
+              {revoke.isPending ? "Revogando…" : "Revogar chave"}
             </Button>
           ) : null}
         </div>

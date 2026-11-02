@@ -60,7 +60,7 @@ test("a Composio deployment keeps today's exact wording", () => {
   expect(moreAppsRow("composio", false)).toEqual({
     title: "Composio",
     description:
-      "Not set up. Set COMPOSIO_API_KEY on this deployment to browse its apps.",
+      "Não configurado. Defina COMPOSIO_API_KEY nesta implantação para explorar os apps.",
     linked: false,
   });
   expect(brokeredConnectionDescription("composio")).toBe(

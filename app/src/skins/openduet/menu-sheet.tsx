@@ -279,7 +279,7 @@ function AccentBadge() {
   if (waiting > 0)
     return (
       <span
-        aria-label={`${waiting} ${waiting === 1 ? "thing needs" : "things need"} you`}
+        aria-label={`${waiting} ${waiting === 1 ? "item precisa" : "itens precisam"} de você`}
         className="openduet-type-caption ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-openduet-accent px-1.5 font-semibold text-openduet-on-accent tabular-nums"
         role="img"
       >

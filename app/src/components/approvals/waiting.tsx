@@ -61,7 +61,7 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                 </ItemMedia>
                 <ItemContent>
                   <ItemTitle className="line-clamp-none">
-                    {botName(question.botId)} asks: {question.question}
+                    {botName(question.botId)} pergunta: {question.question}
                   </ItemTitle>
                   {question.why ? (
                     <ItemDescription className="line-clamp-none">
@@ -107,7 +107,7 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                 </ItemMedia>
                 <ItemContent className="min-w-0">
                   <ItemTitle className="line-clamp-none">
-                    {botName(request.action.botId)}  quer{" "}
+                    {botName(request.action.botId)} quer{" "}
                     {request.action.toolRef
                       .replace(/^computer_|^host\//, "")
                       .replaceAll("_", " ")}

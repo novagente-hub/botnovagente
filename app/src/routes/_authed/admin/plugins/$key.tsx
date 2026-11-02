@@ -280,7 +280,7 @@ function RouteComponent() {
    * How far through a batch of grants we are, or null when none is running.
    *
    * A count rather than a boolean because a bulk grant is honestly N writes: a Bot times twelve
-   * tools is twelve requests, and a button that says only "Granting…" for the length of them gives
+   * tools is twelve requests, and a button that says only "Concedendo…" for the length of them gives
    * an administrator no way to tell a slow batch from a stuck one.
    */
   const [granting, setGranting] = useState<{
@@ -1537,13 +1537,13 @@ function RouteComponent() {
               {/* What is about to happen, in one sentence, before it does. */}
               {selectedRefs.size > 0 && chosenNames.length > 0 ? (
                 <p className="flex-1 text-muted-foreground text-xs">
-                  {`Grant ${selectedRefs.size} ${
-                    selectedRefs.size === 1 ? "tool" : "tools"
-                  } to ${chosenNames.join(", ")}.${
+                  {`Conceder ${selectedRefs.size} ${
+                    selectedRefs.size === 1 ? "ferramenta" : "ferramentas"
+                  } a ${chosenNames.join(", ")}.${
                     chosenWrites > 0
                       ? ` ${chosenWrites} ${
-                          chosenWrites === 1 ? "changes" : "change"
-                        } things.`
+                          chosenWrites === 1 ? "altera dados" : "alteram dados"
+                        }.`
                       : ""
                   }`}
                 </p>

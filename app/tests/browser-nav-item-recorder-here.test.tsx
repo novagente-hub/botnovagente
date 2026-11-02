@@ -299,7 +299,7 @@ test("with the Recorder here and connected, one click opens a popover where Reco
     await view.findByRole("dialog", { name: "Submit the receipt" }),
   ).toBeTruthy();
   expect(dots(view)).toEqual([
-    expect.stringMatching(/^Recording: Submit the receipt, 0:0\d$/),
+    expect.stringMatching(/^Gravando: Submit the receipt, 0:0\d$/),
   ]);
   expect(view.getByRole("timer").textContent).toMatch(/^0:0\d · 0 actions$/);
   expect(dialog.isConnected).toBe(true);
@@ -400,7 +400,7 @@ test("Record and Stop from the keyboard: Tab to the button, Enter opens the popo
   expect(button.getAttribute("aria-expanded")).toBe("false");
   // Still recording, which the dot says.
   expect(dots(view)).toEqual([
-    expect.stringMatching(/^Recording: Book the flight, 0:0\d$/),
+    expect.stringMatching(/^Gravando: Book the flight, 0:0\d$/),
   ]);
   await user.keyboard(" ");
   await view.findByRole("dialog", { name: "Book the flight" });
@@ -508,7 +508,7 @@ test("after Stop the dot does not wait for the server to hear of it: a recording
   await queryClient.invalidateQueries();
   expect(
     await view.findByRole("img", {
-      name: /^Recording: Submit the timesheet, 0:0\d$/,
+      name: /^Gravando: Submit the timesheet, 0:0\d$/,
     }),
   ).toBeTruthy();
 });

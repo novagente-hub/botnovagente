@@ -103,7 +103,7 @@ function Sources({ basis, sources, asOf: when }: Provenance) {
       {named.length > 0 ? (
         <>
           {unchecked ? " · " : null}
-          {"Sources: "}
+          {"Fontes: "}
           {byPosition(named).map(({ item: entry, key }, index) => (
             <span key={key}>
               {index > 0 ? ", " : null}

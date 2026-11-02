@@ -98,6 +98,6 @@ describe("describeApproval", () => {
           { kind: "user", value: "u1" },
         ],
       }),
-    ).toBe("The group platform and 1 person");
+    ).toBe("O grupo platform e 1 pessoa");
   });
 });

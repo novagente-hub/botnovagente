@@ -189,7 +189,7 @@ export function ProposedBotCard({
           onClick={() => void make()}
           size="sm"
         >
-          {sending === "create" ? "Creating…" : "Criar"}
+          {sending === "create" ? "Criando…" : "Criar"}
         </Button>
         <Button
           disabled={Boolean(sending)}
@@ -209,7 +209,7 @@ function titleFor(
   clashes: { title: string } | undefined,
 ): string {
   const called = name?.trim() ? name.trim() : "um novo Bot";
-  return clashes ? `Criar ${called} mesmo assim` : `Create ${called}`;
+  return clashes ? `Criar ${called} mesmo assim` : `Criar ${called}`;
 }
 
 /**

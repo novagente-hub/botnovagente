@@ -99,7 +99,7 @@ test("whoever manages the Bot is told its Shared-app calls are refused", async (
   serving();
   const view = draw(BOT);
   expect(
-    await view.findByText(/can't use the shared Gmail account/),
+    await view.findByText(/não pode usar a conta compartilhada Gmail/),
   ).toBeTruthy();
 });
 

@@ -109,7 +109,7 @@ test("a table draws its complete rows while the last one is still arriving", () 
     </GalleryStreamingContext.Provider>,
   );
 
-  expect(view.queryByText(/Waiting for complete table data/)).toBeNull();
+  expect(view.queryByText(/Aguardando os dados completos da tabela/)).toBeNull();
   expect(view.getByText("Q1")).toBeTruthy();
   expect(view.container.querySelectorAll("tbody tr").length).toBe(2);
 });
@@ -123,5 +123,5 @@ test("a complete table with a short last row is still refused", () => {
     />,
   );
 
-  expect(view.getByText(/Waiting for complete table data/)).toBeTruthy();
+  expect(view.getByText(/Aguardando os dados completos da tabela/)).toBeTruthy();
 });

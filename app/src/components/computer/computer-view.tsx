@@ -136,7 +136,7 @@ function NothingToSee({
   settled,
   page,
   waiting,
-  owner = "the Bot's",
+  owner = "do Bot",
 }: {
   problem: string | null;
   blankBrowser: boolean;
@@ -201,12 +201,11 @@ function NothingToSee({
         </>
       ) : waiting === "starting" ? (
         <span role="status">
-          
-          Iniciando {owner}  computador. A primeira inicialização leva cerca de um minuto.
+          Iniciando o computador {owner}. A primeira inicialização leva cerca de um minuto.
         </span>
       ) : waiting === "asleep" ? (
         <span role="status">
-          {capitalise(owner)}  computador está desligado. Ele liga quando o Bot usá-lo de novo.
+          O computador {owner} está desligado. Ele liga quando o Bot usá-lo de novo.
         </span>
       ) : blankBrowser ? (
         <span>O Bot ainda não abriu nenhuma página.</span>
@@ -585,7 +584,7 @@ export function ComputerView({
    */
   const blankBrowser = !settled && shot ? isBlankBrowser(shot) : false;
 
-  const owner = name ? `${name}'s` : "the Bot's";
+  const owner = name ? `de ${name}` : "do Bot";
   /**
    * The problem worth showing, which is not the same as the last one that happened.
    *
@@ -595,7 +594,7 @@ export function ComputerView({
    */
   const shownProblem =
     computerState === "unreachable"
-      ? `O computador de ${capitalise(owner)} não pode ser acessado agora.`
+      ? `O computador ${owner} não pode ser acessado agora.`
       : stalled
         ? (problem ?? "Está demorando mais que o normal para iniciar.")
         : null;
@@ -801,7 +800,7 @@ export function ComputerView({
                 disabled={!secret || sendingSecret}
                 className="shrink-0 rounded-md bg-primary px-3 py-1 text-xs font-medium text-primary-foreground disabled:opacity-50"
               >
-                {sendingSecret ? "Sending…" : "Enviar para a página"}
+                {sendingSecret ? "Enviando…" : "Enviar para a página"}
               </button>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">

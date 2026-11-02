@@ -61,7 +61,7 @@ export function VoiceCallWidget({
   const status = failed
     ? "Chamada indisponível"
     : connecting
-      ? "Connecting…"
+      ? "Conectando…"
       : state.speaking
         ? `${name} está falando`
         : taskRunning

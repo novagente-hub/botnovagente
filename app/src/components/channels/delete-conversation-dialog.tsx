@@ -83,7 +83,7 @@ export function DeleteConversationDialog({
             size="sm"
             variant="destructive"
           >
-            {deleteChannel.isPending ? "Deleting…" : "Excluir"}
+            {deleteChannel.isPending ? "Excluindo…" : "Excluir"}
           </Button>
         </DialogFooter>
       </DialogContent>

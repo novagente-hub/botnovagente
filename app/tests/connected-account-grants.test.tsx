@@ -444,7 +444,7 @@ test("authorized actions are listed first, and the unauthorized ones follow with
     ),
   ).toEqual(["Github.A", "Github.C", "Github.B", "Github.D"]);
   expect(view.container.textContent).not.toContain(
-    "more actions not yet authorized",
+    "ações ainda não autorizadas",
   );
 });
 
@@ -467,7 +467,7 @@ test("past the first ten unauthorized actions the rest wait behind the search", 
   ];
   install({ provider: "arcade", connected: true, grants: many });
   const view = renderScreen();
-  await view.findByText(/more actions not yet authorized/);
+  await view.findByText(/ainda não autorizada/);
   expect(row(view, "Gmail.ListEmails")).toBeTruthy();
   expect(row(view, "Gmail.Senda")).toBeTruthy();
   expect(row(view, "Gmail.Sendj")).toBeTruthy();
@@ -478,7 +478,7 @@ test("past the first ten unauthorized actions the rest wait behind the search", 
     view.container.querySelector('[data-action="Gmail.Sendl"]'),
   ).toBeNull();
   expect(view.container.textContent).toContain(
-    "2 more actions not yet authorized",
+    "Mais 2 ações ainda não autorizadas",
   );
   // The search still narrows to exactly what matches, and reaches the tail.
   await userEvent.type(view.getByLabelText("Pesquisar ações"), "sendk");
@@ -522,7 +522,7 @@ test("with mixed unauthorized states past ten, the ten drawn are in state order:
   ];
   install({ provider: "arcade", connected: true, grants: mixed });
   const view = renderScreen();
-  await view.findByText(/more actions not yet authorized/);
+  await view.findByText(/ainda não autorizada/);
   const drawn = [...view.container.querySelectorAll("[data-action]")]
     .map((element) => element.getAttribute("data-action"))
     .sort();
@@ -539,7 +539,7 @@ test("with mixed unauthorized states past ten, the ten drawn are in state order:
     "Gmail.C5",
   ]);
   expect(view.container.textContent).toContain(
-    "3 more actions not yet authorized",
+    "Mais 3 ações ainda não autorizadas",
   );
 });
 
@@ -632,7 +632,7 @@ test("pressing Authorize renders consentCopy's sentence and redirects nowhere ye
   });
   expect(panel.textContent).toContain(expected);
   expect(panel.textContent).toContain(
-    "Approving Gmail.SendEmail asks the provider for the permission gmail.send.",
+    "Aprovar Gmail.SendEmail pede ao provedor a permissão gmail.send.",
   );
   // Nothing was minted by merely looking at the copy.
   expect(authorizeCalls).toEqual([]);
@@ -710,7 +710,7 @@ test("the consent copy never promises that only the named action becomes usable"
     name: /Antes de autorizar/,
   });
   expect(panel.textContent).toContain(
-    "It also enables this other action requiring it: Github.CreateIssue.",
+    "Também ativa esta outra ação que a exige: Github.CreateIssue.",
   );
   expect(panel.textContent?.toLowerCase()).not.toMatch(
     /only (this|that|the named)|just this/,

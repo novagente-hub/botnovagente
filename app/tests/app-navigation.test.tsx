@@ -164,7 +164,7 @@ test.each(["user", "admin"] as const)(
     ).toEqual(expected(role, "primary"));
     // Bots keeps its count of what waits on the person, and only Bots has one.
     const badge = within(footer).getByRole("img", {
-      name: "1 thing needs you",
+      name: "1 item precisa de você",
     });
     expect(badge.closest("a")?.getAttribute("href")).toBe("/bots");
 

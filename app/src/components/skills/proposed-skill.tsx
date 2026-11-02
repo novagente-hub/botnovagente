@@ -163,7 +163,7 @@ export function ProposedSkillCard({
           size="sm"
         >
           {sending === "save"
-            ? "Saving…"
+            ? "Salvando…"
             : replaces
               ? "Substituir"
               : "Criar"}

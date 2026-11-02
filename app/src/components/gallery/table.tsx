@@ -100,7 +100,7 @@ export function DataTable(props: Record<string, unknown>) {
       caption={caption}
       action={
         <Badge>
-          {rows.length} {rows.length === 1 ? "row" : "rows"}
+          {rows.length} {rows.length === 1 ? "linha" : "linhas"}
         </Badge>
       }
     >

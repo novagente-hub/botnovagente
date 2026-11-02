@@ -59,7 +59,7 @@ export function elapsed(seconds: number): string {
 export const actionCount = (actions: number) =>
   `${actions} ${actions === 1 ? "ação" : "ações"}`;
 const phraseCount = (phrases: number) =>
-  `${phrases} narrated ${phrases === 1 ? "phrase" : "phrases"}`;
+  `${phrases} ${phrases === 1 ? "frase narrada" : "frases narradas"}`;
 
 /** What Record and Stop do around the recording itself, on a screen. */
 export type RecordingHooks = {
@@ -235,16 +235,16 @@ export type Stopped = NonNullable<ReturnType<typeof stoppedRecording>>;
 /** What a recording holds, which the person can go by next time: the browser's own pages (a new tab, its settings)
  * and the sites they leave out are never recorded (@openbot/shared/recorder-disclosure says it in full). */
 const WHAT_IT_RECORDS =
-  "The Recorder records the pages you open on websites and what you do there, with what each step saves, AI assistant conversations and your narration, in every tab you use while it records, except sites you leave out.";
+  "O Recorder grava as páginas que você abre nos sites e o que você faz nelas, com o que cada etapa salva, conversas com assistentes de IA e sua narração, em todas as abas que você usar enquanto ele grava, exceto os sites que você excluir.";
 
 /** What Record does, said before it is pressed: everything a recording holds, as the disclosure says it. */
 export const RECORDING_DESCRIPTION =
-  "Do the task in your browser as you always would. The Recorder records every tab you use until you stop, and each tab shows that it is: the pages and what is on them, your clicks and typing, what each step saves, AI assistant conversations, and your narration when it's on. Passwords, card numbers, email addresses and tokens are masked first.";
+  "Faça a tarefa no seu navegador como sempre faria. O Recorder grava todas as abas que você usar até parar, e cada aba mostra que está sendo gravada: as páginas e o que há nelas, seus cliques e o que você digita, o que cada etapa salva, conversas com assistentes de IA e sua narração, quando ligada. Senhas, números de cartão, e-mails e tokens são mascarados antes.";
 
 /** What a saved recording held: its actions, and its narrated phrases when there were any. */
 function heldIn(stopped: Stopped): string {
   return stopped.phrases > 0
-    ? `${actionCount(stopped.actions)} and ${phraseCount(stopped.phrases)}`
+    ? `${actionCount(stopped.actions)} e ${phraseCount(stopped.phrases)}`
     : actionCount(stopped.actions);
 }
 
@@ -340,8 +340,8 @@ export function RecordingMark({ live }: { live: boolean }) {
 
 /** The line under a recording's name: how long it has run and how many actions it holds. */
 function progressLine(recording: Recording): string {
-  if (recording.phase === "starting") return "Starting…";
-  if (recording.stopping) return "Stopping…";
+  if (recording.phase === "starting") return "Iniciando…";
+  if (recording.stopping) return "Parando…";
   return `${elapsed(recording.seconds)} · ${actionCount(recording.actions)}`;
 }
 
@@ -413,7 +413,7 @@ export function RecordingRow({
       <ItemActions>
         {/* Base UI's Button defaults to type="button", which never submits the form. */}
         <Button disabled={!recording.canRecord} size="sm" type="submit">
-          {recording.starting ? "Starting…" : "Gravar"}
+          {recording.starting ? "Iniciando…" : "Gravar"}
         </Button>
       </ItemActions>
     </Item>
@@ -479,7 +479,7 @@ export function RecordingBar({
       {children}
       <Button disabled={!recording.canRecord} size="sm" type="submit">
         <IconPlayerRecordFilled data-icon="inline-start" />
-        {recording.starting ? "Starting…" : "Gravar"}
+        {recording.starting ? "Iniciando…" : "Gravar"}
       </Button>
     </form>
   );

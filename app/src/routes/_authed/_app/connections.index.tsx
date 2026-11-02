@@ -161,7 +161,7 @@ export const AUTHORIZATION_NOTICES: ReadonlyMap<string, string> = new Map([
   ],
   [
     "cancelled-left-live",
-    "That authorization was cancelled while it was being finished, so nothing was recorded. The access it gave couldn't be removed, so the app may still allow the action you cancelled. To remove it, disconnect the app from its page, then connect again and authorize only what you want.",
+    "Essa autorização foi cancelada enquanto era concluída, então nada foi registrado. O acesso que ela deu não pôde ser removido, então o app ainda pode permitir a ação que você cancelou. Para removê-lo, desconecte o app pela página dele, conecte de novo e autorize só o que você quiser.",
   ],
   [
     "not-recorded",

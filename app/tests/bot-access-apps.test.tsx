@@ -152,7 +152,7 @@ test("each app is named by its own name and says it is ready, with its tools", a
   const gmail = await row(view, "composio-gmail");
   expect(gmail.getByText("Gmail")).toBeTruthy();
   expect(gmail.getByText(/^Pronto para usar\./)).toBeTruthy();
-  expect(gmail.getByText("2 tools")).toBeTruthy();
+  expect(gmail.getByText("2 ferramentas")).toBeTruthy();
   expect(view.queryByText(/Composio Gmail/)).toBeNull();
   expect(gmail.queryByRole("button")).toBeNull();
 });
@@ -161,9 +161,9 @@ test("an app this person has not connected says so and offers Connect", async ()
   serving({ apps: [appAccess({ state: "not_connected" })] });
   const gmail = await row(draw(), "composio-gmail");
   expect(
-    gmail.getByText("You haven't connected your Gmail account yet."),
+    gmail.getByText("Você ainda não conectou sua conta Gmail."),
   ).toBeTruthy();
-  expect(gmail.getByRole("button", { name: "Connect Gmail" })).toBeTruthy();
+  expect(gmail.getByRole("button", { name: "Conectar Gmail" })).toBeTruthy();
 });
 
 test("an app only an admin can fix offers Request access, and a pending one reads Requested", async () => {
@@ -195,7 +195,7 @@ test("an app only an admin can fix offers Request access, and a pending one read
   const slack = await row(view, "composio-slack");
   expect(
     slack.getByText(
-      "Your organisation's Slack account isn't connected yet. Only an admin can connect it.",
+      "A conta Slack da sua organização ainda não está conectada. Só um administrador pode conectá-la.",
     ),
   ).toBeTruthy();
   expect(
@@ -217,12 +217,12 @@ test("an admin keeps the way to this Bot's grants on each app, beside the action
   serving({ role: "admin", apps: [appAccess({ state: "not_connected" })] });
   const gmail = await row(draw(), "composio-gmail");
   const manage = gmail.getByRole("button", {
-    name: "Manage Gmail on this Bot",
+    name: "Gerenciar Gmail neste Bot",
   });
   expect(manage.getAttribute("href")).toBe(
     "/admin/plugins/composio-gmail/bots/expenses",
   );
-  expect(gmail.getByRole("button", { name: "Connect Gmail" })).toBeTruthy();
+  expect(gmail.getByRole("button", { name: "Conectar Gmail" })).toBeTruthy();
 });
 
 test("an app's sentence is never cut short, so who can fix it stays on screen at a phone's width", async () => {
@@ -237,7 +237,7 @@ test("an app's sentence is never cut short, so who can fix it stays on screen at
   });
   const gmail = await row(draw(), "composio-gmail");
   const sentence = gmail.getByText(
-    "Gmail isn't set up yet. An admin has to turn it on.",
+    "Gmail ainda não está configurado. Um administrador precisa ativá-lo.",
   );
   expect(sentence.className).toContain("line-clamp-none");
   expect(sentence.className).not.toContain("line-clamp-2");
@@ -261,7 +261,7 @@ test("on somebody else's Team Bot, an app on its owner's account says so, and an
   const gmail = await row(view, "composio-gmail");
   expect(
     gmail.getByText(
-      /^Ready to use\. This Bot uses its owner's Gmail account\./,
+      /^Pronto para usar\. Este Bot usa a conta Gmail do dono\./,
     ),
   ).toBeTruthy();
   const notion = await row(view, "notion");

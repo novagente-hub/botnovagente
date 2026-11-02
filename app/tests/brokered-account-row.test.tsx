@@ -791,7 +791,7 @@ function renderAdminScreen(client: QueryClient) {
 
 /** The sentence the row carries where the deployment has no Composio key, matched on the part that
  *  names the setting — the whole point of the row in that state. */
-const NAMES_THE_SETTING = /Set COMPOSIO_API_KEY on this deployment/;
+const NAMES_THE_SETTING = /Defina COMPOSIO_API_KEY nesta implantação/;
 
 test("a disconnect that lands stops reading Connected and offers Connect again", async () => {
   const server = installDeployment({
@@ -946,7 +946,7 @@ test("a key app nobody has connected says it will ask for a key, not send you of
   const view = renderAccountScreen(queryClient());
 
   expect(
-    await view.findByText(/Gmail connects with a key you already have/),
+    await view.findByText(/Gmail se conecta com uma chave que você já tem/),
   ).toBeTruthy();
   /*
    * The screen's own not-connected sentence is written for the kind that leaves, and pressing
@@ -1157,7 +1157,7 @@ test("the row names the app rather than calling it the app", async () => {
    * drew this row without handing over the title left them all saying "the app", which names
    * nowhere at all.
    */
-  expect(await view.findByText(/hasn't been checked with Gmail/)).toBeTruthy();
+  expect(await view.findByText(/Ela não foi verificada com Gmail/)).toBeTruthy();
   expect(view.queryByText(/hasn't been checked with the app/)).toBeNull();
 });
 
@@ -1232,7 +1232,7 @@ test("both kinds say Connected, and the line beneath says how", () => {
   const consent = renderRow(accountState({ connected: true, kind: "consent" }));
 
   expect(consent.getByText("Conectado")).toBeTruthy();
-  expect(consent.getByText(/Signed in with Gmail\./)).toBeTruthy();
+  expect(consent.getByText(/Conectado com Gmail\./)).toBeTruthy();
 
   cleanup();
 
@@ -1310,7 +1310,7 @@ test("an app needing no account offers nothing to press", () => {
   // Not a disabled Connect, and not a Connect that would make an account nobody needs: there is no
   // account here to make, so there is no control.
   expect(view.queryByRole("button")).toBeNull();
-  expect(view.getByText(/Gmail doesn't need an account/)).toBeTruthy();
+  expect(view.getByText(/Gmail não precisa de conta/)).toBeTruthy();
 });
 
 test("Re-check appears only where a check is possible, and asks when pressed", async () => {
@@ -1330,7 +1330,7 @@ test("Re-check appears only where a check is possible, and asks when pressed", a
     }),
   );
 
-  await userEvent.click(checkable.getByRole("button", { name: "Re-check" }));
+  await userEvent.click(checkable.getByRole("button", { name: "Verificar de novo" }));
   expect(checks).toBe(1);
 
   cleanup();
@@ -1351,8 +1351,8 @@ test("Re-check appears only where a check is possible, and asks when pressed", a
     }),
   );
 
-  expect(unchecked.queryByRole("button", { name: "Re-check" })).toBeNull();
-  expect(unchecked.getByText(/hasn't been checked with Gmail/)).toBeTruthy();
+  expect(unchecked.queryByRole("button", { name: "Verificar de novo" })).toBeNull();
+  expect(unchecked.getByText(/Ela não foi verificada com Gmail/)).toBeTruthy();
 });
 
 test("a connected consent app offers no Re-check at all", () => {
@@ -1382,10 +1382,10 @@ test("a connected consent app offers no Re-check at all", () => {
     }),
   );
 
-  expect(view.queryByRole("button", { name: "Re-check" })).toBeNull();
+  expect(view.queryByRole("button", { name: "Verificar de novo" })).toBeNull();
   // The row is otherwise itself: a live account somebody can still end.
   expect(view.getByRole("button", { name: "Desconectar" })).toBeTruthy();
-  expect(view.getByText(/Signed in with Gmail\./)).toBeTruthy();
+  expect(view.getByText(/Conectado com Gmail\./)).toBeTruthy();
 });
 
 /**
@@ -1409,11 +1409,11 @@ test("an app with nothing to check a key against says that about the app", () =>
     accountState({ connected: true, kind: "fields", probe: null }),
   );
 
-  expect(view.getByText(/hasn't been checked with Gmail/)).toBeTruthy();
+  expect(view.getByText(/Ela não foi verificada com Gmail/)).toBeTruthy();
   expect(
-    view.getByText(/At the time, Gmail had no safe way to check a key/),
+    view.getByText(/Na época, Gmail não tinha uma forma segura de verificar uma chave/),
   ).toBeTruthy();
-  expect(view.getByText(/about the app, not your key/)).toBeTruthy();
+  expect(view.getByText(/sobre o app, não sobre sua chave/)).toBeTruthy();
   // The one thing this state must never read as: a verdict on the key.
   expect(view.queryByText(/rejected/)).toBeNull();
 });
@@ -1439,7 +1439,7 @@ test("a key that passed its check says when it passed", () => {
       `Conectado com sua chave. Última verificação ${asDay(CHECKED_AT)}.`,
     ),
   ).toBeTruthy();
-  expect(view.queryByText(/hasn't been checked with Gmail/)).toBeNull();
+  expect(view.queryByText(/Ela não foi verificada com Gmail/)).toBeNull();
 });
 
 test("a check that did not come back clean says so, without ruling on the key", () => {
@@ -1461,7 +1461,7 @@ test("a check that did not come back clean says so, without ruling on the key", 
     }),
   );
 
-  expect(view.getByText(/That may be the key, or Gmail itself/)).toBeTruthy();
+  expect(view.getByText(/Pode ser a chave, ou o próprio Gmail/)).toBeTruthy();
   expect(view.getByText(/Sua conta continua conectada/)).toBeTruthy();
   /*
    * AND NEVER A VERDICT ABOUT THE CREDENTIAL. The pair behind this sentence is written off
@@ -1479,7 +1479,7 @@ test("a check that did not come back clean says so, without ruling on the key", 
    * AND NOT THE OTHER SENTENCE. This is the state that sentence was false in: saying nothing had
    * been checked, to the one person whose key has definitely been checked.
    */
-  expect(view.queryByText(/hasn't been checked with Gmail/)).toBeNull();
+  expect(view.queryByText(/Ela não foi verificada com Gmail/)).toBeNull();
 });
 
 /**
@@ -1518,7 +1518,7 @@ const SERVER_PROBE_OUTCOMES = [
     outcome: "nothing",
     /** The app published nothing safe to call, so no name and no verdict earned. */
     row: { probe: null, verified: false, verifiedAt: null },
-    says: /At the time, Gmail had no safe way to check a key/,
+    says: /Na época, Gmail não tinha uma forma segura de verificar uma chave/,
     sharesItsSentenceWith: null,
   },
   {
@@ -1554,7 +1554,7 @@ const SERVER_PROBE_OUTCOMES = [
      */
     outcome: "unreachable",
     row: { probe: null, verified: false, verifiedAt: null },
-    says: /At the time, Gmail had no safe way to check a key/,
+    says: /Na época, Gmail não tinha uma forma segura de verificar uma chave/,
     sharesItsSentenceWith: "nothing",
   },
 ] as const;
@@ -1662,7 +1662,7 @@ test("Re-check is offered where the key is bad and withheld where there is nothi
     }),
   );
 
-  await userEvent.click(rejected.getByRole("button", { name: "Re-check" }));
+  await userEvent.click(rejected.getByRole("button", { name: "Verificar de novo" }));
   expect(checks).toBe(1);
 
   cleanup();
@@ -1680,7 +1680,7 @@ test("Re-check is offered where the key is bad and withheld where there is nothi
     }),
   );
 
-  expect(nothingToCheck.queryByRole("button", { name: "Re-check" })).toBeNull();
+  expect(nothingToCheck.queryByRole("button", { name: "Verificar de novo" })).toBeNull();
   // Still a live account somebody can end: the missing button is about checking, not about acting.
   expect(
     nothingToCheck.getByRole("button", { name: "Desconectar" }),
@@ -1694,9 +1694,9 @@ test("disconnecting a key names the step this deployment cannot take", () => {
 
   // The account ends at Composio and the key does not end anywhere. Saying "disconnected" and
   // stopping would leave somebody believing they had ended access they still have live.
-  expect(view.getByText(/Disconnected\. Your key still works/)).toBeTruthy();
+  expect(view.getByText(/Desconectado\. Sua chave ainda funciona/)).toBeTruthy();
   expect(
-    view.getByText(/Your key still works at Gmail\. Change it there/),
+    view.getByText(/Sua chave ainda funciona em Gmail\. Altere-a lá/),
   ).toBeTruthy();
 });
 
@@ -1717,15 +1717,15 @@ test("a key re-checked and then disconnected stops claiming it was checked", asy
 
   expect(
     await view.findByText(
-      new RegExp(`Last checked ${asDay(CHECKED_AT)}`.replace(/\//g, "\\/")),
+      new RegExp(`Última verificação ${asDay(CHECKED_AT)}`.replace(/\//g, "\\/")),
     ),
   ).toBeTruthy();
 
-  await userEvent.click(view.getByRole("button", { name: "Re-check" }));
+  await userEvent.click(view.getByRole("button", { name: "Verificar de novo" }));
   await waitFor(() =>
     expect(
       view.queryByText(
-        new RegExp(`Last checked ${asDay(RECHECKED_AT)}`.replace(/\//g, "\\/")),
+        new RegExp(`Última verificação ${asDay(RECHECKED_AT)}`.replace(/\//g, "\\/")),
       ),
     ).toBeTruthy(),
   );
@@ -1734,12 +1734,12 @@ test("a key re-checked and then disconnected stops claiming it was checked", asy
 
   await waitFor(() =>
     expect(
-      view.queryByText(/Disconnected\. Your key still works/),
+      view.queryByText(/Desconectado\. Sua chave ainda funciona/),
     ).toBeTruthy(),
   );
   // The account is gone; the answer the re-check gave was about it and must go with it.
   expect(view.queryByText(/Última verificação/)).toBeNull();
-  expect(view.queryByRole("button", { name: "Re-check" })).toBeNull();
+  expect(view.queryByRole("button", { name: "Verificar de novo" })).toBeNull();
 
   /*
    * AND THE ANSWER MUST NOT COME BACK WITH THE NEXT KEY. A mutation's `data` is not query state:
@@ -1757,7 +1757,7 @@ test("a key re-checked and then disconnected stops claiming it was checked", asy
   );
 
   await waitFor(() => expect(view.queryByText("Conectado")).toBeTruthy());
-  expect(view.queryByText(/hasn't been checked with Gmail/)).toBeTruthy();
+  expect(view.queryByText(/Ela não foi verificada com Gmail/)).toBeTruthy();
   expect(view.queryByText(/Última verificação/)).toBeNull();
 });
 
@@ -1804,9 +1804,9 @@ test("a re-check's verdict is still there after a reload, because the server wro
 
   const view = renderAccountScreen(queryClient());
 
-  expect(await view.findByText(/hasn't been checked with Gmail/)).toBeTruthy();
+  expect(await view.findByText(/Ela não foi verificada com Gmail/)).toBeTruthy();
 
-  await userEvent.click(view.getByRole("button", { name: "Re-check" }));
+  await userEvent.click(view.getByRole("button", { name: "Verificar de novo" }));
   await waitFor(() =>
     expect(view.queryByText(/Sua chave não passou na verificação com/)).toBeTruthy(),
   );
@@ -1823,11 +1823,11 @@ test("a re-check's verdict is still there after a reload, because the server wro
     await reloaded.findByText(/Sua chave não passou na verificação com/),
   ).toBeTruthy();
   // And never either sentence that would be false about a key the vendor has just refused.
-  expect(reloaded.queryByText(/hasn't been checked with Gmail/)).toBeNull();
+  expect(reloaded.queryByText(/Ela não foi verificada com Gmail/)).toBeNull();
   expect(reloaded.queryByText(/Última verificação/)).toBeNull();
   // The way back out, which is withheld on exactly the render somebody would look for it.
   expect(
-    await reloaded.findByRole("button", { name: "Re-check" }),
+    await reloaded.findByRole("button", { name: "Verificar de novo" }),
   ).toBeTruthy();
 });
 
@@ -1867,11 +1867,11 @@ test("a re-check the vendor refused stops saying when the key was last checked",
 
   expect(
     await view.findByText(
-      new RegExp(`Last checked ${asDay(CHECKED_AT)}`.replace(/\//g, "\\/")),
+      new RegExp(`Última verificação ${asDay(CHECKED_AT)}`.replace(/\//g, "\\/")),
     ),
   ).toBeTruthy();
 
-  await userEvent.click(view.getByRole("button", { name: "Re-check" }));
+  await userEvent.click(view.getByRole("button", { name: "Verificar de novo" }));
 
   // Composio's own words, which is the half that was never in doubt.
   await waitFor(() => expect(view.queryByText(REFUSED_RECHECK)).toBeTruthy());
@@ -1882,7 +1882,7 @@ test("a re-check the vendor refused stops saying when the key was last checked",
   );
   expect(view.queryByText(/Última verificação/)).toBeNull();
   // Still theirs to press again, because the key is what is wrong and it is fixable at the vendor.
-  expect(view.getByRole("button", { name: "Re-check" })).toBeTruthy();
+  expect(view.getByRole("button", { name: "Verificar de novo" })).toBeTruthy();
 });
 
 test("a key refused with its account left standing stops offering Connect", async () => {
@@ -1985,18 +1985,18 @@ for (const [screen, renderScreen] of [
 
     expect(await view.findByRole("alert")).toBeTruthy();
     expect(view.getByRole("alert").textContent).toMatch(
-      /[Cc]ould(n't| not) (load|be loaded)/,
+      /Não foi possível (carregar|verificar)/,
     );
 
     // AND NO ROW, WHICH IS THE HALF THAT MATTERS. Connect is the press the route would refuse; the
     // other two are the only ways out of the state, and drawing none of them beside a silent page
     // was the defect.
     expect(view.queryByRole("button", { name: "Conectar" })).toBeNull();
-    expect(view.queryByRole("button", { name: "Re-check" })).toBeNull();
+    expect(view.queryByRole("button", { name: "Verificar de novo" })).toBeNull();
     expect(view.queryByRole("button", { name: "Desconectar" })).toBeNull();
     // And never a sentence about the account, in either direction.
     expect(view.queryByText(/Sua chave não passou na verificação com/)).toBeNull();
-    expect(view.queryByText(/hasn't been checked with Gmail/)).toBeNull();
+    expect(view.queryByText(/Ela não foi verificada com Gmail/)).toBeNull();
   });
 }
 
@@ -2036,13 +2036,13 @@ test("the administrator's connector screen keeps the rest of the page when the c
   // The row is still withheld and still says why, which is the fix this one must not undo.
   expect(await view.findByRole("alert")).toBeTruthy();
   expect(view.getByRole("alert").textContent).toMatch(
-    /[Cc]ould(n't| not) (load|be loaded)/,
+    /Não foi possível (carregar|verificar)/,
   );
 
   // AND THE PAGE IS STILL THERE. The switch is how a server is removed from this deployment, and
   // its absence was the whole cost of collapsing the page.
   expect(
-    view.getByRole("switch", { name: "Enable Gmail for this deployment" }),
+    view.getByRole("switch", { name: "Ativar Gmail para esta implantação" }),
   ).toBeTruthy();
   expect(view.getByRole("button", { name: "Atualizar ferramentas" })).toBeTruthy();
 });
@@ -2079,9 +2079,9 @@ test("a rejected key still says so on a page that has only read, and still offer
   ).toBeTruthy();
   expect(view.getByText(/Sua conta continua conectada/)).toBeTruthy();
   // And never the sentence that is false here.
-  expect(view.queryByText(/hasn't been checked with Gmail/)).toBeNull();
+  expect(view.queryByText(/Ela não foi verificada com Gmail/)).toBeNull();
   // The way back: a key corrected at the vendor is worth a second check, not a second connection.
-  expect(await view.findByRole("button", { name: "Re-check" })).toBeTruthy();
+  expect(await view.findByRole("button", { name: "Verificar de novo" })).toBeTruthy();
 
   cleanup();
 
@@ -2108,7 +2108,7 @@ test("a rejected key still says so on a page that has only read, and still offer
   expect(
     await admin.findByText(/Sua chave não passou na verificação com/),
   ).toBeTruthy();
-  expect(await admin.findByRole("button", { name: "Re-check" })).toBeTruthy();
+  expect(await admin.findByRole("button", { name: "Verificar de novo" })).toBeTruthy();
 });
 
 test("a key nothing was tried on offers Re-check once the app has something to try, and still says nothing was tried", async () => {
@@ -2137,8 +2137,8 @@ test("a key nothing was tried on offers Re-check once the app has something to t
     }),
   );
 
-  expect(row.getByRole("button", { name: "Re-check" })).toBeTruthy();
-  expect(row.getByText(/hasn't been checked with Gmail/)).toBeTruthy();
+  expect(row.getByRole("button", { name: "Verificar de novo" })).toBeTruthy();
+  expect(row.getByText(/Ela não foi verificada com Gmail/)).toBeTruthy();
   /*
    * AND IN THE PAST TENSE, which is what keeps the line and the button from contradicting each
    * other. The app publishes something NOW — that is why the button is there — so a clause claiming
@@ -2146,7 +2146,7 @@ test("a key nothing was tried on offers Re-check once the app has something to t
    * would have to be wrong. The clause is about the moment of the check, and says so.
    */
   expect(
-    row.getByText(/At the time, Gmail had no safe way to check a key/),
+    row.getByText(/Na época, Gmail não tinha uma forma segura de verificar uma chave/),
   ).toBeTruthy();
   // And never the sentence written for a key the vendor refused: nothing was refused here.
   expect(row.queryByText(/Sua chave não passou na verificação com/)).toBeNull();
@@ -2172,8 +2172,8 @@ test("a key nothing was tried on offers Re-check once the app has something to t
 
   const view = renderAccountScreen(queryClient());
 
-  expect(await view.findByText(/hasn't been checked with Gmail/)).toBeTruthy();
-  expect(await view.findByRole("button", { name: "Re-check" })).toBeTruthy();
+  expect(await view.findByText(/Ela não foi verificada com Gmail/)).toBeTruthy();
+  expect(await view.findByRole("button", { name: "Verificar de novo" })).toBeTruthy();
 
   cleanup();
 
@@ -2191,8 +2191,8 @@ test("a key nothing was tried on offers Re-check once the app has something to t
 
   const admin = renderAdminScreen(queryClient());
 
-  expect(await admin.findByText(/hasn't been checked with Gmail/)).toBeTruthy();
-  expect(await admin.findByRole("button", { name: "Re-check" })).toBeTruthy();
+  expect(await admin.findByText(/Ela não foi verificada com Gmail/)).toBeTruthy();
+  expect(await admin.findByRole("button", { name: "Verificar de novo" })).toBeTruthy();
 });
 
 /**
@@ -2528,10 +2528,10 @@ function AccountProbe() {
       <span data-testid="verified-at">{String(account.verifiedAt)}</span>
       <span data-testid="probe">{String(account.probe)}</span>
       <button onClick={account.recheck} type="button">
-        Re-check
+        Verificar de novo
       </button>
       <button onClick={account.disconnect} type="button">
-        Disconnect
+        Desconectar
       </button>
     </div>
   );
@@ -2575,7 +2575,7 @@ test("a disconnect drops the re-check's verdict for every reader, not just the r
   expect(view.getByTestId("verified-at").textContent).toBe("null");
   expect(view.getByTestId("probe").textContent).toBe("null");
 
-  await userEvent.click(view.getByRole("button", { name: "Re-check" }));
+  await userEvent.click(view.getByRole("button", { name: "Verificar de novo" }));
   await waitFor(() =>
     expect(view.getByTestId("verified").textContent).toBe("true"),
   );
@@ -2644,7 +2644,7 @@ test("a re-check that spent nothing leaves the rejection the record still names"
     await view.findByText(/Sua chave não passou na verificação com/),
   ).toBeTruthy();
 
-  await userEvent.click(view.getByRole("button", { name: "Re-check" }));
+  await userEvent.click(view.getByRole("button", { name: "Verificar de novo" }));
 
   /*
    * THE BUTTON GOING IS WHAT SAYS THE PRESS LANDED, and it is asserted first for that reason: the
@@ -2652,12 +2652,12 @@ test("a re-check that spent nothing leaves the rejection the record still names"
    * would pass against a click that never reached the deployment at all.
    */
   await waitFor(() =>
-    expect(view.queryByRole("button", { name: "Re-check" })).toBeNull(),
+    expect(view.queryByRole("button", { name: "Verificar de novo" })).toBeNull(),
   );
 
   // And the three facts this person can act on are all still on the row.
   expect(view.getByText(/Sua chave não passou na verificação com/)).toBeTruthy();
   expect(view.getByText(/Sua conta continua conectada/)).toBeTruthy();
   // Never the absolution, which is the other app's state and not this one's.
-  expect(view.queryByText(/hasn't been checked with Gmail/)).toBeNull();
+  expect(view.queryByText(/Ela não foi verificada com Gmail/)).toBeNull();
 });

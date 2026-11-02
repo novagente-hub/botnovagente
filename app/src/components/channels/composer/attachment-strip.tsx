@@ -94,7 +94,7 @@ export function AttachmentStrip({
                * The placeholder stands in for the picture, so it carries the picture's role and
                * the picture's name — otherwise the tile is a shape and nothing else, and the only
                * thing a screen reader finds in it is a button offering to remove something
-               * unnamed. The file tile has said "Uploading…" in plain text since it was written.
+               * unnamed. The file tile has said "Enviando…" in plain text since it was written.
                *
                * A name, not an announcement. `role="status"` would make each of these a live
                * region, and a paste of eight images would interrupt eight times to say so.

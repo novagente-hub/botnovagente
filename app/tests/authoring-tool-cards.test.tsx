@@ -194,7 +194,7 @@ test("a proposed coworker named like an existing one says so", async () => {
       queryClient.getQueryData(agentListQueryOptions().queryKey),
     ).toHaveLength(1),
   );
-  await tree.findByText("Create Researcher, again");
+  await tree.findByText("Criar Researcher mesmo assim");
 });
 
 async function skillToolsLoaded() {

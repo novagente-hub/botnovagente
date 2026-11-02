@@ -23,7 +23,7 @@ export const connectWebRtc: ConnectVoice = async ({
     if (closed) return;
     closed = true;
     signal.removeEventListener("abort", abort);
-    ready.reject(new DOMException("Chamada encerrada", "AbortError"));
+    ready.reject(new DOMException("Call ended", "AbortError"));
     channel?.close();
     peer?.close();
     for (const track of stream?.getTracks() ?? []) track.stop();
@@ -51,7 +51,7 @@ export const connectWebRtc: ConnectVoice = async ({
     // A permission dialog can resolve after hangup; its newly granted tracks still need releasing.
     if (closed || signal.aborted) {
       for (const track of stream.getTracks()) track.stop();
-      throw new DOMException("Chamada encerrada", "AbortError");
+      throw new DOMException("Call ended", "AbortError");
     }
     peer = new RTCPeerConnection();
     audio = new Audio();
@@ -128,7 +128,7 @@ export const connectWebRtc: ConnectVoice = async ({
           : "Não foi possível conectar a chamada de voz. Tente novamente.",
       );
     }
-    if (closed) throw new DOMException("Chamada encerrada", "AbortError");
+    if (closed) throw new DOMException("Call ended", "AbortError");
     const answer: unknown = await response.json();
     if (
       !answer ||

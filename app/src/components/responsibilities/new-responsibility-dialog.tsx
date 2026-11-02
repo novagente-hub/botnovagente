@@ -300,7 +300,7 @@ export function NewResponsibilityDialog({
             size="sm"
             type="submit"
           >
-            {create.isPending ? "Creating…" : "Criar responsabilidade"}
+            {create.isPending ? "Criando…" : "Criar responsabilidade"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -49,7 +49,7 @@ test("scoped: names the permission and lists the actions grouped on that scope",
   expect(copy.scopes).toEqual(["gmail.readonly"]);
   expect(copy.alsoEnables).toEqual(["Gmail.GetThread", "Gmail.ListThreads"]);
   expect(copy.sentence).toContain("gmail.readonly");
-  expect(copy.sentence).toContain("also enables");
+  expect(copy.sentence).toContain("Também ativa");
   expect(copy.sentence).toContain("Gmail.GetThread, Gmail.ListThreads");
   expect(copy.sentence).not.toContain("Gmail.SendEmail");
   // The list follows the data: change a scope and the list changes with it.
@@ -74,13 +74,13 @@ test("unscoped: all-or-nothing, with the count derived", () => {
   expect(fromFixture("Apollo")).toEqual([]);
   expect(
     consentCopy("Github.Only", [{ name: "Github.Only", scopes: [] }]).sentence,
-  ).toContain("approving this approves its single action");
+  ).toContain("aprovar isto aprova a única ação dele");
   const forty3 = Array.from({ length: 43 }, (_, i) => ({
     name: `Github.Action${i}`,
     scopes: [],
   }));
   expect(consentCopy("Github.Action0", forty3).sentence).toContain(
-    "This app cannot separate permissions; approving this approves all 43.",
+    "Este app não consegue separar permissões; aprovar isto aprova todas as 43.",
   );
   expect(consentCopy("Github.Action0", forty3.slice(0, 7)).sentence).toContain(
     "approves all 7.",
@@ -92,7 +92,7 @@ test("an unscoped action in a scoped app is not worded as a permission", () => {
   const bare = airtable.find((a) => a.scopes.length === 0)!;
   const copy = consentCopy(bare.name, airtable);
   expect(copy.scopes).toEqual([]);
-  expect(copy.sentence).toContain("requests no permission of its own");
+  expect(copy.sentence).toContain("não pede permissão própria");
 });
 
 test("no copy promises confinement", () => {

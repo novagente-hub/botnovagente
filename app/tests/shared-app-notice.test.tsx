@@ -79,11 +79,11 @@ describe("SharedAppNotice", () => {
     pending = [];
     const view = draw();
     const ask = await view.findByRole("button", {
-      name: "Request approval for Team GitHub",
+      name: "Pedir aprovação para Team GitHub",
     });
     expect(
       view.getByText(
-        /can't use the shared Team GitHub account until an admin approves/,
+        /não pode usar a conta compartilhada Team GitHub até um administrador aprovar/,
       ),
     ).toBeTruthy();
     await userEvent.click(ask);
@@ -99,7 +99,7 @@ describe("SharedAppNotice", () => {
     const view = draw();
     expect(
       await view.findByText(
-        "Waiting for an admin to approve the shared Team GitHub account.",
+        "Aguardando um administrador aprovar a conta compartilhada Team GitHub.",
       ),
     ).toBeTruthy();
     expect(view.queryByRole("button")).toBeNull();
@@ -112,7 +112,7 @@ describe("SharedAppNotice", () => {
     const view = draw();
     expect(
       await view.findByText(
-        /Saving also lets everyone who can use this Bot use the shared Team GitHub account/,
+        /Salvar também permite que todos que podem usar este Bot usem a conta compartilhada/,
       ),
     ).toBeTruthy();
   });

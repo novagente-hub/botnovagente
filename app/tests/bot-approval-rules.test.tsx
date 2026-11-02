@@ -94,13 +94,13 @@ test("only this Bot's own rules can be changed, and the team rules that reach it
   serving();
   const view = draw();
   expect(
-    await view.findByRole("combobox", { name: "Behaviour for mcp/gmail/*" }),
+    await view.findByRole("combobox", { name: "Comportamento para mcp/gmail/*" }),
   ).toBeTruthy();
   expect(
-    view.queryByRole("combobox", { name: "Behaviour for mcp/drive/*" }),
+    view.queryByRole("combobox", { name: "Comportamento para mcp/drive/*" }),
   ).toBeNull();
   expect(
-    view.queryByRole("combobox", { name: "Behaviour for mcp/slack/*" }),
+    view.queryByRole("combobox", { name: "Comportamento para mcp/slack/*" }),
   ).toBeNull();
   expect(view.getByText("mcp/drive/share")).toBeTruthy();
   expect(view.getByText(/^computer_click/)).toBeTruthy();
@@ -146,6 +146,6 @@ test("a personal rule whose Bot is a pattern matching this Bot is shown and can 
   }) as unknown as typeof fetch;
   const view = draw();
   expect(
-    await view.findByRole("combobox", { name: "Behaviour for mcp/linear/*" }),
+    await view.findByRole("combobox", { name: "Comportamento para mcp/linear/*" }),
   ).toBeTruthy();
 });

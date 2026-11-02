@@ -464,7 +464,7 @@ function toolList(labels: string[]): string {
 function ToolCount({ count }: { count: number }) {
   return (
     <span className="text-muted-foreground text-sm tabular-nums">
-      {count} {count === 1 ? "tool" : "tools"}
+      {count} {count === 1 ? "ferramenta" : "ferramentas"}
     </span>
   );
 }

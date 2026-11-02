@@ -331,7 +331,7 @@ function IdentityProvidersPage() {
               size="sm"
               type="submit"
             >
-              {register.isPending ? "Adding…" : "Adicionar"}
+              {register.isPending ? "Adicionando…" : "Adicionar"}
             </Button>
           </DialogFooter>
         </DialogContent>

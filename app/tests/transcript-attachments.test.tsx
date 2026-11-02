@@ -188,7 +188,7 @@ test("a broken image is replaced by a stated absence, not a broken-image glyph",
   // The <img> element is gone entirely — this reader is never left staring at the browser's own
   // broken-image box, which says nothing about what actually happened.
   expect(queryByRole("img")).toBeNull();
-  expect(getByText(/unavailable/i)).toBeTruthy();
+  expect(getByText(/não está disponível/i)).toBeTruthy();
 });
 
 test("an off-site attachment url is never fetched, it is reported missing", () => {
@@ -199,7 +199,7 @@ test("an off-site attachment url is never fetched, it is reported missing", () =
   ]);
 
   expect(queryByRole("img")).toBeNull();
-  expect(getByText("shot.png is unavailable.")).toBeTruthy();
+  expect(getByText("shot.png não está disponível.")).toBeTruthy();
 });
 
 test("a message that is only an attachment still appears", () => {
@@ -340,7 +340,7 @@ test("the opened picture states its absence rather than showing a broken frame",
   // The <img> is gone entirely, exactly as it is in the tile: no browser placeholder is left for
   // the reader to interpret.
   expect(queryByRole("img")).toBeNull();
-  expect(getByText("gone.png is unavailable.")).toBeTruthy();
+  expect(getByText("gone.png não está disponível.")).toBeTruthy();
   // A note, never an alert — this answers something the reader just did, it does not interrupt.
   expect(getByRole("note")).toBeTruthy();
 });
@@ -384,7 +384,7 @@ test("an off-site document url is reported missing rather than drawn as a file c
     userMessage([documentPart("https://example.com/report.pdf", "report.pdf")]),
   ]);
 
-  expect(getByText("report.pdf is unavailable.")).toBeTruthy();
+  expect(getByText("report.pdf não está disponível.")).toBeTruthy();
   // Not the file card: no "Attachment" caption, and the name is not offered as an intact one.
   expect(queryByText("Anexo")).toBeNull();
 });
@@ -404,7 +404,7 @@ test("a document whose row is gone is reported missing rather than named", async
     userMessage([documentPart(attachmentUrl("att-document"), "report.pdf")]),
   ]);
 
-  expect(await findByText("report.pdf is unavailable.")).toBeTruthy();
+  expect(await findByText("report.pdf não está disponível.")).toBeTruthy();
   // Not the file card: the name is no longer offered as an intact one, caption and all.
   expect(queryByText("Anexo")).toBeNull();
 });
@@ -422,7 +422,7 @@ test("a document whose row is still there keeps its card", async () => {
 
   expect(getByText("report.pdf")).toBeTruthy();
   expect(getByText("Anexo")).toBeTruthy();
-  expect(queryByText("report.pdf is unavailable.")).toBeNull();
+  expect(queryByText("report.pdf não está disponível.")).toBeNull();
 });
 
 /*
@@ -467,7 +467,7 @@ test("an off-site document is never probed", async () => {
     ]),
   ]);
 
-  expect(getByText("report.pdf is unavailable.")).toBeTruthy();
+  expect(getByText("report.pdf não está disponível.")).toBeTruthy();
 
   await waitFor(() => expect(probes).toHaveLength(1));
   // One probe, and it is the servable file's. Nothing was sent to example.com.
@@ -531,7 +531,7 @@ test("only a 404 makes a document missing, not any other failed answer", async (
     // The card is intact: the name, the caption, and no accusation.
     expect(getByText("report.pdf")).toBeTruthy();
     expect(getByText("Anexo")).toBeTruthy();
-    expect(queryByText("report.pdf is unavailable.")).toBeNull();
+    expect(queryByText("report.pdf não está disponível.")).toBeNull();
 
     unmount();
   }
@@ -609,7 +609,7 @@ test("a probe that never arrives leaves the card alone", async () => {
   await act(async () => {});
 
   expect(getByText("report.pdf")).toBeTruthy();
-  expect(queryByText("report.pdf is unavailable.")).toBeNull();
+  expect(queryByText("report.pdf não está disponível.")).toBeNull();
 });
 
 /*
@@ -643,8 +643,8 @@ test("missing attachments are stated, not announced over what is being read", ()
   // Three files, three tiles, and not one interruption between them.
   expect(role("alert")).toBe(0);
   expect(role("note")).toBe(3);
-  expect(getByText("one.png is unavailable.")).toBeTruthy();
-  expect(getByText("three.png is unavailable.")).toBeTruthy();
+  expect(getByText("one.png não está disponível.")).toBeTruthy();
+  expect(getByText("three.png não está disponível.")).toBeTruthy();
 });
 /*
  * The two wordings, both pinned, because they are the ones a reader is left with when everything
@@ -861,7 +861,7 @@ test("a parked picture the browser mislabelled is drawn as a picture", () => {
 /*
  * THE SAME MISTAKE POINTING THE OTHER WAY, AND IT IS THE LOUDER ONE. A text file the browser called
  * an image draws an `<img>` at a url the route answers 200 for with text; nothing decodes, `onError`
- * fires, and the tile replaces itself with the destructive card reading "notes.txt is unavailable."
+ * fires, and the tile replaces itself with the destructive card reading "notes.txt não está disponível."
  * — swearing in the file's own name that it was deleted while it sits on the server intact.
  */
 test("a parked file the browser called a picture is drawn as a file", () => {

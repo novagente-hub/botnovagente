@@ -50,7 +50,7 @@ export const connectWebSocket: ConnectVoice = async ({
     if (closed) return;
     closed = true;
     signal.removeEventListener("abort", close);
-    ready.reject(new DOMException("Chamada encerrada", "AbortError"));
+    ready.reject(new DOMException("Call ended", "AbortError"));
     if (socket) {
       socket.onclose = socket.onerror = socket.onmessage = socket.onopen = null;
       socket.close();
@@ -91,7 +91,7 @@ export const connectWebSocket: ConnectVoice = async ({
     });
     if (closed || signal.aborted) {
       for (const track of stream.getTracks()) track.stop();
-      throw new DOMException("Chamada encerrada", "AbortError");
+      throw new DOMException("Call ended", "AbortError");
     }
     context = new AudioContext({ sampleRate: RATE });
     await context.resume();
@@ -178,7 +178,7 @@ export const connectWebSocket: ConnectVoice = async ({
           !("type" in raw) ||
           typeof raw.type !== "string"
         )
-          throw new Error("Evento de voz inválido.");
+          throw new Error("Invalid voice event.");
         const event = raw as VoiceEvent;
         if (event.type === "session.updated") {
           configured = true;
@@ -222,7 +222,7 @@ export const connectWebSocket: ConnectVoice = async ({
             typeof event.delta !== "string" ||
             typeof event.item_id !== "string"
           )
-            throw new Error("Evento de áudio inválido.");
+            throw new Error("Invalid audio event.");
           const samples = decodePcm(event.delta);
           if (!samples.length) return;
           if (nextPlayback - audio.currentTime > 30)

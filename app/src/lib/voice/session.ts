@@ -314,7 +314,7 @@ export class VoiceSession {
     let result: { answer: string } | { error: string };
     try {
       if (call.name !== "ask_agent")
-        throw new Error("Esta chamada só pode pedir ajuda ao agente atual.");
+        throw new Error("This call can only ask the current agent for help.");
       const args = object(
         typeof call.arguments === "string"
           ? JSON.parse(call.arguments)
@@ -325,11 +325,11 @@ export class VoiceSession {
         !args.request.trim() ||
         args.request.length > 4000
       ) {
-        throw new Error("Faça um pedido mais curto e claro.");
+        throw new Error("Please ask a shorter, clear request.");
       }
       if (this.state.working)
         throw new Error(
-          "O agente ainda está trabalhando no seu pedido anterior. Aguarde o resultado ou use o botão de parar no chat antes de dar uma correção.",
+          "The agent is still working on your previous request. Wait for its result, or use the stop button in chat before giving a correction.",
         );
       this.update({ working: true });
       try {
@@ -349,7 +349,7 @@ export class VoiceSession {
         error:
           error instanceof Error
             ? error.message
-            : "O agente não conseguiu concluir o pedido.",
+            : "The agent could not complete the request.",
       };
     }
     if (generation !== this.generation) return;

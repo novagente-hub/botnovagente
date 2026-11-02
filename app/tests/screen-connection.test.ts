@@ -62,7 +62,7 @@ test("connection loss disables input, retries boundedly, then asks for Retry", a
     r.sockets[i + 1]?.onclose?.();
   }
   expect(r.timers.map((t) => t.delay)).toEqual([500, 1000, 2000, 4000, 8000]);
-  expect(r.statuses.at(-1)).toContain("Tentar de novo");
+  expect(r.statuses.at(-1)).toContain("Tente de novo");
   expect(r.stopped()).toBe(6);
   r.control.stop();
 });
@@ -78,7 +78,7 @@ test("a reconnect that shows the screen again restores the whole retry budget", 
     await r.sockets[i + 1]?.onopen?.();
   }
   expect(r.timers.map((t) => t.delay)).toEqual([500, 500, 500, 500, 500, 500]);
-  expect(r.statuses.some((status) => status.includes("Tentar de novo"))).toBe(false);
+  expect(r.statuses.some((status) => status.includes("Tente de novo"))).toBe(false);
   // A reconnect still asks who holds the computer before input is ready.
   expect(r.statuses.at(-1)).toBe("blocked");
   r.control.stop();
@@ -159,7 +159,7 @@ test("a drop being retried reports reconnecting, and no problem until the retrie
     timers[i]?.();
   }
   expect(reconnecting.at(-1)).toBe(false);
-  expect(problems.at(-1)).toContain("Tentar de novo");
+  expect(problems.at(-1)).toContain("Tente de novo");
 });
 
 test("unmount cancels a pending reconnect and ignores old socket callbacks", () => {

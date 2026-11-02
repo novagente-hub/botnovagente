@@ -73,7 +73,7 @@ export function ProfileNameForm({
         size={firstRun ? "lg" : "default"}
         disabled={!name.trim() || save.isPending}
       >
-        {save.isPending ? "Saving…" : firstRun ? "Começar" : "Salvar nome"}
+        {save.isPending ? "Salvando…" : firstRun ? "Começar" : "Salvar nome"}
       </Button>
     </form>
   );

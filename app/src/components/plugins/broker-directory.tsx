@@ -78,7 +78,7 @@ export function BrokerDirectory({ provider }: { provider: PluginsProvider }) {
    * around — and the same fact makes `enable.error` unusable as the place a refusal lives.
    * `MutationObserver.mutate` does `this.#currentMutation?.removeObserver(this)` and rebuilds, so
    * `error`, `isPending` and `variables` describe ONLY the most recent press. An admin pressing Add
-   * on Slack and then, a beat later, on Gmail watched Slack's row revert from "Adding…" to "Add"
+   * on Slack and then, a beat later, on Gmail watched Slack's row revert from "Adicionando…" to "Add"
    * with its request still in flight — and when Slack came back 409, or 503, or carrying the
    * vendor's own sentence about a bad key, the banner never showed it, because `enable.error` was
    * Gmail's and Gmail's was null. What was left was a row saying "Add" and no record of a failure.
@@ -216,7 +216,7 @@ export function BrokerDirectory({ provider }: { provider: PluginsProvider }) {
                           size="sm"
                           variant="outline"
                         >
-                          {isAdding ? "Adding…" : "Adicionar"}
+                          {isAdding ? "Adicionando…" : "Adicionar"}
                         </Button>
                       )}
                     </ItemActions>

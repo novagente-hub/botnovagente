@@ -209,7 +209,7 @@ export function TabStrip({
                 onClick={() => onClose(tab.id)}
                 size="icon-xs"
                 tabIndex={-1}
-                title={`Close ${name}`}
+                title={`Fechar ${name}`}
                 variant="ghost"
               >
                 <IconX />
@@ -469,7 +469,7 @@ export function ClearBrowserDialog({
             size="sm"
             variant="destructive"
           >
-            {clear.isPending ? "Clearing…" : "Limpar"}
+            {clear.isPending ? "Limpando…" : "Limpar"}
           </Button>
         </DialogFooter>
       </DialogContent>

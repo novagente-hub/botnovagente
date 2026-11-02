@@ -304,8 +304,8 @@ function Facet({
 
 /** How many rows the table is showing, for the toolbar. */
 function countLabel(shown: number, total: number): string {
-  const noun = total === 1 ? "event" : "events";
-  return shown === total ? `${total} ${noun}` : `${shown} of ${total} ${noun}`;
+  const noun = total === 1 ? "evento" : "eventos";
+  return shown === total ? `${total} ${noun}` : `${shown} de ${total} ${noun}`;
 }
 
 function auditColumns(

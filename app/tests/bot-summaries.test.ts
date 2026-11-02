@@ -22,7 +22,7 @@ test("access names skills and apps, or says there is nothing", () => {
   expect(accessSummary(0, 0)).toBe("Nada concedido");
   expect(accessSummary(2, 0)).toBe("2 habilidades");
   expect(accessSummary(0, 1)).toBe("1 app");
-  expect(accessSummary(1, 3)).toBe("1 skill, 3 apps");
+  expect(accessSummary(1, 3)).toBe("1 habilidade, 3 apps");
 });
 
 test("sharing names the audience", () => {
@@ -64,5 +64,5 @@ test("memory names the sources and whether research is on", () => {
   expect(memorySummary(0, false)).toBe("Nada conectado");
   expect(memorySummary(2, false)).toBe("2 fontes");
   expect(memorySummary(0, true)).toBe("Pesquisa em segundo plano ativada");
-  expect(memorySummary(1, true)).toBe("1 source, background research on");
+  expect(memorySummary(1, true)).toBe("1 fonte, pesquisa em segundo plano ativada");
 });

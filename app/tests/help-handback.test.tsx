@@ -386,7 +386,7 @@ test("a help request is drawn in the conversation, and after the hand-back the B
   expect(await view.findByText(REPLY)).toBeTruthy();
   const card = view.container.querySelector('[data-help-request="call-help"]');
   expect(card?.textContent).toBe(
-    `Taken over and handed backThe Bot asked: “${ASKED}”`,
+    `Assumido e devolvidoO Bot perguntou: “${ASKED}”`,
   );
   expect(view.queryByRole("button", { name: "Continuar" })).toBeNull();
 });
@@ -411,7 +411,7 @@ test("a Bot that answers the hand-back with no words leaves a step that says so,
       view.container.querySelector('[data-help-request="call-help"]')
         ?.textContent,
     ).toBe(
-      `Taken over and handed backThe Bot asked: “${ASKED}” The Bot stopped here without saying what it does next.Carry on`,
+      `Assumido e devolvidoO Bot perguntou: “${ASKED}” O Bot parou aqui sem dizer o que faz a seguir.Continuar`,
     ),
   );
   await user.click(view.getByRole("button", { name: "Continuar" }));
@@ -437,7 +437,7 @@ test("leaving the conversation while holding control: back in it, the hand-back'
     },
   };
   view.rerender(app(false));
-  await view.findByText("Configurações");
+  await view.findByText("Settings");
 
   // Back in the conversation: a new chat, which restores the thread as stored, the help call still unanswered.
   view.rerender(app(true));
@@ -458,7 +458,7 @@ test("leaving the conversation while holding control: back in it, the hand-back'
     view.container.querySelector('[data-help-request="call-help"]')
       ?.textContent,
   ).toBe(
-    `Taken over and handed backThe Bot asked: “${ASKED}” The Bot is carrying on.`,
+    `Assumido e devolvidoO Bot perguntou: “${ASKED}” The Bot is carrying on.`,
   );
   release();
 

@@ -374,7 +374,7 @@ function FormEntry({
           )}
           <div className="flex justify-end border-t border-border pt-3">
             <Button type="submit" size="sm" disabled={sending || !respond}>
-              {sending ? "Sending…" : (args.submitLabel ?? "Enviar respostas")}
+              {sending ? "Enviando…" : (args.submitLabel ?? "Enviar respostas")}
             </Button>
           </div>
         </form>

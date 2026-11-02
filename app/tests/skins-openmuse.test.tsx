@@ -534,26 +534,26 @@ describe("the frame", () => {
     serve();
     renderAt("/connections");
     const centre = await page().findByRole("button", {
-      name: /^Muse, Ready to review · 1 approval\. Switch Bot$/,
+      name: /^Muse, Pronto para revisar · 1 aprovação\. Trocar Bot$/,
     });
     expect(centre.textContent).toContain("Muse");
     expect(page().getByTestId("openmuse-status").textContent).toBe(
-      "Ready to review · 1 approval",
+      "Pronto para revisar · 1 aprovação",
     );
     // The bell carries the one pending approval.
     expect(
-      page().getByRole("button", { name: "Needs you, 1 waiting" }),
+      page().getByRole("button", { name: "Precisa de você, 1 aguardando" }),
     ).toBeTruthy();
   });
 
   test("a one-to-one conversation puts its own Bot at the centre", async () => {
     serve();
     renderAt("/channel/c-scout");
-    await page().findByRole("button", { name: /^Scout, .*Switch Bot$/ });
+    await page().findByRole("button", { name: /^Scout, .*Trocar Bot$/ });
     // Scout has a turn running in its channel; the line says so.
     await waitFor(() =>
       expect(page().getByTestId("openmuse-status").textContent).toBe(
-        "Working on Competitor notes…",
+        "Trabalhando em Competitor notes…",
       ),
     );
     expect(page().getByTestId("page").textContent).toBe(
@@ -631,7 +631,7 @@ describe("the frame", () => {
   test("the chosen Bot is remembered per person, not per machine", async () => {
     serve({ userId: "u-1" });
     renderAt("/s/activity");
-    fireEvent.click(await page().findByRole("button", { name: /Switch Bot$/ }));
+    fireEvent.click(await page().findByRole("button", { name: /Trocar Bot$/ }));
     fireEvent.click(
       within(await page().findByRole("dialog")).getByRole("button", {
         name: /Scout/,
@@ -721,7 +721,7 @@ describe("the frame wears the deployment's brand, not OpenMuse's", () => {
   test("the centre Bot is drawn with its own OpenBot avatar", async () => {
     serve();
     renderAt("/connections");
-    const centre = await page().findByRole("button", { name: /Switch Bot$/ });
+    const centre = await page().findByRole("button", { name: /Trocar Bot$/ });
     // AbstractAvatar names the drawing after the Bot, as on its OpenBot page.
     expect(within(centre).getByRole("img", { name: "Muse" })).toBeTruthy();
     expect(capybaras()).toEqual([]);
@@ -832,7 +832,7 @@ describe("every OpenBot surface stays reachable", () => {
   test("the Bot switcher reaches each Bot's page, the roster and a new Bot", async () => {
     serve();
     renderAt("/connections");
-    fireEvent.click(await page().findByRole("button", { name: /Switch Bot$/ }));
+    fireEvent.click(await page().findByRole("button", { name: /Trocar Bot$/ }));
     const sheet = within(await page().findByRole("dialog"));
     expect(hrefOf(/^Muse's page/)).toBe("/bots/picked-harness");
     expect(
@@ -856,7 +856,7 @@ describe("each tab is OpenBot's own sections for the centre Bot", () => {
     serve();
     renderAt("/s/activity");
     // OpenBot's Needs you section, with OpenBot's own approval and its details always shown.
-    expect(await page().findByText("Muse wants to open url")).toBeTruthy();
+    expect(await page().findByText("Muse quer open url")).toBeTruthy();
     expect(page().getByText(/"url": "https:\/\/example.com"/)).toBeTruthy();
     // OpenBot's activity sections for the Bot.
     expect(await page().findByText("Morning briefing")).toBeTruthy();
@@ -901,7 +901,7 @@ describe("each tab is OpenBot's own sections for the centre Bot", () => {
     renderAt("/s/goals");
     fireEvent.click(
       await page().findByRole("switch", {
-        name: "Enable the routine scheduled Every weekday at 9:00",
+        name: "Ativar a rotina agendada Every weekday at 9:00",
       }),
     );
     await waitFor(() =>
@@ -917,10 +917,10 @@ describe("each tab is OpenBot's own sections for the centre Bot", () => {
     const calls = serve();
     renderAt("/s/goals");
     fireEvent.click(
-      await page().findByRole("button", { name: "Needs you, 1 waiting" }),
+      await page().findByRole("button", { name: "Precisa de você, 1 aguardando" }),
     );
     const sheet = within(await page().findByRole("dialog"));
-    expect(await sheet.findByText("Muse wants to open url")).toBeTruthy();
+    expect(await sheet.findByText("Muse quer open url")).toBeTruthy();
     // What it will send is always on screen, as in OpenBot.
     expect(sheet.getByText(/"url": "https:\/\/example.com"/)).toBeTruthy();
     expect(sheet.queryByText(/send email/)).toBeNull();
@@ -995,14 +995,14 @@ describe("the rules the frame runs on", () => {
         channels: busy,
         agentId: "b",
       }),
-    ).toBe("Needs your input · 2 questions");
+    ).toBe("Precisa da sua resposta · 2 perguntas");
     expect(
       statusLine({
         attention: { ...base, approvals: 1 },
         channels: busy,
         agentId: "b",
       }),
-    ).toBe("Ready to review · 1 approval");
+    ).toBe("Pronto para revisar · 1 aprovação");
     expect(
       statusLine({
         attention: { ...base, paused: true },

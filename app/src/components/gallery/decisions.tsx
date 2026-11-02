@@ -109,7 +109,7 @@ export function ApprovalCard(props: Waiting<ApprovalArgs> & { name?: string }) {
               size="sm"
             >
               {sending === "approved"
-                ? "Sending…"
+                ? "Enviando…"
                 : (args.approveLabel ?? "Aprovar")}
             </Button>
             <Button
@@ -119,7 +119,7 @@ export function ApprovalCard(props: Waiting<ApprovalArgs> & { name?: string }) {
               variant="outline"
             >
               {sending === "declined"
-                ? "Sending…"
+                ? "Enviando…"
                 : (args.rejectLabel ?? "Recusar")}
             </Button>
           </div>

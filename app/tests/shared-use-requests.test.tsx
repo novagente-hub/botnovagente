@@ -82,7 +82,7 @@ describe("Pedidos de contas compartilhadas", () => {
     role = "admin";
     const view = draw();
     expect(
-      await view.findByText("Helpdesk wants the shared Team GitHub account"),
+      await view.findByText("Helpdesk quer a conta compartilhada Team GitHub"),
     ).toBeTruthy();
     expect(view.getByText("Now: Only its owner")).toBeTruthy();
     expect(view.getByText("Asked: Everyone, and outside input")).toBeTruthy();

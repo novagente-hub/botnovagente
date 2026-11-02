@@ -123,7 +123,7 @@ test("a paused Bot's Active switch is off, and the row says it is paused", async
   expect(checked(control)).toBe(false);
   expect(
     await view.findByText(
-      /^Paused\. Nothing runs for you until you turn it back on\./,
+      /^Pausado\. Nada é executado para você até reativá-lo\./,
     ),
   ).toBeTruthy();
 });

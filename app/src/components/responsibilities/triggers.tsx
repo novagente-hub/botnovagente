@@ -762,7 +762,7 @@ function NewTriggerDialog({
             size="sm"
             type="submit"
           >
-            {create.isPending ? "Adding…" : `Adicionar gatilho ${KIND_LABEL[kind]}`}
+            {create.isPending ? "Adicionando…" : `Adicionar gatilho ${KIND_LABEL[kind]}`}
           </Button>
         </DialogFooter>
       </DialogContent>

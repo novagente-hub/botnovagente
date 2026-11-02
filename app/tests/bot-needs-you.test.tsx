@@ -171,7 +171,7 @@ test("a hand-off is marked done by the person, never allowed on their behalf", a
   };
   serving();
   const view = draw(<BotNeedsYou agentId="expenses" />);
-  await view.findByText(/Handed to you: Paying/);
+  await view.findByText(/Passado para você: Paying/);
   expect(view.queryByRole("button", { name: "Permitir uma vez" })).toBeNull();
   fireEvent.click(view.getByRole("button", { name: "Eu mesmo fiz" }));
   await waitFor(() =>

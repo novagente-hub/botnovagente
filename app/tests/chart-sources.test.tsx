@@ -66,7 +66,7 @@ test("the unchecked note and the sources read as separate parts", () => {
     />,
   );
   expect(view.container.textContent).toContain(
-    "Not checked against a source. · Sources: Annual report",
+    "Não verificado em uma fonte. · Fontes: Annual report",
   );
 });
 

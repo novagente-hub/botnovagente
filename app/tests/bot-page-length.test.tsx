@@ -60,9 +60,9 @@ const activity = (inProgress: number, scheduled: number, completed: number) =>
 
 test("the activity row counts what is running and what is lined up", () => {
   expect(activitySummary(activity(2, 3, 9))).toBe(
-    "2 em andamento · 3 agendado(s)",
+    "2 em andamento · 3 agendadas",
   );
-  expect(activitySummary(activity(0, 1, 0))).toBe("1 scheduled");
+  expect(activitySummary(activity(0, 1, 0))).toBe("1 agendada");
   expect(activitySummary(activity(0, 0, 4))).toBe(
     "Nada em execução ou agendado",
   );
@@ -129,9 +129,9 @@ function glance(data: BotActivity) {
 
 test("running and scheduled work shows on the Bot's page, running first, three at most", async () => {
   const view = glance({
-    inProgress: items(2, "Executando", true),
-    scheduled: items(3, "Agendada"),
-    completed: items(9, "Concluído"),
+    inProgress: items(2, "Running", true),
+    scheduled: items(3, "Scheduled"),
+    completed: items(9, "Done"),
   });
 
   expect(await view.findByText("Running 1")).toBeTruthy();
@@ -144,7 +144,7 @@ test("running and scheduled work shows on the Bot's page, running first, three a
     "Scheduled 1",
     "Toda a atividade",
   ]);
-  expect(view.getByText("2 em andamento · 3 agendado(s)")).toBeTruthy();
+  expect(view.getByText("2 em andamento · 3 agendadas")).toBeTruthy();
   expect(view.queryByText("Done 1")).toBeNull();
 });
 
@@ -152,7 +152,7 @@ test("with nothing running or scheduled, the section is the one row to all activ
   const view = glance({
     inProgress: [],
     scheduled: [],
-    completed: items(4, "Concluído"),
+    completed: items(4, "Done"),
   });
 
   expect(await view.findByText("Nada em execução ou agendado")).toBeTruthy();

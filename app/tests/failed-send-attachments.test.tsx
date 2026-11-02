@@ -428,7 +428,7 @@ test("a failed send restored beside a second batch cannot be retried over the pe
   const send = view.getByLabelText("Enviar mensagem") as HTMLButtonElement;
   expect(send.disabled).toBe(true);
   expect(
-    view.getByText(new RegExp(`at most ${MAX_ATTACHMENTS_PER_MESSAGE}`, "i")),
+    view.getByText(new RegExp(`no máximo ${MAX_ATTACHMENTS_PER_MESSAGE}`, "i")),
   ).toBeTruthy();
 
   // Nothing was dropped to get there: every file is still on the strip and still deletable by the

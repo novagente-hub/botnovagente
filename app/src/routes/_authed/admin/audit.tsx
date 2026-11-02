@@ -202,7 +202,7 @@ function AuditPage() {
                     variant="outline"
                   >
                     <IconDownload />
-                    {exporting ? "Exporting…" : "Exportar CSV"}
+                    {exporting ? "Exportando…" : "Exportar CSV"}
                   </Button>
                 </div>
               </div>

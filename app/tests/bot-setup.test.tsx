@@ -269,7 +269,7 @@ test("an isolated Bot's Visibility row says, before it is made public and while 
   const view = draw();
   expect(
     await view.findByText(
-      `Only you can see it and start conversations with it. ${ISOLATED_MAKING_PUBLIC}`,
+      `Só você pode vê-lo e iniciar conversas com ele. ${ISOLATED_MAKING_PUBLIC}`,
     ),
   ).toBeTruthy();
   cleanup();
@@ -278,7 +278,7 @@ test("an isolated Bot's Visibility row says, before it is made public and while 
   const shared = draw();
   expect(
     await shared.findByText(
-      `Everyone on OpenBot can find and use it. ${ISOLATED_PUBLIC_SHARES_LOGINS}`,
+      `Todos no OpenBot podem encontrá-lo e usá-lo. ${ISOLATED_PUBLIC_SHARES_LOGINS}`,
     ),
   ).toBeTruthy();
   cleanup();

@@ -499,9 +499,9 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
               type="submit"
             >
               {checking
-                ? "Checking…"
+                ? "Verificando…"
                 : createAgent.isPending
-                  ? "Creating…"
+                  ? "Criando…"
                   : step === "endpoint" || (step === "about" && !custom)
                     ? "Criar Bot"
                     : "Continuar"}

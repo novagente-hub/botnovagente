@@ -157,7 +157,7 @@ test.each([
   [
     { enabled: true, defaultTarget: null, agents: {} },
     { state: "not_entitled" },
-    "plan doesn't include Learning",
+    "não inclui Aprendizado",
   ],
 ] as const)(
   "the page says what automatic assignment found (%#)",
@@ -178,7 +178,7 @@ test("a deployment that chose its own container hears nothing about automatic as
     automatic: { state: "saved" },
   });
   const view = page();
-  await view.findByLabelText("Default container ID");
+  await view.findByLabelText("ID do container (Padrão)");
   await waitFor(() =>
     expect(view.queryByText("Carregando configurações de Aprendizado…")).toBeNull(),
   );
@@ -198,7 +198,7 @@ test("a missing container shows exactly what to run, and a Create button only wh
   const cannot = page();
   await cannot.findByText(instructions, { exact: false });
   expect(
-    cannot.queryByRole("button", { name: "Create the openbot container" }),
+    cannot.queryByRole("button", { name: "Criar o container openbot" }),
   ).toBeNull();
   cleanup();
 
@@ -236,14 +236,14 @@ test("a missing container shows exactly what to run, and a Create button only wh
   );
   const can = page();
   fireEvent.click(
-    await can.findByRole("button", { name: "Create the openbot container" }),
+    await can.findByRole("button", { name: "Criar o container openbot" }),
   );
   await can.findByText("container automatically", { exact: false });
   expect(created).toBe(1);
   // Let the refetch the creation started settle before the DOM is torn down.
   await waitFor(() =>
     expect(
-      can.queryByRole("button", { name: "Create the openbot container" }),
+      can.queryByRole("button", { name: "Criar o container openbot" }),
     ).toBeNull(),
   );
   await new Promise((resolve) => setTimeout(resolve, 50));

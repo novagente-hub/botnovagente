@@ -182,7 +182,7 @@ function renderAccount(composioConfigured: boolean) {
 
 test("the app's page says it is not available yet, and names no setting", async () => {
   const view = renderAccount(false);
-  const empty = await view.findByText(/An admin has to turn on Gmail/);
+  const empty = await view.findByText(/Um administrador precisa ativar/);
   expect(empty.parentElement?.textContent).toContain("Ainda não configurado");
   expect(view.queryByText(/COMPOSIO_API_KEY/)).toBeNull();
   expect(view.queryByRole("button", { name: "Conectar" })).toBeNull();

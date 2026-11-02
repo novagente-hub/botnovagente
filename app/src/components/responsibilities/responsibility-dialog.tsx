@@ -385,7 +385,7 @@ export function ResponsibilityDialog({
             size="sm"
             type="submit"
           >
-            {edit.isPending ? "Saving…" : "Salvar"}
+            {edit.isPending ? "Salvando…" : "Salvar"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -342,7 +342,7 @@ test("a throttled connect says plainly when to try again, not that another reque
   });
   fireEvent.click(button);
   await view.findByText(
-    "Too many connect requests in a short time. Try again in 7 minutes.",
+    "Muitos pedidos de conexão em pouco tempo. Tente de novo em 7 minutos.",
   );
   expect(view.queryByText(/finishing another connect request/)).toBeNull();
 
@@ -350,7 +350,7 @@ test("a throttled connect says plainly when to try again, not that another reque
   recorder.connect = { ok: false, error: "throttled", retryAfterMs: 20_000 };
   fireEvent.click(button);
   await view.findByText(
-    "Too many connect requests in a short time. Try again in 1 minute.",
+    "Muitos pedidos de conexão em pouco tempo. Try again in 1 minute.",
   );
 });
 
@@ -390,7 +390,7 @@ test("the OpenBot browser's connection says it is the person's OpenBot browser",
     timeStyle: "short",
   }).format(new Date(String(connections[0]?.createdAt)));
   expect(
-    view.getByText(`Your OpenBot browser, connected ${at}, never used`),
+    view.getByText(`Seu navegador OpenBot, conectado ${at}, nunca usado`),
   ).toBeTruthy();
 });
 
@@ -418,7 +418,7 @@ test("a browser recording now says so instead of when it was last used, and the 
       dateStyle: "medium",
       timeStyle: "short",
     }).format(new Date(String(connections[0]?.createdAt)));
-    await view.findByText(/^Connected .* from OpenBot, last used /);
+    await view.findByText(/^Conectado .* do OpenBot, último uso /);
     // The browser starts recording; the screen hears of it on its next ask, with no reload.
     connections = [connection({ lastUsedAt, recording: true })];
     expect(polls.length).toBeGreaterThan(0);
@@ -426,9 +426,9 @@ test("a browser recording now says so instead of when it was last used, and the 
     act(() => {
       for (const poll of polls) poll();
     });
-    await view.findByText(`Connected ${at} from OpenBot, recording now`);
+    await view.findByText(`Conectado ${at} do OpenBot, gravando agora`);
     expect(connectionsFetches).toBeGreaterThan(asked);
-    expect(view.queryByText(/last used/)).toBeNull();
+    expect(view.queryByText(/último uso/)).toBeNull();
   } finally {
     globalThis.setInterval = realSetInterval;
   }
@@ -443,7 +443,7 @@ test("Disconnect sends the DELETE and the row disappears", async () => {
     timeStyle: "short",
   }).format(new Date(String(connections[0]?.createdAt)));
   expect(
-    view.getByText(`Connected ${at} from OpenBot, never used`),
+    view.getByText(`Conectado ${at} do OpenBot, nunca usado`),
   ).toBeTruthy();
   fireEvent.click(
     view.getByRole("button", { name: "Disconnect Chrome on Mac" }),
@@ -641,9 +641,9 @@ test("Settings, Browsers says everything the Recorder collects before the first 
   ).toBeTruthy();
   // The saves and the AI assistant conversations, which the old list left out.
   expect(
-    view.getByText(/the request it sent and the answer that came back/),
+    view.getByText(/a requisição enviada e a resposta recebida/),
   ).toBeTruthy();
-  expect(view.getByText(/including the messages you send/)).toBeTruthy();
+  expect(view.getByText(/incluindo as mensagens que você envia/)).toBeTruthy();
 });
 
 test("when the connections cannot be loaded This browser says it cannot tell, and is not empty", async () => {
@@ -741,7 +741,7 @@ test("the copy in this browser is marked among connected browsers that share a n
   ).toBeTruthy();
   // Two copies connected two hours ago, a minute apart, read differently.
   const descriptions = view
-    .getAllByText(/^Connected .* from OpenBot, last used /)
+    .getAllByText(/^Conectado .* do OpenBot, último uso /)
     .map((element) => element.textContent);
   expect(new Set(descriptions).size).toBe(3);
 });

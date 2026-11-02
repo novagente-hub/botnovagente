@@ -71,13 +71,13 @@ export function parseJsonObject(raw: string, label: string): JsonObjectResult {
   } catch (thrown) {
     const reason =
       thrown instanceof SyntaxError ? thrown.message : "invalid JSON";
-    return { ok: false, message: `${label} precisa ser um JSON válido: ${reason}` };
+    return { ok: false, message: `${label} precisam ser um JSON válido: ${reason}` };
   }
 
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
     return {
       ok: false,
-      message: `${label} deve ser um objeto JSON, não ${jsonKind(value)}.`,
+      message: `${label} devem ser um objeto JSON, não ${jsonKind(value)}.`,
     };
   }
 

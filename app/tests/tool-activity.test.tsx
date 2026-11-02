@@ -132,7 +132,7 @@ test("a tool step is named in words and counted as tools", () => {
         call("u", "read_file", {}, '"x"'),
       ].map(stepDetails),
     ),
-  ).toBe("Searched the web and used 2 tools");
+  ).toBe("Pesquisou na web e usou 2 ferramentas");
 });
 
 test("the tools CopilotKit has a renderer for are the ones the app draws", () => {
@@ -245,7 +245,7 @@ test("the summary says what was done, never which provider searched", () => {
   expect(summarise(steps)).toBe("Pesquisou na web e leu 2 páginas");
   expect(JSON.stringify(steps.map((step) => step.label))).not.toContain("exa");
   expect(steps[0]?.detail).toBe("top 5 GDP 2025");
-  expect(steps[1]?.detail).toBe("imf.org and 1 more");
+  expect(steps[1]?.detail).toBe("imf.org e mais 1");
   expect(
     summarise(
       [
@@ -254,7 +254,7 @@ test("the summary says what was done, never which provider searched", () => {
         call("n", "mcp__notion__search", {}, '"x"'),
       ].map(stepDetails),
     ),
-  ).toBe("Used 2 connectors");
+  ).toBe("Usou 2 conectores");
   expect(
     summarise(
       [call("d", "mcp__google-drive__search_files", {}, '"x"')].map(
@@ -278,7 +278,7 @@ test("a brokered app is summarised as the app, never with its broker's name", ()
     summarise(
       [call("a", "mcp__arcade-Gmail__ListEmails", {}, '"x"')].map(stepDetails),
     ),
-  ).toBe("Used Gmail");
+  ).toBe("Usou Gmail");
 });
 
 test("a refusal and a failure each count as an issue on the folded line", () => {

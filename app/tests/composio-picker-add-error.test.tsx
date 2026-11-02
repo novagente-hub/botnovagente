@@ -197,7 +197,7 @@ test("an add that fails while a second one is pressed still says what went wrong
    */
   expect(
     within(slackRow)
-      .getByRole("button", { name: "Adding…" })
+      .getByRole("button", { name: "Adicionando…" })
       .hasAttribute("disabled"),
   ).toBe(true);
 

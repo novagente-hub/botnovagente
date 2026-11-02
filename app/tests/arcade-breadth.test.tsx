@@ -79,7 +79,7 @@ test("Asana and Attio are fully scoped: one permission across one action", () =>
       toolkit.actionCount,
     ]).toEqual([1, 1, 1]);
     expect(consentBreadth(toolkit)).toBe(
-      "This app uses 1 separate permission across 1 action.",
+      "Este app usa 1 permissão separada em 1 ação.",
     );
   }
 });
@@ -89,7 +89,7 @@ test("more than one permission, fully scoped", () => {
     consentBreadth(
       app({ actionCount: 30, permissionCount: 4, scopedActionCount: 30 }),
     ),
-  ).toBe("This app uses 4 separate permissions across 30 actions.");
+  ).toBe("Este app usa 4 permissões separadas em 30 ações.");
 });
 
 test("AirtableApi is the mixed shape: names the further K that need no permission", () => {
@@ -100,7 +100,7 @@ test("AirtableApi is the mixed shape: names the further K that need no permissio
     airtable.actionCount,
   ]).toEqual([1, 1, 2]);
   expect(consentBreadth(airtable)).toBe(
-    "This app uses 1 separate permission across 2 actions. Mais 1 não pede permissão própria e passa a poder ser chamada com qualquer aprovação aqui.",
+    "Este app usa 1 permissão separada em 2 ações. Mais 1 não pede permissão própria e passa a poder ser chamada com qualquer aprovação aqui.",
   );
 });
 
@@ -110,7 +110,7 @@ test("the mixed shape with several further actions", () => {
       app({ actionCount: 10, permissionCount: 2, scopedActionCount: 6 }),
     ),
   ).toBe(
-    "This app uses 2 separate permissions across 10 actions. Mais 4 não pedem permissão própria e passam a poder ser chamadas com qualquer aprovação aqui.",
+    "Este app usa 2 permissões separadas em 10 ações. Mais 4 não pedem permissão própria e passam a poder ser chamadas com qualquer aprovação aqui.",
   );
 });
 
@@ -130,7 +130,7 @@ test("it renders on the enablement step, before enabling", () => {
     />,
   );
   expect(html).toContain('data-testid="breadth-note"');
-  expect(html).toContain("1 separate permission across 2 actions");
+  expect(html).toContain("1 permissão separada em 2 ações");
 });
 
 test("no copy promises confinement", () => {

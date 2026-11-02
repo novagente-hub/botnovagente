@@ -19,7 +19,7 @@ describe("a conversation label", () => {
   test("cuts a long title to the limit", () => {
     expect(
       conversationLabel({ name: "Geral", summary: "a".repeat(80) }),
-    ).toBe(`General: ${"a".repeat(60)}`);
+    ).toBe(`Geral: ${"a".repeat(60)}`);
   });
 
   test("does not leave half a character when the cut lands on one", () => {
@@ -34,7 +34,7 @@ describe("a conversation label", () => {
     });
 
     expect(hasLoneSurrogate(label)).toBe(false);
-    expect(label).toBe(`General: ${"a".repeat(59)}`);
+    expect(label).toBe(`Geral: ${"a".repeat(59)}`);
   });
 
   test("falls back to the name when there is no title", () => {

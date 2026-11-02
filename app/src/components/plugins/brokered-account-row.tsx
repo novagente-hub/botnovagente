@@ -1016,7 +1016,7 @@ export function BrokeredAccountRow({
                     type="button"
                     variant="outline"
                   >
-                    {account.rechecking ? "Checking…" : "Re-check"}
+                    {account.rechecking ? "Verificando…" : "Verificar de novo"}
                   </Button>
                 ) : null}
                 <Button

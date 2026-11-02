@@ -11,8 +11,8 @@ function AccessPage() {
   return (
     <BotSubpage
       agentId={agentId}
-      description="Manage the skills, apps, and other Bots this Bot can use."
-      title="Skills and access"
+      description="Gerencie as habilidades, apps e outros Bots que este Bot pode usar."
+      title="Habilidades e acesso"
     >
       {(agent) => <AccessSections agent={agent} />}
     </BotSubpage>

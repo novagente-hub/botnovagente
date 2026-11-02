@@ -53,7 +53,7 @@ function Guarded({ children }: { children?: React.ReactNode }) {
  * it rather than that nobody ever set it.
  */
 function transfer() {
-  return { dropEffect: "copy", files: [], items: [], types: ["Files"] };
+  return { dropEffect: "copy", files: [], items: [], types: ["Arquivos"] };
 }
 
 /*

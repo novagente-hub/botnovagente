@@ -94,7 +94,7 @@ export function useUnclaimedDropGuard() {
        * here would also refuse dropping that link into the editor as text. Files are the case that
        * costs somebody their unsent message; a dragged link is deliberate and rare.
        */
-      if (!event.dataTransfer?.types.includes("Files")) {
+      if (!event.dataTransfer?.types.includes("Arquivos")) {
         return;
       }
       event.preventDefault();

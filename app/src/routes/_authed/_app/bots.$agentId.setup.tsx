@@ -11,8 +11,8 @@ function SetupPage() {
   return (
     <BotSubpage
       agentId={agentId}
-      description="Edit this Bot’s profile, visibility, and runtime settings."
-      title="Setup"
+      description="Edite o perfil, a visibilidade e as configurações de execução deste Bot."
+      title="Configuração"
     >
       {(agent) => <SetupSections agent={agent} />}
     </BotSubpage>

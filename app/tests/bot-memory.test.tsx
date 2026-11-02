@@ -138,8 +138,8 @@ test("only this Bot's background research is listed, with no Bot to pick", async
 async function openAddSource(view: ReturnType<typeof draw>) {
   const user = userEvent.setup({ document });
   await view.findByText("Receipts folder");
-  await user.click(view.getByRole("button", { name: "Add source" }));
-  await user.click(await view.findByRole("combobox", { name: "What to read" }));
+  await user.click(view.getByRole("button", { name: "Adicionar fonte" }));
+  await user.click(await view.findByRole("combobox", { name: "O que ler" }));
   await user.click(await view.findByRole("option", { name: "Search Drive" }));
   return user;
 }
@@ -150,23 +150,23 @@ test("an action setting called name is its own field, not the source name", asyn
   const view = draw(<MemorySources agentId="expenses" />);
   await openAddSource(view);
   const setting = await view.findByLabelText("name");
-  expect(setting).not.toBe(view.getByLabelText("Source name"));
+  expect(setting).not.toBe(view.getByLabelText("Nome da fonte"));
 });
 
 test("reopening Add source after a failure keeps the draft but not the failure", async () => {
   serving();
   const view = draw(<MemorySources agentId="expenses" />);
   const user = await openAddSource(view);
-  await user.type(view.getByLabelText("Source name"), "Invoices");
+  await user.type(view.getByLabelText("Nome da fonte"), "Invoices");
   refuseWrite = "That folder cannot be read.";
-  await user.click(view.getByRole("button", { name: "Add and sync source" }));
+  await user.click(view.getByRole("button", { name: "Adicionar e sincronizar fonte" }));
   expect((await view.findByRole("alert")).textContent).toBe(
     "That folder cannot be read.",
   );
   await user.keyboard("{Escape}");
   await waitFor(() => expect(view.queryByRole("dialog")).toBeNull());
-  await user.click(view.getByRole("button", { name: "Add source" }));
-  const name = (await view.findByLabelText("Source name")) as HTMLInputElement;
+  await user.click(view.getByRole("button", { name: "Adicionar fonte" }));
+  const name = (await view.findByLabelText("Nome da fonte")) as HTMLInputElement;
   expect(name.value).toBe("Invoices");
   expect(view.queryByRole("alert")).toBeNull();
 });
@@ -177,13 +177,13 @@ test("reopening a research row after a failure starts without it", async () => {
   const user = userEvent.setup({ document });
   await user.click(await view.findByRole("button", { name: /Expenses/ }));
   refuseWrite = "Research is paused.";
-  await user.click(await view.findByRole("button", { name: "Run now" }));
+  await user.click(await view.findByRole("button", { name: "Executar agora" }));
   expect((await view.findByRole("alert")).textContent).toBe(
     "Research is paused.",
   );
   await user.keyboard("{Escape}");
   await waitFor(() => expect(view.queryByRole("dialog")).toBeNull());
   await user.click(view.getByRole("button", { name: /Expenses/ }));
-  await view.findByRole("button", { name: "Run now" });
+  await view.findByRole("button", { name: "Executar agora" });
   expect(view.queryByRole("alert")).toBeNull();
 });

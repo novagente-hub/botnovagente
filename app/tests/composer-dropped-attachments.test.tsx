@@ -103,7 +103,7 @@ test("the dropped reason is distinguishable from a pick-time refusal reason", as
   // The dropped reason is already on screen from mount, before any file is ever picked.
   const droppedAlert = await findByRole("alert");
   const droppedReason = droppedAlert.textContent ?? "";
-  expect(droppedReason).toContain("queued messages were merged");
+  expect(droppedReason).toContain("mensagens na fila foram juntadas");
 
   // Now trigger the other kind of refusal: a file refused at pick time, for an unrelated reason.
   const form = container.querySelector("form") as HTMLFormElement;
@@ -111,7 +111,7 @@ test("the dropped reason is distinguishable from a pick-time refusal reason", as
     dataTransfer: {
       files: [new File(["<svg />"], "logo.svg", { type: "image/svg+xml" })],
       items: [],
-      types: ["Files"],
+      types: ["Arquivos"],
     },
   });
 
@@ -129,16 +129,16 @@ test("the dropped reason is distinguishable from a pick-time refusal reason", as
   // Different sentences for a different cause: a file refused on pick names the SVG rule, and a
   // file dropped by a drain names the cap and the merge that overran it.
   expect(dropReason).not.toBe(pickTimeReason);
-  expect(dropReason).toContain("queued messages were merged");
+  expect(dropReason).toContain("mensagens na fila foram juntadas");
   expect(pickTimeReason).toContain("SVG");
-  expect(pickTimeReason).not.toContain("queued messages were merged");
+  expect(pickTimeReason).not.toContain("mensagens na fila foram juntadas");
 });
 
 /**
  * TWO CAUSES REACH THIS PROP, AND UNTIL NOW ONLY ONE OF THEM WAS TRUE OF THE SENTENCE.
  *
  * `reduceQueue` reports a bare `Attachment[]` whichever way the files left, and the composer built
- * one hardcoded reason for it — "dropped when queued messages were merged into one: a message can
+ * one hardcoded reason for it — "dropped when mensagens na fila foram juntadas into one: a message can
  * carry at most 8 attachments". Once a REMOVED queued message routes its attachments down the same
  * channel, that sentence is simply false: nothing was merged and no cap was hit. Somebody took a
  * parked message out of the queue and its files went with it, and being told about a cap they never
@@ -163,9 +163,9 @@ test("attachments dropped by a removal say that, not that a cap was hit", async 
   const reason = alert.textContent ?? "";
 
   expect(reason).toContain("invoice.pdf");
-  expect(reason).toContain("removed");
-  expect(reason).not.toContain("merged");
-  expect(reason).not.toContain("at most");
+  expect(reason).toContain("removido");
+  expect(reason).not.toContain("juntadas");
+  expect(reason).not.toContain("no máximo");
 });
 
 test("the two causes do not share a sentence", async () => {
@@ -195,7 +195,7 @@ test("the two causes do not share a sentence", async () => {
   const removedReason = (await removed.findByRole("alert")).textContent ?? "";
 
   expect(mergedReason).not.toBe(removedReason);
-  expect(mergedReason).toContain("merged");
+  expect(mergedReason).toContain("juntadas");
 });
 
 /**
@@ -266,7 +266,7 @@ test("a fresh dropped object with equal contents reports the drop again", async 
  * `filename` is optional on the SDK's `Attachment`, so the composer prints `filename ?? "Attachment"`
  * — and every other case in this file went through a helper that always supplied one, so the
  * fallback had never run. The rendered line is `<name>: <reason>`, which without the fallback reads
- * "undefined: dropped when queued messages were merged into one…": a sentence naming a file the
+ * "undefined: dropped when mensagens na fila foram juntadas into one…": a sentence naming a file the
  * person cannot match to anything they picked, about a file they cannot get back.
  */
 test("a dropped attachment with no filename reads as an attachment, not as undefined", async () => {
@@ -284,6 +284,6 @@ test("a dropped attachment with no filename reads as an attachment, not as undef
   await findByRole("alert");
   const line = container.querySelector('[role="alert"] p');
 
-  expect(line?.textContent).toStartWith("Attachment: ");
+  expect(line?.textContent).toStartWith("Anexo: ");
   expect(line?.textContent).not.toContain("undefined");
 });

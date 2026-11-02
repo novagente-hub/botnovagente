@@ -192,7 +192,7 @@ function ActionLine({
 }
 
 /** What a line says about a call that waited on a computer still starting. */
-const STILL_STARTING_DETAIL = "The computer is still starting.";
+const STILL_STARTING_DETAIL = "O computador ainda está iniciando.";
 
 /** Whether a result is an ordinary failure rather than a refusal, so the two can render differently. */
 function didNotWork(outcome: ComputerOutcome): boolean {
@@ -334,7 +334,7 @@ export function ComputerTools() {
       return (
         <ActionLine
           running={status !== "complete"}
-          label="Read the page"
+          label="Leu a página"
           detail={
             elements.length
               ? `${elements.length} thing${elements.length === 1 ? "" : "s"} it can act on`
@@ -384,7 +384,7 @@ export function ComputerTools() {
     render: ({ args, result, status }) => (
       <ActionLine
         running={status !== "complete"}
-        label="Filled in"
+        label="Preencheu"
         detail={
           // Never show typed values; identify only the target field.
           labelOf(result) ??
@@ -429,7 +429,7 @@ export function ComputerTools() {
       return (
         <ActionLine
           running={status !== "complete"}
-          label="Clicked"
+          label="Clicou"
           detail={
             // Show refusal reason instead of an internal element ref.
             outcome.refused === true
@@ -479,7 +479,7 @@ export function ComputerTools() {
     render: ({ args, result, status }) => (
       <ActionLine
         running={status !== "complete"}
-        label="Pressed"
+        label="Pressionou"
         detail={typeof args?.key === "string" ? args.key : undefined}
         refused={outcomeOf(result).refused === true}
         failed={didNotWork(outcomeOf(result))}
@@ -655,7 +655,7 @@ export function ComputerTools() {
       return (
         <ActionLine
           running={status !== "complete"}
-          label="Listed files"
+          label="Listou arquivos"
           detail={
             outcome.refused === true || didNotWork(outcome)
               ? String(outcome.reason ?? "")
@@ -702,7 +702,7 @@ export function ComputerTools() {
       return (
         <ActionLine
           running={status !== "complete"}
-          label="Read file"
+          label="Leu arquivo"
           detail={
             outcome.refused === true
               ? String(outcome.reason ?? "")
@@ -780,7 +780,7 @@ export function ComputerTools() {
       return (
         <ToolLine
           running={status !== "complete"}
-          label="Ran a command"
+          label="Executou um comando"
           detail={
             outcome.refused === true
               ? String(outcome.reason ?? "")
@@ -857,7 +857,7 @@ export function ComputerTools() {
       return (
         <ActionLine
           running={status !== "complete"}
-          label={args?.append === true ? "Added to file" : "Saved file"}
+          label={args?.append === true ? "Adicionado ao arquivo" : "Arquivo salvo"}
           // Show the path, never file contents.
           detail={
             outcome.refused === true
@@ -901,7 +901,7 @@ export function ComputerTools() {
     render: ({ result, status }) => (
       <ActionLine
         running={status !== "complete"}
-        label="Scrolled"
+        label="Rolou a página"
         refused={outcomeOf(result).refused === true}
         failed={didNotWork(outcomeOf(result))}
         notYet={stillStarting(outcomeOf(result))}
@@ -929,7 +929,7 @@ export function ComputerTools() {
       if (!shot.frame)
         return {
           ok: false,
-          reason: shot.error ?? shot.notReady?.reason ?? "The computer is not ready yet.",
+          reason: shot.error ?? shot.notReady?.reason ?? "O computador ainda não está pronto.",
         };
       if (toolCall?.id) SCREENSHOTS.set(toolCall.id, shot.frame.base64);
       return {
@@ -948,12 +948,12 @@ export function ComputerTools() {
         <div>
           <ActionLine
             running={status !== "complete"}
-            label="Took a screenshot"
+            label="Tirou uma captura de tela"
             failed={didNotWork(outcome)}
           />
           {image ? (
             <img
-              alt="Screenshot of the Bot's browser"
+              alt="Captura de tela do navegador do Bot"
               data-testid="computer-screenshot"
               className="mt-2 max-w-full rounded border"
               src={`data:image/png;base64,${image}`}

@@ -146,16 +146,17 @@ export function LiveWaveform({
       role="img"
       aria-label={
         unavailable
-          ? "Waveform unavailable; recording continues"
+          ? "Forma de onda indisponível; a gravação continua"
           : processing
-            ? "Processing audio"
-            : "Live audio waveform"
+            ? "Processando áudio"
+            : "Forma de onda do áudio ao vivo"
       }
     >
       <canvas ref={canvasRef} className="block size-full" />
       {unavailable && (
         <span className="absolute inset-0 flex items-center bg-card text-xs text-muted-foreground">
-          Recording · waveform unavailable
+          
+          Gravação · forma de onda indisponível
         </span>
       )}
     </div>

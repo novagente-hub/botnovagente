@@ -73,25 +73,25 @@ export function HandoffPanel({ agentId }: { agentId: string }) {
         /* The current answer at a glance, so the list below is detail rather than homework. */
         grantable && total > 0 ? (
           <span className="text-muted-foreground text-sm tabular-nums">
-            {granted} of {total}
+            {granted} de {total}
           </span>
         ) : null
       }
-      description="Choose which Bots this Bot can ask for help. Their answers appear in the same conversation under their own names. This does not change who can ask this Bot for help."
-      title="Bots it can ask"
+      description="Escolha a quais Bots este Bot pode pedir ajuda. As respostas deles aparecem na mesma conversa, com os próprios nomes. Isso não muda quem pode pedir ajuda a este Bot."
+      title="Bots a quem pode pedir"
     >
       {/* Facts about the deployment rather than rows to act on, so said as sentences. */}
       {enabled ? null : (
-        <PageEmpty icon={IconArrowsExchange} title="Handoffs are off">
-          An admin turned off handing work between Bots. These settings are
-          kept, and they apply again once it's back on.
+        <PageEmpty icon={IconArrowsExchange} title="Repasses desativados">
+          
+          Um administrador desativou o repasse de trabalho entre Bots. Estas configurações ficam guardadas e voltam a valer quando for reativado.
         </PageEmpty>
       )}
 
       {grantable ? null : (
-        <PageEmpty icon={IconLock} title="Can't hand off work">
-          This Bot can't hand work to other Bots. Other Bots can still hand work
-          to it.
+        <PageEmpty icon={IconLock} title="Não pode repassar trabalho">
+          
+          Este Bot não pode repassar trabalho a outros Bots. Outros Bots ainda podem repassar trabalho a ele.
         </PageEmpty>
       )}
 
@@ -102,8 +102,9 @@ export function HandoffPanel({ agentId }: { agentId: string }) {
       ) : null}
 
       {grantable && total === 0 ? (
-        <PageEmpty icon={IconRobot} title="No other Bots yet">
-          When there are more, you can let this Bot ask them here.
+        <PageEmpty icon={IconRobot} title="Ainda não há outros Bots">
+          
+          Quando houver mais, você pode deixar este Bot pedir ajuda a eles aqui.
         </PageEmpty>
       ) : null}
       {candidates.length > 0 ? (
@@ -128,13 +129,13 @@ export function HandoffPanel({ agentId }: { agentId: string }) {
                    */}
                   <ItemDescription>
                     {candidate.hidden
-                      ? `${candidate.title} · hidden from your Bots list`
+                      ? `${candidate.title} · oculto da sua lista de Bots`
                       : candidate.title}
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
                   <Switch
-                    aria-label={`Let this Bot ask ${candidate.name}`}
+                    aria-label={`Permitir que este Bot peça a ${candidate.name}`}
                     checked={reachable.includes(candidate.id)}
                     disabled={!canGrant || setGrant.isPending}
                     onCheckedChange={(next: boolean) =>
@@ -153,8 +154,9 @@ export function HandoffPanel({ agentId }: { agentId: string }) {
       ) : null}
 
       {canGrant ? null : (
-        <PageEmpty icon={IconLock} title="Set by an admin">
-          An admin decides which Bots this one can ask.
+        <PageEmpty icon={IconLock} title="Definido por um administrador">
+          
+          Um administrador decide a quais Bots este pode pedir ajuda.
         </PageEmpty>
       )}
     </PageSection>

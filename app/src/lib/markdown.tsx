@@ -27,9 +27,9 @@ import type { ComponentProps } from "react";
  * is not something to claim about a URL a model wrote.
  */
 const DRIVE_KINDS = [
-  { match: "/document/", icon: IconFileText, label: "Doc" },
-  { match: "/spreadsheets/", icon: IconTable, label: "Sheet" },
-  { match: "/presentation/", icon: IconPresentation, label: "Slides" },
+  { match: "/document/", icon: IconFileText, label: "Documento" },
+  { match: "/spreadsheets/", icon: IconTable, label: "Planilha" },
+  { match: "/presentation/", icon: IconPresentation, label: "Apresentação" },
 ] as const;
 
 export function documentChipKind(href: string | undefined) {

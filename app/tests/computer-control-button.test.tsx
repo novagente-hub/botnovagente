@@ -118,7 +118,7 @@ function controls(botId = "control-test") {
       <section aria-label="Chat">
         <ComputerControlButton computerId={botId} />
       </section>
-      <section aria-label="Computer sidebar">
+      <section aria-label="Painel do Computador">
         <ComputerControlButton computerId={botId} />
       </section>
     </>,
@@ -126,7 +126,7 @@ function controls(botId = "control-test") {
   return {
     ...view,
     chat: within(view.getByRole("region", { name: "Chat" })),
-    sidebar: within(view.getByRole("region", { name: "Computer sidebar" })),
+    sidebar: within(view.getByRole("region", { name: "Painel do Computador" })),
   };
 }
 
@@ -136,18 +136,18 @@ test("chat and sidebar always show controls and update together using the exact 
   await waitFor(() =>
     expect(
       view.chat
-        .getByRole("button", { name: "Take control" })
+        .getByRole("button", { name: "Assumir controle" })
         .hasAttribute("disabled"),
     ).toBe(false),
   );
-  fireEvent.click(view.chat.getByRole("button", { name: "Take control" }));
+  fireEvent.click(view.chat.getByRole("button", { name: "Assumir controle" }));
   expect(
-    await view.sidebar.findByRole("button", { name: "Hand back" }),
+    await view.sidebar.findByRole("button", { name: "Devolver controle" }),
   ).toBeTruthy();
-  expect(view.chat.getByRole("button", { name: "Hand back" })).toBeTruthy();
-  fireEvent.click(view.sidebar.getByRole("button", { name: "Hand back" }));
+  expect(view.chat.getByRole("button", { name: "Devolver controle" })).toBeTruthy();
+  fireEvent.click(view.sidebar.getByRole("button", { name: "Devolver controle" }));
   expect(
-    await view.chat.findByRole("button", { name: "Take control" }),
+    await view.chat.findByRole("button", { name: "Assumir controle" }),
   ).toBeTruthy();
   expect(
     backend.calls
@@ -170,21 +170,21 @@ test("an in-flight takeover disables both controls and prevents duplicate reques
   await waitFor(() =>
     expect(
       view.chat
-        .getByRole("button", { name: "Take control" })
+        .getByRole("button", { name: "Assumir controle" })
         .hasAttribute("disabled"),
     ).toBe(false),
   );
-  fireEvent.click(view.chat.getByRole("button", { name: "Take control" }));
+  fireEvent.click(view.chat.getByRole("button", { name: "Assumir controle" }));
   await waitFor(() =>
     expect(
       view.sidebar
-        .getByRole("button", { name: "Take control" })
+        .getByRole("button", { name: "Assumir controle" })
         .hasAttribute("disabled"),
     ).toBe(true),
   );
-  fireEvent.click(view.sidebar.getByRole("button", { name: "Take control" }));
+  fireEvent.click(view.sidebar.getByRole("button", { name: "Assumir controle" }));
   backend.finishTake();
-  await view.chat.findByRole("button", { name: "Hand back" });
+  await view.chat.findByRole("button", { name: "Devolver controle" });
   expect(
     backend.calls.filter((call) => call.path.endsWith("/control/take")),
   ).toHaveLength(1);
@@ -197,17 +197,17 @@ test("a failed takeover is visible in both surfaces and can be retried", async (
   await waitFor(() =>
     expect(
       view.chat
-        .getByRole("button", { name: "Take control" })
+        .getByRole("button", { name: "Assumir controle" })
         .hasAttribute("disabled"),
     ).toBe(false),
   );
-  fireEvent.click(view.chat.getByRole("button", { name: "Take control" }));
+  fireEvent.click(view.chat.getByRole("button", { name: "Assumir controle" }));
   expect(await view.chat.findByRole("alert")).toBeTruthy();
   expect(view.sidebar.getByRole("alert")).toBeTruthy();
   backend.recover();
-  fireEvent.click(view.sidebar.getByRole("button", { name: "Take control" }));
+  fireEvent.click(view.sidebar.getByRole("button", { name: "Assumir controle" }));
   expect(
-    await view.chat.findByRole("button", { name: "Hand back" }),
+    await view.chat.findByRole("button", { name: "Devolver controle" }),
   ).toBeTruthy();
   expect(view.chat.queryByRole("alert")).toBeNull();
 });
@@ -216,9 +216,9 @@ test("active human control is immediately offered as Hand back on mounting eithe
   server("human");
   const view = controls();
   expect(
-    await view.chat.findByRole("button", { name: "Hand back" }),
+    await view.chat.findByRole("button", { name: "Devolver controle" }),
   ).toBeTruthy();
-  expect(view.sidebar.getByRole("button", { name: "Hand back" })).toBeTruthy();
+  expect(view.sidebar.getByRole("button", { name: "Devolver controle" })).toBeTruthy();
 });
 
 test("Strict Mode keeps chat and sidebar on one ownership store", async () => {
@@ -232,13 +232,13 @@ test("Strict Mode keeps chat and sidebar on one ownership store", async () => {
   await waitFor(() =>
     expect(
       view
-        .getAllByRole("button", { name: "Take control" })
+        .getAllByRole("button", { name: "Assumir controle" })
         .every((button) => !button.hasAttribute("disabled")),
     ).toBe(true),
   );
-  fireEvent.click(view.getAllByRole("button", { name: "Take control" })[0]!);
+  fireEvent.click(view.getAllByRole("button", { name: "Assumir controle" })[0]!);
   await waitFor(() =>
-    expect(view.getAllByRole("button", { name: "Hand back" })).toHaveLength(2),
+    expect(view.getAllByRole("button", { name: "Devolver controle" })).toHaveLength(2),
   );
   expect(
     backend.calls.filter((call) => call.path.endsWith("/control/request")),
@@ -262,7 +262,7 @@ test("a takeover stays shared when chat remounts before its response", async () 
   const second = render(<ComputerControlButton computerId="remount-control" />);
   expect(second.getByRole("button").hasAttribute("disabled")).toBe(true);
   backend.finishTake();
-  expect(await second.findByRole("button", { name: "Hand back" })).toBeTruthy();
+  expect(await second.findByRole("button", { name: "Devolver controle" })).toBeTruthy();
 });
 
 test("the header's Computer toggle is an icon alone; taking control lives in the Computer itself", async () => {
@@ -281,13 +281,13 @@ test("the header's Computer toggle is an icon alone; taking control lives in the
     );
   }
   const view = render(<Chat />);
-  const toggle = await view.findByRole("button", { name: "Open Computer" });
+  const toggle = await view.findByRole("button", { name: "Abrir Computador" });
   await waitFor(() => expect(toggle.hasAttribute("disabled")).toBe(false));
   expect(toggle.textContent).toBe("");
-  expect(view.queryByRole("button", { name: "Take control" })).toBeNull();
+  expect(view.queryByRole("button", { name: "Assumir controle" })).toBeNull();
   fireEvent.click(toggle);
   expect(view.getByText("Live computer sidebar")).toBeTruthy();
-  fireEvent.click(view.getByRole("button", { name: "Close Computer" }));
+  fireEvent.click(view.getByRole("button", { name: "Fechar Computador" }));
   expect(view.queryByText("Live computer sidebar")).toBeNull();
   expect(backend.calls.filter((call) => call.body)).toHaveLength(0);
 });
@@ -309,12 +309,12 @@ test("an active human prompt opens once and does not fight closing the Computer"
   }
   const view = render(<Chat />);
   expect(await view.findByText("Live computer sidebar")).toBeTruthy();
-  fireEvent.click(view.getByRole("button", { name: "Close Computer" }));
+  fireEvent.click(view.getByRole("button", { name: "Fechar Computador" }));
   view.rerender(<Chat />);
   expect(view.queryByText("Live computer sidebar")).toBeNull();
   // Closed, the icon still says the Computer wants the person; handing back is done inside it.
-  expect(view.getByRole("img", { name: "Needs you" })).toBeTruthy();
-  expect(view.queryByRole("button", { name: "Hand back" })).toBeNull();
+  expect(view.getByRole("img", { name: "Precisa de você" })).toBeTruthy();
+  expect(view.queryByRole("button", { name: "Devolver controle" })).toBeNull();
 });
 
 test("both controls stay disabled while the current browser action drains", async () => {
@@ -325,14 +325,14 @@ test("both controls stay disabled while the current browser action drains", asyn
   expect(view.sidebar.getByRole("status")).toBeTruthy();
   expect(
     view.chat
-      .getByRole("button", { name: "Take control" })
+      .getByRole("button", { name: "Assumir controle" })
       .hasAttribute("disabled"),
   ).toBe(true);
   expect(
     view.sidebar
-      .getByRole("button", { name: "Take control" })
+      .getByRole("button", { name: "Assumir controle" })
       .hasAttribute("disabled"),
   ).toBe(true);
-  fireEvent.click(view.chat.getByRole("button", { name: "Take control" }));
+  fireEvent.click(view.chat.getByRole("button", { name: "Assumir controle" }));
   expect(backend.calls.filter((call) => call.body)).toHaveLength(0);
 });

@@ -106,7 +106,7 @@ export function agentCapabilitiesQueryOptions() {
     queryKey: agentKeys.capabilities(),
     queryFn: (): Promise<AgentCapabilities> =>
       client("/api/agents/capabilities", "capabilities", {
-        fallback: "Could not load what this deployment supports",
+        fallback: "Não foi possível carregar o que esta implantação suporta",
       }),
     // Deployment configuration, not data: it cannot change without the server restarting.
     staleTime: Number.POSITIVE_INFINITY,
@@ -141,7 +141,7 @@ export function agentListQueryOptions(hidden = false) {
     queryKey: agentKeys.list(hidden),
     queryFn: (): Promise<AgentProfile[]> =>
       client(`/api/agents${hidden ? "?hidden=true" : ""}`, "agents", {
-        fallback: "Couldn't load your Bots.",
+        fallback: "Não foi possível carregar seus Bots.",
       }),
   });
 }
@@ -156,7 +156,7 @@ export function agentQueryOptions(agentId: string) {
     queryKey: agentKeys.detail(agentId),
     queryFn: (): Promise<AgentProfile> =>
       client(agentApiPath(agentId), "agent", {
-        fallback: "Couldn't load this Bot.",
+        fallback: "Não foi possível carregar este Bot.",
       }),
   });
 }
@@ -166,7 +166,7 @@ export function agentHandoffQueryOptions(agentId: string) {
     queryKey: agentKeys.handoff(agentId),
     queryFn: (): Promise<HandoffGrants> =>
       client(`${agentApiPath(agentId)}/handoff`, "handoff", {
-        fallback: "Could not load which Bots this one may ask",
+        fallback: "Não foi possível carregar a quais Bots este pode pedir ajuda",
       }),
   });
 }
@@ -206,9 +206,9 @@ export async function testAgentConnection(
       ok: false,
       reason:
         (body as { error?: string } | null)?.error ??
-        "The connection could not be tested.",
+        "Não foi possível testar a conexão.",
     };
   } catch {
-    return { ok: false, reason: "The connection could not be tested." };
+    return { ok: false, reason: "Não foi possível testar a conexão." };
   }
 }

@@ -64,7 +64,7 @@ function snapshot(overrides: Partial<GrantSnapshot> = {}): GrantSnapshot {
 }
 
 test("a card waits, never refuses, while grants are unknown", () => {
-  expect(cardState(snapshot(), "chart", "Bar chart")).toBe("wait-for-grant");
+  expect(cardState(snapshot(), "chart", "Gráfico de barras")).toBe("wait-for-grant");
 });
 
 test("a held component draws", () => {
@@ -72,7 +72,7 @@ test("a held component draws", () => {
     cardState(
       snapshot({ grants: { status: "known", held: held("chart") } }),
       "chart",
-      "Bar chart",
+      "Gráfico de barras",
     ),
   ).toBe("draw");
 });
@@ -82,17 +82,17 @@ test("a component the Bot does not hold is refused", () => {
     cardState(
       snapshot({ grants: { status: "known", held: held() } }),
       "chart",
-      "Bar chart",
+      "Gráfico de barras",
     ),
-  ).toEqual({ refused: NOT_AVAILABLE("Bar chart") });
+  ).toEqual({ refused: NOT_AVAILABLE("Gráfico de barras") });
 });
 
 test("grants that failed refuse with the couldn't-check reason", () => {
   expect(
-    cardState(snapshot({ grants: { status: "failed" } }), "chart", "Bar chart"),
-  ).toEqual({ refused: COULDNT_CHECK("Bar chart") });
-  expect(COULDNT_CHECK("Bar chart")).toBe(
-    "Couldn't check whether this Bot may show Bar chart. Try again in a moment.",
+    cardState(snapshot({ grants: { status: "failed" } }), "chart", "Gráfico de barras"),
+  ).toEqual({ refused: COULDNT_CHECK("Gráfico de barras") });
+  expect(COULDNT_CHECK("Gráfico de barras")).toBe(
+    "Não foi possível verificar se este Bot pode mostrar Gráfico de barras. Tente de novo em instantes.",
   );
 });
 
@@ -104,7 +104,7 @@ test("a refusal for this call wins over a grant", () => {
         refusals: new Map([["call-2", "Not in this channel."]]),
       }),
       "chart",
-      "Bar chart",
+      "Gráfico de barras",
       "call-2",
     ),
   ).toEqual({ refused: "Not in this channel." });

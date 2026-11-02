@@ -42,7 +42,7 @@ export function voiceSessionQueryOptions(channelId: string) {
         if (cursor) params.set("cursor", cursor);
         const response = await client(`/api/voice/sessions?${params}`, {
           signal,
-          fallback: "Could not load voice chats.",
+          fallback: "Não foi possível carregar os chats de voz.",
         });
         const page = (await response.json()) as VoiceSessionPage;
         sessions.push(...page.sessions);
@@ -108,7 +108,7 @@ export function saveVoiceSession(
       const body: { session?: VoiceSessionRecord; error?: string } =
         await response.json().catch(() => ({}));
       if (!body.session)
-        throw new Error(body.error ?? "Could not save this voice chat.");
+        throw new Error(body.error ?? "Não foi possível salvar este chat de voz.");
       const session = body.session;
       forgetVoiceCall(session, ownerId);
       queryClient.setQueryData<VoiceSessionRecord[]>(
@@ -124,10 +124,10 @@ export function saveVoiceSession(
         saveError:
           (error instanceof Error
             ? error.message
-            : "Could not save this voice chat.") +
+            : "Não foi possível salvar este chat de voz.") +
           (recoverable
             ? ""
-            : " Keep this page open to retry; browser recovery is unavailable."),
+            : " Mantenha esta página aberta para tentar de novo; a recuperação pelo navegador não está disponível."),
       });
     }
   })();
@@ -151,7 +151,7 @@ export function useVoiceArchive(channelId: string) {
           summary: null,
           summaryStatus: "failed",
           saveState: "unsaved",
-          saveError: "The page closed before saving was confirmed.",
+          saveError: "A página fechou antes de o salvamento ser confirmado.",
         })),
       enabled: false,
       gcTime: Infinity,

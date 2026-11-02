@@ -51,11 +51,12 @@ export function GithubSources() {
       action={
         <Button onClick={() => setAdding(true)} size="sm" variant="ghost">
           <IconPlus />
-          Add a repository
+          
+          Adicionar um repositório
         </Button>
       }
-      description="Add a repository here, then add a webhook in GitHub with the address below and the same secret. Its events, like issues.opened, can then start a responsibility."
-      title="Repositories"
+      description="Adicione um repositório aqui e depois adicione um webhook no GitHub com o endereço abaixo e o mesmo segredo. Os eventos dele, como issues.opened, podem então iniciar uma responsabilidade."
+      title="Repositórios"
     >
       {error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
@@ -68,13 +69,15 @@ export function GithubSources() {
           action={
             <Button onClick={() => setAdding(true)} size="sm" variant="outline">
               <IconPlus />
-              Add a repository
+              
+              Adicionar um repositório
             </Button>
           }
           icon={IconBrandGithub}
-          title="No repositories yet"
+          title="Nenhum repositório ainda"
         >
-          Repositories you add show up here with their webhook address.
+          
+          Os repositórios que você adicionar aparecem aqui com o endereço do webhook.
         </PageEmpty>
       ) : (
         <PageRows>
@@ -98,7 +101,8 @@ export function GithubSources() {
                     size="sm"
                     variant="outline"
                   >
-                    Disconnect
+                    
+                    Desconectar
                   </Button>
                 </ItemActions>
               </Item>
@@ -123,9 +127,10 @@ function AddRepositoryDialog({ onClose }: { onClose: () => void }) {
     <Dialog onOpenChange={(next) => !next && onClose()} open>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add a repository</DialogTitle>
+          <DialogTitle>Adicionar um repositório</DialogTitle>
           <DialogDescription>
-            Use the same secret when you add the webhook in GitHub.
+            
+            Use o mesmo segredo ao adicionar o webhook no GitHub.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4">
@@ -150,7 +155,8 @@ function AddRepositoryDialog({ onClose }: { onClose: () => void }) {
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor={`${formId}-repository`}>
-                  Repository
+                  
+                  Repositório
                 </FieldLabel>
                 <Input
                   autoFocus
@@ -163,7 +169,8 @@ function AddRepositoryDialog({ onClose }: { onClose: () => void }) {
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${formId}-secret`}>
-                  Webhook secret
+                  
+                  Segredo do webhook
                 </FieldLabel>
                 <Input
                   autoComplete="new-password"
@@ -184,7 +191,8 @@ function AddRepositoryDialog({ onClose }: { onClose: () => void }) {
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" variant="outline">
-            Cancel
+            
+            Cancelar
           </Button>
           <Button
             disabled={create.isPending}
@@ -192,7 +200,8 @@ function AddRepositoryDialog({ onClose }: { onClose: () => void }) {
             size="sm"
             type="submit"
           >
-            Connect events
+            
+            Conectar eventos
           </Button>
         </DialogFooter>
       </DialogContent>

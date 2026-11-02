@@ -33,7 +33,8 @@ export function SharedAppNotice({
       <div className="space-y-1 text-sm">
         {apps.map((app) => (
           <p key={app.serverId}>
-            Saving also lets everyone who can use this Bot use the shared{" "}
+            
+            Salvar também permite que todos que podem usar este Bot usem a conta compartilhada{" "}
             {app.title} account.
           </p>
         ))}
@@ -49,16 +50,17 @@ export function SharedAppNotice({
       {apps.map((app) =>
         waiting.has(app.serverId) ? (
           <p className="text-muted-foreground" key={app.serverId}>
-            Waiting for an admin to approve the shared {app.title} account.
+            
+            Aguardando um administrador aprovar a conta compartilhada {app.title}.
           </p>
         ) : app.covered ? null : (
           <div className="flex flex-wrap items-center gap-2" key={app.serverId}>
             <p className="text-amber-700 dark:text-amber-400">
-              This Bot can't use the shared {app.title} account until an admin
-              approves who can use the Bot.
+              
+              Este Bot não pode usar a conta compartilhada {app.title} até um administrador aprovar quem pode usar o Bot.
             </p>
             <Button
-              aria-label={`Request approval for ${app.title}`}
+              aria-label={`Pedir aprovação para ${app.title}`}
               disabled={ask.isPending}
               onClick={() =>
                 ask.mutate({ botId, serverId: app.serverId, reason })
@@ -67,7 +69,8 @@ export function SharedAppNotice({
               type="button"
               variant="outline"
             >
-              Request approval
+              
+              Pedir aprovação
             </Button>
           </div>
         ),

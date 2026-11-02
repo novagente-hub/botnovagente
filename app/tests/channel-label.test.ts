@@ -12,14 +12,14 @@ function hasLoneSurrogate(text: string): boolean {
 describe("a conversation label", () => {
   test("keeps a short title whole", () => {
     expect(
-      conversationLabel({ name: "General", summary: "What is in the PRD?" }),
-    ).toBe("General: What is in the PRD?");
+      conversationLabel({ name: "Geral", summary: "What is in the PRD?" }),
+    ).toBe("Geral: What is in the PRD?");
   });
 
   test("cuts a long title to the limit", () => {
     expect(
-      conversationLabel({ name: "General", summary: "a".repeat(80) }),
-    ).toBe(`General: ${"a".repeat(60)}`);
+      conversationLabel({ name: "Geral", summary: "a".repeat(80) }),
+    ).toBe(`Geral: ${"a".repeat(60)}`);
   });
 
   test("does not leave half a character when the cut lands on one", () => {
@@ -29,18 +29,18 @@ describe("a conversation label", () => {
      * draw, so it showed a replacement character where the emoji should have been.
      */
     const label = conversationLabel({
-      name: "General",
+      name: "Geral",
       summary: `${"a".repeat(59)}\u{1F600}tail`,
     });
 
     expect(hasLoneSurrogate(label)).toBe(false);
-    expect(label).toBe(`General: ${"a".repeat(59)}`);
+    expect(label).toBe(`Geral: ${"a".repeat(59)}`);
   });
 
   test("falls back to the name when there is no title", () => {
-    expect(conversationLabel({ name: "General" })).toBe("General");
-    expect(conversationLabel({ name: "General", summary: "   " })).toBe(
-      "General",
+    expect(conversationLabel({ name: "Geral" })).toBe("Geral");
+    expect(conversationLabel({ name: "Geral", summary: "   " })).toBe(
+      "Geral",
     );
   });
 });

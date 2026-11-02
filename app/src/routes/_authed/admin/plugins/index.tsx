@@ -95,12 +95,12 @@ function summaryFor(
   auth: CatalogueItem["auth"] | undefined,
   youConnected: boolean,
 ): string {
-  if (auth === "user-oauth" && !youConnected) return "Not connected";
-  if (server.tools.length === 0) return "No tools yet";
+  if (auth === "user-oauth" && !youConnected) return "Não conectado";
+  if (server.tools.length === 0) return "Nenhuma ferramenta ainda";
 
   const bots = new Set(server.tools.flatMap((tool) => tool.grantedTo)).size;
-  const tools = `${server.tools.length} ${server.tools.length === 1 ? "tool" : "tools"}`;
-  if (bots === 0) return `${tools} · no Bots`;
+  const tools = `${server.tools.length} ${server.tools.length === 1 ? "ferramenta" : "ferramentas"}`;
+  if (bots === 0) return `${tools} · nenhum Bot`;
   return `${tools} · ${bots} ${bots === 1 ? "Bot" : "Bots"}`;
 }
 
@@ -140,13 +140,14 @@ function RouteComponent() {
 
   return (
     <PageShell
-      description="Connect services for your company, then choose which Bots can use each service’s tools."
+      description="Conecte serviços para sua empresa e escolha quais Bots podem usar as ferramentas de cada serviço."
       title="Plugins"
     >
       {/* Pending, error, empty, rows — pending first, so no sentence asserts anything mid-fetch. */}
       {plugins.isPending ? null : plugins.error ? (
         <p className="mt-12 text-destructive text-sm" role="alert">
-          Couldn't load plugins. Reload the page.
+          
+          Não foi possível carregar os plugins. Recarregue a página.
         </p>
       ) : (
         <>
@@ -157,12 +158,13 @@ function RouteComponent() {
           <AccessRequestsSection />
 
           <PageSection
-            description="Added for everybody. Open one to set it up and choose which Bots get its tools."
-            title="Connected"
+            description="Adicionados para todos. Abra um para configurá-lo e escolher quais Bots recebem as ferramentas."
+            title="Conectado"
           >
             {plugins.data?.servers.length === 0 ? (
-              <PageEmpty icon={IconPlug} title="Nothing connected yet">
-                Pick one from the list below.
+              <PageEmpty icon={IconPlug} title="Nada conectado ainda">
+                
+                Escolha um da lista abaixo.
               </PageEmpty>
             ) : (
               <PageRows>
@@ -228,12 +230,13 @@ function RouteComponent() {
           </PageSection>
 
           <PageSection
-            description="Reviewed, first-party servers. Open one to add it."
-            title="Explore plugins"
+            description="Servidores oficiais revisados. Abra um para adicioná-lo."
+            title="Explorar plugins"
           >
             {explore.length === 0 ? (
-              <PageEmpty icon={IconCircleCheck} title="All connected">
-                Every plugin in the catalogue is connected.
+              <PageEmpty icon={IconCircleCheck} title="Todos conectados">
+                
+                Todos os plugins do catálogo estão conectados.
               </PageEmpty>
             ) : (
               <PageRows>
@@ -263,7 +266,8 @@ function RouteComponent() {
                             count={requestCounts?.byApp[entry.key] ?? 0}
                           />
                           <span className="text-muted-foreground text-xs">
-                            Not added
+                            
+                            Não adicionado
                           </span>
                           <IconChevronRight className="size-4 shrink-0 text-muted-foreground" />
                         </ItemActions>
@@ -278,7 +282,7 @@ function RouteComponent() {
 
           <PageSection
             description={moreAppsSectionDescription(provider)}
-            title="More apps"
+            title="Mais apps"
           >
             <PageRows>
               {/*
@@ -341,7 +345,7 @@ function PendingRequests({ count }: { count: number }) {
   if (count === 0) return null;
   return (
     <span className="font-medium text-foreground text-xs tabular-nums">
-      {count} {count === 1 ? "request" : "requests"}
+      {count} {count === 1 ? "solicitação" : "solicitações"}
     </span>
   );
 }

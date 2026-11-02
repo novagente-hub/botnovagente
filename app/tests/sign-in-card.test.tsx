@@ -140,7 +140,7 @@ test("the waiting card offers the private sign-in once the request exists", asyn
   );
   serving([]);
   tree.rerender(drawn);
-  await tree.findByText("Waiting for you to sign in");
+  await tree.findByText("Aguardando você entrar");
   // Long enough for a card that looks the request up to have looked once and found nothing.
   await new Promise((resolve) => setTimeout(resolve, 100));
 

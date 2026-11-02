@@ -24,7 +24,7 @@ export type AgentInput = {
 };
 
 /** The sentence for every write here, since they all fail the same way to a reader. */
-const FALLBACK = "Couldn't save that change to the Bot.";
+const FALLBACK = "Não foi possível salvar essa alteração no Bot.";
 
 /** Server-derived fields are invalidated instead of patched by hand. */
 function invalidateAgents(queryClient: QueryClient) {

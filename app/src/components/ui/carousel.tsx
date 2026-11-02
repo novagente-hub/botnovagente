@@ -220,7 +220,7 @@ function CarouselPrevious({
       {...props}
     >
       <IconChevronLeft />
-      <span className="sr-only">Previous slide</span>
+      <span className="sr-only">Slide anterior</span>
     </Button>
   );
 }
@@ -250,7 +250,7 @@ function CarouselNext({
       {...props}
     >
       <IconChevronRight />
-      <span className="sr-only">Next slide</span>
+      <span className="sr-only">Próximo slide</span>
     </Button>
   );
 }

@@ -56,10 +56,10 @@ import {
 import { queryClient } from "@/query-client";
 
 const intervals = [
-  { minutes: 60, label: "Every hour" },
-  { minutes: 240, label: "Every 4 hours" },
-  { minutes: 720, label: "Twice a day" },
-  { minutes: 1440, label: "Once a day" },
+  { minutes: 60, label: "A cada hora" },
+  { minutes: 240, label: "A cada 4 horas" },
+  { minutes: 720, label: "Duas vezes por dia" },
+  { minutes: 1440, label: "Uma vez por dia" },
 ];
 /** The label map, so a closed trigger says "Every 4 hours" rather than 240. */
 const intervalItems = intervals.map((interval) => ({
@@ -68,7 +68,7 @@ const intervalItems = intervals.map((interval) => ({
 }));
 const intervalLabel = (minutes: number) =>
   intervals.find((interval) => interval.minutes === minutes)?.label ??
-  `Every ${minutes} minutes`;
+  `A cada ${minutes} minutos`;
 /** Next steps a Bot proposed from background research: start one as a task, or dismiss it. */
 /** How many suggestions show before the rest fold behind "Show more". */
 const SUGGESTIONS_SHOWN = 3;
@@ -87,7 +87,7 @@ export function SuggestionsInbox({
   const act = useMutation(resolveSuggestionMutationOptions(queryClient));
   const [expanded, setExpanded] = useState(false);
   const botName = (id: string) =>
-    bots.data?.find((bot) => bot.id === id)?.name ?? "Your Bot";
+    bots.data?.find((bot) => bot.id === id)?.name ?? "Seu Bot";
   if (agentId !== undefined && shown.length === 0) return null;
   /*
    * The newest few, the rest a click away. Each suggestion is a paragraph with two buttons, and a
@@ -97,7 +97,7 @@ export function SuggestionsInbox({
   const hidden = expanded ? 0 : Math.max(0, shown.length - SUGGESTIONS_SHOWN);
   const visible = hidden ? shown.slice(0, SUGGESTIONS_SHOWN) : shown;
   return (
-    <PageSection title="Suggested next steps">
+    <PageSection title="Próximos passos sugeridos">
       {suggestions.isPending ? null : suggestions.error ? (
         <p role="alert" className="mt-4 text-destructive text-sm">
           {suggestions.error.message}
@@ -125,7 +125,7 @@ export function SuggestionsInbox({
                     {new Date(suggestion.createdAt).toLocaleString()}
                     {suggestion.sourceApp || suggestion.sourceLink ? (
                       <>
-                        {" · "}From {suggestion.sourceApp ?? "a connected app"}
+                        {" · "}De {suggestion.sourceApp ?? "um app conectado"}
                         {suggestion.sourceLink && (
                           <>
                             {" · "}
@@ -134,7 +134,8 @@ export function SuggestionsInbox({
                               target="_blank"
                               rel="noreferrer"
                             >
-                              Open record
+                              
+                              Abrir registro
                             </a>
                           </>
                         )}
@@ -151,7 +152,8 @@ export function SuggestionsInbox({
                           act.mutate({ id: suggestion.id, action: "start" })
                         }
                       >
-                        Start as task
+                        
+                        Iniciar como tarefa
                       </Button>
                       <Button
                         size="sm"
@@ -161,7 +163,8 @@ export function SuggestionsInbox({
                           act.mutate({ id: suggestion.id, action: "dismiss" })
                         }
                       >
-                        Dismiss
+                        
+                        Dispensar
                       </Button>
                     </div>
                   </ItemFooter>
@@ -179,7 +182,8 @@ export function SuggestionsInbox({
               >
                 <ItemContent>
                   <ItemTitle className="text-muted-foreground">
-                    Show {hidden} more
+                    
+                    Mostrar mais {hidden}
                   </ItemTitle>
                 </ItemContent>
                 <ItemActions>
@@ -190,8 +194,9 @@ export function SuggestionsInbox({
           ) : null}
         </PageRows>
       ) : (
-        <PageEmpty icon={IconBulb} title="No suggestions right now">
-          Bots with background research on will suggest next steps here.
+        <PageEmpty icon={IconBulb} title="Nenhuma sugestão no momento">
+          
+          Bots com pesquisa em segundo plano ativada vão sugerir próximos passos aqui.
         </PageEmpty>
       )}
       {act.error && (
@@ -226,11 +231,12 @@ export function ProactiveResearchSettings({
       action={
         <Button onClick={() => setAdding(true)} size="sm" variant="ghost">
           <IconPlus />
-          Turn on research
+          
+          Ativar pesquisa
         </Button>
       }
-      description="On by default once you start a conversation with just this Bot: it looks through the apps it can already read every four hours, forms memories for you to review and suggests next steps. It can only read: it cannot send messages, change anything in an app, or use a browser or computer. Turn it off or remove it and it stays that way."
-      title="Background research"
+      description="Ativada por padrão quando você inicia uma conversa só com este Bot: a cada quatro horas ele examina os apps que já pode ler, cria memórias para você revisar e sugere próximos passos. Ele só pode ler: não pode enviar mensagens, alterar nada em um app nem usar navegador ou computador. Desative ou remova e ela continua assim."
+      title="Pesquisa em segundo plano"
     >
       {settings.isPending ? null : settings.error ? (
         <p role="alert" className="mt-4 text-destructive text-sm">
@@ -241,11 +247,12 @@ export function ProactiveResearchSettings({
           action={
             <Button onClick={() => setAdding(true)} size="sm" variant="outline">
               <IconPlus />
-              Turn on research
+              
+              Ativar pesquisa
             </Button>
           }
           icon={IconRadar}
-          title="Background research is off"
+          title="A pesquisa em segundo plano está desativada"
         />
       ) : (
         <PageRows>
@@ -297,10 +304,10 @@ function TurnOnResearchDialog({
     <Dialog onOpenChange={(next) => !next && onClose()} open>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Turn on background research</DialogTitle>
+          <DialogTitle>Ativar pesquisa em segundo plano</DialogTitle>
           <DialogDescription>
-            It reads on a schedule and delivers what it suggests to a channel it
-            is in.
+            
+            Ele lê de acordo com uma agenda e entrega o que sugere em um canal do qual participa.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 overflow-y-auto">
@@ -333,7 +340,7 @@ function TurnOnResearchDialog({
                     value={agentId || null}
                   >
                     <SelectTrigger className="w-full" id={`${id}-bot`}>
-                      <SelectValue placeholder="Choose a Bot" />
+                      <SelectValue placeholder="Escolha um Bot" />
                     </SelectTrigger>
                     <SelectContent>
                       {bots.data?.map((bot) => (
@@ -347,7 +354,8 @@ function TurnOnResearchDialog({
               ) : null}
               <Field>
                 <FieldLabel htmlFor={`${id}-channel`}>
-                  Deliver suggestions to
+                  
+                  Entregar sugestões em
                 </FieldLabel>
                 <Select
                   items={eligibleChannels.map((channel) => ({
@@ -359,7 +367,7 @@ function TurnOnResearchDialog({
                   value={channelId || null}
                 >
                   <SelectTrigger className="w-full" id={`${id}-channel`}>
-                    <SelectValue placeholder="Choose a channel" />
+                    <SelectValue placeholder="Escolha um canal" />
                   </SelectTrigger>
                   <SelectContent>
                     {eligibleChannels.map((channel) => (
@@ -371,7 +379,7 @@ function TurnOnResearchDialog({
                 </Select>
               </Field>
               <Field>
-                <FieldLabel htmlFor={`${id}-interval`}>How often</FieldLabel>
+                <FieldLabel htmlFor={`${id}-interval`}>Com que frequência</FieldLabel>
                 <Select
                   items={intervalItems}
                   onValueChange={(value) => {
@@ -396,14 +404,15 @@ function TurnOnResearchDialog({
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${id}-focus`}>
-                  What to look for (optional)
+                  
+                  O que procurar (opcional)
                 </FieldLabel>
                 <Input
                   id={`${id}-focus`}
                   maxLength={1000}
                   value={focus}
                   onChange={(event) => setFocus(event.target.value)}
-                  placeholder="Open issues assigned to me and questions waiting on me"
+                  placeholder="Issues abertas atribuídas a mim e perguntas esperando por mim"
                 />
               </Field>
             </FieldGroup>
@@ -416,7 +425,8 @@ function TurnOnResearchDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" variant="outline">
-            Cancel
+            
+            Cancelar
           </Button>
           <Button
             disabled={add.isPending || !agentId || !channelId}
@@ -424,7 +434,8 @@ function TurnOnResearchDialog({
             size="sm"
             type="submit"
           >
-            Turn on background research
+            
+            Ativar pesquisa em segundo plano
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -435,9 +446,9 @@ function TurnOnResearchDialog({
 /** Whether it is on, and when it runs next. Stated rather than captured, so it follows the query. */
 function researchStatus(setting: ProactiveSetting) {
   return !setting.enabled
-    ? "Off"
+    ? "Desativado"
     : setting.lastStatus === "running"
-      ? "Researching now"
+      ? "Pesquisando agora"
       : `Next ${new Date(setting.nextRunAt).toLocaleString()}`;
 }
 
@@ -499,7 +510,7 @@ function SettingRow({
       <Dialog onOpenChange={setOpen} open={open}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Background research</DialogTitle>
+            <DialogTitle>Pesquisa em segundo plano</DialogTitle>
             <DialogDescription>
               {setting.focus ? `${botName} · ${setting.focus}` : botName}
             </DialogDescription>
@@ -513,7 +524,8 @@ function SettingRow({
                 <ItemTitle>{researchStatus(setting)}</ItemTitle>
                 {setting.lastRunAt && (
                   <ItemDescription>
-                    Last ran {new Date(setting.lastRunAt).toLocaleString()}
+                    
+                    Última execução {new Date(setting.lastRunAt).toLocaleString()}
                     {setting.lastStatus === "succeeded"
                       ? ""
                       : ` (${setting.lastStatus})`}
@@ -527,7 +539,7 @@ function SettingRow({
               </p>
             )}
             <Field>
-              <FieldLabel htmlFor={`${id}-interval`}>How often</FieldLabel>
+              <FieldLabel htmlFor={`${id}-interval`}>Com que frequência</FieldLabel>
               {/* Writes on pick: one value, no draft worth holding. */}
               <Select
                 disabled={change.isPending}
@@ -571,7 +583,8 @@ function SettingRow({
                 )
               }
             >
-              Remove
+              
+              Remover
             </Button>
             <Button
               size="sm"
@@ -581,7 +594,7 @@ function SettingRow({
                 change.mutate({ setting, change: { kind: "toggle" } })
               }
             >
-              {setting.enabled ? "Turn off" : "Turn on"}
+              {setting.enabled ? "Desativar" : "Ativar"}
             </Button>
             <Button
               size="sm"
@@ -590,7 +603,8 @@ function SettingRow({
                 change.mutate({ setting, change: { kind: "run" } })
               }
             >
-              Run now
+              
+              Executar agora
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -127,7 +127,7 @@ function draw() {
 }
 
 const row = async (view: ReturnType<typeof draw>, key: string) => {
-  await view.findByText("What it can use");
+  await view.findByText("O que ele pode usar");
   const found = await view.findByText((_, element) =>
     Boolean(element?.getAttribute("data-app") === key),
   );
@@ -151,8 +151,8 @@ test("each app is named by its own name and says it is ready, with its tools", a
   const view = draw();
   const gmail = await row(view, "composio-gmail");
   expect(gmail.getByText("Gmail")).toBeTruthy();
-  expect(gmail.getByText(/^Ready to use\./)).toBeTruthy();
-  expect(gmail.getByText("2 tools")).toBeTruthy();
+  expect(gmail.getByText(/^Pronto para usar\./)).toBeTruthy();
+  expect(gmail.getByText("2 ferramentas")).toBeTruthy();
   expect(view.queryByText(/Composio Gmail/)).toBeNull();
   expect(gmail.queryByRole("button")).toBeNull();
 });
@@ -161,9 +161,9 @@ test("an app this person has not connected says so and offers Connect", async ()
   serving({ apps: [appAccess({ state: "not_connected" })] });
   const gmail = await row(draw(), "composio-gmail");
   expect(
-    gmail.getByText("You haven't connected your Gmail account yet."),
+    gmail.getByText("Você ainda não conectou sua conta Gmail."),
   ).toBeTruthy();
-  expect(gmail.getByRole("button", { name: "Connect Gmail" })).toBeTruthy();
+  expect(gmail.getByRole("button", { name: "Conectar Gmail" })).toBeTruthy();
 });
 
 test("an app only an admin can fix offers Request access, and a pending one reads Requested", async () => {
@@ -195,21 +195,21 @@ test("an app only an admin can fix offers Request access, and a pending one read
   const slack = await row(view, "composio-slack");
   expect(
     slack.getByText(
-      "Your organisation's Slack account isn't connected yet. Only an admin can connect it.",
+      "A conta Slack da sua organização ainda não está conectada. Só um administrador pode conectá-la.",
     ),
   ).toBeTruthy();
   expect(
-    slack.getByRole("button", { name: "Request access to Slack" }),
+    slack.getByRole("button", { name: "Pedir acesso a Slack" }),
   ).toBeTruthy();
   const notion = await row(view, "notion");
   expect(
     notion.getByText(
-      "Notion isn't turned on yet. Only an admin can turn it on.",
+      "Notion ainda não está ativado. Só um administrador pode ativá-lo.",
     ),
   ).toBeTruthy();
-  expect(notion.getByText("Requested")).toBeTruthy();
+  expect(notion.getByText("Solicitado")).toBeTruthy();
   expect(
-    notion.getByRole("button", { name: "Withdraw request for Notion" }),
+    notion.getByRole("button", { name: "Retirar pedido de Notion" }),
   ).toBeTruthy();
 });
 
@@ -217,12 +217,12 @@ test("an admin keeps the way to this Bot's grants on each app, beside the action
   serving({ role: "admin", apps: [appAccess({ state: "not_connected" })] });
   const gmail = await row(draw(), "composio-gmail");
   const manage = gmail.getByRole("button", {
-    name: "Manage Gmail on this Bot",
+    name: "Gerenciar Gmail neste Bot",
   });
   expect(manage.getAttribute("href")).toBe(
     "/admin/plugins/composio-gmail/bots/expenses",
   );
-  expect(gmail.getByRole("button", { name: "Connect Gmail" })).toBeTruthy();
+  expect(gmail.getByRole("button", { name: "Conectar Gmail" })).toBeTruthy();
 });
 
 test("an app's sentence is never cut short, so who can fix it stays on screen at a phone's width", async () => {
@@ -237,7 +237,7 @@ test("an app's sentence is never cut short, so who can fix it stays on screen at
   });
   const gmail = await row(draw(), "composio-gmail");
   const sentence = gmail.getByText(
-    "Gmail isn't set up yet. An admin has to turn it on.",
+    "Gmail ainda não está configurado. Um administrador precisa ativá-lo.",
   );
   expect(sentence.className).toContain("line-clamp-none");
   expect(sentence.className).not.toContain("line-clamp-2");
@@ -261,13 +261,13 @@ test("on somebody else's Team Bot, an app on its owner's account says so, and an
   const gmail = await row(view, "composio-gmail");
   expect(
     gmail.getByText(
-      /^Ready to use\. This Bot uses its owner's Gmail account\./,
+      /^Pronto para usar\. Este Bot usa a conta Gmail do dono\./,
     ),
   ).toBeTruthy();
   const notion = await row(view, "notion");
   expect(
     notion.getByText(
-      "This Bot uses its owner's Notion account, which needs reconnecting. Only the Bot's owner can reconnect it.",
+      "Este Bot usa a conta Notion do dono, que precisa ser reconectada. Só o dono do Bot pode reconectá-la.",
     ),
   ).toBeTruthy();
   expect(notion.queryByRole("button")).toBeNull();
@@ -276,7 +276,7 @@ test("on somebody else's Team Bot, an app on its owner's account says so, and an
 test("a person who is not an admin gets no way to the grants", async () => {
   serving({ apps: [appAccess()] });
   const gmail = await row(draw(), "composio-gmail");
-  expect(gmail.queryByRole("button", { name: /Manage/ })).toBeNull();
+  expect(gmail.queryByRole("button", { name: /Gerenciar/ })).toBeNull();
 });
 
 test("when the states cannot be read, the apps are still listed and the failure is said", async () => {
@@ -288,7 +288,7 @@ test("when the states cannot be read, the apps are still listed and the failure 
   });
   const view = draw();
   expect((await view.findByRole("alert")).textContent).toContain(
-    "Couldn't check whether each app is ready for you. Reload the page.",
+    "Não foi possível verificar se cada app está pronto para você. Recarregue a página.",
   );
   expect(await view.findByText("Google Drive")).toBeTruthy();
 });

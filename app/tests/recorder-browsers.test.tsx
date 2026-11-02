@@ -173,7 +173,7 @@ function draw(screen = <ThisBrowser />) {
 test("without the Recorder the row says so and offers no button or link", async () => {
   const view = draw();
   await view.findByText(
-    "The OpenBot Recorder isn't installed in this browser.",
+    "O OpenBot Recorder não está instalado neste navegador.",
   );
   expect(view.queryByRole("button")).toBeNull();
   expect(view.queryByRole("link")).toBeNull();
@@ -186,9 +186,9 @@ test("Connect sends the code to the detected Recorder and asks for confirmation 
   };
   const view = draw();
   fireEvent.click(
-    await view.findByRole("button", { name: "Connect this browser" }),
+    await view.findByRole("button", { name: "Conectar este navegador" }),
   );
-  await view.findByText("Confirm in the OpenBot Recorder tab that opened.");
+  await view.findByText("Confirme na aba do OpenBot Recorder que abriu.");
   expect(sent).toContainEqual({
     path: "/api/recorder/connect-codes",
     method: "POST",
@@ -208,25 +208,25 @@ test("once the person approves on the Connect page, the install id the Recorder 
   };
   const view = draw();
   fireEvent.click(
-    await view.findByRole("button", { name: "Connect this browser" }),
+    await view.findByRole("button", { name: "Conectar este navegador" }),
   );
-  await view.findByText("Confirm in the OpenBot Recorder tab that opened.");
+  await view.findByText("Confirme na aba do OpenBot Recorder que abriu.");
   // The person clicks Connect on the Recorder's page: the connection is OpenBot's, and the Recorder's ping says which
   // copy made it.
   connections = [connection()];
   recorder.ping = { ok: true, version: "1", installId: THIS_COPY };
-  await view.findByText("Connected", {}, { timeout: 4000 });
+  await view.findByText("Conectado", {}, { timeout: 4000 });
   expect(view.queryByRole("button")).toBeNull();
 });
 
 for (const [how, sentence] of [
   [
     "cancelled",
-    "You cancelled in the OpenBot Recorder tab. Nothing was connected.",
+    "Você cancelou na aba do OpenBot Recorder. Nada foi conectado.",
   ],
   [
     "closed",
-    "The OpenBot Recorder tab closed before you confirmed. Nothing was connected.",
+    "A aba do OpenBot Recorder fechou antes de você confirmar. Nada foi conectado.",
   ],
 ] as const)
   test(`once the person ${how === "cancelled" ? "cancels on" : "closes"} the Connect page, the row says so within a second, with Connect back`, async () => {
@@ -238,22 +238,22 @@ for (const [how, sentence] of [
     };
     const view = draw();
     fireEvent.click(
-      await view.findByRole("button", { name: "Connect this browser" }),
+      await view.findByRole("button", { name: "Conectar este navegador" }),
     );
-    await view.findByText("Confirm in the OpenBot Recorder tab that opened.");
+    await view.findByText("Confirme na aba do OpenBot Recorder que abriu.");
     recorder.wait = how;
     const at = Date.now();
     await view.findByText(sentence, {}, { timeout: 1500 });
     expect(Date.now() - at).toBeLessThan(1500);
-    const again = view.getByRole("button", { name: "Connect this browser" });
+    const again = view.getByRole("button", { name: "Conectar este navegador" });
     expect((again as HTMLButtonElement).disabled).toBe(false);
     // Connect again starts afresh: the wait before it is not read for this one.
     recorder.wait = "waiting";
     fireEvent.click(again);
-    await view.findByText("Confirm in the OpenBot Recorder tab that opened.");
+    await view.findByText("Confirme na aba do OpenBot Recorder que abriu.");
     await new Promise((resolve) => setTimeout(resolve, 1200));
     expect(
-      view.getByText("Confirm in the OpenBot Recorder tab that opened."),
+      view.getByText("Confirme na aba do OpenBot Recorder que abriu."),
     ).toBeTruthy();
   });
 
@@ -276,14 +276,14 @@ test("a trusted OpenBot's connect, answered connected with no Connect page, read
     characterData: true,
   });
   fireEvent.click(
-    await view.findByRole("button", { name: "Connect this browser" }),
+    await view.findByRole("button", { name: "Conectar este navegador" }),
   );
   // Well inside the 2 s the row asks in while it waits on a Connect page: it was never waiting on one.
-  await view.findByText("Connected", {}, { timeout: 1000 });
+  await view.findByText("Conectado", {}, { timeout: 1000 });
   watch.disconnect();
   expect(
     said.some((text) =>
-      text.includes("Confirm in the OpenBot Recorder tab that opened."),
+      text.includes("Confirme na aba do OpenBot Recorder que abriu."),
     ),
   ).toBe(false);
   expect(view.queryByRole("button")).toBeNull();
@@ -297,13 +297,13 @@ test("a connection from another copy (Chrome connected, this is Edge) neither sh
   };
   const view = draw();
   fireEvent.click(
-    await view.findByRole("button", { name: "Connect this browser" }),
+    await view.findByRole("button", { name: "Conectar este navegador" }),
   );
-  await view.findByText("Confirm in the OpenBot Recorder tab that opened.");
+  await view.findByText("Confirme na aba do OpenBot Recorder que abriu.");
   await new Promise((resolve) => setTimeout(resolve, 2500));
-  expect(view.queryByText("Connected")).toBeNull();
+  expect(view.queryByText("Conectado")).toBeNull();
   expect(
-    view.getByText("Confirm in the OpenBot Recorder tab that opened."),
+    view.getByText("Confirme na aba do OpenBot Recorder que abriu."),
   ).toBeTruthy();
 });
 
@@ -314,7 +314,7 @@ test("a copy that answers the ping with its install id and a matching connection
     connect: { ok: true },
   };
   const view = draw();
-  await view.findByText("Connected");
+  await view.findByText("Conectado");
 });
 
 test("a pinned-elsewhere refusal shows its sentence", async () => {
@@ -324,10 +324,10 @@ test("a pinned-elsewhere refusal shows its sentence", async () => {
   };
   const view = draw();
   fireEvent.click(
-    await view.findByRole("button", { name: "Connect this browser" }),
+    await view.findByRole("button", { name: "Conectar este navegador" }),
   );
   await view.findByText(
-    "Your organization set the Recorder to another OpenBot.",
+    "Sua organização configurou o Recorder para outro OpenBot.",
   );
 });
 
@@ -338,11 +338,11 @@ test("a throttled connect says plainly when to try again, not that another reque
   };
   const view = draw();
   const button = await view.findByRole("button", {
-    name: "Connect this browser",
+    name: "Conectar este navegador",
   });
   fireEvent.click(button);
   await view.findByText(
-    "Too many connect requests in a short time. Try again in 7 minutes.",
+    "Muitos pedidos de conexão em pouco tempo. Tente de novo em 7 minutos.",
   );
   expect(view.queryByText(/finishing another connect request/)).toBeNull();
 
@@ -350,7 +350,7 @@ test("a throttled connect says plainly when to try again, not that another reque
   recorder.connect = { ok: false, error: "throttled", retryAfterMs: 20_000 };
   fireEvent.click(button);
   await view.findByText(
-    "Too many connect requests in a short time. Try again in 1 minute.",
+    "Muitos pedidos de conexão em pouco tempo. Tente de novo em 1 minuto.",
   );
 });
 
@@ -358,10 +358,10 @@ test("a connect the Recorder is still finishing keeps its own sentence", async (
   recorder = { ping: { ok: true }, connect: { ok: false, error: "busy" } };
   const view = draw();
   fireEvent.click(
-    await view.findByRole("button", { name: "Connect this browser" }),
+    await view.findByRole("button", { name: "Conectar este navegador" }),
   );
   await view.findByText(
-    "The Recorder is finishing another connect request. Try again in a moment.",
+    "O Recorder está concluindo outro pedido de conexão. Tente de novo em instantes.",
   );
 });
 
@@ -369,9 +369,9 @@ test("an answer with no sentence of its own still gets one", async () => {
   recorder = { ping: { ok: true }, connect: { ok: false, error: "invalid" } };
   const view = draw();
   fireEvent.click(
-    await view.findByRole("button", { name: "Connect this browser" }),
+    await view.findByRole("button", { name: "Conectar este navegador" }),
   );
-  await view.findByText("The Recorder didn't accept the request. Try again.");
+  await view.findByText("O Recorder não aceitou o pedido. Tente novamente.");
 });
 
 test("the OpenBot browser's connection says it is the person's OpenBot browser", async () => {
@@ -390,7 +390,7 @@ test("the OpenBot browser's connection says it is the person's OpenBot browser",
     timeStyle: "short",
   }).format(new Date(String(connections[0]?.createdAt)));
   expect(
-    view.getByText(`Your OpenBot browser, connected ${at}, never used`),
+    view.getByText(`Seu navegador OpenBot, conectado ${at}, nunca usado`),
   ).toBeTruthy();
 });
 
@@ -418,7 +418,7 @@ test("a browser recording now says so instead of when it was last used, and the 
       dateStyle: "medium",
       timeStyle: "short",
     }).format(new Date(String(connections[0]?.createdAt)));
-    await view.findByText(/^Connected .* from OpenBot, last used /);
+    await view.findByText(/^Conectado .* do OpenBot, último uso /);
     // The browser starts recording; the screen hears of it on its next ask, with no reload.
     connections = [connection({ lastUsedAt, recording: true })];
     expect(polls.length).toBeGreaterThan(0);
@@ -426,9 +426,9 @@ test("a browser recording now says so instead of when it was last used, and the 
     act(() => {
       for (const poll of polls) poll();
     });
-    await view.findByText(`Connected ${at} from OpenBot, recording now`);
+    await view.findByText(`Conectado ${at} do OpenBot, gravando agora`);
     expect(connectionsFetches).toBeGreaterThan(asked);
-    expect(view.queryByText(/last used/)).toBeNull();
+    expect(view.queryByText(/último uso/)).toBeNull();
   } finally {
     globalThis.setInterval = realSetInterval;
   }
@@ -443,7 +443,7 @@ test("Disconnect sends the DELETE and the row disappears", async () => {
     timeStyle: "short",
   }).format(new Date(String(connections[0]?.createdAt)));
   expect(
-    view.getByText(`Connected ${at} from OpenBot, never used`),
+    view.getByText(`Conectado ${at} do OpenBot, nunca usado`),
   ).toBeTruthy();
   fireEvent.click(
     view.getByRole("button", { name: "Disconnect Chrome on Mac" }),
@@ -456,9 +456,9 @@ test("Disconnect sends the DELETE and the row disappears", async () => {
   expect(dialog.textContent).toContain(
     "OpenBot signs the Recorder in Chrome on Mac out. It records nothing for you until you connect it again, and a recording running there stops.",
   );
-  expect(dialog.textContent).not.toContain("this browser");
+  expect(dialog.textContent).not.toContain("este navegador");
   expect(sent).toEqual([]);
-  fireEvent.click(within(dialog).getByRole("button", { name: "Disconnect" }));
+  fireEvent.click(within(dialog).getByRole("button", { name: "Desconectar" }));
   await waitFor(() =>
     expect(sent).toContainEqual({
       path: "/api/recorder/connections/conn-1",
@@ -466,7 +466,7 @@ test("Disconnect sends the DELETE and the row disappears", async () => {
       body: undefined,
     }),
   );
-  await view.findByText("No browsers connected yet.");
+  await view.findByText("Nenhum navegador conectado ainda.");
   expect(view.queryByText("Chrome on Mac")).toBeNull();
   expect(view.queryByRole("dialog")).toBeNull();
 });
@@ -478,7 +478,7 @@ test("Cancel disconnects nothing, and a refused Disconnect says why in the dialo
     await view.findByRole("button", { name: "Disconnect Chrome on Mac" }),
   );
   let dialog = await view.findByRole("dialog");
-  fireEvent.click(within(dialog).getByRole("button", { name: "Cancel" }));
+  fireEvent.click(within(dialog).getByRole("button", { name: "Cancelar" }));
   await waitFor(() => expect(view.queryByRole("dialog")).toBeNull());
   expect(sent).toEqual([]);
 
@@ -487,7 +487,7 @@ test("Cancel disconnects nothing, and a refused Disconnect says why in the dialo
     view.getByRole("button", { name: "Disconnect Chrome on Mac" }),
   );
   dialog = await view.findByRole("dialog");
-  fireEvent.click(within(dialog).getByRole("button", { name: "Disconnect" }));
+  fireEvent.click(within(dialog).getByRole("button", { name: "Desconectar" }));
   expect((await within(dialog).findByRole("alert")).textContent).toBe(
     "That browser is already disconnected.",
   );
@@ -514,7 +514,7 @@ test("the Disconnect dialog says this browser only on this browser's row, and na
     fireEvent.click(await view.findByRole("button", { name: button }));
     const dialog = await view.findByRole("dialog");
     const text = dialog.querySelector("p")?.textContent ?? "";
-    fireEvent.click(within(dialog).getByRole("button", { name: "Cancel" }));
+    fireEvent.click(within(dialog).getByRole("button", { name: "Cancelar" }));
     await waitFor(() => expect(view.queryByRole("dialog")).toBeNull());
     return text;
   };
@@ -552,7 +552,7 @@ test("disconnecting one browser leaves every other row's Disconnect as it was", 
   );
   fireEvent.click(
     within(await view.findByRole("dialog")).getByRole("button", {
-      name: "Disconnect",
+      name: "Desconectar",
     }),
   );
   // The dialog stays open while it disconnects, so the rows behind it are out of reach: read them all the same.
@@ -600,9 +600,9 @@ test("in Chrome without the Recorder, This browser offers its store page in a ne
       </QueryClientProvider>,
     );
     await view.findByText(
-      "The OpenBot Recorder isn't installed in this browser.",
+      "O OpenBot Recorder não está instalado neste navegador.",
     );
-    const link = view.getByRole("link", { name: "Add to Chrome" });
+    const link = view.getByRole("link", { name: "Adicionar ao Chrome" });
     expect(link.getAttribute("href")).toBe(
       `https://chromewebstore.google.com/detail/${"s".repeat(32)}`,
     );
@@ -625,7 +625,7 @@ test("Settings, Browsers says everything the Recorder collects before the first 
   };
   const view = draw(<BrowserSections />);
   const connect = await view.findByRole("button", {
-    name: "Connect this browser",
+    name: "Conectar este navegador",
   });
   const lead = view.getByText(RECORDER_DISCLOSURE);
   for (const { title, description } of RECORDER_COLLECTS) {
@@ -641,16 +641,16 @@ test("Settings, Browsers says everything the Recorder collects before the first 
   ).toBeTruthy();
   // The saves and the AI assistant conversations, which the old list left out.
   expect(
-    view.getByText(/the request it sent and the answer that came back/),
+    view.getByText(/a requisição enviada e a resposta recebida/),
   ).toBeTruthy();
-  expect(view.getByText(/including the messages you send/)).toBeTruthy();
+  expect(view.getByText(/incluindo as mensagens que você envia/)).toBeTruthy();
 });
 
 test("when the connections cannot be loaded This browser says it cannot tell, and is not empty", async () => {
   connectionsFail = true;
   const view = draw();
   await view.findByText(
-    "Couldn't check whether this browser is connected. Reload the page.",
+    "Não foi possível verificar se este navegador está conectado. Recarregue a página.",
     {},
     { timeout: 4000 },
   );
@@ -680,9 +680,9 @@ test("a connect request nobody confirms expires after five minutes and stops pol
   try {
     const view = draw();
     fireEvent.click(
-      await view.findByRole("button", { name: "Connect this browser" }),
+      await view.findByRole("button", { name: "Conectar este navegador" }),
     );
-    await view.findByText("Confirm in the OpenBot Recorder tab that opened.");
+    await view.findByText("Confirme na aba do OpenBot Recorder que abriu.");
     expect(expiries.length).toBeGreaterThan(0);
     const polling = connectionsFetches;
     await new Promise((resolve) => realSetTimeout(resolve, 2500));
@@ -690,7 +690,7 @@ test("a connect request nobody confirms expires after five minutes and stops pol
     act(() => {
       for (const fire of expiries) fire();
     });
-    await view.findByText("The request expired. Try again.");
+    await view.findByText("O pedido expirou. Tente novamente.");
     const stopped = connectionsFetches;
     await new Promise((resolve) => realSetTimeout(resolve, 2500));
     expect(connectionsFetches).toBe(stopped);
@@ -741,7 +741,7 @@ test("the copy in this browser is marked among connected browsers that share a n
   ).toBeTruthy();
   // Two copies connected two hours ago, a minute apart, read differently.
   const descriptions = view
-    .getAllByText(/^Connected .* from OpenBot, last used /)
+    .getAllByText(/^Conectado .* do OpenBot, último uso /)
     .map((element) => element.textContent);
   expect(new Set(descriptions).size).toBe(3);
 });

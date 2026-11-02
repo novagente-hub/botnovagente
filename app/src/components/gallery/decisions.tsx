@@ -57,8 +57,8 @@ export function ApprovalCard(props: Waiting<ApprovalArgs> & { name?: string }) {
 
   if (status === "inProgress") {
     return (
-      <GalleryFrame title={args.title ?? "Waiting for the Bot…"}>
-        <p className="text-sm text-muted-foreground">Preparing the request…</p>
+      <GalleryFrame title={args.title ?? "Aguardando o Bot…"}>
+        <p className="text-sm text-muted-foreground">Preparando o pedido…</p>
       </GalleryFrame>
     );
   }
@@ -71,10 +71,10 @@ export function ApprovalCard(props: Waiting<ApprovalArgs> & { name?: string }) {
       action={
         decided ? (
           <Badge tone={decided === "approved" ? "positive" : "negative"}>
-            {decided === "approved" ? "Approved" : "Declined"}
+            {decided === "approved" ? "Aprovado" : "Recusado"}
           </Badge>
         ) : (
-          <Badge tone="caution">Waiting on you</Badge>
+          <Badge tone="caution">Esperando por você</Badge>
         )
       }
       title={args.title}
@@ -95,11 +95,11 @@ export function ApprovalCard(props: Waiting<ApprovalArgs> & { name?: string }) {
       {decided ? null : (
         <div className="mt-4 space-y-2">
           <input
-            aria-label="A reason, if you want to give one"
+            aria-label="Um motivo, se quiser dar um"
             className="w-full rounded-md border border-border bg-transparent px-3 py-1.5 text-sm"
             disabled={Boolean(sending)}
             onChange={(event) => setNote(event.target.value)}
-            placeholder="A reason, if you want to give one"
+            placeholder="Um motivo, se quiser dar um"
             value={note}
           />
           <div className="flex gap-2">
@@ -109,8 +109,8 @@ export function ApprovalCard(props: Waiting<ApprovalArgs> & { name?: string }) {
               size="sm"
             >
               {sending === "approved"
-                ? "Sending…"
-                : (args.approveLabel ?? "Approve")}
+                ? "Enviando…"
+                : (args.approveLabel ?? "Aprovar")}
             </Button>
             <Button
               disabled={Boolean(sending)}
@@ -119,8 +119,8 @@ export function ApprovalCard(props: Waiting<ApprovalArgs> & { name?: string }) {
               variant="outline"
             >
               {sending === "declined"
-                ? "Sending…"
-                : (args.rejectLabel ?? "Decline")}
+                ? "Enviando…"
+                : (args.rejectLabel ?? "Recusar")}
             </Button>
           </div>
         </div>
@@ -156,8 +156,8 @@ export function ChoiceCard(props: Waiting<ChoiceArgs>) {
 
   if (status === "inProgress") {
     return (
-      <GalleryFrame title={args.title ?? "Waiting for the Bot…"}>
-        <p className="text-sm text-muted-foreground">Preparing the question…</p>
+      <GalleryFrame title={args.title ?? "Aguardando o Bot…"}>
+        <p className="text-sm text-muted-foreground">Preparando a pergunta…</p>
       </GalleryFrame>
     );
   }
@@ -168,9 +168,9 @@ export function ChoiceCard(props: Waiting<ChoiceArgs>) {
     <GalleryFrame
       action={
         chosen ? (
-          <Badge tone="positive">Answered</Badge>
+          <Badge tone="positive">Respondida</Badge>
         ) : (
-          <Badge tone="caution">Waiting on you</Badge>
+          <Badge tone="caution">Esperando por você</Badge>
         )
       }
       caption={args.summary}
@@ -249,7 +249,7 @@ function readChoice(result: string | undefined): string | undefined {
 export const GALLERY: GalleryComponent[] = [
   {
     name: "askApproval",
-    title: "Approval",
+    title: "Aprovação",
     kind: "decision",
     description:
       "Ask the person to approve or decline something, and WAIT for their answer. Use before doing anything you cannot undo, spending money, sending a message, changing a record. You are given their decision and any reason they typed.",
@@ -260,22 +260,22 @@ export const GALLERY: GalleryComponent[] = [
       // so its arguments arrive wrapped in the state of the decision it is waiting on.
       status: "executing",
       args: {
-        title: "Refund this order?",
+        title: "Reembolsar este pedido?",
         summary:
-          "The customer was charged twice for the same order and the second charge has not settled.",
+          "O cliente foi cobrado duas vezes pelo mesmo pedido e a segunda cobrança ainda não foi liquidada.",
         details: [
-          { label: "Amount", value: "$128.40" },
-          { label: "Customer", value: "Northwind Traders" },
-          { label: "Order", value: "2043" },
+          { label: "Valor", value: "$128.40" },
+          { label: "Cliente", value: "Northwind Traders" },
+          { label: "Pedido", value: "2043" },
         ],
-        approveLabel: "Refund",
+        approveLabel: "Reembolsar",
       },
       respond: async () => {},
     },
   },
   {
     name: "askChoice",
-    title: "Choice",
+    title: "Escolha",
     kind: "decision",
     description:
       "Ask the person to pick one of several options, and WAIT for their answer. Use when you cannot sensibly guess which one they meant. You are given the id of the option they chose.",
@@ -284,18 +284,18 @@ export const GALLERY: GalleryComponent[] = [
     preview: {
       status: "executing",
       args: {
-        title: "Which environment should this go to?",
-        summary: "The build is green and nothing else is queued.",
+        title: "Para qual ambiente isso deve ir?",
+        summary: "O build passou e não há mais nada na fila.",
         options: [
           {
             id: "staging",
             label: "Staging",
-            description: "Safe, and reversible",
+            description: "Seguro e reversível",
           },
           {
             id: "production",
-            label: "Production",
-            description: "Live customers",
+            label: "Produção",
+            description: "Clientes reais",
           },
         ],
       },

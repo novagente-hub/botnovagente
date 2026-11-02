@@ -63,7 +63,7 @@ beforeEach(() => {
 /** A drop, as the browser delivers one: files hanging off `dataTransfer`. */
 function drop(form: Element, files: File[]) {
   fireEvent.drop(form, {
-    dataTransfer: { files, items: [], types: ["Files"] },
+    dataTransfer: { files, items: [], types: ["Arquivos"] },
   });
 }
 
@@ -116,7 +116,7 @@ test("two batches staged in one tick cannot exceed the per-message cap", async (
   // rejection-count problem rather than as a stale literal.
   expect(
     view.queryAllByText(
-      new RegExp(`at most ${MAX_ATTACHMENTS_PER_MESSAGE} attachments`),
+      new RegExp(`no máximo ${MAX_ATTACHMENTS_PER_MESSAGE} anexos`),
     ),
   ).toHaveLength(2);
 });
@@ -174,7 +174,7 @@ test("attachments parked in the queue are counted against the per-message cap", 
   await waitFor(() =>
     expect(
       view.queryAllByText(
-        new RegExp(`at most ${MAX_ATTACHMENTS_PER_MESSAGE} attachments`),
+        new RegExp(`no máximo ${MAX_ATTACHMENTS_PER_MESSAGE} anexos`),
       ),
     ).toHaveLength(1),
   );
@@ -205,7 +205,7 @@ test("parked attachments are counted alongside the ones on the strip", async () 
   await waitFor(() =>
     expect(
       view.queryAllByText(
-        new RegExp(`at most ${MAX_ATTACHMENTS_PER_MESSAGE} attachments`),
+        new RegExp(`no máximo ${MAX_ATTACHMENTS_PER_MESSAGE} anexos`),
       ),
     ).toHaveLength(1),
   );

@@ -148,7 +148,7 @@ const REAL_BROWSER_NAMES: Record<RealBrowser, string> = {
  * that browser. Once it is added and connected, the same click brings that browser forward.
  */
 export function storeOpenedSentence(browser: RealBrowser): string {
-  return `The OpenBot Recorder's page is open in ${REAL_BROWSER_NAMES[browser]}. Add it there to record in your own browser.`;
+  return `A página do OpenBot Recorder está aberta no ${REAL_BROWSER_NAMES[browser]}. Adicione-o lá para gravar no seu próprio navegador.`;
 }
 
 /**
@@ -158,12 +158,12 @@ export function storeOpenedSentence(browser: RealBrowser): string {
  *
  * Unless what opened is a browser in the page after all (`window: "screen"`): OpenBot Desktop opens one where it finds
  * no Chrome or Edge to use. Its window is the Browser page, so the click takes the person there, as a hosted OpenBot's
- * button does; left where they were, they saw "Opening…" and then nothing, with the browser open on a page they could
+ * button does; left where they were, they saw "Abrindo…" and then nothing, with the browser open on a page they could
  * not see.
  *
  * Opening is busy (`aria-busy`), not disabled: the click handler ignores a click while it opens, and the row keeps its
  * full contrast and the keyboard's focus. The sidebar draws `aria-disabled` at half opacity, and the seventh end-to-end
- * run found "Opening…" too faint to read that way.
+ * run found "Abrindo…" too faint to read that way.
  *
  * The refusal stays until the person closes it, as every error toast does (components/ui/toast.tsx), and goes once an
  * open succeeds, because it is no longer true. A click that opened the Recorder's store page in the person's own
@@ -210,7 +210,8 @@ function OpenWindowButton({ activity }: { activity?: RecorderActivity }) {
       <BrowserLabel>
         {opening ? (
           <span className="ml-auto text-xs text-muted-foreground">
-            Opening…
+            
+            Abrindo…
           </span>
         ) : recording ? (
           <RecordingDot {...recording} />
@@ -230,7 +231,7 @@ const STORE_NAMES: Record<RecorderStore, string> = {
  * in: adding it there is what lets them record from here. Once it is added, the same click connects it.
  */
 export function storeTabSentence(store: RecorderStore): string {
-  return `The OpenBot Recorder's page is open in a new tab. Add it to ${STORE_NAMES[store]} to record from OpenBot.`;
+  return `A página do OpenBot Recorder está aberta em uma nova aba. Adicione-o ao ${STORE_NAMES[store]} para gravar pelo OpenBot.`;
 }
 
 /** The short note that waits in OpenBot for a person who opened the Recorder's store page in a new tab: one at a time,
@@ -510,7 +511,7 @@ function BrowserLabel({ children }: { children?: ReactNode }) {
       <div className="size-[28px] flex items-center justify-center">
         <IconBrowser />
       </div>
-      <span className="text-sm">Browser</span>
+      <span className="text-sm">Navegador</span>
       {children}
     </>
   );
@@ -531,12 +532,12 @@ function useRecordingLabel(
     phase === "recording" ? activity?.startedAt : undefined,
   );
   if (!activity || phase === "idle") return null;
-  const named = activity.title ? `Recording: ${activity.title}` : "Recording";
+  const named = activity.title ? `Gravando: ${activity.title}` : "Gravando";
   const progress =
     phase === "starting"
-      ? "starting"
+      ? "iniciando"
       : phase === "stopping"
-        ? "stopping"
+        ? "parando"
         : activity.startedAt === undefined
           ? null
           : elapsed(seconds);
@@ -553,7 +554,7 @@ function useRecordingLabel(
  */
 function recordingTooltip(recording: RecordingLabel | null) {
   return {
-    children: recording?.label ?? "Browser",
+    children: recording?.label ?? "Navegador",
     hidden: recording === null,
   };
 }

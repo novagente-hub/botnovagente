@@ -10,7 +10,7 @@ import { routineKeys } from "./queries";
  * `server/src/routines/routes.ts` for the full reasoning.
  */
 
-const FALLBACK = "That routine could not be changed.";
+const FALLBACK = "Não foi possível alterar essa rotina.";
 
 function invalidateRoutines(queryClient: QueryClient) {
   return queryClient.invalidateQueries({ queryKey: routineKeys.all });
@@ -49,7 +49,7 @@ export function runRoutineNowMutationOptions(queryClient: QueryClient) {
     mutationFn: (id: string) =>
       client(`/api/routines/${encodeURIComponent(id)}/run`, {
         method: "POST",
-        fallback: "That routine could not be started.",
+        fallback: "Não foi possível iniciar essa rotina.",
       }),
     onSuccess: () => invalidateRoutines(queryClient),
   });

@@ -15,7 +15,7 @@ export const RecordCardProps = z.object({
     .string()
     .optional()
     .describe("One line of context under the title"),
-  status: z.string().optional().describe("A short status word, e.g. Approved"),
+  status: z.string().optional().describe("Aprovado"),
   statusTone: tone.optional(),
   fields: z
     .array(
@@ -226,44 +226,44 @@ export function NoticeCard({
 export const GALLERY: GalleryComponent[] = [
   {
     name: "showRecord",
-    title: "Record",
+    title: "Registro",
     kind: "card",
     description:
       "Show one thing and its fields, an order, a person, a ticket. Use instead of describing a record in prose.",
     parameters: RecordCardProps,
     Component: RecordCard as GalleryComponent["Component"],
     preview: {
-      title: "Invoice 2043",
+      title: "Fatura 2043",
       subtitle: "Northwind Traders",
-      status: "Approved",
+      status: "Aprovado",
       fields: [
-        { label: "Amount", value: "$4,280.00" },
-        { label: "Raised", value: "12 March" },
-        { label: "Owner", value: "Priya Raman" },
+        { label: "Valor", value: "$4,280.00" },
+        { label: "Criada", value: "12 March" },
+        { label: "Responsável", value: "Priya Raman" },
       ],
     },
     confirmation: "The record is now on screen for the person.",
   },
   {
     name: "showMetrics",
-    title: "Headline figures",
+    title: "Números principais",
     kind: "card",
     description:
       "Show up to six headline figures, each with an optional movement. Use for a summary somebody reads at a glance.",
     parameters: MetricsCardProps,
     Component: MetricsCard as GalleryComponent["Component"],
     preview: {
-      title: "This month",
+      title: "Este mês",
       metrics: [
         {
-          label: "Revenue",
+          label: "Receita",
           value: "$412k",
-          change: "+12% on last month",
+          change: "+12% em relação ao mês passado",
           changeTone: "positive",
         },
-        { label: "Open deals", value: "38" },
+        { label: "Negócios abertos", value: "38" },
         {
-          label: "Churn",
+          label: "Cancelamentos",
           value: "1.4%",
           change: "+0.3pt",
           changeTone: "caution",
@@ -281,28 +281,28 @@ export const GALLERY: GalleryComponent[] = [
     parameters: ChecklistCardProps,
     Component: ChecklistCard as GalleryComponent["Component"],
     preview: {
-      title: "Before the release",
+      title: "Antes do lançamento",
       items: [
-        { text: "Migrations applied", done: true },
-        { text: "Changelog written", done: true },
-        { text: "Load test", done: false, note: "Waiting on staging" },
+        { text: "Migrações aplicadas", done: true },
+        { text: "Changelog escrito", done: true },
+        { text: "Teste de carga", done: false, note: "Aguardando o staging" },
       ],
     },
     confirmation: "The checklist is now on screen for the person.",
   },
   {
     name: "showNotice",
-    title: "Notice",
+    title: "Aviso",
     kind: "card",
     description:
       "Show a headline, a short explanation and optional supporting points. Use instead of writing several paragraphs of prose.",
     parameters: NoticeCardProps,
     Component: NoticeCard as GalleryComponent["Component"],
     preview: {
-      title: "Certificate expires in 30 days",
-      body: "The checkout certificate has an owner now, and this is the first of the new alerts.",
+      title: "O certificado expira em 30 dias",
+      body: "O certificado do checkout agora tem um responsável, e este é o primeiro dos novos alertas.",
       tone: "caution",
-      points: ["Owner: Platform", "Renews automatically once approved"],
+      points: ["Responsável: Plataforma", "Renova automaticamente quando aprovado"],
     },
     confirmation: "The notice is now on screen for the person.",
   },

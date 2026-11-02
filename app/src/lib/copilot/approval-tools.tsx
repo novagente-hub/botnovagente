@@ -99,13 +99,13 @@ export function useFrontendTool<T extends Record<string, unknown>>(
               return { ok: false, reason: "Stopped.", stopped: true };
             return {
               ok: false,
-              reason: "The assistant's computer could not be reached.",
+              reason: "Não foi possível acessar o computador do assistente.",
             };
           }
           const payload: unknown = await response.json().catch(() => null);
           if (response.status === 202) {
             if (!context.agent)
-              throw new Error("The interrupted conversation is unavailable.");
+              throw new Error("A conversa interrompida não está disponível.");
             // Stop signals the SDK to discard this handler's unfinished result. The server owns
             // resume: the decision executes the action once and continues this conversation.
             copilotkit.stopAgent({ agent: context.agent });
@@ -124,7 +124,7 @@ export function useFrontendTool<T extends Record<string, unknown>>(
             );
           if (!payload || typeof payload !== "object" || !("result" in payload))
             return failedComputerCall(response.status, {
-              error: "The computer action returned no result.",
+              error: "A ação do computador não retornou resultado.",
             });
           return payload.result;
         }

@@ -89,17 +89,17 @@ export async function resumeHandoffTask(
       m.toolCalls?.some((c) => c.id === pending.toolCallId),
   );
   if (!hasCall)
-    throw new Error("The handoff's tool call is not in this conversation.");
+    throw new Error("A chamada de ferramenta do repasse não está nesta conversa.");
   if (!findPendingTool(agent.messages, pending))
-    throw new Error("This tool call is already answered.");
+    throw new Error("Esta chamada de ferramenta já foi respondida.");
   if (agent.isRunning || hasActiveHandoff(botId, pending.requestId))
-    throw new Error("This task is already running.");
+    throw new Error("Esta tarefa já está em execução.");
   const result = await awaitHandoff(botId, pending.requestId, signal);
   if (signal?.aborted) return;
   if (result.reconnecting || result.snapshotRequired)
     throw new Error(
       String(
-        result.reason ?? "The computer could not be reached. Retry to resume.",
+        result.reason ?? "Não foi possível acessar o computador. Tente de novo para retomar.",
       ),
     );
   // Another handler/tab may have supplied the result while we waited. Keep accepted work accepted.

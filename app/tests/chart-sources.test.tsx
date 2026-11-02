@@ -53,7 +53,7 @@ test("figures from the Bot's own knowledge are marked as unchecked", () => {
       title="GDP"
     />,
   );
-  expect(view.getByText(/Not checked against a source/)).toBeTruthy();
+  expect(view.getByText(/Não verificado em uma fonte/)).toBeTruthy();
 });
 
 test("the unchecked note and the sources read as separate parts", () => {
@@ -66,7 +66,7 @@ test("the unchecked note and the sources read as separate parts", () => {
     />,
   );
   expect(view.container.textContent).toContain(
-    "Not checked against a source. · Sources: Annual report",
+    "Não verificado em uma fonte. · Fontes: Annual report",
   );
 });
 
@@ -82,7 +82,7 @@ test("sources the model wrote in the wrong shape are skipped, not fatal", () => 
       } as unknown as Parameters<typeof BarChartCard>[0])}
     />,
   );
-  expect(view.container.textContent).toContain("Sources: Notes");
+  expect(view.container.textContent).toContain("Fontes: Notes");
   expect(view.container.textContent).not.toContain("Notes, Notes");
   expect(view.queryByText(/As of/)).toBeNull();
 });

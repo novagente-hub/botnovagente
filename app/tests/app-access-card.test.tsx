@@ -136,9 +136,9 @@ test("not connected: names the app and offers Connect", async () => {
   const drawn = await card(view);
   expect(drawn.textContent).toContain("Gmail");
   expect(drawn.textContent).toContain(
-    "You haven't connected your Gmail account yet.",
+    "Você ainda não conectou sua conta Gmail.",
   );
-  expect(view.getByRole("button", { name: "Connect Gmail" })).toBeTruthy();
+  expect(view.getByRole("button", { name: "Conectar Gmail" })).toBeTruthy();
 });
 
 test("connected since the refusal: says so and offers nothing stale", async () => {
@@ -146,7 +146,7 @@ test("connected since the refusal: says so and offers nothing stale", async () =
   const view = mount(<AppAccessCard prompt={prompt()} />);
   const drawn = await card(view);
   expect(drawn.textContent).toContain(
-    "Gmail is ready now. Ask again and the Bot can use it.",
+    "Gmail está pronto agora. Peça de novo e o Bot poderá usá-lo.",
   );
   expect(view.queryByRole("button")).toBeNull();
 });
@@ -171,10 +171,10 @@ test("a Shared app with no team account: Request access, not a sentence", async 
   );
   const drawn = await card(view);
   expect(drawn.textContent).toContain(
-    "Your organisation's Gmail account isn't connected yet.",
+    "A conta Gmail da sua organização ainda não está conectada.",
   );
   expect(
-    view.getByRole("button", { name: "Request access to Gmail" }),
+    view.getByRole("button", { name: "Pedir acesso a Gmail" }),
   ).toBeTruthy();
 });
 
@@ -190,10 +190,10 @@ test("an account the vendor lost: Reconnect, though the server still reads ready
   const drawn = await card(view);
   expect(drawn.getAttribute("data-state")).toBe("reconnect");
   expect(drawn.textContent).toContain(
-    "Your Gmail connection needs reconnecting.",
+    "Sua conexão Gmail precisa ser reconectada.",
   );
   expect(
-    (await view.findByText("Reconnect")).closest("a")?.getAttribute("href"),
+    (await view.findByText("Reconectar")).closest("a")?.getAttribute("href"),
   ).toBe("/connections/composio-gmail");
 });
 
@@ -208,7 +208,7 @@ test("an account lost and then connected again: the newer connection wins", asyn
   );
   const drawn = await card(view);
   expect(drawn.getAttribute("data-state")).toBe("ready");
-  expect(view.queryByText("Reconnect")).toBeNull();
+  expect(view.queryByText("Reconectar")).toBeNull();
 });
 
 test("a team account the vendor lost: says an admin has to reconnect it, with nothing to press", async () => {
@@ -216,14 +216,14 @@ test("a team account the vendor lost: says an admin has to reconnect it, with no
   const view = mount(<AppAccessCard prompt={prompt({ reason: "shared" })} />);
   const drawn = await card(view);
   expect(drawn.textContent).toContain(
-    "Your organisation's Gmail account needs reconnecting. Only an admin can reconnect it.",
+    "A conta Gmail da sua organização precisa ser reconectada. Só um administrador pode reconectá-la.",
   );
   expect(view.queryByRole("button")).toBeNull();
 });
 
 test.each([
-  ["disabled", "enable", /Gmail isn't turned on yet/],
-  ["not_granted", "grant", /This Bot hasn't been given Gmail/],
+  ["disabled", "enable", /GmailGmail ainda não está ativado\. Só um administrador pode ativá-lo\.Pedir acesso/],
+  ["not_granted", "grant", /GmailEste Bot não recebeu Gmail\. Só um administrador pode dar\.Pedir acesso/],
 ] as const)(
   "the Bot asked about an app that is %s: Request access",
   async (state, kind, sentence) => {
@@ -234,7 +234,7 @@ test.each([
     const drawn = await card(view);
     expect(drawn.textContent).toMatch(sentence);
     expect(
-      view.getByRole("button", { name: "Request access to Gmail" }),
+      view.getByRole("button", { name: "Pedir acesso a Gmail" }),
     ).toBeTruthy();
   },
 );
@@ -243,7 +243,7 @@ test("asked about an app that is ready, it says so without claiming it was just 
   serving(appAccess());
   const view = mount(<AppAccessCard prompt={prompt({ reason: "access" })} />);
   const drawn = await card(view);
-  expect(drawn.textContent).toContain("Ready to use.");
+  expect(drawn.textContent).toContain("Pronto para usar.");
 });
 
 test("an account lost on somebody else's Team Bot that runs on its owner's: only the owner can reconnect it", async () => {
@@ -262,7 +262,7 @@ test("an account lost on somebody else's Team Bot that runs on its owner's: only
   const drawn = await card(view);
   expect(drawn.getAttribute("data-state")).toBe("reconnect");
   expect(drawn.textContent).toContain(
-    "This Bot uses its owner's Gmail account, which needs reconnecting. Only the Bot's owner can reconnect it.",
+    "Este Bot usa a conta Gmail do dono, que precisa ser reconectada. Só o dono do Bot pode reconectá-la.",
   );
   expect(view.queryByRole("button")).toBeNull();
   expect(view.queryByRole("link")).toBeNull();
@@ -278,7 +278,7 @@ test("a Shared app whose audience is not approved: says so, with nothing to pres
   );
   const view = mount(<AppAccessCard prompt={prompt({ reason: "access" })} />);
   const drawn = await card(view);
-  expect(drawn.textContent).toContain("Only an admin can approve it.");
+  expect(drawn.textContent).toContain("Só um administrador pode aprovar.");
   expect(view.queryByRole("button")).toBeNull();
 });
 
@@ -311,14 +311,14 @@ test("an older refusal that names no Bot asks about the Bot the surface declared
 test("with no Bot to ask about at all, it is the Connect card it always was", async () => {
   const asked = serving(null);
   const view = mount(<AppAccessCard prompt={prompt({ agentId: undefined })} />);
-  expect(await view.findByText("Connect Gmail")).toBeTruthy();
+  expect(await view.findByRole("button", { name: "Conectar" })).toBeTruthy();
   expect(asked.some((url) => url.includes("/apps/"))).toBe(false);
 });
 
 test("a live read that fails falls back to the Connect card for a connect refusal", async () => {
   serving(null);
   const view = mount(<AppAccessCard prompt={prompt()} />);
-  expect(await view.findByText("Connect Gmail")).toBeTruthy();
+  expect(await view.findByRole("button", { name: "Conectar" })).toBeTruthy();
 });
 
 test("a live read that fails says so in the person's words, never the model's", async () => {
@@ -334,7 +334,7 @@ test("a live read that fails says so in the person's words, never the model's", 
   );
   const alert = await view.findByRole("alert");
   expect(alert.textContent).toBe(
-    "Gmail's status couldn't be loaded. Try again in a moment.",
+    "Gmail: não foi possível carregar o status. Tente novamente em instantes.",
   );
   expect(view.container.textContent).not.toContain("Do not browse");
 });
@@ -387,7 +387,7 @@ test("an ordinary tool's answer is never read for a card, whatever it starts wit
 test("show_app_access is named for the person while it runs, not by its identifier", () => {
   const view = mount(<ServerToolLine name={SHOW_APP_ACCESS_TOOL} />);
   return waitFor(() => {
-    expect(view.getByText("Checking app access")).toBeTruthy();
+    expect(view.getByText("Verificando acesso ao app")).toBeTruthy();
     expect(view.container.textContent).not.toContain(SHOW_APP_ACCESS_TOOL);
   });
 });
@@ -399,7 +399,7 @@ test("show_app_access about an app nobody can name draws the line, never its wor
       result="This deployment has no app called Gmial, so there is nothing to show. Say so plainly; do not browse to it instead."
     />,
   );
-  expect(await view.findByText("Checked app access")).toBeTruthy();
+  expect(await view.findByText("Acesso ao app verificado")).toBeTruthy();
   expect(view.container.textContent).not.toContain("Say so plainly");
   // Nothing behind a disclosure either: the line is not expandable.
   expect(view.container.querySelector("details")).toBeNull();
@@ -451,13 +451,13 @@ describe("carrying the task on once the app is ready", () => {
     state.live = appAccess({ state: "ready" });
     await act(() => view.client.invalidateQueries());
     await waitFor(() => expect(view.asked).toEqual([carryOnMessage("Gmail")]));
-    expect((await card(view)).textContent).toContain("Gmail is ready now.");
+    expect((await card(view)).textContent).toContain("Gmail está pronto agora.");
     expect(view.container.textContent).not.toContain("Ask again");
     // Read again and drawn again: still the one message.
     await act(() => view.client.invalidateQueries());
     await settleReactWork();
     expect(view.asked).toHaveLength(1);
-    expect(view.queryByRole("button", { name: "Continue" })).toBeNull();
+    expect(view.queryByRole("button", { name: "Continuar" })).toBeNull();
   });
 
   test("a card the conversation has moved on from only says the app is ready", async () => {
@@ -478,7 +478,7 @@ describe("carrying the task on once the app is ready", () => {
     await settleReactWork();
     expect(view.asked).toEqual([]);
     expect((await card(view)).textContent).toContain(
-      "Gmail is ready now. Ask again and the Bot can use it.",
+      "Gmail está pronto agora. Peça de novo e o Bot poderá usá-lo.",
     );
   });
 
@@ -488,18 +488,18 @@ describe("carrying the task on once the app is ready", () => {
     const view = inConversation(
       <AppAccessCard place={place} prompt={prompt()} />,
     );
-    fireEvent.click(await view.findByRole("button", { name: "Continue" }));
+    fireEvent.click(await view.findByRole("button", { name: "Continuar" }));
     expect(view.asked).toEqual([carryOnMessage("Gmail")]);
     await waitFor(() =>
-      expect(view.queryByRole("button", { name: "Continue" })).toBeNull(),
+      expect(view.queryByRole("button", { name: "Continuar" })).toBeNull(),
     );
     cleanup();
     // The same card drawn again, here or in another tab, has nothing left to offer.
     const again = inConversation(
       <AppAccessCard place={place} prompt={prompt()} />,
     );
-    expect((await card(again)).textContent).toContain("Gmail is ready now.");
-    expect(again.queryByRole("button", { name: "Continue" })).toBeNull();
+    expect((await card(again)).textContent).toContain("Gmail está pronto agora.");
+    expect(again.queryByRole("button", { name: "Continuar" })).toBeNull();
     expect(again.asked).toEqual([]);
   });
 
@@ -522,7 +522,7 @@ describe("carrying the task on once the app is ready", () => {
       );
       await card(view);
       await settleReactWork();
-      expect(view.queryByRole("button", { name: "Continue" }) !== null).toBe(
+      expect(view.queryByRole("button", { name: "Continuar" }) !== null).toBe(
         offered,
       );
       expect(view.asked).toEqual([]);
@@ -538,8 +538,8 @@ describe("carrying the task on once the app is ready", () => {
       />,
     );
     expect((await card(view)).textContent).toContain(
-      "Ask again and the Bot can use it.",
+      "Peça de novo e o Bot poderá usá-lo.",
     );
-    expect(view.queryByRole("button", { name: "Continue" })).toBeNull();
+    expect(view.queryByRole("button", { name: "Continuar" })).toBeNull();
   });
 });

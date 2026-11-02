@@ -23,7 +23,7 @@ export function silenceOf(payload: Record<string, unknown>): string | null {
   }
 
   const seconds = Math.max(1, Math.round(silentForMs / 1000));
-  const quiet = `Silent for ${seconds}s`;
-  if (chunks === 0) return `${quiet}, having said nothing at all`;
-  return `${quiet}, after ${chunks} ${chunks === 1 ? "chunk" : "chunks"}`;
+  const quiet = `Em silêncio por ${seconds}s`;
+  if (chunks === 0) return `${quiet}, sem dizer nada`;
+  return `${quiet}, depois de ${chunks} ${chunks === 1 ? "trecho" : "trechos"}`;
 }

@@ -48,7 +48,7 @@ test("the empty strip stays mounted but leaves the accessibility tree", () => {
 
   expect(container.querySelector("ul")).toBeTruthy();
   expect(queryByRole("list")).toBeNull();
-  expect(queryByRole("list", { name: "Attachments" })).toBeNull();
+  expect(queryByRole("list", { name: "Anexos" })).toBeNull();
 });
 
 test("the strip is announced once it carries something", () => {
@@ -58,7 +58,7 @@ test("the strip is announced once it carries something", () => {
     <AttachmentStrip files={[notes]} images={[]} onRemove={() => {}} />,
   );
 
-  expect(getByRole("list", { name: "Attachments" })).toBeTruthy();
+  expect(getByRole("list", { name: "Anexos" })).toBeTruthy();
   expect(getAllByRole("listitem")).toHaveLength(1);
 });
 
@@ -69,7 +69,7 @@ test("the strip leaves the accessibility tree again when the last one goes", () 
     <AttachmentStrip files={[notes]} images={[]} onRemove={() => {}} />,
   );
 
-  expect(queryByRole("list", { name: "Attachments" })).toBeTruthy();
+  expect(queryByRole("list", { name: "Anexos" })).toBeTruthy();
 
   rerender(<AttachmentStrip files={[]} images={[]} onRemove={() => {}} />);
 
@@ -86,7 +86,7 @@ test("an image on its own puts the strip back in the accessibility tree", () => 
     />,
   );
 
-  expect(getByRole("list", { name: "Attachments" })).toBeTruthy();
+  expect(getByRole("list", { name: "Anexos" })).toBeTruthy();
   expect(getAllByRole("listitem")).toHaveLength(1);
 });
 
@@ -107,7 +107,7 @@ test("an image still going up is named rather than left a blank box", () => {
     />,
   );
 
-  expect(getByRole("img", { name: "A cat, uploading" })).toBeTruthy();
+  expect(getByRole("img", { name: "A cat, enviando" })).toBeTruthy();
 });
 
 test("an unnamed image going up falls back to the same word the finished one uses", () => {
@@ -119,7 +119,7 @@ test("an unnamed image going up falls back to the same word the finished one use
     />,
   );
 
-  expect(getByRole("img", { name: "Attachment, uploading" })).toBeTruthy();
+  expect(getByRole("img", { name: "Anexo, enviando" })).toBeTruthy();
 });
 
 test("a text file that fits shows no truncation warning", () => {
@@ -145,5 +145,5 @@ test("a text file over the extraction ceiling warns it may be read truncated", (
     />,
   );
 
-  expect(getByText(/· may be cut/)).toBeTruthy();
+  expect(getByText(/· pode ser cortado/)).toBeTruthy();
 });

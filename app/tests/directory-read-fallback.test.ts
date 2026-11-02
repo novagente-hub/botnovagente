@@ -21,14 +21,14 @@ async function failureMessage(provider: "composio" | "arcade") {
 
 test("a Composio deployment's messageless directory failure is the directory screen's sentence", async () => {
   expect(await failureMessage("composio")).toBe(
-    "Couldn't load Composio's app directory. Reload the page.",
+    "Não foi possível carregar o diretório de apps de Composio. Recarregue a página.",
   );
 });
 
 test("an Arcade deployment's messageless directory failure names Arcade and never Composio", async () => {
   const message = await failureMessage("arcade");
   expect(message).toBe(
-    "Couldn't load Arcade's app directory. Reload the page.",
+    "Não foi possível carregar o diretório de apps de Arcade. Recarregue a página.",
   );
   expect(message).not.toMatch(/composio/i);
 });

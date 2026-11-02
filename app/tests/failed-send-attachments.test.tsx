@@ -259,7 +259,7 @@ function form({ container }: RenderResult) {
 /** A drop, as the browser delivers one: files hanging off `dataTransfer`. */
 function drop(target: Element, files: File[]) {
   fireEvent.drop(target, {
-    dataTransfer: { files, items: [], types: ["Files"] },
+    dataTransfer: { files, items: [], types: ["Arquivos"] },
   });
 }
 
@@ -276,8 +276,8 @@ async function uploaded(view: RenderResult, names: readonly string[]) {
     for (const name of names) {
       expect(view.queryByLabelText(`Remove ${name}`)).not.toBeNull();
     }
-    const button = (view.queryByLabelText("Send message") ??
-      view.queryByLabelText("Queue message")) as HTMLButtonElement | null;
+    const button = (view.queryByLabelText("Enviar mensagem") ??
+      view.queryByLabelText("Colocar mensagem na fila")) as HTMLButtonElement | null;
     expect(button?.disabled).toBe(false);
   });
 }
@@ -287,7 +287,7 @@ function chips({ container }: RenderResult) {
   return Array.from(container.querySelectorAll("[aria-label^='Remove ']"))
     .map((element) => element.getAttribute("aria-label") ?? "")
     .filter((label) => !label.startsWith("Remove queued message"))
-    .map((label) => label.slice("Remove ".length));
+    .map((label) => label.slice("Remover ".length));
 }
 
 /** What the last user turn on the agent is carrying, as the wire sees it. */
@@ -322,20 +322,20 @@ test("a drained turn whose send fails keeps the rows behind the message the tran
   const user = userEvent.setup({ document: view.container.ownerDocument });
 
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
-    "Get started",
+    view.getByRole("textbox", { name: "Mensagem" }),
+    "Começar",
   );
-  await user.click(view.getByRole("button", { name: "Send message" }));
+  await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   await waitFor(() => expect(runs).toHaveLength(1));
 
   // A correction typed at a Bot that is already working, with a file under it.
   drop(form(view), [named("plan.txt")]);
   await uploaded(view, ["plan.txt"]);
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
+    view.getByRole("textbox", { name: "Mensagem" }),
     "Use the attached plan",
   );
-  await user.click(view.getByRole("button", { name: "Queue message" }));
+  await user.click(view.getByRole("button", { name: "Colocar mensagem na fila" }));
   await waitFor(() =>
     expect(
       view.container.querySelector("[aria-label^='Remove queued message']"),
@@ -425,10 +425,10 @@ test("a failed send restored beside a second batch cannot be retried over the pe
 
   // THE FINDING. Sixteen attachments is not a message this deployment accepts, and the button that
   // sends it must say so rather than letting the retry discover it as a rejected request.
-  const send = view.getByLabelText("Send message") as HTMLButtonElement;
+  const send = view.getByLabelText("Enviar mensagem") as HTMLButtonElement;
   expect(send.disabled).toBe(true);
   expect(
-    view.getByText(new RegExp(`at most ${MAX_ATTACHMENTS_PER_MESSAGE}`, "i")),
+    view.getByText(new RegExp(`no máximo ${MAX_ATTACHMENTS_PER_MESSAGE}`, "i")),
   ).toBeTruthy();
 
   // Nothing was dropped to get there: every file is still on the strip and still deletable by the
@@ -444,7 +444,7 @@ test("a failed send restored beside a second batch cannot be retried over the pe
   await waitFor(() => {
     expect(chips(view)).toHaveLength(MAX_ATTACHMENTS_PER_MESSAGE);
     expect(
-      (view.getByLabelText("Send message") as HTMLButtonElement).disabled,
+      (view.getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled,
     ).toBe(false);
   });
   await waitFor(() =>
@@ -475,19 +475,19 @@ test("the next turn carries a restored message, with its file, ahead of the newe
   const user = userEvent.setup({ document: view.container.ownerDocument });
 
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
-    "Get started",
+    view.getByRole("textbox", { name: "Mensagem" }),
+    "Começar",
   );
-  await user.click(view.getByRole("button", { name: "Send message" }));
+  await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   await waitFor(() => expect(runs).toHaveLength(1));
 
   drop(form(view), [named("plan.txt")]);
   await uploaded(view, ["plan.txt"]);
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
+    view.getByRole("textbox", { name: "Mensagem" }),
     "Use the attached plan",
   );
-  await user.click(view.getByRole("button", { name: "Queue message" }));
+  await user.click(view.getByRole("button", { name: "Colocar mensagem na fila" }));
 
   // The turn ends, the queue drains, and the drained send fails.
   firstRun.settle(finished(runs[0] as RunAgentInput));
@@ -505,10 +505,10 @@ test("the next turn carries a restored message, with its file, ahead of the newe
 
   // The next thing sent takes it along.
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
+    view.getByRole("textbox", { name: "Mensagem" }),
     "And the summary too",
   );
-  await user.click(view.getByRole("button", { name: "Send message" }));
+  await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   await waitFor(() => expect(runs).toHaveLength(3));
 
   const sent = runs[2]?.messages.at(-1);

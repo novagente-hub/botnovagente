@@ -50,8 +50,8 @@ export function screenPickedFiles(
         reject(
           file,
           mediaType === "image/svg+xml"
-            ? `'${file.name}' can't be attached. SVG files aren't accepted.`
-            : `'${file.name}' isn't a supported image format.`,
+            ? `'${file.name}' não pode ser anexado. Arquivos SVG não são aceitos.`
+            : `'${file.name}' não é um formato de imagem compatível.`,
         ),
       );
       continue;
@@ -76,7 +76,7 @@ export function screenPickedFiles(
 
     if (kind === "unsupported" && !unnamed) {
       rejected.push(
-        reject(file, `'${file.name}' isn't a file type you can attach.`),
+        reject(file, `'${file.name}' não é um tipo de arquivo que pode ser anexado.`),
       );
       continue;
     }
@@ -85,7 +85,7 @@ export function screenPickedFiles(
       rejected.push(
         reject(
           file,
-          `'${file.name}' is too large for an image. The limit is ${formatBytes(MAX_IMAGE_BYTES)}.`,
+          `'${file.name}' é grande demais para uma imagem. O limite é ${formatBytes(MAX_IMAGE_BYTES)}.`,
         ),
       );
       continue;
@@ -95,7 +95,7 @@ export function screenPickedFiles(
       rejected.push(
         reject(
           file,
-          `'${file.name}' is too large for a text file. The limit is ${formatBytes(MAX_FILE_BYTES)}.`,
+          `'${file.name}' é grande demais para um arquivo de texto. O limite é ${formatBytes(MAX_FILE_BYTES)}.`,
         ),
       );
       continue;
@@ -108,7 +108,7 @@ export function screenPickedFiles(
       rejected.push(
         reject(
           file,
-          `'${file.name}' is too large. The limit is ${formatBytes(MAX_IMAGE_BYTES)}.`,
+          `'${file.name}' é grande demais. O limite é ${formatBytes(MAX_IMAGE_BYTES)}.`,
         ),
       );
       continue;
@@ -121,7 +121,7 @@ export function screenPickedFiles(
       rejected.push(
         reject(
           file,
-          `'${file.name}' wasn't added. A message can take at most ${MAX_ATTACHMENTS_PER_MESSAGE} attachments.`,
+          `'${file.name}' não foi adicionado. Uma mensagem pode ter no máximo ${MAX_ATTACHMENTS_PER_MESSAGE} anexos.`,
         ),
       );
       continue;

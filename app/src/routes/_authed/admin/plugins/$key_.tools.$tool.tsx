@@ -81,7 +81,7 @@ function RouteComponent() {
 
   /* Nothing rather than a placeholder, so no sentence asserts anything while the fetch is open. */
   if (plugins.isPending) {
-    return <PageShell title="Tool">{null}</PageShell>;
+    return <PageShell title="Ferramenta">{null}</PageShell>;
   }
 
   /*
@@ -94,7 +94,8 @@ function RouteComponent() {
     return (
       <PageShell backButton={back} title={toolName}>
         <p className="mt-12 text-destructive text-sm" role="alert">
-          Couldn't load plugins. Reload the page.
+          
+          Não foi possível carregar os plugins. Recarregue a página.
         </p>
       </PageShell>
     );
@@ -104,7 +105,7 @@ function RouteComponent() {
     return (
       <PageShell
         backButton={back}
-        description="This connector has no tool with that name."
+        description="Este conector não tem ferramenta com esse nome."
         title={toolName}
       >
         {/*
@@ -113,11 +114,11 @@ function RouteComponent() {
          */}
         <PageEmpty
           icon={server ? IconTool : IconPlugOff}
-          title={server ? "Tool not found" : "This connector is off"}
+          title={server ? "Ferramenta não encontrada" : "Este conector está desativado"}
         >
           {server
-            ? "It may have been removed since the tool list was last refreshed."
-            : "Turn it on to see its tools."}
+            ? "Ela pode ter sido removida desde a última atualização da lista de ferramentas."
+            : "Ative-o para ver as ferramentas."}
         </PageEmpty>
       </PageShell>
     );
@@ -141,7 +142,7 @@ function RouteComponent() {
   return (
     <PageShell
       backButton={back}
-      description={tool.description || "This tool has no description."}
+      description={tool.description || "Esta ferramenta não tem descrição."}
       title={toolName}
     >
       {error ? (
@@ -153,10 +154,10 @@ function RouteComponent() {
       <PageSection
         description={
           tool.effect === "write"
-            ? "This tool changes something at the vendor. Boundaries about writes apply to it."
-            : "This tool only reads. Boundaries about writes don't apply to it."
+            ? "Esta ferramenta altera algo no fornecedor. Limites sobre gravações se aplicam a ela."
+            : "Esta ferramenta só lê. Limites sobre gravações não se aplicam a ela."
         }
-        title="What it does"
+        title="O que ele faz"
       >
         <PageRows>
           {/*
@@ -166,10 +167,10 @@ function RouteComponent() {
            */}
           <Item size="sm">
             <ItemContent>
-              <ItemTitle>Effect</ItemTitle>
+              <ItemTitle>Efeito</ItemTitle>
               <ItemDescription>
-                Set by the connector, not the tool's name. Anything unknown
-                counts as a write.
+                
+                Definido pelo conector, não pelo nome da ferramenta. Qualquer coisa desconhecida conta como gravação.
               </ItemDescription>
             </ItemContent>
             <ItemActions>
@@ -188,12 +189,13 @@ function RouteComponent() {
       </PageSection>
 
       <PageSection
-        description="A Bot can call this tool only while its switch is on. Turning it off applies from the next call."
+        description="Um Bot só pode chamar esta ferramenta enquanto a chave estiver ativada. Desativar vale a partir da próxima chamada."
         title="Bots"
       >
         {bots.length === 0 ? (
-          <PageEmpty icon={IconRobot} title="No Bots yet">
-            Create one to give it this tool.
+          <PageEmpty icon={IconRobot} title="Nenhum Bot ainda">
+            
+            Crie um para dar esta ferramenta a ele.
           </PageEmpty>
         ) : (
           <PageRows>
@@ -205,12 +207,12 @@ function RouteComponent() {
                     <ItemContent>
                       <ItemTitle>{bot.name}</ItemTitle>
                       <ItemDescription>
-                        {bot.hidden ? "Hidden from your roster. " : ""}
+                        {bot.hidden ? "Oculto da sua lista. " : ""}
                         {held
                           ? canCallBack(bot)
-                            ? "Can call this tool. Every call is still checked against boundaries and logged in Audit."
-                            : "Allowed, but this Bot has no callback token. Every call is refused. Issue one on its page, or set AGENT_TOOL_TOKEN."
-                          : "Can't call this tool. The Bot never sees it."}
+                            ? "Pode chamar esta ferramenta. Cada chamada ainda é verificada contra os limites e registrada em Auditoria."
+                            : "Permitido, mas este Bot não tem token de callback. Todas as chamadas são recusadas. Emita um na página dele ou defina AGENT_TOOL_TOKEN."
+                          : "Não pode chamar esta ferramenta. O Bot nunca a vê."}
                       </ItemDescription>
                     </ItemContent>
                     <ItemActions>

@@ -6,18 +6,18 @@ export type LinkedNotice = { tone: "success" | "error"; text: string };
  */
 export function linkedNotice(value: string | undefined): LinkedNotice | null {
   if (value === "github") {
-    return { tone: "success", text: "Your GitHub account is linked." };
+    return { tone: "success", text: "Sua conta do GitHub está vinculada." };
   }
   if (value === "failed") {
     return {
       tone: "error",
-      text: "Couldn't link your GitHub account. Try again.",
+      text: "Não foi possível vincular sua conta do GitHub. Tente novamente.",
     };
   }
   if (value === "github-taken") {
     return {
       tone: "error",
-      text: "That GitHub account is linked to someone else in OpenBot. Sign in to GitHub with another account and try again, or ask an admin.",
+      text: "Essa conta do GitHub está vinculada a outra pessoa no OpenBot. Entre no GitHub com outra conta e tente novamente, ou fale com um administrador.",
     };
   }
   return null;

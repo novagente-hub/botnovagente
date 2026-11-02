@@ -141,68 +141,68 @@ function mounted(
 }
 
 const COPY: [string, Partial<AppAccess>, RegExp][] = [
-  ["ready", {}, /^Ready to use\.$/],
+  ["ready", {}, /^Pronto para usar\.$/],
   [
     "ready, on the owner's account",
     { accountHolder: "owner" },
-    /^Ready to use\. This Bot uses its owner's Gmail account\.$/,
+    /^Pronto para usar\. Este Bot usa a conta Gmail do dono\.$/,
   ],
   [
     "ready, asking first",
     { asksFirst: true },
-    /^Ready to use with your own Gmail account\. You'll be asked to allow it the first time\.$/,
+    /^Pronto para usar com sua própria conta Gmail\. Você terá que permitir na primeira vez\.$/,
   ],
   [
     "not_connected",
     { state: "not_connected" },
-    /You haven't connected your Gmail account yet\./,
+    /Você ainda não conectou sua conta Gmail\./,
   ],
   [
     "reconnect",
     { state: "reconnect" },
-    /^Your Gmail connection needs reconnecting\.$/,
+    /^Sua conexão Gmail precisa ser reconectada\.$/,
   ],
   [
     "reconnect, on the owner's account",
     { state: "reconnect", accountHolder: "owner" },
-    /^This Bot uses its owner's Gmail account, which needs reconnecting\. Only the Bot's owner can reconnect it\.$/,
+    /^Este Bot usa a conta Gmail do dono, que precisa ser reconectada\. Só o dono do Bot pode reconectá-la\.$/,
   ],
   [
     "shared_not_connected",
     { state: "shared_not_connected" },
-    /Your organisation's Gmail account isn't connected yet\. Only an admin can connect it\./,
+    /A conta Gmail da sua organização ainda não está conectada\. Só um administrador pode conectá-la\./,
   ],
   [
     "shared_not_approved",
     { state: "shared_not_approved" },
-    /^This Bot reaches more people than an admin approved for your organisation's Gmail account\. Only an admin can approve it\.$/,
+    /^Este Bot alcança mais pessoas do que um administrador aprovou para a conta Gmail da sua organização\. Só um administrador pode aprovar\.$/,
   ],
   [
     "disabled, never switched on",
     { state: "disabled", unavailable: "absent" },
-    /^Gmail isn't turned on yet\. Only an admin can turn it on\.$/,
+    /^Gmail ainda não está ativado\. Só um administrador pode ativá-lo\.$/,
   ],
   [
     "disabled, with no reason given",
     { state: "disabled", unavailable: null },
-    /^Gmail isn't turned on yet\./,
+    /^Gmail ainda não está ativado\. Só um administrador pode ativá-lo\./,
   ],
   [
     "disabled, with no Composio key",
     { state: "disabled", unavailable: "composio_unconfigured" },
-    /^Gmail isn't set up yet\. An admin has to turn it on\.$/,
+    /^Gmail ainda não está configurado\. Um administrador precisa ativá-lo\.$/,
   ],
   ...(
     ["scheme_unreadable", "oauth_client_missing", "token_missing"] as const
   ).map((unavailable): [string, Partial<AppAccess>, RegExp] => [
     `disabled, ${unavailable}`,
     { state: "disabled", unavailable },
-    /^Gmail isn't fully set up yet\. Only an admin can finish setting it up\.$/,
+    /^Gmail ainda não está totalmente configurado\. Só um administrador pode concluir a configuração\.$/,
   ]),
   [
     "not_granted",
     { state: "not_granted" },
-    /This Bot hasn't been given Gmail\. Only an admin can give it\./,
+    /Este Bot não recebeu Gmail\. Só um administrador pode dar\./,
   ],
 ];
 
@@ -212,24 +212,24 @@ test.each(COPY)("says whose move it is: %s", (_, overrides, sentence) => {
 
 test("no sentence about a switched-off app says an admin turned it off", () => {
   for (const [, overrides] of COPY.filter(([, o]) => o.state === "disabled"))
-    expect(appAccessSentence(appAccess(overrides))).not.toMatch(/Turned off/);
+    expect(appAccessSentence(appAccess(overrides))).not.toMatch(/Desativado/);
 });
 
 test("ready offers nothing to press", async () => {
   const { view } = mounted(appAccess());
-  await view.findByText("Ready to use.");
+  await view.findByText("Pronto para usar.");
   expect(view.queryByRole("button")).toBeNull();
   expect(view.queryByRole("link")).toBeNull();
 });
 
 test("not connected offers Connect, which starts the person's own consent in a new tab", async () => {
   const { view, sent, opened } = mounted(appAccess({ state: "not_connected" }));
-  fireEvent.click(await view.findByRole("button", { name: "Connect Gmail" }));
+  fireEvent.click(await view.findByRole("button", { name: "Conectar Gmail" }));
   await waitFor(() => expect(opened).toEqual(["https://gmail.test/consent"]));
   expect(sent.map((call) => `${call.method} ${call.url}`)).toContain(
     "POST /api/plugins/servers/composio-gmail/connect?returnTo=settings",
   );
-  await view.findByText("Finish in the tab that opened.");
+  await view.findByText("Termine na aba que abriu.");
 });
 
 test("an app connected with a typed key goes to its page in Settings, where the form is", async () => {
@@ -237,13 +237,13 @@ test("an app connected with a typed key goes to its page in Settings, where the 
     appAccess({ state: "not_connected", connect: "key" }),
   );
   // Drawn as a button (`Button` over a `Link`), and an anchor underneath with the address.
-  const link = (await view.findByText("Connect")).closest("a");
+  const link = (await view.findByText("Conectar")).closest("a");
   expect(link?.getAttribute("href")).toBe("/connections/composio-gmail");
 });
 
 test("a Composio app to reconnect goes to Settings, because the connect route refuses a row that stands", async () => {
   const { view } = mounted(appAccess({ state: "reconnect" }));
-  const link = (await view.findByText("Reconnect")).closest("a");
+  const link = (await view.findByText("Reconectar")).closest("a");
   expect(link?.getAttribute("href")).toBe("/connections/composio-gmail");
 });
 
@@ -258,7 +258,7 @@ test("this deployment's own OAuth app reconnects in place, with a fresh consent"
     }),
   );
   fireEvent.click(
-    await view.findByRole("button", { name: "Reconnect Notion" }),
+    await view.findByRole("button", { name: "Reconectar Notion" }),
   );
   await waitFor(() => expect(opened).toHaveLength(1));
 });
@@ -277,38 +277,38 @@ async function withFocus(focused: boolean, run: () => Promise<void>) {
 test("closing the sign-in tab ends the wait, rather than waiting for it forever", async () => {
   await withFocus(true, async () => {
     const { view, tabs } = mounted(appAccess({ state: "not_connected" }));
-    fireEvent.click(await view.findByRole("button", { name: "Connect Gmail" }));
-    await view.findByText("Waiting for Gmail…");
+    fireEvent.click(await view.findByRole("button", { name: "Conectar Gmail" }));
+    await view.findByText("Aguardando Gmail…");
     const [tab] = tabs;
     if (!tab) throw new Error("no tab was claimed");
     tab.closed = true;
     await waitFor(
       () =>
         expect(
-          view.getByRole("button", { name: "Connect Gmail" }),
+          view.getByRole("button", { name: "Conectar Gmail" }),
         ).toBeTruthy(),
       { timeout: 3_000 },
     );
-    expect(view.queryByText("Waiting for Gmail…")).toBeNull();
-    expect(view.queryByText("Finish in the tab that opened.")).toBeNull();
+    expect(view.queryByText("Aguardando Gmail…")).toBeNull();
+    expect(view.queryByText("Termine na aba que abriu.")).toBeNull();
   });
 });
 
 test("a sign-in tab that only reads closed keeps the wait until this tab has the focus back", async () => {
   await withFocus(false, async () => {
     const { view, tabs } = mounted(appAccess({ state: "not_connected" }));
-    fireEvent.click(await view.findByRole("button", { name: "Connect Gmail" }));
-    await view.findByText("Waiting for Gmail…");
+    fireEvent.click(await view.findByRole("button", { name: "Conectar Gmail" }));
+    await view.findByText("Aguardando Gmail…");
     const [tab] = tabs;
     if (!tab) throw new Error("no tab was claimed");
     // A vendor's opener policy severs the handle while the person is still on its consent screen.
     tab.closed = true;
     await new Promise((resolve) => setTimeout(resolve, 1_500));
-    expect(view.getByText("Waiting for Gmail…")).toBeTruthy();
+    expect(view.getByText("Aguardando Gmail…")).toBeTruthy();
     // They come back to this tab: there is an answer to show now.
     window.dispatchEvent(new Event("focus"));
     await waitFor(() =>
-      expect(view.queryByText("Waiting for Gmail…")).toBeNull(),
+      expect(view.queryByText("Aguardando Gmail…")).toBeNull(),
     );
   });
 });
@@ -317,7 +317,7 @@ test("a Reconnect on the owner's account offers nothing: only the owner can reco
   const { view } = mounted(
     appAccess({ state: "reconnect", accountHolder: "owner" }),
   );
-  await view.findByText(/Only the Bot's owner can reconnect it/);
+  await view.findByText(/Só o dono do Bot pode reconectá-la/);
   expect(view.queryByRole("button")).toBeNull();
   expect(view.queryByRole("link")).toBeNull();
 });
@@ -330,13 +330,13 @@ test("a Shared app waiting on an admin's approval offers nothing: the refused ca
       accountMode: "shared",
     }),
   );
-  await view.findByText(/Only an admin can approve it/);
+  await view.findByText(/Só um administrador pode aprovar/);
   expect(view.queryByRole("button")).toBeNull();
 });
 
 test.each([
-  [{ accountHolder: "owner" }, /owner's Gmail account/],
-  [{ asksFirst: true }, /asked to allow it the first time/],
+  [{ accountHolder: "owner" }, /conta Gmail do dono/],
+  [{ asksFirst: true }, /Pronto para usar com sua própria conta Gmail\. Você terá que permitir na primeira vez\./],
 ] as const)(
   "ready on somebody else's Team Bot offers nothing to press",
   async (overrides, sentence) => {
@@ -355,7 +355,7 @@ test.each([
   async (state, kind) => {
     const { view, sent } = mounted(appAccess({ state, requestKind: kind }));
     fireEvent.click(
-      await view.findByRole("button", { name: "Request access to Gmail" }),
+      await view.findByRole("button", { name: "Pedir acesso a Gmail" }),
     );
     await waitFor(() =>
       expect(sent.find((call) => call.method === "POST")).toEqual({
@@ -379,12 +379,12 @@ test("a pending request reads Requested, and Withdraw cancels it", async () => {
       },
     }),
   );
-  await view.findByText("Requested");
+  await view.findByText("Solicitado");
   expect(
-    view.queryByRole("button", { name: "Request access to Gmail" }),
+    view.queryByRole("button", { name: "Pedir acesso a Gmail" }),
   ).toBeNull();
   fireEvent.click(
-    view.getByRole("button", { name: "Withdraw request for Gmail" }),
+    view.getByRole("button", { name: "Retirar pedido de Gmail" }),
   );
   await waitFor(() =>
     expect(
@@ -403,7 +403,7 @@ test("the server's refusal of a request is drawn beside the button", async () =>
     { status: 409, body: { error: "Gmail is ready to use." } },
   );
   fireEvent.click(
-    await view.findByRole("button", { name: "Request access to Gmail" }),
+    await view.findByRole("button", { name: "Pedir acesso a Gmail" }),
   );
   expect((await view.findByRole("alert")).textContent).toBe(
     "Gmail is ready to use.",
@@ -414,7 +414,7 @@ test("a state with no request to file offers none, rather than a button the serv
   const { view } = mounted(
     appAccess({ state: "shared_not_connected", requestKind: null }),
   );
-  await view.findByText(/organisation's Gmail account/);
+  await view.findByText(/conta Gmail da sua organização/);
   expect(view.queryByRole("button")).toBeNull();
 });
 
@@ -422,7 +422,7 @@ test("the focus follows the press: Request access hands it to Withdraw, and With
   const asked = appAccess({ state: "not_granted", requestKind: "grant" });
   const { view, sent, swap } = mounted(asked);
   const ask = await view.findByRole("button", {
-    name: "Request access to Gmail",
+    name: "Pedir acesso a Gmail",
   });
   ask.focus();
   fireEvent.click(ask);
@@ -439,7 +439,7 @@ test("the focus follows the press: Request access hands it to Withdraw, and With
   };
   await swap(pending);
   const withdraw = await view.findByRole("button", {
-    name: "Withdraw request for Gmail",
+    name: "Retirar pedido de Gmail",
   });
   expect(document.activeElement).toBe(withdraw);
 
@@ -449,17 +449,17 @@ test("the focus follows the press: Request access hands it to Withdraw, and With
   );
   await swap(asked);
   expect(document.activeElement).toBe(
-    await view.findByRole("button", { name: "Request access to Gmail" }),
+    await view.findByRole("button", { name: "Pedir acesso a Gmail" }),
   );
 });
 
 test.each([
   [
     "disabled",
-    "Turn on and give it to Expenses",
-    "Turn on Gmail and give it to Expenses",
+    "Ativar e dar para Expenses",
+    "Ativar Gmail e dar para Expenses",
   ],
-  ["not_granted", "Give it to Expenses", "Give Gmail to Expenses"],
+  ["not_granted", "Dar para Expenses", "Dar Gmail para Expenses"],
 ] as const)(
   "an admin looking at %s gets the fix itself, in one press, never a request to themselves",
   async (state, label, spoken) => {
@@ -475,7 +475,7 @@ test.each([
     const button = await view.findByRole("button", { name: spoken });
     expect(button.textContent).toBe(label);
     expect(
-      view.queryByRole("button", { name: "Request access to Gmail" }),
+      view.queryByRole("button", { name: "Pedir acesso a Gmail" }),
     ).toBeNull();
     fireEvent.click(button);
     await waitFor(() =>
@@ -495,7 +495,7 @@ test("an admin's press that cannot be carried out says what is missing", async (
     { admin: true },
   );
   fireEvent.click(
-    await view.findByRole("button", { name: "Give Gmail to Expenses" }),
+    await view.findByRole("button", { name: "Dar Gmail para Expenses" }),
   );
   expect((await view.findByRole("alert")).textContent).toBe(
     "Gmail has no tools to give yet.",
@@ -505,7 +505,7 @@ test("an admin's press that cannot be carried out says what is missing", async (
 test.each([
   [
     { state: "shared_not_connected", requestKind: "connect_shared" },
-    "Connect the team Gmail account",
+    "Conectar a conta Gmail da equipe",
     "/admin/plugins/composio-gmail",
   ],
   [
@@ -534,20 +534,20 @@ test.each([
 
 test("an owner is asked about their own app, by the Bot's name where the caller has it", () => {
   const owners = appAccess({ state: "owner_grantable", granted: false });
-  expect(appAccessSentence(owners)).toBe("Let this Bot use your Gmail?");
+  expect(appAccessSentence(owners)).toBe("Permitir que este Bot use seu Gmail?");
   expect(appAccessSentence(owners, "Research Bot")).toBe(
-    "Let Research Bot use your Gmail?",
+    "Permitir que Research Bot use seu Gmail?",
   );
   expect(
     appAccessSentence({ ...owners, needsConnect: true }, "Research Bot"),
-  ).toBe("Let Research Bot use your Gmail? Connect it first.");
+  ).toBe("Permitir que Research Bot use seu Gmail? Conecte primeiro.");
   // An app on nobody's own account is not "your" anything.
   expect(
     appAccessSentence(
-      { ...owners, displayName: "Routines", account: "deployment" },
+      { ...owners, displayName: "Rotinas", account: "deployment" },
       "Research Bot",
     ),
-  ).toBe("Let Research Bot use Routines?");
+  ).toBe("Permitir que Research Bot use Rotinas?");
 });
 
 test("an owner's Allow gives the app in one press, naming the Bot and the app and nothing else", async () => {
@@ -574,7 +574,7 @@ test("Connect and allow opens the person's consent first, and gives the app once
   });
   const { view, sent, opened, swap } = mounted(waiting);
   fireEvent.click(
-    await view.findByRole("button", { name: /after you connect it$/ }),
+    await view.findByRole("button", { name: /depois de conectá-la$/ }),
   );
   await waitFor(() => expect(opened).toEqual(["https://gmail.test/consent"]));
   const gives = () =>

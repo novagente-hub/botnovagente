@@ -36,12 +36,12 @@ export function TeamBotConsentCard({
       {chosen ? (
         <p className="text-muted-foreground" role="status">
           {chosen === "skip"
-            ? "Skipped. Nothing of yours was used."
+            ? "Ignorado. Nada seu foi usado."
             : chosen === "allow_once"
-              ? "Allowed once. Ask the Bot to try again."
+              ? "Permitido uma vez. Peça ao Bot para tentar de novo."
               : chosen === "allow_all_team_bots"
-                ? "Always allowed for every Team Bot. Ask it to try again."
-                : "Always allowed for this Bot. Ask it to try again."}
+                ? "Sempre permitido para todos os Bots da equipe. Peça para ele tentar de novo."
+                : "Sempre permitido para este Bot. Peça para ele tentar de novo."}
         </p>
       ) : (
         <div className="flex flex-wrap gap-2">
@@ -50,7 +50,8 @@ export function TeamBotConsentCard({
             onClick={() => choose("allow_once")}
             size="sm"
           >
-            Allow once
+            
+            Permitir uma vez
           </Button>
           <Button
             disabled={answer.isPending}
@@ -58,7 +59,8 @@ export function TeamBotConsentCard({
             size="sm"
             variant="outline"
           >
-            Always allow for this Bot
+            
+            Sempre permitir para este Bot
           </Button>
           <Button
             disabled={answer.isPending}
@@ -66,7 +68,8 @@ export function TeamBotConsentCard({
             size="sm"
             variant="outline"
           >
-            Always allow for all Team Bots
+            
+            Sempre permitir para todos os Bots da equipe
           </Button>
           <Button
             disabled={answer.isPending}
@@ -74,7 +77,8 @@ export function TeamBotConsentCard({
             size="sm"
             variant="ghost"
           >
-            Skip
+            
+            Pular
           </Button>
         </div>
       )}

@@ -52,7 +52,7 @@ export function startBotBrowserRecordingMutationOptions(
             title: variables.title,
             ...(variables.language ? { language: variables.language } : {}),
           },
-          fallback: "Couldn't start recording. Try again.",
+          fallback: "Não foi possível iniciar a gravação. Tente novamente.",
         })
       ).json(),
     onSuccess: () => invalidateBotBrowser(queryClient, botId),
@@ -74,7 +74,7 @@ export function stopBotBrowserRecordingMutationOptions(
         await client(botBrowserApiPaths.recording(botId), {
           method: "POST",
           body: { action: "stop" },
-          fallback: "Couldn't stop recording. Try again.",
+          fallback: "Não foi possível parar a gravação. Tente novamente.",
         })
       ).json(),
     onSettled: () => invalidateBotBrowser(queryClient, botId),
@@ -94,7 +94,7 @@ export function botBrowserTabsMutationOptions(
         await client(botBrowserApiPaths.tabs(botId), {
           method: "POST",
           body: request,
-          fallback: "Couldn't change the tabs. Try again.",
+          fallback: "Não foi possível alterar as abas. Tente novamente.",
         })
       ).json(),
     onSuccess: () => invalidateBotBrowser(queryClient, botId),
@@ -114,7 +114,7 @@ export function navigateBotBrowserMutationOptions(
         await client(botBrowserApiPaths.navigate(botId), {
           method: "POST",
           body: request,
-          fallback: "Couldn't open that page. Try again.",
+          fallback: "Não foi possível abrir essa página. Tente novamente.",
         })
       ).json(),
     onSuccess: () => invalidateBotBrowser(queryClient, botId),
@@ -134,7 +134,7 @@ export function clearBotBrowserMutationOptions(
       (
         await client(botBrowserApiPaths.clear(botId), {
           method: "POST",
-          fallback: "Couldn't clear the browser. Try again.",
+          fallback: "Não foi possível limpar o navegador. Tente novamente.",
         })
       ).json(),
     onSettled: () => invalidateBotBrowser(queryClient, botId),

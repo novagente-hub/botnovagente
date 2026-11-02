@@ -66,7 +66,7 @@ export const KIND_LABEL: Record<TriggerKind, string> = {
   linear: "Linear",
   sentry: "Sentry",
   pagerduty: "PagerDuty",
-  email: "Email",
+  email: "E-mail",
   slack: "Slack",
 };
 const KIND_ICON: Record<TriggerKind, typeof IconWebhook> = {
@@ -80,18 +80,18 @@ const KIND_ICON: Record<TriggerKind, typeof IconWebhook> = {
 };
 const KIND_HELP: Record<TriggerKind, string> = {
   webhook:
-    "POST JSON to this URL with the Authorization header, or with Standard Webhooks signature headers. A 200 means it was received, not that the run finished.",
+    "Envie um POST JSON para esta URL com o cabeçalho Authorization, ou com cabeçalhos de assinatura Standard Webhooks. Um 200 significa que foi recebido, não que a execução terminou.",
   github:
-    "In the repository's Settings → Webhooks, set the payload URL to this URL, content type application/json, and the secret to the key.",
+    "Em Settings → Webhooks do repositório, defina a payload URL como esta URL, content type application/json e o secret como a chave.",
   linear:
-    "In Linear, Settings → API → Webhooks: set the URL, then paste the signing secret Linear shows here.",
+    "No Linear, Settings → API → Webhooks: defina a URL e depois cole aqui o signing secret que o Linear mostrar.",
   sentry:
-    "In a Sentry internal integration, set the webhook URL, then paste the integration's client secret here.",
+    "Em uma integração interna do Sentry, defina a URL do webhook e depois cole aqui o client secret da integração.",
   pagerduty:
-    "In PagerDuty, Integrations → Generic Webhooks (v3): set the URL, then paste the secret shown on creation here.",
-  email: "Send or forward mail to this address to start a run.",
+    "No PagerDuty, Integrations → Generic Webhooks (v3): defina a URL e depois cole aqui o secret mostrado na criação.",
+  email: "Envie ou encaminhe e-mails para este endereço para iniciar uma execução.",
   slack:
-    "Starts on Slack events this Bot receives. Messages sent before you added the trigger are ignored.",
+    "Inicia com eventos do Slack que este Bot recebe. Mensagens enviadas antes de você adicionar o gatilho são ignoradas.",
 };
 const VENDOR_SECRET: ReadonlySet<TriggerKind> = new Set([
   "linear",
@@ -99,10 +99,10 @@ const VENDOR_SECRET: ReadonlySet<TriggerKind> = new Set([
   "pagerduty",
 ]);
 const SLACK_MODE = {
-  mention: "The Bot is mentioned",
-  phrase: "A message contains a phrase",
-  reaction: "A reaction is added",
-  message: "Any message",
+  mention: "O Bot é mencionado",
+  phrase: "Uma mensagem contém uma frase",
+  reaction: "Uma reação é adicionada",
+  message: "Qualquer mensagem",
 } as const;
 type SlackMode = keyof typeof SLACK_MODE;
 const list = (value: string) =>
@@ -124,7 +124,7 @@ function CopyButton({ value, label }: { value: string; label: string }) {
         setTimeout(() => setCopied(false), 1500);
       }}
     >
-      {copied ? "Copied" : label}
+      {copied ? "Copiado" : label}
     </Button>
   );
 }
@@ -142,15 +142,15 @@ function describeFilter(config: TriggerConfig) {
   if (config.kind === "slack") {
     const where = config.channels.length
       ? `in ${config.channels.join(", ")}`
-      : "in every channel the Bot is in";
+      : "em todos os canais em que o Bot está";
     const what =
       config.mode === "mention"
-        ? "when the Bot is mentioned"
+        ? "quando o Bot é mencionado"
         : config.mode === "message"
-          ? "on any message"
+          ? "em qualquer mensagem"
           : config.mode === "phrase"
-            ? `on messages containing ${config.phrases.map((phrase) => `"${phrase}"`).join(" or ")}`
-            : `on reactions${config.reactions.length ? ` :${config.reactions.join(": :")}:` : ""}`;
+            ? `em mensagens contendo ${config.phrases.map((phrase) => `"${phrase}"`).join(" ou ")}`
+            : `em reações${config.reactions.length ? ` :${config.reactions.join(": :")}:` : ""}`;
     return `${what} ${where} (workspace ${config.teamId})`;
   }
   const parts = [
@@ -163,7 +163,7 @@ function describeFilter(config: TriggerConfig) {
       `where ${config.filter.field.path} = ${config.filter.field.equals}`,
     );
   if (config.kind === "github" && config.repository)
-    parts.push(`from ${config.repository}`);
+    parts.push(`de ${config.repository}`);
   if (config.kind === "email" && config.allowedSenders.length)
     parts.push(`from ${config.allowedSenders.join(", ")} (authenticated)`);
   return parts.join(" ");
@@ -184,7 +184,7 @@ export function Triggers({ goal }: { goal: ResponsibilityRecord }) {
   return (
     <section className="grid gap-2">
       <div className="flex items-center justify-between gap-2">
-        <h3 className="font-medium text-sm">Triggers</h3>
+        <h3 className="font-medium text-sm">Gatilhos</h3>
         <Button
           size="sm"
           variant="outline"
@@ -192,12 +192,14 @@ export function Triggers({ goal }: { goal: ResponsibilityRecord }) {
           onClick={() => setAdding(true)}
         >
           <IconPlus />
-          Add trigger
+          
+          Adicionar gatilho
         </Button>
       </div>
       {goal.status !== "active" && (
         <p className="text-muted-foreground text-xs">
-          This responsibility is {goal.status}. Its triggers won't start it.
+          
+          Esta responsabilidade está {goal.status}. Os gatilhos dela não vão iniciá-la.
         </p>
       )}
       {triggers.error && (
@@ -207,7 +209,8 @@ export function Triggers({ goal }: { goal: ResponsibilityRecord }) {
       )}
       {triggers.data?.length === 0 && (
         <p className="text-muted-foreground text-xs">
-          No triggers. It runs when you press Run now, or on the events above.
+          
+          Sem gatilhos. Ela executa quando você clica em Executar agora, ou nos eventos acima.
         </p>
       )}
       {triggers.data?.length ? (
@@ -296,7 +299,7 @@ function TriggerRow({
         <ItemTitle>{KIND_LABEL[trigger.kind]}</ItemTitle>
         <ItemDescription className="line-clamp-none">
           {describeFilter(trigger.config)}
-          {trigger.enabled ? "" : " · Paused"}
+          {trigger.enabled ? "" : " · Pausado"}
         </ItemDescription>
       </ItemContent>
       <ItemActions>
@@ -308,14 +311,16 @@ function TriggerRow({
               disabled={remove.isPending}
               onClick={() => remove.mutate(trigger)}
             >
-              Remove for good
+              
+              Remover de vez
             </Button>
             <Button
               size="sm"
               variant="ghost"
               onClick={() => setConfirmRemove(false)}
             >
-              Keep
+              
+              Manter
             </Button>
           </>
         ) : (
@@ -325,10 +330,11 @@ function TriggerRow({
               variant="ghost"
               onClick={() => setConfirmRemove(true)}
             >
-              Remove
+              
+              Remover
             </Button>
             <Switch
-              aria-label={`Run on this ${KIND_LABEL[trigger.kind]} trigger`}
+              aria-label={`Executar neste gatilho ${KIND_LABEL[trigger.kind]}`}
               checked={trigger.enabled}
               disabled={toggle.isPending}
               onCheckedChange={() =>
@@ -344,34 +350,34 @@ function TriggerRow({
         </p>
         {url && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs">POST to</span>
+            <span className="text-xs">POST para</span>
             <Copyable>{url}</Copyable>
-            <CopyButton value={url} label="Copy URL" />
+            <CopyButton value={url} label="Copiar URL" />
           </div>
         )}
         {trigger.kind === "email" &&
           (trigger.address ? (
             <div className="flex flex-wrap items-center gap-2">
               <Copyable>{trigger.address}</Copyable>
-              <CopyButton value={trigger.address} label="Copy address" />
+              <CopyButton value={trigger.address} label="Copiar endereço" />
             </div>
           ) : (
             <p className="text-amber-600 text-xs dark:text-amber-500">
-              Email isn't set up on OpenBot yet, so this address can't receive
-              mail. An admin has to turn it on.
+              
+              O e-mail ainda não está configurado no OpenBot, então este endereço não recebe mensagens. Um administrador precisa ativá-lo.
             </p>
           ))}
         {generated && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs">Key</span>
+            <span className="text-xs">Chave</span>
             {shown ? (
               <>
                 <Copyable>{shown}</Copyable>
-                <CopyButton value={shown} label="Copy key" />
+                <CopyButton value={shown} label="Copiar chave" />
                 {trigger.kind === "webhook" && (
                   <CopyButton
                     value={`Authorization: Bearer ${shown}`}
-                    label="Copy header"
+                    label="Copiar cabeçalho"
                   />
                 )}
               </>
@@ -384,7 +390,8 @@ function TriggerRow({
                   reveal.mutate(trigger.id, { onSuccess: setSecret })
                 }
               >
-                Show key
+                
+                Mostrar chave
               </Button>
             )}
             <Button
@@ -393,7 +400,8 @@ function TriggerRow({
               disabled={rotate.isPending}
               onClick={rotateSecret}
             >
-              Replace key
+              
+              Substituir chave
             </Button>
           </div>
         )}
@@ -416,25 +424,26 @@ function TriggerRow({
               }
             >
               {trigger.hasSecret
-                ? "Signing secret saved"
-                : "Waiting for the signing secret"}
+                ? "Segredo de assinatura salvo"
+                : "Aguardando o segredo de assinatura"}
             </span>
             <div className="flex items-center gap-2">
               <Input
-                aria-label="Signing secret"
+                aria-label="Segredo de assinatura"
                 type="password"
                 autoComplete="new-password"
                 placeholder={
                   trigger.hasSecret
-                    ? "Paste a new secret to replace it"
-                    : "Paste the signing secret"
+                    ? "Cole um novo segredo para substituí-lo"
+                    : "Cole o segredo de assinatura"
                 }
                 value={pasted}
                 onChange={(event) => setPasted(event.target.value)}
                 required
               />
               <Button size="sm" type="submit" disabled={rotate.isPending}>
-                Save secret
+                
+                Salvar segredo
               </Button>
             </div>
           </form>
@@ -529,9 +538,10 @@ function NewTriggerDialog({
           would otherwise render a nested dialog with no backdrop at all. */}
       <DialogContent overlayClassName="bg-black/20 supports-backdrop-filter:backdrop-blur-sm">
         <DialogHeader>
-          <DialogTitle>Add trigger</DialogTitle>
+          <DialogTitle>Adicionar gatilho</DialogTitle>
           <DialogDescription>
-            Something outside OpenBot that starts this responsibility.
+            
+            Algo fora do OpenBot que inicia esta responsabilidade.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 overflow-y-auto">
@@ -555,7 +565,7 @@ function NewTriggerDialog({
           >
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor={`${id}-kind`}>Trigger</FieldLabel>
+                <FieldLabel htmlFor={`${id}-kind`}>Gatilho</FieldLabel>
                 <Select
                   items={KIND_LABEL}
                   onValueChange={(value) => {
@@ -580,7 +590,8 @@ function NewTriggerDialog({
                 <FieldGroup className="sm:grid sm:grid-cols-2">
                   <Field>
                     <FieldLabel htmlFor={`${id}-team`}>
-                      Slack team ID
+                      
+                      ID da equipe no Slack
                     </FieldLabel>
                     <Input
                       id={`${id}-team`}
@@ -591,7 +602,7 @@ function NewTriggerDialog({
                     />
                   </Field>
                   <Field>
-                    <FieldLabel htmlFor={`${id}-mode`}>Fire on</FieldLabel>
+                    <FieldLabel htmlFor={`${id}-mode`}>Disparar em</FieldLabel>
                     <Select
                       items={SLACK_MODE}
                       onValueChange={(value) => {
@@ -616,7 +627,8 @@ function NewTriggerDialog({
                   {mode === "phrase" && (
                     <Field>
                       <FieldLabel htmlFor={`${id}-phrases`}>
-                        Phrases (comma separated)
+                        
+                        Frases (separadas por vírgula)
                       </FieldLabel>
                       <Input
                         id={`${id}-phrases`}
@@ -629,7 +641,8 @@ function NewTriggerDialog({
                   {mode === "reaction" && (
                     <Field>
                       <FieldLabel htmlFor={`${id}-reactions`}>
-                        Reactions (blank: any)
+                        
+                        Reações (vazio: qualquer)
                       </FieldLabel>
                       <Input
                         id={`${id}-reactions`}
@@ -641,7 +654,8 @@ function NewTriggerDialog({
                   )}
                   <Field>
                     <FieldLabel htmlFor={`${id}-channels`}>
-                      Channel IDs (blank: all the Bot is in)
+                      
+                      IDs dos canais (vazio: todos em que o Bot está)
                     </FieldLabel>
                     <Input
                       id={`${id}-channels`}
@@ -654,7 +668,7 @@ function NewTriggerDialog({
               ) : (
                 <FieldGroup className="sm:grid sm:grid-cols-2">
                   <Field className="sm:col-span-2">
-                    <FieldLabel htmlFor={`${id}-types`}>Event types</FieldLabel>
+                    <FieldLabel htmlFor={`${id}-types`}>Tipos de evento</FieldLabel>
                     <Input
                       id={`${id}-types`}
                       placeholder={placeholder[kind]}
@@ -664,7 +678,8 @@ function NewTriggerDialog({
                   </Field>
                   <Field>
                     <FieldLabel htmlFor={`${id}-path`}>
-                      Only when field
+                      
+                      Somente quando o campo
                     </FieldLabel>
                     <Input
                       id={`${id}-path`}
@@ -685,7 +700,8 @@ function NewTriggerDialog({
                   {kind === "github" && (
                     <Field className="sm:col-span-2">
                       <FieldLabel htmlFor={`${id}-repo`}>
-                        Repository (optional)
+                        
+                        Repositório (opcional)
                       </FieldLabel>
                       <Input
                         id={`${id}-repo`}
@@ -698,7 +714,8 @@ function NewTriggerDialog({
                   {kind === "email" && (
                     <Field className="sm:col-span-2">
                       <FieldLabel htmlFor={`${id}-senders`}>
-                        Allowed senders (blank: anyone)
+                        
+                        Remetentes permitidos (vazio: qualquer um)
                       </FieldLabel>
                       <Input
                         id={`${id}-senders`}
@@ -711,7 +728,8 @@ function NewTriggerDialog({
                   {VENDOR_SECRET.has(kind) && (
                     <Field className="sm:col-span-2">
                       <FieldLabel htmlFor={`${id}-secret`}>
-                        Signing secret (can be added later)
+                        
+                        Segredo de assinatura (pode ser adicionado depois)
                       </FieldLabel>
                       <Input
                         id={`${id}-secret`}
@@ -735,7 +753,8 @@ function NewTriggerDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            Cancel
+            
+            Cancelar
           </Button>
           <Button
             disabled={create.isPending}
@@ -743,7 +762,7 @@ function NewTriggerDialog({
             size="sm"
             type="submit"
           >
-            {create.isPending ? "Adding…" : `Add ${KIND_LABEL[kind]} trigger`}
+            {create.isPending ? "Adicionando…" : `Adicionar gatilho ${KIND_LABEL[kind]}`}
           </Button>
         </DialogFooter>
       </DialogContent>

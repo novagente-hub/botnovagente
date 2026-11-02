@@ -74,9 +74,9 @@ const SEARCHABLE = new Set(["search"]);
 const INITIAL_SORT: SortingState = [{ id: "when", desc: true }];
 
 const OUTCOME_LABEL: Record<AuditOutcome, string> = {
-  allowed: "Allowed",
-  refused: "Blocked",
-  "did-not-happen": "Did not happen",
+  allowed: "Permitido",
+  refused: "Bloqueado",
+  "did-not-happen": "Não aconteceu",
 };
 
 /**
@@ -84,9 +84,9 @@ const OUTCOME_LABEL: Record<AuditOutcome, string> = {
  * act on the rows already loaded.
  */
 const FACETS = [
-  { id: "mark", title: "Outcome" },
+  { id: "mark", title: "Resultado" },
   { id: "bot", title: "Bot" },
-  { id: "startedBy", title: "Started by" },
+  { id: "startedBy", title: "Iniciado por" },
 ] as const;
 
 export function AuditTable({
@@ -206,8 +206,9 @@ export function AuditTable({
       </Table>
       {events.length > 0 && rows.length === 0 ? (
         <div className="px-4">
-          <PageEmpty icon={IconSearch} title="No matches">
-            Nothing loaded matches this search and these filters.
+          <PageEmpty icon={IconSearch} title="Nenhum resultado">
+            
+            Nada carregado corresponde a esta busca e a estes filtros.
           </PageEmpty>
         </div>
       ) : null}
@@ -291,7 +292,8 @@ function Facet({
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => onChange([])}>
-              Clear filter
+              
+              Limpar filtro
             </DropdownMenuItem>
           </>
         ) : null}
@@ -302,8 +304,8 @@ function Facet({
 
 /** How many rows the table is showing, for the toolbar. */
 function countLabel(shown: number, total: number): string {
-  const noun = total === 1 ? "event" : "events";
-  return shown === total ? `${total} ${noun}` : `${shown} of ${total} ${noun}`;
+  const noun = total === 1 ? "evento" : "eventos";
+  return shown === total ? `${total} ${noun}` : `${shown} de ${total} ${noun}`;
 }
 
 function auditColumns(
@@ -314,7 +316,7 @@ function auditColumns(
       id: "mark",
       accessorFn: (event) => OUTCOME_LABEL[outcomeOf(event.eventType)],
       filterFn: anyOf,
-      header: () => <span className="sr-only">Outcome</span>,
+      header: () => <span className="sr-only">Resultado</span>,
       cell: ({ row }) => (
         <span
           aria-hidden
@@ -337,14 +339,15 @@ function auditColumns(
             onClick={column.getToggleSortingHandler()}
             type="button"
           >
-            When
+            
+            Quando
             {sorted === "asc" ? (
               <IconArrowUp className="size-3.5" />
             ) : (
               <IconArrowDown className="size-3.5" />
             )}
             <span className="sr-only">
-              {sorted === "asc" ? ", oldest first" : ", newest first"}
+              {sorted === "asc" ? ", mais antigos primeiro" : ", mais recentes primeiro"}
             </span>
           </button>
         );
@@ -355,19 +358,19 @@ function auditColumns(
     {
       id: "what",
       accessorFn: (event) => whatText(event),
-      header: "What",
+      header: "O quê",
       cell: ({ row }) => whatText(row.original),
       enableSorting: false,
     },
     {
       id: "on",
-      header: "On",
+      header: "Em",
       cell: ({ row }) => <OnCell event={row.original} />,
       enableSorting: false,
     },
     {
       id: "bot",
-      accessorFn: (event) => botText(event, nameFor) || "None",
+      accessorFn: (event) => botText(event, nameFor) || "Nenhum",
       filterFn: anyOf,
       header: "Bot",
       cell: ({ row }) => <BotCell event={row.original} nameFor={nameFor} />,
@@ -377,7 +380,7 @@ function auditColumns(
       id: "startedBy",
       accessorFn: (event) => startedByText(event, nameFor),
       filterFn: anyOf,
-      header: "Started by",
+      header: "Iniciado por",
       cell: ({ row }) => (
         <StartedByCell event={row.original} nameFor={nameFor} />
       ),
@@ -385,7 +388,7 @@ function auditColumns(
     },
     {
       id: "decision",
-      header: "Decision",
+      header: "Decisão",
       cell: ({ row }) => <DecisionCell event={row.original} />,
       enableSorting: false,
     },

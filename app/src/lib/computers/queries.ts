@@ -87,7 +87,7 @@ export function computerStatusQueryOptions(botId: string) {
     queryKey: computerKeys.status(botId),
     queryFn: (): Promise<ComputerStatus> =>
       client(`/api/computers/${encodeURIComponent(botId)}/status`, {
-        fallback: "Couldn't check the computer.",
+        fallback: "Não foi possível verificar o computador.",
       }).then((response) => response.json()),
   });
 }
@@ -107,7 +107,7 @@ export function computerFleetQueryOptions() {
     queryKey: computerKeys.fleet(),
     queryFn: async (): Promise<ComputerFleet> => {
       const response = await client(FLEET_PATH, {
-        fallback: "The computers could not be listed.",
+        fallback: "Não foi possível listar os computadores.",
       });
       return response.json();
     },
@@ -119,7 +119,7 @@ export function actionPolicyQueryOptions() {
     queryKey: computerKeys.policy(),
     queryFn: (): Promise<ActionPolicy> =>
       client("/api/computers/policy", "policy", {
-        fallback: "The boundary could not be read.",
+        fallback: "Não foi possível ler o limite.",
       }),
   });
 }
@@ -161,6 +161,6 @@ export async function dryRunActionPolicy(
   return client("/api/computers/policy-dry-run", "report", {
     method: "POST",
     body: { policy: candidate },
-    fallback: "The rule could not be tested against history.",
+    fallback: "Não foi possível testar a regra com o histórico.",
   });
 }

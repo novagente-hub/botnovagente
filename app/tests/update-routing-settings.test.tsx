@@ -59,7 +59,7 @@ test("switching a transport on for one kind of update saves that kind's transpor
       <UpdateRoutingSection />
     </QueryClientProvider>,
   );
-  fireEvent.click(await view.findByRole("switch", { name: "Progress by SMS" }));
+  fireEvent.click(await view.findByRole("switch", { name: "Progresso por SMS" }));
   await waitFor(() => expect(writes).toHaveLength(1));
   expect(writes[0]).toEqual({
     request: "PUT /api/bots/routing/progress",

@@ -147,14 +147,14 @@ async function opened(onCreated: (id: string) => void = () => {}) {
   const view = draw(
     <NewBotSheet onClose={() => {}} onCreated={onCreated} open />,
   );
-  await view.findByLabelText("Name");
+  await view.findByLabelText("Nome");
   const user = userEvent.setup({ document: view.container.ownerDocument });
   return { view, user };
 }
 
 async function customFlow() {
   const result = await opened();
-  await result.user.type(result.view.getByLabelText("Name"), "Expense Review");
+  await result.user.type(result.view.getByLabelText("Nome"), "Revisão de despesas");
   await result.user.click(
     result.view.getByRole("button", { name: /^Connect a custom agent/ }),
   );
@@ -162,10 +162,10 @@ async function customFlow() {
 }
 async function connected(address = "https://agent.example.com/ag-ui") {
   const { view, user } = await customFlow();
-  expect(view.queryByRole("button", { name: "Continue" })).toBeNull();
+  expect(view.queryByRole("button", { name: "Continuar" })).toBeNull();
   await user.click(view.getByRole("button", { name: /LangGraph/ }));
   if (address)
-    await user.type(await view.findByLabelText("Agent address"), address);
+    await user.type(await view.findByLabelText("Endereço do agente"), address);
   return { view, user };
 }
 
@@ -178,7 +178,7 @@ async function settle() {
 
 test("opens on New Bot details and creates locally without another screen", async () => {
   const { view, user } = await opened();
-  expect(view.getByRole("heading", { name: "New Bot" })).toBeTruthy();
+  expect(view.getByRole("heading", { name: "Novo Bot" })).toBeTruthy();
   expect(view.queryByRole("button", { name: /^Run here/ })).toBeNull();
   expect(
     view
@@ -186,11 +186,11 @@ test("opens on New Bot details and creates locally without another screen", asyn
       .hasAttribute("aria-pressed"),
   ).toBe(false);
   expect(
-    view.getByRole("button", { name: "Create Bot" }).hasAttribute("disabled"),
+    view.getByRole("button", { name: "Criar Bot" }).hasAttribute("disabled"),
   ).toBe(true);
-  await user.type(view.getByLabelText("Name"), "Expense Review");
+  await user.type(view.getByLabelText("Nome"), "Revisão de despesas");
   expect(
-    view.getByRole("button", { name: "Create Bot" }).hasAttribute("disabled"),
+    view.getByRole("button", { name: "Criar Bot" }).hasAttribute("disabled"),
   ).toBe(false);
 });
 
@@ -203,25 +203,25 @@ test("unavailable hosting still permits the custom path", async () => {
     view.queryByRole("button", { name: /^Connect a custom agent/ }),
   ).toBeNull();
   expect(
-    view.getByRole("button", { name: "Continue" }).hasAttribute("disabled"),
+    view.getByRole("button", { name: "Continuar" }).hasAttribute("disabled"),
   ).toBe(true);
-  await user.type(view.getByLabelText("Name"), "External");
+  await user.type(view.getByLabelText("Nome"), "External");
   expect(
-    view.getByRole("button", { name: "Continue" }).hasAttribute("disabled"),
+    view.getByRole("button", { name: "Continuar" }).hasAttribute("disabled"),
   ).toBe(false);
-  await user.click(view.getByRole("button", { name: "Continue" }));
+  await user.click(view.getByRole("button", { name: "Continuar" }));
   const framework = view.getByRole("button", { name: /LangGraph/ });
   expect(framework.hasAttribute("aria-pressed")).toBe(false);
-  expect(view.queryByRole("button", { name: "Continue" })).toBeNull();
+  expect(view.queryByRole("button", { name: "Continuar" })).toBeNull();
   await user.click(framework);
-  expect(await view.findByLabelText("Agent address")).toBeTruthy();
+  expect(await view.findByLabelText("Endereço do agente")).toBeTruthy();
 });
 
 test("Create fills in what was left blank, then hands over", async () => {
   const handedOver: string[] = [];
   const { view, user } = await opened((id) => handedOver.push(id));
-  const name = await view.findByLabelText("Name");
-  await user.type(name, "Expense Review");
+  const name = await view.findByLabelText("Nome");
+  await user.type(name, "Revisão de despesas");
   // Enter in the name is Create.
   await act(async () => {
     fireEvent.keyDown(name, { key: "Enter", keyCode: 13 });
@@ -230,7 +230,7 @@ test("Create fills in what was left blank, then hands over", async () => {
   expect(await view.findByText("Expense Review is ready")).toBeTruthy();
   expect(creates).toHaveLength(1);
   expect(creates[0]).toMatchObject({
-    name: "Expense Review",
+    name: "Revisão de despesas",
     title: "",
     visibility: "private",
     endpoint: "",
@@ -249,14 +249,14 @@ test("Create fills in what was left blank, then hands over", async () => {
 test("refuses an empty or unreachable custom endpoint without creating", async () => {
   verdict = { ok: false, reason: "Nothing answered at that address." };
   const { view, user } = await connected("");
-  await user.click(view.getByRole("button", { name: "Create Bot" }));
-  expect(await view.findByText("Enter your agent's address.")).toBeTruthy();
+  await user.click(view.getByRole("button", { name: "Criar Bot" }));
+  expect(await view.findByText("Insira o endereço do seu agente.")).toBeTruthy();
   expect(dialled).toEqual([]);
   await user.type(
-    view.getByLabelText("Agent address"),
+    view.getByLabelText("Endereço do agente"),
     "https://agent.example.com/ag-ui",
   );
-  await user.click(view.getByRole("button", { name: "Create Bot" }));
+  await user.click(view.getByRole("button", { name: "Criar Bot" }));
   expect(
     await view.findByText("Nothing answered at that address."),
   ).toBeTruthy();
@@ -266,11 +266,11 @@ test("refuses an empty or unreachable custom endpoint without creating", async (
 test("checks the connection then creates with its saved name and key", async () => {
   const { view, user } = await connected();
   await user.type(view.getByLabelText(/Key/), "Bearer secret");
-  await user.click(view.getByRole("button", { name: "Create Bot" }));
+  await user.click(view.getByRole("button", { name: "Criar Bot" }));
   await view.findByText("Expense Review is ready");
   expect(dialled).toEqual(["https://agent.example.com/ag-ui"]);
   expect(creates[0]).toMatchObject({
-    name: "Expense Review",
+    name: "Revisão de despesas",
     endpoint: "https://agent.example.com/ag-ui",
     auth: { header: "Authorization", value: "Bearer secret" },
     title: "",
@@ -280,15 +280,15 @@ test("checks the connection then creates with its saved name and key", async () 
 test("preserves every entry across back navigation and hosting switches", async () => {
   const { view, user } = await connected();
   await user.type(view.getByLabelText(/Key/), "Bearer secret");
-  await user.click(view.getByRole("button", { name: "Back" }));
+  await user.click(view.getByRole("button", { name: "Voltar" }));
   expect(
     view
       .getByRole("button", { name: /LangGraph/ })
       .getAttribute("aria-pressed"),
   ).toBeNull();
-  await user.click(view.getByRole("button", { name: "Back" }));
-  expect((view.getByLabelText("Name") as HTMLInputElement).value).toBe(
-    "Expense Review",
+  await user.click(view.getByRole("button", { name: "Voltar" }));
+  expect((view.getByLabelText("Nome") as HTMLInputElement).value).toBe(
+    "Revisão de despesas",
   );
   await user.type(view.getByLabelText(/^Instructions/), "Review carefully");
   await user.click(view.getByRole("button", { name: /Public/ }));
@@ -299,15 +299,15 @@ test("preserves every entry across back navigation and hosting switches", async 
     view.getByRole("button", { name: /^Connect a custom agent/ }),
   );
   await user.click(view.getByRole("button", { name: /LangGraph/ }));
-  expect((view.getByLabelText("Agent address") as HTMLInputElement).value).toBe(
+  expect((view.getByLabelText("Endereço do agente") as HTMLInputElement).value).toBe(
     "https://agent.example.com/ag-ui",
   );
   expect((view.getByLabelText(/Key/) as HTMLInputElement).value).toBe(
     "Bearer secret",
   );
-  await user.click(view.getByRole("button", { name: "Back" }));
-  await user.click(view.getByRole("button", { name: "Back" }));
-  await user.click(view.getByRole("button", { name: "Create Bot" }));
+  await user.click(view.getByRole("button", { name: "Voltar" }));
+  await user.click(view.getByRole("button", { name: "Voltar" }));
+  await user.click(view.getByRole("button", { name: "Criar Bot" }));
   await view.findByText("Expense Review is ready");
   expect(creates[0]).toMatchObject({
     endpoint: "",
@@ -327,20 +327,20 @@ test("the person's own apps arrive ticked, and the ones left ticked are given on
     },
     {
       key: "routines",
-      displayName: "Routines",
+      displayName: "Rotinas",
       logo: null,
       account: "deployment",
     },
   ];
   const { view, user } = await opened();
-  await user.type(await view.findByLabelText("Name"), "Research");
+  await user.type(await view.findByLabelText("Nome"), "Research");
   const gmail = await view.findByRole("checkbox", { name: "Gmail" });
-  const routines = view.getByRole("checkbox", { name: "Routines" });
+  const routines = view.getByRole("checkbox", { name: "Rotinas" });
   expect(gmail.getAttribute("aria-checked")).toBe("true");
   expect(routines.getAttribute("aria-checked")).toBe("true");
   await user.click(routines);
   expect(routines.getAttribute("aria-checked")).toBe("false");
-  await user.click(view.getByRole("button", { name: "Create Bot" }));
+  await user.click(view.getByRole("button", { name: "Criar Bot" }));
   expect(await view.findByText("Research is ready")).toBeTruthy();
   expect(given).toEqual([
     "/api/plugins/for/agent_new/apps/composio-gmail/give",
@@ -349,15 +349,15 @@ test("the person's own apps arrive ticked, and the ones left ticked are given on
 
 test("a person with no apps to give is asked nothing about apps", async () => {
   const { view } = await opened();
-  await view.findByLabelText("Name");
+  await view.findByLabelText("Nome");
   await settle();
-  expect(view.queryByText("Apps it can use")).toBeNull();
+  expect(view.queryByText("Apps que ele pode usar")).toBeNull();
 });
 
 /** On the details step the sheet opens on, with a name typed. */
 async function named(name = "Research") {
   const { view, user } = await opened();
-  await user.type(await view.findByLabelText("Name"), name);
+  await user.type(await view.findByLabelText("Nome"), name);
   await settle();
   return { view, user };
 }
@@ -367,19 +367,19 @@ async function isolatedTooltip(
   view: Awaited<ReturnType<typeof named>>["view"],
   user: Awaited<ReturnType<typeof named>>["user"],
 ) {
-  await user.hover(view.getByRole("button", { name: "What Isolated means" }));
+  await user.hover(view.getByRole("button", { name: "O que significa Isolado" }));
   return (await view.findByText(new RegExp(ISOLATED_EXPLAINED.slice(0, 30))))
     .textContent;
 }
 
 test("Isolated is offered with what it means, and a public Bot is told who shares it", async () => {
   const { view, user } = await named();
-  const isolated = await view.findByRole("checkbox", { name: "Isolated" });
+  const isolated = await view.findByRole("checkbox", { name: "Isolado" });
   expect(isolated.getAttribute("aria-checked")).toBe("false");
   expect(isolated.hasAttribute("data-disabled")).toBe(false);
   expect(await isolatedTooltip(view, user)).toBe(ISOLATED_EXPLAINED);
 
-  await user.unhover(view.getByRole("button", { name: "What Isolated means" }));
+  await user.unhover(view.getByRole("button", { name: "O que significa Isolado" }));
   await user.click(view.getByRole("button", { name: /Public/ }));
   expect(await isolatedTooltip(view, user)).toBe(
     `${ISOLATED_EXPLAINED} ${ISOLATED_PUBLIC}`,
@@ -388,8 +388,8 @@ test("Isolated is offered with what it means, and a public Bot is told who share
 
 test("a ticked Isolated is sent with the Bot, and an unticked one says no", async () => {
   const { view, user } = await named("Research");
-  await user.click(await view.findByRole("checkbox", { name: "Isolated" }));
-  await user.click(view.getByRole("button", { name: "Create Bot" }));
+  await user.click(await view.findByRole("checkbox", { name: "Isolado" }));
+  await user.click(view.getByRole("button", { name: "Criar Bot" }));
   expect(await view.findByText("Research is ready")).toBeTruthy();
   expect(creates[0]).toMatchObject({ name: "Research", isolated: true });
 
@@ -397,7 +397,7 @@ test("a ticked Isolated is sent with the Bot, and an unticked one says no", asyn
   creates = [];
   const again = await named("Plain");
   await again.user.click(
-    again.view.getByRole("button", { name: "Create Bot" }),
+    again.view.getByRole("button", { name: "Criar Bot" }),
   );
   expect(await again.view.findByText("Plain is ready")).toBeTruthy();
   expect(creates[0]).toMatchObject({ name: "Plain", isolated: false });
@@ -406,11 +406,11 @@ test("a ticked Isolated is sent with the Bot, and an unticked one says no", asyn
 test("a deployment that cannot make a second computer shows Isolated disabled, and says why", async () => {
   isolationAvailable = false;
   const { view, user } = await named();
-  const isolated = await view.findByRole("checkbox", { name: "Isolated" });
+  const isolated = await view.findByRole("checkbox", { name: "Isolado" });
   expect(isolated.hasAttribute("data-disabled")).toBe(true);
   expect(view.getByText(ISOLATION_UNAVAILABLE)).toBeTruthy();
   await user.click(isolated);
-  await user.click(view.getByRole("button", { name: "Create Bot" }));
+  await user.click(view.getByRole("button", { name: "Criar Bot" }));
   await view.findByText("Research is ready");
   expect(creates[0]).toMatchObject({ isolated: false });
 });
@@ -418,23 +418,23 @@ test("a deployment that cannot make a second computer shows Isolated disabled, a
 test("somebody an admin has not allowed sees Isolated disabled, and why", async () => {
   mayIsolate = false;
   const { view } = await named();
-  const isolated = await view.findByRole("checkbox", { name: "Isolated" });
+  const isolated = await view.findByRole("checkbox", { name: "Isolado" });
   expect(isolated.hasAttribute("data-disabled")).toBe(true);
   expect(await view.findByText(ISOLATION_NOT_ALLOWED)).toBeTruthy();
 });
 
 test("custom-agent selection validates the name before advancing", async () => {
   const { view, user } = await opened();
-  await user.type(view.getByLabelText("Name"), "   ");
+  await user.type(view.getByLabelText("Nome"), "   ");
   await user.click(
     view.getByRole("button", { name: /^Connect a custom agent/ }),
   );
   expect((await view.findByRole("alert")).textContent).toBe(
-    "Name is required.",
+    "O nome é obrigatório.",
   );
-  expect(document.activeElement).toBe(view.getByLabelText("Name"));
+  expect(document.activeElement).toBe(view.getByLabelText("Nome"));
   expect(view.queryByRole("button", { name: /LangGraph/ })).toBeNull();
-  await user.type(view.getByLabelText("Name"), "My Bot");
+  await user.type(view.getByLabelText("Nome"), "My Bot");
   await user.click(
     view.getByRole("button", { name: /^Connect a custom agent/ }),
   );

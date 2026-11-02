@@ -19,7 +19,7 @@ test("names every action the refresh left out, as a status and not an alert", ()
   );
   const notice = view.getByRole("status");
   expect(notice.textContent).toContain(
-    "2 actions this app lists were left out",
+    "2 ações listadas por este app ficaram de fora",
   );
   expect(notice.textContent).toContain("notion.export");
   expect(notice.textContent).toContain("notion.import");
@@ -29,7 +29,7 @@ test("names every action the refresh left out, as a status and not an alert", ()
 test("one name is said in the singular", () => {
   const view = render(<SkippedToolsNotice names={["notion.export"]} />);
   expect(view.getByRole("status").textContent).toContain(
-    "One action this app lists was left out",
+    "Uma ação listada por este app ficou de fora",
   );
 });
 

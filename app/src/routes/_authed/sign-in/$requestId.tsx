@@ -20,10 +20,10 @@ function SignInPage() {
   const request = useQuery(signInRequestQueryOptions(requestId));
   return (
     <PageShell
-      title={request.data ? `Sign in to ${request.data.origin}` : "Sign in"}
+      title={request.data ? `Entrar em ${request.data.origin}` : "Entrar"}
       description={
         request.data?.reason ??
-        "Your Bot needs to sign in to continue. What you type here goes to its browser, not the conversation."
+        "Seu Bot precisa entrar para continuar. O que você digitar aqui vai para o navegador dele, não para a conversa."
       }
     >
       <SignInForm requestId={requestId} />

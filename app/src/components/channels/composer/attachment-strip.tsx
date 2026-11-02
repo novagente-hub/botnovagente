@@ -84,7 +84,7 @@ export function AttachmentStrip({
     <Collapse open={occupied}>
       <ul
         aria-hidden={!occupied}
-        aria-label="Attachments"
+        aria-label="Anexos"
         className="flex flex-wrap items-start gap-2 pb-3"
       >
         {images.map((image) => (
@@ -94,19 +94,19 @@ export function AttachmentStrip({
                * The placeholder stands in for the picture, so it carries the picture's role and
                * the picture's name — otherwise the tile is a shape and nothing else, and the only
                * thing a screen reader finds in it is a button offering to remove something
-               * unnamed. The file tile has said "Uploading…" in plain text since it was written.
+               * unnamed. The file tile has said "Enviando…" in plain text since it was written.
                *
                * A name, not an announcement. `role="status"` would make each of these a live
                * region, and a paste of eight images would interrupt eight times to say so.
                */
               <Skeleton
-                aria-label={`${image.alt ?? "Attachment"}, uploading`}
+                aria-label={`${image.alt ?? "Anexo"}, enviando`}
                 className="size-20 rounded-xl"
                 role="img"
               />
             ) : (
               <img
-                alt={image.alt ?? "Attachment"}
+                alt={image.alt ?? "Anexo"}
                 className="size-20 rounded-xl border border-border object-cover"
                 src={image.url}
               />
@@ -138,7 +138,7 @@ export function AttachmentStrip({
                 {file.name}
               </p>
               {file.loading ? (
-                <p className="text-muted-foreground text-xs">Uploading…</p>
+                <p className="text-muted-foreground text-xs">Enviando…</p>
               ) : file.size === undefined ? null : (
                 /*
                  * ON THE SIZE LINE, NOT UNDER IT, AND THAT IS A LAYOUT CONSTRAINT RATHER THAN A
@@ -157,12 +157,12 @@ export function AttachmentStrip({
                   className="truncate text-muted-foreground text-xs"
                   title={
                     file.mayTruncate === true
-                      ? "The Bot reads only the first 120,000 characters of this file."
+                      ? "O Bot lê só os primeiros 120.000 caracteres deste arquivo."
                       : undefined
                   }
                 >
                   {formatBytes(file.size)}
-                  {file.mayTruncate === true ? " · may be cut" : null}
+                  {file.mayTruncate === true ? " · pode ser cortado" : null}
                 </p>
               )}
             </div>

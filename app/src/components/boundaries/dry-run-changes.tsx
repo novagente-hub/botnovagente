@@ -21,7 +21,7 @@ export function DryRunChanges({
           <li className="px-3 py-2" key={change.id}>
             <p className="text-xs">
               <code className="font-mono">{change.action}</code>
-              {change.element?.name ? <> on “{change.element.name}”</> : null}
+              {change.element?.name ? <>  em “{change.element.name}”</> : null}
               {change.command ? (
                 <>
                   {" "}
@@ -40,7 +40,8 @@ export function DryRunChanges({
       </ul>
       {total > changes.length ? (
         <p className="mt-1 text-muted-foreground text-xs">
-          Showing the first {changes.length} of {total}.
+          
+          Mostrando os primeiros {changes.length} of {total}.
         </p>
       ) : null}
     </>

@@ -81,15 +81,15 @@ function draw(
 
 test("someone who cannot manage the Bot is not offered Delete", () => {
   const view = draw({ ...BOT, canManage: false, mine: false });
-  expect(view.queryByText("Delete")).toBeNull();
-  expect(view.getByText("Duplicate")).toBeTruthy();
+  expect(view.queryByText("Excluir")).toBeNull();
+  expect(view.getByText("Duplicar")).toBeTruthy();
 });
 
 test("hiding a Bot takes the person back to the roster", async () => {
   serving();
   const onHidden = mock(() => {});
   const view = draw(BOT, { onHidden });
-  fireEvent.click(view.getByRole("switch", { name: "Hidden" }));
+  fireEvent.click(view.getByRole("switch", { name: "Ocultos" }));
   await waitFor(() => expect(onHidden).toHaveBeenCalledTimes(1));
 });
 
@@ -97,7 +97,7 @@ test("unhiding a hidden Bot keeps the person on its page", async () => {
   serving();
   const onHidden = mock(() => {});
   const view = draw({ ...BOT, hidden: true }, { onHidden });
-  fireEvent.click(view.getByRole("switch", { name: "Hidden" }));
+  fireEvent.click(view.getByRole("switch", { name: "Ocultos" }));
   await waitFor(() =>
     expect(requests.some((request) => request.startsWith("POST"))).toBe(true),
   );
@@ -110,7 +110,7 @@ test("duplicating opens the copy", async () => {
   serving();
   const onDuplicated = mock((_copyId: string) => {});
   const view = draw(BOT, { onDuplicated });
-  fireEvent.click(view.getByRole("button", { name: /Duplicate/ }));
+  fireEvent.click(view.getByRole("button", { name: /Duplicar/ }));
   await waitFor(() =>
     expect(onDuplicated).toHaveBeenCalledWith("expenses-copy"),
   );
@@ -123,8 +123,8 @@ test("a Bot an admin assigned to you reads as pinned and cannot be hidden or unp
     canManage: false,
     assignedToMe: true,
   });
-  const pinned = view.getByRole("switch", { name: "Pinned" });
-  const hidden = view.getByRole("switch", { name: "Hidden" });
+  const pinned = view.getByRole("switch", { name: "Fixados" });
+  const hidden = view.getByRole("switch", { name: "Ocultos" });
   expect(pinned.getAttribute("aria-checked")).toBe("true");
   expect(
     pinned.hasAttribute("disabled") ||
@@ -135,7 +135,7 @@ test("a Bot an admin assigned to you reads as pinned and cannot be hidden or unp
       hidden.getAttribute("aria-disabled") === "true",
   ).toBe(true);
   expect(
-    view.getAllByText(/An admin assigned it to you/).length,
+    view.getAllByText(/Um administrador o atribuiu a você/).length,
   ).toBeGreaterThan(0);
 });
 
@@ -145,7 +145,7 @@ test("rows that open a dialog show a chevron, and Duplicate, which acts at once,
     view
       .getByRole("button", { name })
       .querySelector(".tabler-icon-chevron-right");
-  expect(chevron(/^Reset/)).not.toBeNull();
-  expect(chevron(/^Delete/)).not.toBeNull();
-  expect(chevron(/^Duplicate/)).toBeNull();
+  expect(chevron(/^Redefinir/)).not.toBeNull();
+  expect(chevron(/^Excluir/)).not.toBeNull();
+  expect(chevron(/^Duplicar/)).toBeNull();
 });

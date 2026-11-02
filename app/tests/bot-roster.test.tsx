@@ -41,7 +41,7 @@ afterEach(() => {
 function bot(overrides: Partial<AgentProfile> & { id: string }): AgentProfile {
   return {
     name: overrides.id,
-    title: "Title",
+    title: "Título",
     roleDescription: "Role",
     avatarSeed: "seed",
     visibility: "private",
@@ -123,7 +123,7 @@ test("sections read Pinned, Yours, Shared with you, and each Bot appears once", 
   const headings = [...view.container.querySelectorAll("h2")].map(
     (heading) => heading.textContent,
   );
-  expect(headings).toEqual(["Pinned", "Yours", "Shared with you"]);
+  expect(headings).toEqual(["Fixados", "Seus", "Compartilhados com você"]);
   expect(view.getAllByText("Favourite")).toHaveLength(1);
 });
 
@@ -137,7 +137,7 @@ test("a row opens the Bot's own page", async () => {
 test("with every Bot of yours pinned, Yours says so instead of claiming none", async () => {
   serving([bot({ id: "favourite", name: "Favourite", pinned: true })], []);
   const view = draw();
-  expect(await view.findByText("Your Bots are all pinned above.")).toBeTruthy();
+  expect(await view.findByText("Seus Bots estão todos fixados acima.")).toBeTruthy();
   expect(
     view.queryByText("You don't have any Bots yet. Create one with New Bot."),
   ).toBeNull();
@@ -149,9 +149,9 @@ test("a hidden Bot is under Hidden, folded until asked for, and its row opens it
     [bot({ id: "tucked", name: "Tucked", hidden: true })],
   );
   const view = draw();
-  expect(await view.findByText("Hidden")).toBeTruthy();
+  expect(await view.findByText("Ocultos")).toBeTruthy();
   expect(view.queryByText("Tucked")).toBeNull();
-  fireEvent.click(view.getByRole("button", { name: "Show" }));
+  fireEvent.click(view.getByRole("button", { name: "Mostrar" }));
   const row = view.getByText("Tucked").closest("a");
   expect(row?.getAttribute("href")).toBe("/bots/tucked");
 });
@@ -165,7 +165,7 @@ test("with nothing hidden there is no Hidden section", async () => {
       "success",
     ),
   );
-  expect(view.queryByText("Hidden")).toBeNull();
+  expect(view.queryByText("Ocultos")).toBeNull();
 });
 
 test("a roster that never loaded says so, not that you have no Bots", async () => {
@@ -215,11 +215,11 @@ test("a Bot with something waiting comes first, under Needs you, with its count"
     ],
   );
   const view = draw();
-  expect(await view.findByText("Needs you")).toBeTruthy();
+  expect(await view.findByText("Precisa de você")).toBeTruthy();
   const headings = [...view.container.querySelectorAll("h2")].map(
     (heading) => heading.textContent,
   );
-  expect(headings).toEqual(["Needs you", "Yours", "Shared with you"]);
+  expect(headings).toEqual(["Precisa de você", "Seus", "Compartilhados com você"]);
   // Once, under Needs you, not again under Shared with you.
   expect(view.getAllByText("Waiting")).toHaveLength(1);
   expect(view.getByText("2")).toBeTruthy();

@@ -23,14 +23,14 @@ export function TabBar({ current }: { current: OpenDuetTab }) {
     { id: "chat" as const, label: "Chat", Glyph: IconMessageCircle, badge: 0 },
     {
       id: "tasks" as const,
-      label: "Tasks",
+      label: "Tarefas",
       Glyph: IconTasksList,
       badge: waiting,
     },
   ];
   return (
     <nav
-      aria-label="Main"
+      aria-label="Principal"
       className="openduet-glass absolute inset-x-0 bottom-[22px] z-20 mx-auto flex h-16 w-[236px] max-w-[calc(100%-32px)] gap-0.5 rounded-[32px] p-[5px] shadow-openduet-glass"
     >
       {tabs.map(({ id, label, Glyph, badge }) => {
@@ -68,7 +68,7 @@ export function TabBar({ current }: { current: OpenDuetTab }) {
             ? "bg-openduet-tile text-openduet-ink"
             : "text-openduet-ink-2 hover:text-openduet-ink",
         );
-        const name = badge ? `${label}, ${badge} waiting` : label;
+        const name = badge ? `${label}, ${badge} aguardando` : label;
         return id === "chat" ? (
           <Link
             activeOptions={{ exact: true }}

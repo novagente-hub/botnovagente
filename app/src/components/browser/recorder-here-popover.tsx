@@ -62,8 +62,8 @@ function progress(
   seconds: number,
   stopping: boolean,
 ): string {
-  if (state.phase === "starting") return "Starting…";
-  if (stopping || state.phase === "stopping") return "Stopping…";
+  if (state.phase === "starting") return "Iniciando…";
+  if (stopping || state.phase === "stopping") return "Parando…";
   return `${elapsed(seconds)} · ${actionCount(state.actions)}`;
 }
 
@@ -104,7 +104,7 @@ function RecordingHere({
       <PopoverHeader>
         <PopoverTitle className="flex min-w-0 items-center gap-2">
           <RecordingMark live={state.phase === "recording"} />
-          <span className="truncate">{state.title ?? "Recording"}</span>
+          <span className="truncate">{state.title ?? "Gravando"}</span>
         </PopoverTitle>
         <PopoverDescription className="tabular-nums" role="timer">
           {progress(state, seconds, controls.stopPending)}
@@ -117,7 +117,8 @@ function RecordingHere({
         ref={stop}
         size="sm"
       >
-        Stop
+        
+        Parar
       </Button>
     </>
   );
@@ -137,11 +138,10 @@ function IdleHere({
   return (
     <>
       <PopoverHeader>
-        <PopoverTitle>Record a task</PopoverTitle>
+        <PopoverTitle>Gravar uma tarefa</PopoverTitle>
         <PopoverDescription>
-          What you do in this browser goes into your own Learning space, in
-          every tab you use, until you stop: your steps, what each step saves,
-          AI assistant conversations, and your narration when it's on.
+          
+          O que você faz neste navegador vai para o seu próprio espaço de Aprendizado, em todas as abas que usar, até você parar: seus passos, o que cada passo salva, conversas com assistentes de IA e sua narração, quando ativada.
         </PopoverDescription>
       </PopoverHeader>
       {stopped ? (
@@ -151,7 +151,7 @@ function IdleHere({
         </p>
       ) : null}
       <form
-        aria-label="Record a task"
+        aria-label="Gravar uma tarefa"
         className="flex flex-col gap-2"
         onSubmit={(event) => {
           event.preventDefault();
@@ -161,10 +161,10 @@ function IdleHere({
         }}
       >
         <Input
-          aria-label="Task name"
+          aria-label="Nome da tarefa"
           maxLength={200}
           onChange={(event) => setTitle(event.target.value)}
-          placeholder="Name the task, like Submit an expense report"
+          placeholder="Dê um nome à tarefa, como Enviar um relatório de despesas"
           ref={name}
           value={title}
         />
@@ -176,7 +176,7 @@ function IdleHere({
           type="submit"
         >
           <IconPlayerRecordFilled data-icon="inline-start" />
-          {controls.recordPending ? "Starting…" : "Record"}
+          {controls.recordPending ? "Iniciando…" : "Gravar"}
         </Button>
       </form>
     </>
@@ -198,17 +198,17 @@ export type ConnectProgress =
 function connectSentence(progress: ConnectProgress): string {
   switch (progress.state) {
     case "idle":
-      return "The OpenBot Recorder in this browser isn't connected to OpenBot.";
+      return "O OpenBot Recorder neste navegador não está conectado ao OpenBot.";
     case "sending":
-      return "Connecting this browser…";
+      return "Conectando este navegador…";
     case "awaiting":
-      return "Confirm in the OpenBot Recorder tab that opened.";
+      return "Confirme na aba do OpenBot Recorder que abriu.";
     case "expired":
-      return "The request expired. Try again.";
+      return "O pedido expirou. Tente novamente.";
     case "cancelled":
-      return "You cancelled in the OpenBot Recorder tab. Nothing was connected.";
+      return "Você cancelou na aba do OpenBot Recorder. Nada foi conectado.";
     case "closed":
-      return "The OpenBot Recorder tab closed before you confirmed. Nothing was connected.";
+      return "A aba do OpenBot Recorder fechou antes de você confirmar. Nada foi conectado.";
     case "failed":
       return progress.message;
   }
@@ -216,11 +216,11 @@ function connectSentence(progress: ConnectProgress): string {
 
 /** The states the person can connect again from: a fresh Connect after nothing happened, Try again after a failure. */
 const CONNECT_AGAIN: Partial<Record<ConnectProgress["state"], string>> = {
-  idle: "Connect this browser",
-  cancelled: "Connect this browser",
-  closed: "Connect this browser",
-  failed: "Try again",
-  expired: "Try again",
+  idle: "Conectar este navegador",
+  cancelled: "Conectar este navegador",
+  closed: "Conectar este navegador",
+  failed: "Tentar novamente",
+  expired: "Tentar novamente",
 };
 
 /**
@@ -239,7 +239,7 @@ export function ConnectHerePanel({
   return (
     <>
       <PopoverHeader>
-        <PopoverTitle>Connect the OpenBot Recorder</PopoverTitle>
+        <PopoverTitle>Conectar o OpenBot Recorder</PopoverTitle>
         <PopoverDescription
           className={failed ? "text-destructive" : undefined}
           role={failed ? "alert" : "status"}

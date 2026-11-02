@@ -191,11 +191,11 @@ function draw() {
 
 async function rename(view: ReturnType<typeof draw>, to: string) {
   const user = userEvent.setup({ document: view.baseElement.ownerDocument });
-  await user.click(await view.findByRole("button", { name: /^Name/ }));
+  await user.click(await view.findByRole("button", { name: /^Nome/ }));
   const field = await view.findByDisplayValue("Expenses");
   await user.clear(field);
   await user.type(field, to);
-  await user.click(view.getByRole("button", { name: "Save" }));
+  await user.click(view.getByRole("button", { name: "Salvar" }));
 }
 
 test("a built-in coworker can be renamed on a deployment whose own Bot lives on localhost", async () => {
@@ -232,12 +232,12 @@ test("someone who cannot manage the Bot reads its setup but cannot open an edito
   const view = draw();
 
   expect(await view.findByText("Expenses")).toBeTruthy();
-  expect(view.queryByRole("button", { name: /^Name/ })).toBeNull();
+  expect(view.queryByRole("button", { name: /^Nome/ })).toBeNull();
 });
 
 /** The Isolated row's switch, found by the row's own title. */
 async function isolatedSwitch(view: ReturnType<typeof draw>) {
-  return view.findByRole("switch", { name: "Isolated" });
+  return view.findByRole("switch", { name: "Isolado" });
 }
 
 test("the Isolated row gives a Bot a computer of its own through the real route", async () => {
@@ -246,7 +246,7 @@ test("the Isolated row gives a Bot a computer of its own through the real route"
   const toggle = await isolatedSwitch(view);
   expect(toggle.getAttribute("aria-checked")).toBe("false");
   expect(
-    view.getByText("Runs on your computer, alongside your other Bots."),
+    view.getByText("Roda no seu computador, junto com seus outros Bots."),
   ).toBeTruthy();
 
   const user = userEvent.setup({ document: view.baseElement.ownerDocument });
@@ -269,7 +269,7 @@ test("an isolated Bot's Visibility row says, before it is made public and while 
   const view = draw();
   expect(
     await view.findByText(
-      `Only you can see it and start conversations with it. ${ISOLATED_MAKING_PUBLIC}`,
+      `Só você pode vê-lo e iniciar conversas com ele. ${ISOLATED_MAKING_PUBLIC}`,
     ),
   ).toBeTruthy();
   cleanup();
@@ -278,7 +278,7 @@ test("an isolated Bot's Visibility row says, before it is made public and while 
   const shared = draw();
   expect(
     await shared.findByText(
-      `Everyone on OpenBot can find and use it. ${ISOLATED_PUBLIC_SHARES_LOGINS}`,
+      `Todos no OpenBot podem encontrá-lo e usá-lo. ${ISOLATED_PUBLIC_SHARES_LOGINS}`,
     ),
   ).toBeTruthy();
   cleanup();
@@ -287,7 +287,7 @@ test("an isolated Bot's Visibility row says, before it is made public and while 
   serve(MANAGED, actor.id, { visibility: "public" });
   const plain = draw();
   expect(
-    await plain.findByText("Everyone on OpenBot can find and use it."),
+    await plain.findByText("Todos no OpenBot podem encontrá-lo e usá-lo."),
   ).toBeTruthy();
 });
 

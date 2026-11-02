@@ -104,7 +104,7 @@ test("a proposal still streaming shows nothing to press", async () => {
 
   // Awaited rather than read synchronously: the router mounts its route on a later tick, so nothing
   // at all is in the document on the first one.
-  expect(await view.findByText("Writing the Bot…")).toBeTruthy();
+  expect(await view.findByText("Escrevendo o Bot…")).toBeTruthy();
   expect(view.queryByRole("button")).toBeNull();
 });
 
@@ -150,7 +150,7 @@ test("pressing creates once and answers with what was made", async () => {
     />,
   );
 
-  await userEvent.click(await view.findByText("Create it"));
+  await userEvent.click(await view.findByText("Criar"));
 
   await waitFor(() => expect(answers.length).toBe(1));
   expect(created).toBe(1);
@@ -186,7 +186,7 @@ test("a skill that did not land is named rather than rounded up", async () => {
     />,
   );
 
-  await userEvent.click(await view.findByText("Create it"));
+  await userEvent.click(await view.findByText("Criar"));
 
   await waitFor(() => expect(answers.length).toBe(1));
   expect(answers[0]).toContain("/check-a-claim could not be put on it");
@@ -213,11 +213,11 @@ test("a refusal keeps the run open with the buttons still live", async () => {
     />,
   );
 
-  await userEvent.click(await view.findByText("Create it"));
+  await userEvent.click(await view.findByText("Criar"));
 
   await view.findByText("A coworker called Renewal Desk already exists.");
   expect(answers).toEqual([]);
-  expect((view.getByText("Create it") as HTMLButtonElement).disabled).toBe(
+  expect((view.getByText("Criar") as HTMLButtonElement).disabled).toBe(
     false,
   );
 });
@@ -238,7 +238,7 @@ test("declining answers without creating anything", async () => {
     />,
   );
 
-  await userEvent.click(await view.findByText("Don't create"));
+  await userEvent.click(await view.findByText("Não criar"));
 
   await waitFor(() => expect(answers.length).toBe(1));
   expect(answers[0]).toBe(botCardAnswer.declined());
@@ -272,7 +272,7 @@ test("an unwritable proposal is answered without asking anybody", async () => {
   expect(answers[0]).toContain("Not created, and the person was not asked");
   expect(answers[0]).toContain("name:");
   expect(created).toBe(0);
-  expect(view.queryByText("Create it")).toBeNull();
+  expect(view.queryByText("Criar")).toBeNull();
 });
 
 /**
@@ -292,7 +292,7 @@ test("a completed card links to the coworker, rebuilt from the answer alone", as
     />,
   );
 
-  const link = await view.findByText("Open Renewal Desk");
+  const link = await view.findByText("Abrir Renewal Desk");
   expect(link.closest("a")?.getAttribute("href")).toBe("/bots/agent_1");
 });
 

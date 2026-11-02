@@ -13,7 +13,7 @@ export function NewBotCreationStub({
   return (
     <>
       {open ? (
-        <div role="dialog" aria-label="New Bot">
+        <div role="dialog" aria-label="Novo Bot">
           <button type="button" onClick={onClose}>
             Cancel creation
           </button>

@@ -88,8 +88,8 @@ export class DictationSession {
         phase: "error",
         error:
           error instanceof Error && error.name === "NotAllowedError"
-            ? "Microphone access was denied. Allow it in your browser and try again."
-            : "Could not start recording. Check your microphone and try again.",
+            ? "O acesso ao microfone foi negado. Permita no navegador e tente novamente."
+            : "Não foi possível iniciar a gravação. Verifique o microfone e tente novamente.",
       });
     }
   };
@@ -113,7 +113,7 @@ export class DictationSession {
       this.update({
         ...idle,
         phase: "error",
-        error: "Could not finish recording. Please record again.",
+        error: "Não foi possível concluir a gravação. Grave novamente.",
       });
     }
   };
@@ -151,7 +151,7 @@ export class DictationSession {
         error:
           error instanceof Error
             ? error.message
-            : "Transcription failed. Please retry.",
+            : "A transcrição falhou. Tente novamente.",
       });
     }
   }

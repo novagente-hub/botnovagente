@@ -93,12 +93,12 @@ test("says what the Recorder collects and where it goes, first, whatever the bro
     ["denied"],
   ] as PermissionState[][]) {
     const { getByText, getByRole, findByText, container } = setup({ states });
-    const title = getByText("What the Recorder collects");
+    const title = getByText("O que o Recorder coleta");
     const disclosure = getByText(DISCLOSURE);
-    expect(disclosure.textContent).toContain("When you press Record");
+    expect(disclosure.textContent).toContain("Quando você clica em Gravar");
     // Where it goes: straight to the organization's own Intelligence, with OpenBot's pass, never through OpenBot.
     expect(disclosure.textContent).toContain(
-      "What you record goes straight from your browser to your organization's own Intelligence, with a pass from your organization's OpenBot. OpenBot is told that you are recording, the task's name, when it started and how many steps it has, and when you record in a browser shown inside OpenBot, your narration passes through it to the Recorder without being stored. Your recordings are used only for your organization's Skills, evaluations and insights.",
+      "O que você grava vai direto do seu navegador para o Intelligence da sua organização",
     );
     // Then everything a recording holds, the saves and AI assistant conversations among them, before the microphone.
     for (const { title: held, description } of RECORDER_COLLECTS) {
@@ -106,16 +106,16 @@ test("says what the Recorder collects and where it goes, first, whatever the bro
       expect(getByText(description)).toBeTruthy();
     }
     expect(
-      getByText(/the request it sent and the answer that came back/),
+      getByText(/a requisição enviada e a resposta recebida/),
     ).toBeTruthy();
-    expect(getByText(/including the messages you send/)).toBeTruthy();
+    expect(getByText(/incluindo as mensagens que você envia/)).toBeTruthy();
     // The first thing on the page, as its heading, above everything about the microphone: end-to-end run 8 found it
     // under "Allow the microphone" and its explanation.
     expect(getByRole("heading", { level: 1 }).textContent).toBe(
-      "What the Recorder collects",
+      "O que o Recorder coleta",
     );
     expect(container.textContent).toStartWith(
-      `What the Recorder collects${DISCLOSURE}`,
+      `O que o Recorder coleta${DISCLOSURE}`,
     );
     for (const microphone of [
       getByText("Narration", { selector: "h2" }),

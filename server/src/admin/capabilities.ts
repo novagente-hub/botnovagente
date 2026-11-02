@@ -44,53 +44,53 @@ export const CAPABILITY_LABELS: Record<
   { title: string; description: string }
 > = {
   useBots: {
-    title: "Use Bots",
-    description: "Talk to Bots and let them run work in this person's name.",
+    title: "Usar Bots",
+    description: "Conversar com Bots e deixá-los trabalhar em nome desta pessoa.",
   },
   cloudBrowser: {
-    title: "Cloud browser use",
-    description: "Bots may drive the browser on their cloud computer.",
+    title: "Uso do navegador na nuvem",
+    description: "Os Bots podem controlar o navegador do computador na nuvem.",
   },
   cloudNetwork: {
-    title: "Cloud network access",
+    title: "Acesso à rede na nuvem",
     description:
-      "Bot computers may reach the internet, within the network policy.",
+      "Os computadores dos Bots podem acessar a internet, dentro da política de rede.",
   },
   cloudComputer: {
-    title: "Cloud computer use",
+    title: "Uso do computador na nuvem",
     description:
-      "Bots may run commands and read and write files on their computer.",
+      "Os Bots podem executar comandos e ler e gravar arquivos no computador deles.",
   },
   localComputer: {
-    title: "Local computer access",
+    title: "Acesso ao computador local",
     description:
-      "Bots may use folders and commands on this person's own machine.",
+      "Os Bots podem usar pastas e comandos na máquina desta pessoa.",
   },
   customRules: {
-    title: "Custom rules",
-    description: "People may save their own always-allow and ask-first rules.",
+    title: "Regras personalizadas",
+    description: "As pessoas podem salvar suas próprias regras de sempre permitir e perguntar antes.",
   },
   passwordManager: {
-    title: "Password manager",
-    description: "People may save logins and hand sign-ins to a Bot's browser.",
+    title: "Gerenciador de senhas",
+    description: "As pessoas podem salvar logins e repassá-los ao navegador de um Bot.",
   },
   slackTeams: {
-    title: "Add Bots to Slack and Teams",
-    description: "People may connect a Bot to a Slack or Teams conversation.",
+    title: "Adicionar Bots ao Slack e ao Teams",
+    description: "As pessoas podem conectar um Bot a uma conversa do Slack ou do Teams.",
   },
   teamBots: {
-    title: "Team Bots",
-    description: "People may publish a Bot for the whole team to use.",
+    title: "Bots da equipe",
+    description: "As pessoas podem publicar um Bot para toda a equipe usar.",
   },
   ownerApps: {
-    title: "Give apps to their own Bots",
+    title: "Dar apps aos próprios Bots",
     description:
-      "People may let Bots they own use apps they connected themselves.",
+      "As pessoas podem deixar seus Bots usarem apps que elas mesmas conectaram.",
   },
   isolatedComputers: {
-    title: "Isolated Bots",
+    title: "Bots isolados",
     description:
-      "People may give a Bot a computer of its own instead of sharing theirs.",
+      "As pessoas podem dar a um Bot um computador próprio em vez de compartilhar o delas.",
   },
 };
 

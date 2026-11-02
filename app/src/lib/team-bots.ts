@@ -37,7 +37,7 @@ export function teamBotsQueryOptions() {
     queryKey: teamBotKeys.all,
     queryFn: async (): Promise<TeamBotsData> => {
       const response = await client("/api/team-bots", {
-        fallback: "Team Bots could not be loaded.",
+        fallback: "Não foi possível carregar os Bots da equipe.",
       });
       return (await response.json()) as TeamBotsData;
     },
@@ -71,7 +71,7 @@ export function publishTeamBotMutationOptions(queryClient: QueryClient) {
       await client(path(botId, "/publication"), {
         method: "PUT",
         body,
-        fallback: "The Bot could not be published.",
+        fallback: "Não foi possível publicar o Bot.",
       });
     },
     /* Publishing can widen who reaches a shared app, so the request inbox may now hold a
@@ -89,7 +89,7 @@ export function unpublishTeamBotMutationOptions(queryClient: QueryClient) {
     mutationFn: async (botId: string) => {
       await client(path(botId, "/publication"), {
         method: "DELETE",
-        fallback: "The Bot could not be unpublished.",
+        fallback: "Não foi possível despublicar o Bot.",
       });
     },
     onSettled: () => refresh(queryClient),
@@ -110,7 +110,7 @@ export function assignTeamBotMutationOptions(queryClient: QueryClient) {
         {
           method: input.remove ? "DELETE" : "POST",
           ...(input.remove ? {} : { body: { group: input.group } }),
-          fallback: "The assignment could not be saved.",
+          fallback: "Não foi possível salvar a atribuição.",
         },
       );
     },
@@ -134,7 +134,7 @@ export function teamBotConsentMutationOptions() {
       await client(path(input.botId, "/consents"), {
         method: "POST",
         body: { serverId: input.serverId, decision: input.decision },
-        fallback: "Your answer could not be saved.",
+        fallback: "Não foi possível salvar sua resposta.",
       });
     },
   });
@@ -145,7 +145,7 @@ export function clearTeamBotConsentsMutationOptions() {
     mutationFn: async () => {
       await client("/api/team-bots/consents", {
         method: "DELETE",
-        fallback: "Your connector preferences could not be cleared.",
+        fallback: "Não foi possível limpar suas preferências de conectores.",
       });
     },
   });

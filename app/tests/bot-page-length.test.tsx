@@ -60,13 +60,13 @@ const activity = (inProgress: number, scheduled: number, completed: number) =>
 
 test("the activity row counts what is running and what is lined up", () => {
   expect(activitySummary(activity(2, 3, 9))).toBe(
-    "2 in progress · 3 scheduled",
+    "2 em andamento · 3 agendadas",
   );
-  expect(activitySummary(activity(0, 1, 0))).toBe("1 scheduled");
+  expect(activitySummary(activity(0, 1, 0))).toBe("1 agendada");
   expect(activitySummary(activity(0, 0, 4))).toBe(
-    "Nothing running or scheduled",
+    "Nada em execução ou agendado",
   );
-  expect(activitySummary(activity(0, 0, 0))).toBe("Nothing yet");
+  expect(activitySummary(activity(0, 0, 0))).toBe("Nada ainda");
 });
 
 test("the newest three suggestions show, and the rest open in place", async () => {
@@ -97,9 +97,9 @@ test("the newest three suggestions show, and the rest open in place", async () =
 
   expect(await view.findByText("Suggestion 3")).toBeTruthy();
   expect(view.queryByText("Suggestion 4")).toBeNull();
-  fireEvent.click(view.getByRole("button", { name: "Show 2 more" }));
+  fireEvent.click(view.getByRole("button", { name: "Mostrar mais 2" }));
   expect(view.getByText("Suggestion 5")).toBeTruthy();
-  expect(view.queryByRole("button", { name: /more$/ })).toBeNull();
+  expect(view.queryByRole("button", { name: /^Mostrar mais/ })).toBeNull();
 });
 
 function glance(data: BotActivity) {
@@ -142,9 +142,9 @@ test("running and scheduled work shows on the Bot's page, running first, three a
     "Running 1",
     "Running 2",
     "Scheduled 1",
-    "All activity",
+    "Toda a atividade",
   ]);
-  expect(view.getByText("2 in progress · 3 scheduled")).toBeTruthy();
+  expect(view.getByText("2 em andamento · 3 agendadas")).toBeTruthy();
   expect(view.queryByText("Done 1")).toBeNull();
 });
 
@@ -155,6 +155,6 @@ test("with nothing running or scheduled, the section is the one row to all activ
     completed: items(4, "Done"),
   });
 
-  expect(await view.findByText("Nothing running or scheduled")).toBeTruthy();
+  expect(await view.findByText("Nada em execução ou agendado")).toBeTruthy();
   expect(view.container.querySelectorAll("[data-slot=item]")).toHaveLength(1);
 });

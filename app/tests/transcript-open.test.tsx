@@ -37,7 +37,7 @@ function assistant(id: string, text: string): Message {
   return { id, role: "assistant", content: text };
 }
 
-const PLACEHOLDER = "Loading this conversation";
+const PLACEHOLDER = "Carregando esta conversa";
 
 test("restoring hides rows the snapshot already delivered", () => {
   const view = render(

@@ -11,7 +11,7 @@ import {
   type UpdateTransport,
 } from "./queries";
 
-const FALLBACK = "Bot operation failed";
+const FALLBACK = "A operação do Bot falhou";
 
 /** Everything here moves badges, Activity and state together, so all of it is refetched. */
 function invalidateLifecycle(queryClient: QueryClient) {
@@ -54,7 +54,7 @@ export function resetBotMutationOptions(queryClient: QueryClient) {
       client(`${botPath(agentId)}/reset`, "deleted", {
         method: "POST",
         body: { confirm: true },
-        fallback: "Could not reset this Bot",
+        fallback: "Não foi possível redefinir este Bot",
       }),
     onSuccess: async () => {
       await invalidateLifecycle(queryClient);
@@ -70,7 +70,7 @@ export function stopHandoffMutationOptions(queryClient: QueryClient) {
       await client(`${botPath(variables.agentId)}/activity/handoffs/stop`, {
         method: "POST",
         body: { id: variables.id },
-        fallback: "Could not stop the delegated task",
+        fallback: "Não foi possível parar a tarefa delegada",
       });
     },
     onSuccess: () => invalidateLifecycle(queryClient),
@@ -83,7 +83,7 @@ export function cancelFollowUpMutationOptions(queryClient: QueryClient) {
       await client(`${botPath(variables.agentId)}/follow-ups/cancel`, {
         method: "POST",
         body: { id: variables.id },
-        fallback: "Could not cancel the follow-up",
+        fallback: "Não foi possível cancelar o acompanhamento",
       });
     },
     onSuccess: () => invalidateLifecycle(queryClient),
@@ -99,7 +99,7 @@ export function setUpdateRoutingMutationOptions(queryClient: QueryClient) {
       await client(`/api/bots/routing/${variables.kind}`, {
         method: "PUT",
         body: { transports: variables.transports },
-        fallback: "Could not save where updates go",
+        fallback: "Não foi possível salvar para onde vão as atualizações",
       });
     },
     onSuccess: () => invalidateLifecycle(queryClient),

@@ -9,8 +9,8 @@ export function sharedSectionSentence(
 ): string | null {
   if (!shared) return null;
   return effect === "write"
-    ? "Anyone who can use this Bot can do this as the shared account."
-    : "Anyone who can use this Bot can read what this account can read.";
+    ? "Qualquer pessoa que possa usar este Bot pode fazer isto como a conta compartilhada."
+    : "Qualquer pessoa que possa usar este Bot pode ler o que esta conta pode ler.";
 }
 
 /**
@@ -28,7 +28,7 @@ export function SharedApprovalFields({
   const named = value.audience === "people" || value.members.length > 0;
   const options: { audience: SharedUseApproval["audience"]; label: string }[] =
     [
-      { audience: "owner", label: "Only its owner" },
+      { audience: "owner", label: "Só o dono" },
       ...(named
         ? [
             {
@@ -37,12 +37,13 @@ export function SharedApprovalFields({
             },
           ]
         : []),
-      { audience: "team", label: "Everyone" },
+      { audience: "team", label: "Todos" },
     ];
   return (
     <fieldset className="space-y-2 text-sm">
       <legend className="font-medium">
-        Who can use the shared account through this Bot
+        
+        Quem pode usar a conta compartilhada por meio deste Bot
       </legend>
       {options.map((option) => (
         <label className="flex items-center gap-2" key={option.audience}>
@@ -69,7 +70,8 @@ export function SharedApprovalFields({
           }
           type="checkbox"
         />
-        Messages from outside (email, Slack, webhooks) can use it
+        
+        Mensagens de fora (e-mail, Slack, webhooks) podem usá-la
       </label>
     </fieldset>
   );

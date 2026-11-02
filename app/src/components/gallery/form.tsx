@@ -78,9 +78,10 @@ export function FormCard(props: Record<string, unknown>) {
   const parsed = FormCardArgs.safeParse(props.args);
   if (props.status === "inProgress") {
     return (
-      <GalleryFrame title="Preparing your form…">
+      <GalleryFrame title="Preparando seu formulário…">
         <p className="text-sm text-muted-foreground">
-          The Bot is putting the questions together.
+          
+          O Bot está montando as perguntas.
         </p>
       </GalleryFrame>
     );
@@ -122,7 +123,7 @@ function InvalidForm({
       await respond({
         status: "invalid",
         message:
-          "The form could not be displayed because its questions were invalid. Send a corrected form with unique field IDs, valid types, and options for each select field.",
+          "Não foi possível exibir o formulário porque as perguntas eram inválidas.",
       });
       setReturned(true);
     } catch {
@@ -134,15 +135,16 @@ function InvalidForm({
     void returnToBot();
   }, [returnToBot]);
   return (
-    <GalleryFrame title="Form unavailable">
+    <GalleryFrame title="Formulário indisponível">
       <p role="alert" className="text-sm text-muted-foreground">
         {returned
-          ? "The form had invalid questions. The Bot can send a corrected form."
-          : "The form has invalid questions, so it can't be shown."}
+          ? "O formulário tinha perguntas inválidas. O Bot pode enviar um formulário corrigido."
+          : "O formulário tem perguntas inválidas, então não pode ser exibido."}
       </p>
       {failed && (
         <Button className="mt-3" size="sm" onClick={() => void returnToBot()}>
-          Return to the Bot
+          
+          Voltar ao Bot
         </Button>
       )}
     </GalleryFrame>
@@ -177,29 +179,29 @@ function FormEntry({
     for (const field of args.fields) {
       const control = form.elements.namedItem(field.id);
       if (control instanceof HTMLInputElement && control.validity.badInput) {
-        problems.set(field.id, "Enter a valid number.");
+        problems.set(field.id, "Insira um número válido.");
         continue;
       }
       const value = (values.get(field.id) ?? "").trim();
       if (!value) {
         if (field.required)
-          problems.set(field.id, `${field.label} is required.`);
+          problems.set(field.id, `${field.label} é obrigatório.`);
         continue;
       }
       if (value.length > 2000)
-        problems.set(field.id, "Use 2,000 characters or fewer.");
+        problems.set(field.id, "Use até 2.000 caracteres.");
       else if (field.type === "email" && !z.email().safeParse(value).success)
-        problems.set(field.id, "Enter a valid email address.");
+        problems.set(field.id, "Insira um endereço de e-mail válido.");
       else if (field.type === "select" && !field.options?.includes(value))
-        problems.set(field.id, "Choose one of the listed options.");
+        problems.set(field.id, "Escolha uma das opções listadas.");
       else if (field.type === "number") {
         const number = Number(value);
         if (!Number.isFinite(number))
-          problems.set(field.id, "Enter a valid number.");
+          problems.set(field.id, "Insira um número válido.");
         else if (field.min !== undefined && number < field.min)
-          problems.set(field.id, `Enter ${field.min} or more.`);
+          problems.set(field.id, `Insira ${field.min} ou mais.`);
         else if (field.max !== undefined && number > field.max)
-          problems.set(field.id, `Enter ${field.max} or less.`);
+          problems.set(field.id, `Insira ${field.max} ou menos.`);
       }
       entries.push([field.id, field.type === "number" ? Number(value) : value]);
     }
@@ -234,7 +236,7 @@ function FormEntry({
       caption={args.description}
       action={
         <Badge tone={finished ? "positive" : "caution"}>
-          {finished ? "Submitted" : "Waiting on you"}
+          {finished ? "Enviado" : "Esperando por você"}
         </Badge>
       }
     >
@@ -251,14 +253,15 @@ function FormEntry({
                   <dd className="whitespace-pre-wrap break-words font-medium">
                     {Object.hasOwn(answer.values, field.id)
                       ? answer.values[field.id]
-                      : "Not provided"}
+                      : "Não informado"}
                   </dd>
                 </div>
               ))}
             </dl>
           ) : (
             <p className="text-sm text-muted-foreground">
-              This form has been completed. Its saved answers are unavailable.
+              
+              Este formulário foi preenchido. As respostas salvas não estão disponíveis.
             </p>
           )}
         </div>
@@ -273,8 +276,8 @@ function FormEntry({
           className="space-y-4"
         >
           <p className="text-xs text-muted-foreground">
-            Fields marked * are required. Your answers will be shared with the
-            Bot.
+            
+            Campos marcados com * são obrigatórios. Suas respostas serão compartilhadas com o Bot.
           </p>
           {args.fields.map((field) => {
             const id = `${prefix}-${field.id}`;
@@ -325,7 +328,7 @@ function FormEntry({
                     className="h-9 w-full rounded-lg border border-input bg-background px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 disabled:opacity-50"
                     onChange={(event) => change(event.target.value)}
                   >
-                    <option value="">Choose an option</option>
+                    <option value="">Escolha uma opção</option>
                     {field.options?.map((option) => (
                       <option key={option} value={option}>
                         {option}
@@ -365,12 +368,13 @@ function FormEntry({
           })}
           {failure && (
             <p role="alert" className="text-sm text-destructive">
-              Couldn't send your answers. Try again.
+              
+              Não foi possível enviar suas respostas. Tente novamente.
             </p>
           )}
           <div className="flex justify-end border-t border-border pt-3">
             <Button type="submit" size="sm" disabled={sending || !respond}>
-              {sending ? "Sending…" : (args.submitLabel ?? "Submit answers")}
+              {sending ? "Enviando…" : (args.submitLabel ?? "Enviar respostas")}
             </Button>
           </div>
         </form>
@@ -382,7 +386,7 @@ function FormEntry({
 export const GALLERY: GalleryComponent[] = [
   {
     name: "askForm",
-    title: "Form",
+    title: "Formulário",
     kind: "decision",
     description:
       "Ask the person to fill in a short form and WAIT for their answers. Use when several related details are needed together. Provide up to eight labeled text, email, number, select, or textarea fields with unique IDs. Mark required fields and give options for selects. Never request passwords or secrets. The result has status submitted and values keyed by field ID; numbers are returned as numbers and blank optional fields are omitted.",
@@ -391,25 +395,25 @@ export const GALLERY: GalleryComponent[] = [
     preview: {
       status: "executing",
       args: {
-        title: "Plan your next project",
-        description: "Provide a few details to help prepare your first draft.",
+        title: "Planeje seu próximo projeto",
+        description: "Informe alguns detalhes para ajudar a preparar seu primeiro rascunho.",
         fields: [
-          { id: "team", label: "Team name", type: "text", required: true },
-          { id: "email", label: "Work email", type: "email", required: true },
+          { id: "team", label: "Nome da equipe", type: "text", required: true },
+          { id: "email", label: "E-mail de trabalho", type: "email", required: true },
           {
             id: "priority",
-            label: "Priority",
+            label: "Prioridade",
             type: "select",
-            options: ["This week", "This month", "Exploring"],
+            options: ["Esta semana", "Este mês", "Explorando"],
           },
-          { id: "seats", label: "People involved", type: "number", min: 1 },
+          { id: "seats", label: "Pessoas envolvidas", type: "number", min: 1 },
           {
             id: "notes",
-            label: "What would a good outcome look like?",
+            label: "Como seria um bom resultado?",
             type: "textarea",
           },
         ],
-        submitLabel: "Prepare my brief",
+        submitLabel: "Preparar meu briefing",
       },
       respond: async () => {},
     },

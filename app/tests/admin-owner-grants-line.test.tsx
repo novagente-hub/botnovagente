@@ -155,17 +155,17 @@ const cases = [
   {
     shared: true,
     ownerGrants: "any",
-    line: "Bot owners who give it to their Bots let those Bots use the team account.",
+    line: "Donos de Bots que o dão aos seus Bots permitem que esses Bots usem a conta da equipe.",
   },
   {
     shared: false,
     ownerGrants: "any",
-    line: "People can let Bots they own use it, on the account of whoever is asking.",
+    line: "As pessoas podem permitir que os Bots delas o usem, com a conta de quem está pedindo.",
   },
   {
     shared: true,
     ownerGrants: "admin",
-    line: "Only an admin can give it to a Bot.",
+    line: "Só um administrador pode dá-lo a um Bot.",
   },
 ] as const;
 

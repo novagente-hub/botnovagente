@@ -44,15 +44,15 @@ type Parsed = Omit<Place, "label" | "botId" | "watching" | "coworkerHome"> & {
 };
 
 const BOT_TABS: Record<string, string> = {
-  setup: "Setup",
-  access: "Access",
-  activity: "Activity",
-  approvals: "Approvals",
-  memory: "Memory",
-  reach: "Reach",
-  responsibilities: "Responsibilities",
-  routines: "Routines",
-  sharing: "Sharing",
+  setup: "Configuração",
+  access: "Acesso",
+  activity: "Atividade",
+  approvals: "Aprovações",
+  memory: "Memória",
+  reach: "Contato",
+  responsibilities: "Responsabilidades",
+  routines: "Rotinas",
+  sharing: "Compartilhamento",
 };
 
 /**
@@ -66,12 +66,12 @@ export function parsePlace(
   const agent = typeof search.agent === "string" ? search.agent : undefined;
   const path = pathname.replace(/\/+$/, "") || "/";
   if (path === "/") {
-    return { section: "chat", label: "New chat", ownsWatch: false };
+    return { section: "chat", label: "Novo chat", ownsWatch: false };
   }
   if (path === "/channel/new") {
     return {
       section: "chat",
-      label: (bot) => bot ?? "New chat",
+      label: (bot) => bot ?? "Novo chat",
       agentFromUrl: agent,
       ownsWatch: false,
     };
@@ -80,7 +80,7 @@ export function parsePlace(
   if (channel) {
     return {
       section: "chat",
-      label: (bot) => bot ?? "Conversation",
+      label: (bot) => bot ?? "Conversa",
       channelId: decodeURIComponent(channel[2]),
       ownsWatch: channel[1] === "channel",
     };
@@ -88,7 +88,7 @@ export function parsePlace(
   if (path === "/bot") {
     return {
       section: "chat",
-      label: (bot) => bot ?? "Conversation",
+      label: (bot) => bot ?? "Conversa",
       agentFromUrl: agent,
       ownsWatch: true,
     };
@@ -104,19 +104,19 @@ export function parsePlace(
     };
   }
   if (path === "/bots" || path === "/agents") {
-    return { section: "bots", label: "All Bots", ownsWatch: false };
+    return { section: "bots", label: "Todos os Bots", ownsWatch: false };
   }
   if (path === "/s/routines" || path === "/routines") {
-    return { section: "routines", label: "Routines", ownsWatch: false };
+    return { section: "routines", label: "Rotinas", ownsWatch: false };
   }
   if (path === "/s/memories" || path === "/capabilities/memory") {
-    return { section: "memories", label: "Memories", ownsWatch: false };
+    return { section: "memories", label: "Memórias", ownsWatch: false };
   }
   if (path.startsWith("/capabilities")) {
-    return { section: "capabilities", label: "Capabilities", ownsWatch: false };
+    return { section: "capabilities", label: "Capacidades", ownsWatch: false };
   }
   if (path.startsWith("/connections")) {
-    return { section: "connections", label: "Connections", ownsWatch: false };
+    return { section: "connections", label: "Conexões", ownsWatch: false };
   }
   return {
     section: "other",

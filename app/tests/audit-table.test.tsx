@@ -43,7 +43,7 @@ function event(
     initiatorKind: "person",
     initiatorId: null,
     eventType,
-    targetType: "computer",
+    targetType: "computador",
     targetId: "bot-a",
     payload: { bot: "bot-a", ...payload },
     createdAt: at,
@@ -82,7 +82,7 @@ async function renderAudit() {
       <RouterProvider router={router} />
     </QueryClientProvider>,
   );
-  await view.findByText("Decision");
+  await view.findByText("Decisão");
   return view;
 }
 
@@ -93,7 +93,7 @@ const whats = (container: HTMLElement) =>
 
 test("the page is one viewport tall and only the table scrolls", async () => {
   const view = await renderAudit();
-  const heading = view.getByRole("heading", { name: "Audit" });
+  const heading = view.getByRole("heading", { name: "Auditoria" });
   const page = heading.closest(".h-dvh");
   expect(page).not.toBeNull();
   expect(page?.className).toContain("overflow-hidden");
@@ -111,7 +111,7 @@ test("newest first, and a press on When turns it oldest first", async () => {
   expect(whats(view.container)).toEqual(["navigate", "click", "type"]);
   await userEvent
     .setup({ document })
-    .click(view.getByRole("button", { name: /When/ }));
+    .click(view.getByRole("button", { name: /Quando/ }));
   await waitFor(() =>
     expect(whats(view.container)).toEqual(["type", "click", "navigate"]),
   );
@@ -121,9 +121,9 @@ test("search narrows the rows already loaded, and says how many match", async ()
   const view = await renderAudit();
   await userEvent
     .setup({ document })
-    .type(view.getByRole("searchbox", { name: "Search events" }), "save deal");
+    .type(view.getByRole("searchbox", { name: "Pesquisar eventos" }), "save deal");
   await waitFor(() => expect(whats(view.container)).toEqual(["click"]));
-  expect(view.getByText("1 of 3 events")).toBeDefined();
+  expect(view.getByText("1 de 3 eventos")).toBeDefined();
 });
 
 test("each row carries what happened, for its colour", async () => {
@@ -153,10 +153,10 @@ test("a row about a Bot names it under Bot, not under On", () => {
 test("the Outcome button narrows the rows to the outcomes ticked", async () => {
   const view = await renderAudit();
   const user = userEvent.setup({ document });
-  await user.click(view.getByRole("button", { name: /Outcome/ }));
+  await user.click(view.getByRole("button", { name: /Resultado/ }));
   await user.click(
-    await view.findByRole("menuitemcheckbox", { name: /Blocked/ }),
+    await view.findByRole("menuitemcheckbox", { name: /Bloqueado/ }),
   );
   await waitFor(() => expect(whats(view.container)).toEqual(["navigate"]));
-  expect(view.getByText("1 of 3 events")).toBeTruthy();
+  expect(view.getByText("1 de 3 eventos")).toBeTruthy();
 });

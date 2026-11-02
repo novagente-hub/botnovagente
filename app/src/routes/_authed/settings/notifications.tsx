@@ -11,8 +11,8 @@ export const Route = createFileRoute("/_authed/settings/notifications")({
 function NotificationsPage() {
   return (
     <PageShell
-      description="Choose where you receive updates when you’re away. Set each Bot’s update frequency on its page."
-      title="Notifications"
+      description="Escolha onde receber atualizações quando estiver fora. Defina a frequência de atualizações de cada Bot na página dele."
+      title="Notificações"
     >
       <UpdateRoutingSection />
       <NativeDevices />

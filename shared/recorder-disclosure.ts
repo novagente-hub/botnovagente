@@ -10,7 +10,7 @@
  * Plain strings rather than markup, so the Recorder's pages and OpenBot's draw them with their own components.
  */
 
-export const RECORDER_DISCLOSURE_TITLE = "What the Recorder collects";
+export const RECORDER_DISCLOSURE_TITLE = "O que o Recorder coleta";
 
 /**
  * Where a recording goes, in the one sentence every place that says it reads. The Recorder streams it from the browser
@@ -20,10 +20,10 @@ export const RECORDER_DISCLOSURE_TITLE = "What the Recorder collects";
  * steps). "Through OpenBot" would say the recording passes through it, which it never does.
  */
 export const RECORDER_DESTINATION =
-  "What you record goes straight from your browser to your organization's own Intelligence, with a pass from your organization's OpenBot. OpenBot is told that you are recording, the task's name, when it started and how many steps it has, and when you record in a browser shown inside OpenBot, your narration passes through it to the Recorder without being stored.";
+  "O que você grava vai direto do seu navegador para o Intelligence da sua organização, com uma autorização emitida pelo OpenBot da sua organização. O OpenBot só fica sabendo que você está gravando, o nome da tarefa, quando ela começou e quantas etapas tem; e, quando você grava num navegador exibido dentro do OpenBot, sua narração passa por ele até o Recorder sem ser armazenada.";
 
 /** The disclosure's lead: when it records, where it goes, and what for. */
-export const RECORDER_DISCLOSURE = `When you press Record, the Recorder records what you do in every tab you use until you stop, and each tab it records shows that it is. ${RECORDER_DESTINATION} Your recordings are used only for your organization's Skills, evaluations and insights.`;
+export const RECORDER_DISCLOSURE = `Quando você clica em Gravar, o Recorder grava o que você faz em todas as abas que usar até você parar, e cada aba gravada mostra que está sendo gravada. ${RECORDER_DESTINATION} Suas gravações são usadas apenas para as Skills, avaliações e insights da sua organização.`;
 
 export type RecorderCollectedKind =
   | "steps"
@@ -41,27 +41,27 @@ export const RECORDER_COLLECTS: readonly {
 }[] = [
   {
     kind: "steps",
-    title: "Your steps",
+    title: "Suas etapas",
     description:
-      "The pages you open and what is on them, and your clicks and typing.",
+      "As páginas que você abre e o que há nelas, além dos seus cliques e do que você digita.",
   },
   {
     kind: "saves",
-    title: "What each step saves",
+    title: "O que cada etapa salva",
     description:
-      "For a step that saves something, like a form you submit, the request it sent and the answer that came back.",
+      "Numa etapa que salva algo, como um formulário que você envia, a requisição enviada e a resposta recebida.",
   },
   {
     kind: "assistants",
-    title: "AI assistant conversations",
+    title: "Conversas com assistentes de IA",
     description:
-      "On a page whose AI assistant uses AG-UI, as OpenBot's own chat does, the conversation, including the messages you send.",
+      "Numa página cujo assistente de IA usa AG-UI, como o próprio chat do OpenBot, a conversa, incluindo as mensagens que você envia.",
   },
   {
     kind: "narration",
-    title: "Your narration",
+    title: "Sua narração",
     description:
-      "When narration is on, what you say, turned into text on your own computer. Your voice never leaves it.",
+      "Com a narração ligada, o que você fala, convertido em texto no seu próprio computador. Sua voz nunca sai dele.",
   },
   /*
    * What the masking takes, as it takes it (recorder-masking.ts, `scrubText` and the secret-field rules, run on every
@@ -70,18 +70,18 @@ export const RECORDER_COLLECTS: readonly {
    */
   {
     kind: "masking",
-    title: "Secrets masked first",
+    title: "Dados sigilosos mascarados antes",
     description:
-      "Masked in your browser before anything leaves it: passwords, one-time codes and anything else typed into a secret field, card numbers, email addresses, and keys and sign-in tokens. Web addresses are also taken out of the names of the buttons and links you click. Other details on a page or in a request, such as names, phone numbers and amounts, can still be included.",
+      "Mascarados no seu navegador antes de qualquer coisa sair dele: senhas, códigos de uso único e tudo o que for digitado em campos sigilosos, números de cartão, endereços de e-mail, chaves e tokens de login. Endereços web também são removidos dos nomes dos botões e links que você clica. Outros dados de uma página ou requisição, como nomes, telefones e valores, ainda podem ser incluídos.",
   },
   {
     kind: "sites",
-    title: "Sites you leave out",
+    title: "Sites que você exclui",
     description:
-      "Each recorded tab shows that it is being recorded, with a button that stops recording that site, now and in every later recording.",
+      "Cada aba gravada mostra que está sendo gravada, com um botão que para de gravar aquele site, agora e em todas as gravações futuras.",
   },
 ];
 
 /** The same, in one sentence, where there is room for no more: under the Record form's task name. */
 export const RECORDER_COLLECTS_SHORT =
-  "Records every tab you use until you stop: the pages and what is on them, your clicks and typing, what each step saves, AI assistant conversations, and your narration when it is on. Passwords, card numbers, email addresses and tokens are masked in your browser first.";
+  "Grava todas as abas que você usar até parar: as páginas e o que há nelas, seus cliques e o que você digita, o que cada etapa salva, conversas com assistentes de IA e sua narração, quando ligada. Senhas, números de cartão, e-mails e tokens são mascarados antes no seu navegador.";

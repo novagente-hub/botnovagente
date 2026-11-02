@@ -56,7 +56,7 @@ function agent(
     name: "Agent",
     roleDescription: "Role",
     systemOwned: false,
-    title: "Title",
+    title: "Título",
     visibility: "private",
     ...overrides,
   };
@@ -185,17 +185,17 @@ test("/bot with an empty agent query uses the normal default Bot", async () => {
   expect(view.getByTestId("copilot-chat").dataset.agentId).toBe(
     "picked-harness",
   );
-  expect(view.queryByText('There\'s no Bot called "".')).toBeNull();
-  expect(view.queryByText("There are no Bots yet.")).toBeNull();
+  expect(view.queryByText('Não existe Bot chamado "".')).toBeNull();
+  expect(view.queryByText("Ainda não há Bots.")).toBeNull();
 });
 
 test("/bot reports a failed initial roster load instead of claiming there are no Bots", async () => {
   const view = renderBot(queryClientWithFailingAgents());
 
   expect(
-    await view.findByText("Couldn't load your Bots. Reload the page."),
+    await view.findByText("Não foi possível carregar seus Bots. Recarregue a página."),
   ).toBeTruthy();
-  expect(view.queryByText("There are no Bots yet.")).toBeNull();
+  expect(view.queryByText("Ainda não há Bots.")).toBeNull();
 });
 
 test("/bot preserves an explicit agent, including the built-in first agent", async () => {
@@ -223,7 +223,7 @@ test("/bot preserves an explicit unknown agent as a clear missing-bot state", as
   );
 
   expect(
-    await view.findByText('There\'s no Bot called "missing-agent".'),
+    await view.findByText('Não existe Bot chamado "missing-agent".'),
   ).toBeTruthy();
   expect(view.queryByTestId("copilot-chat")).toBeNull();
 });
@@ -246,7 +246,7 @@ test("/bot loads a hidden explicit agent from the detail endpoint", async () => 
 
   expect(await view.findByRole("heading", { name: "Hidden Bot" })).toBeTruthy();
   expect(view.getByTestId("copilot-chat").dataset.agentId).toBe("hidden-bot");
-  expect(view.queryByText('There\'s no Bot called "hidden-bot".')).toBeNull();
+  expect(view.queryByText('Não existe Bot chamado "hidden-bot".')).toBeNull();
 });
 
 test("/bot hidden lookup does not collide with the shared agent detail cache", async () => {
@@ -266,7 +266,7 @@ test("/bot hidden lookup does not collide with the shared agent detail cache", a
 
   expect(await view.findByRole("heading", { name: "Hidden Bot" })).toBeTruthy();
   expect(view.getByTestId("copilot-chat").dataset.agentId).toBe("hidden-bot");
-  expect(view.queryByText('There\'s no Bot called "hidden-bot".')).toBeNull();
+  expect(view.queryByText('Não existe Bot chamado "hidden-bot".')).toBeNull();
 });
 
 test("/bot reports an explicit agent detail load failure", async () => {
@@ -280,7 +280,7 @@ test("/bot reports an explicit agent detail load failure", async () => {
   );
 
   expect((await view.findByRole("alert")).textContent).toBe(
-    "Couldn't load this Bot. Reload the page.",
+    "Não foi possível carregar este Bot. Recarregue a página.",
   );
   expect(view.queryByTestId("copilot-chat")).toBeNull();
 });
@@ -322,39 +322,39 @@ test("/bot opens a live Computer sidebar with ownership controls and preserves t
     queryClientWithAgents([GENERAL_ASSISTANT, PICKED_HARNESS]),
     "/bot?agent=general-assistant",
   );
-  const toggle = await view.findByRole("button", { name: "Open Computer" });
+  const toggle = await view.findByRole("button", { name: "Abrir Computador" });
   await waitFor(() => expect(toggle.hasAttribute("disabled")).toBe(false));
   // Taking control is offered inside the Computer, never beside the header's icon.
-  expect(view.queryByRole("button", { name: "Take control" })).toBeNull();
+  expect(view.queryByRole("button", { name: "Assumir controle" })).toBeNull();
   const chat = view.getByTestId("copilot-chat");
   fireEvent.change(view.getByRole("textbox", { name: "Chat draft" }), {
     target: { value: "Keep this conversation" },
   });
   fireEvent.click(toggle);
   const sidebarElement = await view.findByRole("region", {
-    name: "Computer sidebar",
+    name: "Painel do Computador",
   });
   const sidebar = within(sidebarElement);
   expect(
     sidebar
-      .getByRole("button", { name: "Take control" })
+      .getByRole("button", { name: "Assumir controle" })
       .hasAttribute("disabled"),
   ).toBe(false);
   expect(
     sidebar.getByRole("button", {
-      name: "Open the Bot's screen full size",
+      name: "Abrir a tela do Bot em tamanho real",
     }),
   ).toBeTruthy();
-  expect(sidebar.getByRole("heading", { name: "Activity" })).toBeTruthy();
-  fireEvent.click(view.getByRole("button", { name: "Close Computer" }));
+  expect(sidebar.getByRole("heading", { name: "Atividade" })).toBeTruthy();
+  fireEvent.click(view.getByRole("button", { name: "Fechar Computador" }));
   // Poll a boolean: Bun serializes the entire Happy DOM tree when a pending
   // element is compared with null, starving the navigation this wait observes.
   await waitFor(() => expect(sidebarElement.isConnected).toBe(false));
   expect(view.getByTestId("copilot-chat")).toBe(chat);
   expect(chat.dataset.agentId).toBe("general-assistant");
   expect(view.getByDisplayValue("Keep this conversation")).toBeTruthy();
-  expect(view.getByRole("button", { name: "Open Computer" })).toBeTruthy();
-  fireEvent.click(view.getByRole("button", { name: "New chat" }));
+  expect(view.getByRole("button", { name: "Abrir Computador" })).toBeTruthy();
+  fireEvent.click(view.getByRole("button", { name: "Novo chat" }));
   await waitFor(() =>
     expect(view.getByTestId("copilot-chat").dataset.threadId).not.toBe(
       chat.dataset.threadId,
@@ -385,12 +385,12 @@ test("/bot?watch=true restores the live Computer panel on reload", async () => {
     "/bot?agent=general-assistant&watch=true",
   );
   const sidebar = within(
-    await view.findByRole("region", { name: "Computer sidebar" }),
+    await view.findByRole("region", { name: "Painel do Computador" }),
   );
   await waitFor(() =>
     expect(
       sidebar
-        .getByRole("button", { name: "Take control" })
+        .getByRole("button", { name: "Assumir controle" })
         .hasAttribute("disabled"),
     ).toBe(false),
   );

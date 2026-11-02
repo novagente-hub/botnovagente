@@ -96,13 +96,14 @@ function Sources({ basis, sources, asOf: when }: Provenance) {
     <p className="mt-3 text-xs text-muted-foreground">
       {unchecked ? (
         <span className="text-amber-700 dark:text-amber-400">
-          From the Bot's own knowledge. Not checked against a source.
+          
+          Do conhecimento próprio do Bot. Não verificado em uma fonte.
         </span>
       ) : null}
       {named.length > 0 ? (
         <>
           {unchecked ? " · " : null}
-          {"Sources: "}
+          {"Fontes: "}
           {byPosition(named).map(({ item: entry, key }, index) => (
             <span key={key}>
               {index > 0 ? ", " : null}
@@ -155,7 +156,8 @@ function formatNumber(value: unknown): string {
 function Empty() {
   return (
     <p className="py-10 text-center text-sm text-muted-foreground">
-      There is no data to chart.
+      
+      Não há dados para o gráfico.
     </p>
   );
 }
@@ -542,7 +544,7 @@ export function ProgressChartCard({
 export const GALLERY: GalleryComponent[] = [
   {
     name: "showBarChart",
-    title: "Bar chart",
+    title: "Gráfico de barras",
     kind: "chart",
     description:
       "Show values as a bar chart. Use when comparing a handful of named things, teams, months, categories. Not for a trend over time, which is showLineChart.",
@@ -550,19 +552,19 @@ export const GALLERY: GalleryComponent[] = [
     Component: BarChartCard as GalleryComponent["Component"],
     preview: {
       basis: "given",
-      title: "Revenue by team",
-      caption: "Sales leads, and Engineering is closing the gap.",
+      title: "Receita por equipe",
+      caption: "Vendas lidera, e Engenharia está diminuindo a diferença.",
       points: [
-        { label: "Sales", value: 120 },
-        { label: "Engineering", value: 80 },
-        { label: "Support", value: 45 },
+        { label: "Vendas", value: 120 },
+        { label: "Engenharia", value: 80 },
+        { label: "Suporte", value: 45 },
       ],
     },
     confirmation: "The bar chart is now on screen for the person.",
   },
   {
     name: "showPieChart",
-    title: "Donut chart",
+    title: "Gráfico de rosca",
     kind: "chart",
     description:
       "Show how a whole is divided, as a donut with a legend. Use only when the parts sum to something meaningful, and prefer a bar chart above about six slices.",
@@ -570,18 +572,18 @@ export const GALLERY: GalleryComponent[] = [
     Component: PieChartCard as GalleryComponent["Component"],
     preview: {
       basis: "given",
-      title: "Where the month went",
+      title: "Para onde foi o mês",
       points: [
-        { label: "Build", value: 48 },
-        { label: "Support", value: 26 },
-        { label: "Meetings", value: 26 },
+        { label: "Desenvolvimento", value: 48 },
+        { label: "Suporte", value: 26 },
+        { label: "Reuniões", value: 26 },
       ],
     },
     confirmation: "The donut chart is now on screen for the person.",
   },
   {
     name: "showLineChart",
-    title: "Line chart",
+    title: "Gráfico de linhas",
     kind: "chart",
     description:
       "Show one or more series over an ordered axis, usually time. Every series must have one value per label.",
@@ -589,16 +591,16 @@ export const GALLERY: GalleryComponent[] = [
     Component: LineChartCard as GalleryComponent["Component"],
     preview: {
       basis: "given",
-      title: "Signups",
-      caption: "Six weeks, one release.",
+      title: "Cadastros",
+      caption: "Seis semanas, um lançamento.",
       labels: ["W1", "W2", "W3", "W4", "W5", "W6"],
-      series: [{ name: "Signups", values: [120, 180, 160, 240, 300, 420] }],
+      series: [{ name: "Cadastros", values: [120, 180, 160, 240, 300, 420] }],
     },
     confirmation: "The line chart is now on screen for the person.",
   },
   {
     name: "showAreaChart",
-    title: "Area chart",
+    title: "Gráfico de área",
     kind: "chart",
     description:
       "The same as showLineChart with the area under each line filled. Use for volume or accumulation rather than for a rate.",
@@ -606,16 +608,16 @@ export const GALLERY: GalleryComponent[] = [
     Component: AreaChartCard as GalleryComponent["Component"],
     preview: {
       basis: "given",
-      title: "Storage used",
-      caption: "Growing steadily since the migration.",
-      labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+      title: "Armazenamento usado",
+      caption: "Crescendo de forma constante desde a migração.",
+      labels: ["Jan", "Fev", "Mar", "Abr", "Mai"],
       series: [{ name: "TB", values: [12, 19, 26, 31, 44] }],
     },
     confirmation: "The area chart is now on screen for the person.",
   },
   {
     name: "showProgress",
-    title: "Progress against target",
+    title: "Progresso em relação à meta",
     kind: "chart",
     description:
       "Show values against their targets as progress bars. Use for 'are we there yet' questions, budget spent against budget, done against planned.",
@@ -623,11 +625,11 @@ export const GALLERY: GalleryComponent[] = [
     Component: ProgressChartCard as GalleryComponent["Component"],
     preview: {
       basis: "given",
-      title: "Migration to the new runtime",
-      caption: "Two services left.",
+      title: "Migração para o novo runtime",
+      caption: "Faltam dois serviços.",
       points: [
-        { label: "Services moved", value: 18, target: 20 },
-        { label: "Tests ported", value: 240, target: 240 },
+        { label: "Serviços migrados", value: 18, target: 20 },
+        { label: "Testes portados", value: 240, target: 240 },
       ],
     },
     confirmation: "The progress chart is now on screen for the person.",

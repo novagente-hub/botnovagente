@@ -21,8 +21,8 @@ export const Route = createFileRoute("/_authed/_app/routines")({
 function RoutinesPage() {
   return (
     <PageShell
-      description="Ask a Bot to create or change a scheduled routine. You can review and stop routines here."
-      title="Routines"
+      description="Peça a um Bot para criar ou alterar uma rotina agendada. Você pode revisar e parar rotinas aqui."
+      title="Rotinas"
     >
       <RoutinesList />
     </PageShell>

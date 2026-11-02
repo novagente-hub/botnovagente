@@ -46,14 +46,14 @@ import { queryClient } from "@/query-client";
 /** Each count the notice lists, in the words the person reads, skipping the kinds with nothing. */
 function resetLines(plan: ResetPlan): string[] {
   const lines: [number, string, string][] = [
-    [plan.conversations, "conversation", "conversations"],
-    [plan.memorySources, "memory source", "memory sources"],
-    [plan.memories, "imported memory", "imported memories"],
+    [plan.conversations, "conversa", "conversas"],
+    [plan.memorySources, "fonte de memória", "fontes de memória"],
+    [plan.memories, "memória importada", "memórias importadas"],
     [plan.routines, "routine", "routines"],
-    [plan.responsibilities, "responsibility", "responsibilities"],
-    [plan.followUps, "scheduled follow-up", "scheduled follow-ups"],
-    [plan.formedMemories, "memory it formed", "memories it formed"],
-    [plan.backgroundResearch, "background research", "background research"],
+    [plan.responsibilities, "responsabilidade", "responsabilidades"],
+    [plan.followUps, "acompanhamento agendado", "acompanhamentos agendados"],
+    [plan.formedMemories, "memória que ele formou", "memórias que ele formou"],
+    [plan.backgroundResearch, "pesquisa em segundo plano", "pesquisas em segundo plano"],
     [plan.standingApprovals, "standing permission", "standing permissions"],
   ];
   return lines
@@ -80,26 +80,27 @@ function ResetDialog({
     <Dialog onOpenChange={onOpenChange} open={open}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Reset {agent.name}?</DialogTitle>
+          <DialogTitle>Redefinir {agent.name}?</DialogTitle>
           <DialogDescription>
-            This deletes what {agent.name} has with you. Other people's
-            conversations and data stay. You can't undo this.
+            
+            Isso exclui o que {agent.name}  tem com você. As conversas e dados de outras pessoas permanecem. Não é possível desfazer.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 overflow-y-auto">
           {plan.isPending ? null : plan.error ? (
             <p className="text-destructive text-sm" role="alert">
-              Couldn't check what a reset would delete. Try again.
+              
+              Não foi possível verificar o que a redefinição excluiria. Tente novamente.
             </p>
           ) : reset.isSuccess ? (
-            <p className="text-sm">Done. {agent.name} starts fresh with you.</p>
+            <p className="text-sm">Pronto. {agent.name}  começa do zero com você.</p>
           ) : (
             <div className="grid gap-2 text-sm">
               {lines.length === 0 ? (
-                <p>There's nothing of yours to delete.</p>
+                <p>Não há nada seu para excluir.</p>
               ) : (
                 <>
-                  <p>This will delete:</p>
+                  <p>Isto será excluído:</p>
                   <ul className="list-disc pl-5">
                     {lines.map((line) => (
                       <li key={line}>{line}</li>
@@ -109,13 +110,15 @@ function ResetDialog({
               )}
               {plan.data.sharedConversationsKept > 0 ? (
                 <p className="text-muted-foreground">
-                  {plan.data.sharedConversationsKept} conversation
-                  {plan.data.sharedConversationsKept === 1 ? " is" : "s are"}{" "}
-                  shared with other people or Bots and will be kept.
+                  {plan.data.sharedConversationsKept}{" "}
+                  {plan.data.sharedConversationsKept === 1 ? "conversa é" : "conversas são"}{" "}
+                  
+                  compartilhado com outras pessoas ou Bots e será mantido.
                 </p>
               ) : null}
               <p className="text-muted-foreground">
-                Memories you told a Bot yourself are kept.
+                
+                Memórias que você mesmo contou a um Bot são mantidas.
               </p>
             </div>
           )}
@@ -131,7 +134,7 @@ function ResetDialog({
             size="sm"
             variant="outline"
           >
-            {reset.isSuccess ? "Close" : "Cancel"}
+            {reset.isSuccess ? "Fechar" : "Cancelar"}
           </Button>
           {reset.isSuccess ? null : (
             <Button
@@ -140,7 +143,7 @@ function ResetDialog({
               size="sm"
               variant="destructive"
             >
-              {reset.isPending ? "Resetting…" : "Delete and reset"}
+              {reset.isPending ? "Redefinindo…" : "Excluir e redefinir"}
             </Button>
           )}
         </DialogFooter>
@@ -177,7 +180,7 @@ export function ManageSection({
   const assigned = agent.assignedToMe === true;
 
   return (
-    <PageSection title="Manage">
+    <PageSection title="Gerenciar">
       {error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
           {error.message}
@@ -189,18 +192,18 @@ export function ManageSection({
             <IconPin />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle>Pinned</ItemTitle>
+            <ItemTitle>Fixados</ItemTitle>
             <ItemDescription>
               {assigned
-                ? "An admin assigned it to you. It stays at the top of your Bots list."
+                ? "Um administrador o atribuiu a você. Ele fica no topo da sua lista de Bots."
                 : agent.pinned
-                  ? "At the top of your Bots list. Only your list changes."
-                  : "Keep it at the top of your Bots list. Only your list changes."}
+                  ? "No topo da sua lista de Bots. Só a sua lista muda."
+                  : "Mantê-lo no topo da sua lista de Bots. Só a sua lista muda."}
             </ItemDescription>
           </ItemContent>
           <ItemActions>
             <Switch
-              aria-label="Pinned"
+              aria-label="Fixados"
               checked={agent.pinned || assigned}
               disabled={assigned || setPinned.isPending}
               onCheckedChange={(pinned) =>
@@ -215,18 +218,18 @@ export function ManageSection({
             <IconEyeOff />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle>Hidden</ItemTitle>
+            <ItemTitle>Ocultos</ItemTitle>
             <ItemDescription>
               {assigned
-                ? "An admin assigned it to you. You can't hide it."
+                ? "Um administrador o atribuiu a você. Você não pode ocultá-lo."
                 : agent.hidden
-                  ? "Under Hidden on your Bots list. Only your list changes."
-                  : "Take it off your Bots list. Only your list changes."}
+                  ? "Em Ocultos na sua lista de Bots. Só a sua lista muda."
+                  : "Tirá-lo da sua lista de Bots. Só a sua lista muda."}
             </ItemDescription>
           </ItemContent>
           <ItemActions>
             <Switch
-              aria-label="Hidden"
+              aria-label="Ocultos"
               checked={agent.hidden}
               disabled={assigned || setHidden.isPending}
               onCheckedChange={async (hidden) => {
@@ -253,9 +256,10 @@ export function ManageSection({
             <IconCopy />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle>Duplicate</ItemTitle>
+            <ItemTitle>Duplicar</ItemTitle>
             <ItemDescription>
-              Make your own copy. Its conversations and keys aren't copied.
+              
+              Crie sua própria cópia. As conversas e chaves dele não são copiadas.
             </ItemDescription>
           </ItemContent>
         </Item>
@@ -268,10 +272,10 @@ export function ManageSection({
             <IconRefresh />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle>Reset</ItemTitle>
+            <ItemTitle>Redefinir</ItemTitle>
             <ItemDescription>
-              Delete your conversations with it, what it remembers for you, and
-              its scheduled work. You'll see the list first.
+              
+              Exclua suas conversas com ele, o que ele lembra sobre você e as tarefas agendadas dele. Você verá a lista antes.
             </ItemDescription>
           </ItemContent>
           <ItemActions>
@@ -291,9 +295,10 @@ export function ManageSection({
                 <IconTrash />
               </ItemMedia>
               <ItemContent>
-                <ItemTitle>Delete</ItemTitle>
+                <ItemTitle>Excluir</ItemTitle>
                 <ItemDescription>
-                  Deletes it for everyone. You can't undo this.
+                  
+                  Exclui para todos. Não é possível desfazer.
                 </ItemDescription>
               </ItemContent>
               <ItemActions>
@@ -307,9 +312,10 @@ export function ManageSection({
       <Dialog onOpenChange={setDeleteOpen} open={deleteOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete {agent.name}?</DialogTitle>
+            <DialogTitle>Excluir {agent.name}?</DialogTitle>
             <DialogDescription>
-              It's deleted for everyone. You can't undo this.
+              
+              Foi excluído para todos. Não é possível desfazer.
             </DialogDescription>
           </DialogHeader>
           {remove.error ? (
@@ -325,7 +331,8 @@ export function ManageSection({
               size="sm"
               variant="outline"
             >
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               disabled={remove.isPending}
@@ -336,7 +343,7 @@ export function ManageSection({
               size="sm"
               variant="destructive"
             >
-              {remove.isPending ? "Deleting…" : "Delete"}
+              {remove.isPending ? "Excluindo…" : "Excluir"}
             </Button>
           </DialogFooter>
         </DialogContent>

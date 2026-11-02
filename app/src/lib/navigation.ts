@@ -44,14 +44,14 @@ export const NAVIGATION: readonly NavigationItem[] = [
   },
   {
     id: "capabilities",
-    label: "Capabilities",
+    label: "Capacidades",
     to: "/capabilities",
     icon: IconBox,
     section: "primary",
   },
   {
     id: "connections",
-    label: "Connections",
+    label: "Conexões",
     to: "/connections",
     icon: IconPlug,
     section: "primary",
@@ -66,7 +66,7 @@ export const NAVIGATION: readonly NavigationItem[] = [
   },
   {
     id: "settings",
-    label: "Settings",
+    label: "Configurações",
     to: "/settings",
     icon: IconSettings,
     section: "account",

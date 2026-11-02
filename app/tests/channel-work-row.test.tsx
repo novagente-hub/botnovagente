@@ -18,7 +18,7 @@ import { settleReactWork } from "./settle-react-work";
 
 /**
  * The row a conversation shows while it waits on work nobody's browser is running: the Bot's avatar
- * and "Asking Ana…" for a Bot its Bot asked, and the same for a routine. Driven by the server's
+ * and "Perguntando a Ana…" for a Bot its Bot asked, and the same for a routine. Driven by the server's
  * list, so it has to appear from a fetched channel as well as from a socket event, and go when the
  * list empties.
  */
@@ -51,7 +51,7 @@ test("says who was asked, with their avatar and no clock", () => {
   const view = render(<ChannelWorkRows work={[asking()]} />);
 
   const row = view.getByTestId("progress-row");
-  expect(row.textContent).toBe("Asking Ana…");
+  expect(row.textContent).toBe("Perguntando a Ana…");
   expect(row.getAttribute("role")).toBe("status");
   // The avatar is decoration beside a label that already names the Bot, so it is announced once.
   const avatar = row.querySelector("[aria-hidden='true'] [role='img']");
@@ -76,7 +76,7 @@ test("prefers the name and avatar the person knows the Bot by", () => {
     "progress-row",
   ).innerHTML;
 
-  expect(known).toContain("Asking Ana Research…");
+  expect(known).toContain("Perguntando a Ana Research…");
   // Drawn from the Bot's own seed, so it is the same face the Bot has everywhere else.
   expect(known.replace("Ana Research", "Ana")).not.toBe(unknown);
 });
@@ -92,7 +92,7 @@ test("one row for each Bot asked, and one for a routine", () => {
           key: "run-1",
           routineId: "routine-1",
           botId: "assistant",
-          botName: "Assistant",
+          botName: "Assistente",
           since: "2026-10-26T09:59:00.000Z",
         },
       ]}
@@ -102,9 +102,9 @@ test("one row for each Bot asked, and one for a routine", () => {
   expect(
     view.getAllByTestId("progress-row").map((row) => row.textContent),
   ).toEqual([
-    "Asking Ana…",
-    "Asking another Bot…",
-    "Assistant is running a routine…",
+    "Perguntando a Ana…",
+    "Perguntando a outro Bot…",
+    "Assistente está executando uma rotina…",
   ]);
 });
 
@@ -127,7 +127,7 @@ test("comes back from the channel read after a reload", async () => {
       return Response.json({
         channel: {
           id: "channel-1",
-          name: "Assistant",
+          name: "Assistente",
           agentIds: ["assistant"],
           threadId: "thread-1",
           active: true,
@@ -153,7 +153,7 @@ test("comes back from the channel read after a reload", async () => {
   );
 
   await waitFor(() => {
-    expect(view.getByTestId("progress-row").textContent).toBe("Asking Ana…");
+    expect(view.getByTestId("progress-row").textContent).toBe("Perguntando a Ana…");
   });
 
   // The socket then says the answer is being given, and the row goes.
@@ -178,7 +178,7 @@ test("comes back from the channel read after a reload", async () => {
 test("an event with no list leaves the conversation's list alone", () => {
   const channel: AgentChannel = {
     id: "channel-1",
-    name: "Assistant",
+    name: "Assistente",
     agentIds: [],
     threadId: "thread-1",
     active: true,

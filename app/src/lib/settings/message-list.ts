@@ -19,7 +19,7 @@ export function userPreferencesQueryOptions(userId: string | undefined) {
     queryFn: ({ signal }): Promise<UserPreferences> =>
       client("/api/settings/preferences", "preferences", {
         signal,
-        fallback: "Could not load your preferences",
+        fallback: "Não foi possível carregar suas preferências",
       }),
   });
 }
@@ -50,11 +50,11 @@ export function dismissSelfHostBannerMutationOptions(
   const queryKey = userPreferencesQueryOptions(userId).queryKey;
   return mutationOptions({
     mutationFn: (): Promise<UserPreferences> => {
-      if (!userId) throw new Error("Sign in to save your preferences.");
+      if (!userId) throw new Error("Entre para salvar suas preferências.");
       return client("/api/settings/preferences", "preferences", {
         method: "PATCH",
         body: { selfHostBannerDismissed: true },
-        fallback: "Could not save your preferences",
+        fallback: "Não foi possível salvar suas preferências",
       });
     },
     onMutate: () => {
@@ -83,11 +83,11 @@ export function saveUserPreferencesMutationOptions(
     mutationFn: (
       preferences: Partial<UserPreferences>,
     ): Promise<UserPreferences> => {
-      if (!userId) throw new Error("Sign in to save your preferences.");
+      if (!userId) throw new Error("Entre para salvar suas preferências.");
       return client("/api/settings/preferences", "preferences", {
         method: "PATCH",
         body: preferences,
-        fallback: "Could not save your preferences",
+        fallback: "Não foi possível salvar suas preferências",
       });
     },
     onSuccess: (preferences) =>
@@ -121,11 +121,11 @@ export function saveSkinMutationOptions(
   return mutationOptions({
     mutationKey: saveSkinMutationKey,
     mutationFn: (skin: SkinId): Promise<UserPreferences> => {
-      if (!userId) throw new Error("Sign in to save your preferences.");
+      if (!userId) throw new Error("Entre para salvar suas preferências.");
       return client("/api/settings/preferences", "preferences", {
         method: "PATCH",
         body: { skin },
-        fallback: "Could not save your skin",
+        fallback: "Não foi possível salvar seu tema visual",
       });
     },
     onMutate: async (skin) => {

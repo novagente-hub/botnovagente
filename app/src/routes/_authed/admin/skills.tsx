@@ -91,11 +91,12 @@ function RouteComponent() {
       action={
         <Button onClick={() => setWriting(true)} size="lg" type="button">
           <IconPlus />
-          Write a skill
+          
+          Escrever uma habilidade
         </Button>
       }
-      description="Create reusable instructions people can run with /. Skills use a Bot’s existing permissions and do not grant additional access."
-      title="Skills"
+      description="Crie instruções reutilizáveis que as pessoas podem executar com /. As habilidades usam as permissões existentes de um Bot e não concedem acesso extra."
+      title="Habilidades"
     >
       {error ? (
         <p className="text-destructive text-sm" role="alert">
@@ -104,13 +105,14 @@ function RouteComponent() {
       ) : null}
 
       <PageSection
-        description="Manage skills shared across this deployment. People can create personal skills on their Skills page."
-        title="Installed"
+        description="Gerencie as habilidades compartilhadas nesta implantação. As pessoas podem criar habilidades pessoais na página Habilidades."
+        title="Instaladas"
       >
         {/* A read that failed says so; `isPending` goes false on it too, and it is not "none". */}
         {plugins.isPending ? null : !plugins.data ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            Couldn't load skills. Reload the page.
+            
+            Não foi possível carregar as habilidades. Recarregue a página.
           </p>
         ) : skills.length === 0 ? (
           <PageEmpty
@@ -122,11 +124,12 @@ function RouteComponent() {
                 variant="outline"
               >
                 <IconPlus />
-                Write a skill
+                
+                Escrever uma habilidade
               </Button>
             }
             icon={IconFileText}
-            title="No skills yet"
+            title="Nenhuma habilidade ainda"
           />
         ) : (
           <PageRows>
@@ -178,7 +181,8 @@ function RouteComponent() {
                       type="button"
                       variant="ghost"
                     >
-                      Remove
+                      
+                      Remover
                     </Button>
                   </ItemActions>
                 </Item>
@@ -192,11 +196,10 @@ function RouteComponent() {
       <Dialog onOpenChange={setWriting} open={writing}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Write a skill for everybody</DialogTitle>
+            <DialogTitle>Escrever uma habilidade para todos</DialogTitle>
             <DialogDescription>
-              People type the slug after /. The Bot then follows the
-              instructions. Everybody can use it, and you choose which Bots have
-              it.
+              
+              As pessoas digitam o slug depois de /. O Bot então segue as instruções. Todos podem usar, e você escolhe quais Bots a têm.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4">
@@ -216,7 +219,7 @@ function RouteComponent() {
                 />
               </Field>
               <Field>
-                <FieldLabel htmlFor="skill-title">Title</FieldLabel>
+                <FieldLabel htmlFor="skill-title">Título</FieldLabel>
                 <Input
                   id="skill-title"
                   onChange={(event) =>
@@ -225,12 +228,12 @@ function RouteComponent() {
                       title: event.target.value,
                     }))
                   }
-                  placeholder="Title"
+                  placeholder="Título"
                   value={draft.title}
                 />
               </Field>
               <Field>
-                <FieldLabel htmlFor="skill-summary">Summary</FieldLabel>
+                <FieldLabel htmlFor="skill-summary">Resumo</FieldLabel>
                 <Input
                   id="skill-summary"
                   onChange={(event) =>
@@ -239,13 +242,14 @@ function RouteComponent() {
                       summary: event.target.value,
                     }))
                   }
-                  placeholder="One line"
+                  placeholder="Uma linha"
                   value={draft.summary}
                 />
               </Field>
               <Field>
                 <FieldLabel htmlFor="skill-instructions">
-                  Instructions
+                  
+                  Instruções
                 </FieldLabel>
                 <Textarea
                   className="h-28 font-mono text-sm"
@@ -256,7 +260,7 @@ function RouteComponent() {
                       instructions: event.target.value,
                     }))
                   }
-                  placeholder="What the Bot should do when this skill is used."
+                  placeholder="O que o Bot deve fazer quando esta habilidade for usada."
                   value={draft.instructions}
                 />
               </Field>
@@ -264,7 +268,8 @@ function RouteComponent() {
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button onClick={() => setWriting(false)} size="sm" variant="ghost">
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               disabled={!(draft.slug && draft.title && draft.instructions)}
@@ -276,7 +281,8 @@ function RouteComponent() {
               }}
               size="sm"
             >
-              Install skill
+              
+              Instalar habilidade
             </Button>
           </DialogFooter>
         </DialogContent>

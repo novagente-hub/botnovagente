@@ -16,7 +16,7 @@ export const identityKeys = {
   providers: () => [...identityKeys.all, "providers"] as const,
 };
 
-const LOAD_FALLBACK = "Could not load your linked accounts";
+const LOAD_FALLBACK = "Não foi possível carregar suas contas vinculadas";
 
 /** The machine-readable code on the server's own "no identity store here" 503. */
 export const IDENTITY_UNAVAILABLE = "identity_unavailable";
@@ -59,7 +59,7 @@ export function linkedAccountsQueryOptions() {
 /** Which account types this deployment can link a person to. */
 export type IdentityProviders = { slack: boolean; github: boolean };
 
-const PROVIDERS_FALLBACK = "Could not load the account types you can link";
+const PROVIDERS_FALLBACK = "Não foi possível carregar os tipos de conta que você pode vincular";
 
 /** The tagged 503 means no identity store, so nothing is linkable; other failures throw. */
 export async function providersFromResponse(

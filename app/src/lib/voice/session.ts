@@ -118,7 +118,7 @@ export class VoiceSession {
     this.deadline = setTimeout(() => {
       if (current())
         this.fail(
-          "The call took too long to connect. Check microphone permission and try again.",
+          "A chamada demorou demais para conectar. Verifique a permissão do microfone e tente novamente.",
         );
     }, 30_000);
     try {
@@ -175,7 +175,7 @@ export class VoiceSession {
         const seconds = Math.floor((Date.now() - started) / 1000);
         if (seconds >= 15 * 60) {
           this.fail(
-            "This call reached its 15-minute limit. You can start a new call.",
+            "Esta chamada atingiu o limite de 15 minutos. Você pode iniciar uma nova chamada.",
           );
           return;
         }
@@ -186,7 +186,7 @@ export class VoiceSession {
         this.fail(
           error instanceof Error
             ? error.message
-            : "Could not start the voice call.",
+            : "Não foi possível iniciar a chamada de voz.",
         );
     }
   };
@@ -198,7 +198,7 @@ export class VoiceSession {
       this.connection.mute(muted);
       this.update({ muted, listening: muted ? false : this.state.listening });
     } catch {
-      this.fail("The microphone could not be changed. Please call again.");
+      this.fail("Não foi possível trocar o microfone. Ligue novamente.");
     }
   };
 
@@ -211,7 +211,7 @@ export class VoiceSession {
       this.fail(
         error instanceof Error
           ? error.message
-          : "The voice connection was lost.",
+          : "A conexão de voz caiu.",
       );
       return false;
     }
@@ -233,7 +233,7 @@ export class VoiceSession {
     this.transcript.receive(event);
     if (this.transcript.full) {
       this.fail(
-        "This call reached its transcript limit. Start a new call to continue.",
+        "Esta chamada atingiu o limite de transcrição. Inicie uma nova chamada para continuar.",
       );
       return;
     }
@@ -277,7 +277,7 @@ export class VoiceSession {
         const response = object(event.response);
         if (response?.status === "failed") {
           this.fail(
-            "The voice service could not complete its response. Please call again.",
+            "O serviço de voz não conseguiu concluir a resposta. Ligue novamente.",
           );
           return;
         }
@@ -300,7 +300,7 @@ export class VoiceSession {
           return;
         }
         this.fail(
-          "The voice service reported an error. Please end the call and try again.",
+          "O serviço de voz informou um erro. Encerre a chamada e tente novamente.",
         );
         break;
       }

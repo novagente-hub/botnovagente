@@ -154,7 +154,7 @@ test("the Arcade directory renders the coverage warning and the breadth line on 
 
   // Not pending, not a redirect: the screen itself.
   expect(view.queryByText("the plugins index")).toBeNull();
-  expect(view.getByText("Browse Arcade")).toBeTruthy();
+  expect(view.getByText("Explorar Arcade")).toBeTruthy();
 
   await waitFor(() => {
     expect(row.textContent).toContain(
@@ -162,7 +162,7 @@ test("the Arcade directory renders the coverage warning and the breadth line on 
     );
   });
   expect(row.textContent).toContain(
-    "This app uses 1 separate permission across 2 actions. A further 1 requests no permission of its own and becomes callable with any approval here.",
+    "Este app usa 1 permissão separada em 2 ações. Mais 1 não pede permissão própria e passa a poder ser chamada com qualquer aprovação aqui.",
   );
 });
 

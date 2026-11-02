@@ -430,7 +430,7 @@ export function useBrokeredAccount(input: {
        */
       if (start === null) {
         report(
-          "This app connects with a key, not a sign-in page, so nothing was connected. Reload the page and press Connect again.",
+          "Este app se conecta com uma chave, não com uma página de login, então nada foi conectado. Recarregue a página e clique em Conectar de novo.",
         );
         return;
       }
@@ -742,13 +742,13 @@ function accountSentence(input: {
      * Neither screen's own sentence fits: both are about an account, and there is none to have.
      * Capitalised because this is the one position the name opens a sentence in.
      */
-    return `${title.charAt(0).toUpperCase()}${title.slice(1)} doesn't need an account. Bots that have it can use it as it is.`;
+    return `${title.charAt(0).toUpperCase()}${title.slice(1)} não precisa de conta. Os Bots que o têm podem usá-lo como está.`;
   }
 
   if (account.kind === "fields") {
     if (account.connected) {
       if (account.verified && account.verifiedAt) {
-        return `Connected with your key. Last checked ${formatDate(account.verifiedAt)}.`;
+        return `Conectado com sua chave. Última verificação ${formatDate(account.verifiedAt)}.`;
       }
       /*
        * A CHECK WAS SPENT AND DID NOT COME BACK CLEAN, and the account it was spent in is still
@@ -774,7 +774,7 @@ function accountSentence(input: {
        * is worth a second press rather than a second connection.
        */
       if (account.probe && !account.verified) {
-        return `Your key didn't pass a check with ${title}. That may be the key, or ${title} itself. Your account is still connected. Press Re-check to try again, or disconnect and connect with a new key.`;
+        return `Sua chave não passou na verificação com ${title}. Pode ser a chave, ou o próprio ${title}. Sua conta continua conectada. Clique em Verificar de novo para tentar outra vez, ou desconecte e conecte com uma nova chave.`;
       }
       /*
        * NOTHING WAS SPENT ON IT, WHICH IS A FACT ABOUT THE CHECK AND ABOUT THE APP AT THE TIME. The
@@ -795,7 +795,7 @@ function accountSentence(input: {
        * today.
        */
       if (account.probe === null) {
-        return `Connected with your key. It hasn't been checked with ${title}. At the time, ${title} had no safe way to check a key. That's about the app, not your key.`;
+        return `Conectado com sua chave. Ela não foi verificada com ${title}. Na época, ${title} não tinha uma forma segura de verificar uma chave. Isso é sobre o app, não sobre sua chave.`;
       }
       /*
        * AND NOTHING HAS SAID WHICH, which is no longer the page load: the connections read carries
@@ -805,7 +805,7 @@ function accountSentence(input: {
        * two things a record can say; this is what stands where there is no record, and it must not
        * borrow either.
        */
-      return `Connected with your key. It hasn't been checked with ${title}.`;
+      return `Conectado com sua chave. Ela não foi verificada com ${title}.`;
     }
     /*
      * WHAT DISCONNECTING DID NOT DO. The account ends at Composio and the key does not end
@@ -814,7 +814,7 @@ function accountSentence(input: {
      * have live, so the row names the step this deployment cannot take for them.
      */
     if (account.disconnected) {
-      return `Disconnected. Your key still works at ${title}. Change it there to stop all access.`;
+      return `Desconectado. Sua chave ainda funciona em ${title}. Altere-a lá para interromper todo o acesso.`;
     }
     /*
      * NOT THE SCREEN'S OWN SENTENCE, which is written for the kind that leaves: one of the two says
@@ -827,7 +827,7 @@ function accountSentence(input: {
      * way this app is connected, and a row that replaced the whole line took it away with the trip
      * it was right to drop.
      */
-    const asked = `${title.charAt(0).toUpperCase()}${title.slice(1)} connects with a key you already have. Connect asks for it.`;
+    const asked = `${title.charAt(0).toUpperCase()}${title.slice(1)} se conecta com uma chave que você já tem. Conectar pede por ela.`;
     return disconnectedReassurance
       ? `${asked} ${disconnectedReassurance}`
       : asked;
@@ -839,7 +839,7 @@ function accountSentence(input: {
    * mail is an argument, not a branch — see this file's opening comment.
    */
   return account.connected
-    ? `Signed in with ${title}. ${connectedDescription}`
+    ? `Conectado com ${title}. ${connectedDescription}`
     : disconnectedDescription;
 }
 
@@ -932,7 +932,7 @@ export function BrokeredAccountRow({
         <ItemContent>
           {/* Not "Connect your account": the row is also the connected state, and a title has to
               read for both. */}
-          <ItemTitle>{heading ?? "Your account"}</ItemTitle>
+          <ItemTitle>{heading ?? "Sua conta"}</ItemTitle>
           {/* Unclamped where the key is missing: that sentence is the only place the setting is
               named, so it is the point rather than a hint. */}
           <ItemDescription
@@ -972,7 +972,7 @@ export function BrokeredAccountRow({
                * at it twice. A button that cannot work is worse than no button — it invites the
                * second press that files a record of an act that did not happen.
                */
-              <span className="text-muted-foreground text-xs">Key missing</span>
+              <span className="text-muted-foreground text-xs">Chave ausente</span>
             ) : account.connected ? (
               <>
                 {/* Decorative: the word beside it already says which. */}
@@ -981,7 +981,7 @@ export function BrokeredAccountRow({
                   className="size-1.5 rounded-full bg-emerald-500"
                 />
                 {/* The same word for both kinds. The line beneath says what it rests on. */}
-                <span className="text-muted-foreground text-xs">Connected</span>
+                <span className="text-muted-foreground text-xs">Conectado</span>
                 {/*
                  * OFFERED ONLY ON A KEY APP, BECAUSE THAT IS THE ONLY KIND A RE-CHECK IS AN ACT ON.
                  * A consent connection is written verified by the confirm, with no probe behind it,
@@ -1016,7 +1016,7 @@ export function BrokeredAccountRow({
                     type="button"
                     variant="outline"
                   >
-                    {account.rechecking ? "Checking…" : "Re-check"}
+                    {account.rechecking ? "Verificando…" : "Verificar de novo"}
                   </Button>
                 ) : null}
                 <Button
@@ -1026,7 +1026,8 @@ export function BrokeredAccountRow({
                   type="button"
                   variant="outline"
                 >
-                  Disconnect
+                  
+                  Desconectar
                 </Button>
               </>
             ) : account.authorizesPerAction ? (
@@ -1044,7 +1045,8 @@ export function BrokeredAccountRow({
                * state is the branch above, which this one is reached only by failing.
                */
               <span className="text-muted-foreground text-xs">
-                Approved per action
+                
+                Aprovado por ação
               </span>
             ) : (
               /* The arrow says this leaves OpenBot for the vendor's consent page. It does. */
@@ -1067,7 +1069,8 @@ export function BrokeredAccountRow({
                 type="button"
                 variant="outline"
               >
-                Connect
+                
+                Conectar
                 <IconArrowUpRight />
               </Button>
             )}
@@ -1080,7 +1083,7 @@ export function BrokeredAccountRow({
           <DialogHeader>
             {/* The title the row above cannot have: this exists only while the account is not
                 connected, so it is free to name the act rather than the subject. */}
-            <DialogTitle>Connect your account</DialogTitle>
+            <DialogTitle>Conectar sua conta</DialogTitle>
           </DialogHeader>
           <DialogBody className="mt-4">
             {/*
@@ -1119,7 +1122,8 @@ export function BrokeredAccountRow({
               />
             ) : account.requestingFields ? (
               <p className="text-muted-foreground text-sm">
-                Checking what the app needs…
+                
+                Verificando o que o app precisa…
               </p>
             ) : (
               /*
@@ -1131,7 +1135,8 @@ export function BrokeredAccountRow({
                * on a second open and not only on a first.
                */
               <p className="text-muted-foreground text-sm">
-                Couldn't find out what this app needs. Close this and try again.
+                
+                Não foi possível descobrir o que este app precisa. Feche e tente novamente.
               </p>
             )}
             {/*

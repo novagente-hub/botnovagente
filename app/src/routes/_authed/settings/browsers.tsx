@@ -10,8 +10,8 @@ export const Route = createFileRoute("/_authed/settings/browsers")({
 function BrowsersPage() {
   return (
     <PageShell
-      title="Browsers"
-      description="Connect the OpenBot Recorder in this browser to teach your Bots by doing a task yourself. What you record goes into your own Learning space."
+      title="Navegadores"
+      description="Conecte o OpenBot Recorder neste navegador para ensinar seus Bots fazendo uma tarefa você mesmo. O que você grava vai para o seu próprio espaço de Aprendizado."
     >
       <BrowserSections />
     </PageShell>

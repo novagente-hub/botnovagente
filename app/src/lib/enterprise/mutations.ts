@@ -9,7 +9,7 @@ import {
   type NetworkMode,
 } from "./queries";
 
-const FALLBACK = "Could not save that enterprise control";
+const FALLBACK = "Não foi possível salvar esse controle empresarial";
 
 function invalidateEnterprise(queryClient: QueryClient) {
   return queryClient.invalidateQueries({ queryKey: enterpriseKeys.all });
@@ -113,7 +113,7 @@ export function terminateMemberComputersMutationOptions() {
           `/api/admin/enterprise/people/${userId}/terminate-computers`,
           {
             method: "POST",
-            fallback: "Could not stop that person's computers",
+            fallback: "Não foi possível parar os computadores dessa pessoa",
           },
         )
       ).json(),
@@ -126,7 +126,7 @@ export function terminateInactiveComputersMutationOptions() {
       (
         await client("/api/admin/enterprise/computers/terminate-inactive", {
           method: "POST",
-          fallback: "Could not sweep inactive computers",
+          fallback: "Não foi possível limpar os computadores inativos",
         })
       ).json(),
   });

@@ -29,7 +29,7 @@ export const Route = createFileRoute("/_authed/admin/boundaries_/$index")({
 });
 
 const BACK = {
-  label: "Boundaries",
+  label: "Limites",
   linkProps: { to: "/admin/boundaries" as const },
 };
 
@@ -47,7 +47,7 @@ function RulePage() {
 
   if (!policy) {
     return (
-      <PageShell backButton={BACK} title="Rule">
+      <PageShell backButton={BACK} title="Regra">
         {stored.error ? (
           <p className="text-destructive text-sm" role="alert">
             {stored.error.message}
@@ -58,9 +58,10 @@ function RulePage() {
   }
   if (rule === undefined) {
     return (
-      <PageShell backButton={BACK} title="Rule">
+      <PageShell backButton={BACK} title="Regra">
         <p className="text-muted-foreground text-sm">
-          This rule isn't in place anymore. It may have been removed.
+          
+          Esta regra não está mais em vigor. Ela pode ter sido removida.
         </p>
       </PageShell>
     );
@@ -97,14 +98,14 @@ function RuleDetail({ policy, rule }: { policy: ActionPolicy; rule: string }) {
     >
       {policy.mode === "dry-run" ? (
         <p className="text-amber-600 text-sm dark:text-amber-500">
-          Trial mode is on, so this rule records matching actions without
-          stopping them.
+          
+          O modo de teste está ativado, então esta regra registra as ações correspondentes sem impedi-las.
         </p>
       ) : null}
 
       <PageSection
-        description="Written in CEL. It is checked before every action a Bot takes."
-        title="Rule"
+        description="Escrita em CEL. É verificada antes de cada ação de um Bot."
+        title="Regra"
       >
         <PageCard className="mt-4">
           <code className="block whitespace-pre-wrap break-all font-mono text-xs">
@@ -113,22 +114,22 @@ function RuleDetail({ policy, rule }: { policy: ActionPolicy; rule: string }) {
         </PageCard>
       </PageSection>
 
-      <PageSection title="Recently stopped">
+      <PageSection title="Impedidas recentemente">
         {reach.isPending ? null : reach.error ? (
           <p className="mt-4 text-muted-foreground text-sm">
             {reach.error.message}
           </p>
         ) : reach.data.scanned === 0 ? (
           <p className="mt-4 text-muted-foreground text-sm">
-            No recorded actions yet. What this rule stops will show here once
-            Bots have acted.
+            
+            Nenhuma ação registrada ainda. O que esta regra impedir aparecerá aqui depois que os Bots agirem.
           </p>
         ) : (
           <>
             <p className="mt-4 text-muted-foreground text-sm">
               {reach.data.wouldAllow === 0
-                ? `It stopped none of the last ${reach.data.scanned} recorded actions.`
-                : `It stopped ${reach.data.wouldAllow} of the last ${reach.data.scanned} recorded actions.`}
+                ? `Ela não impediu nenhuma das últimas ${reach.data.scanned} ações registradas.`
+                : `Ela impediu ${reach.data.wouldAllow} das últimas ${reach.data.scanned} ações registradas.`}
             </p>
             <DryRunChanges
               changes={reach.data.changes.filter(
@@ -141,24 +142,26 @@ function RuleDetail({ policy, rule }: { policy: ActionPolicy; rule: string }) {
       </PageSection>
 
       <PageSection
-        description="Bots can do this again from their next action."
-        title="Remove"
+        description="Os Bots podem fazer isso de novo a partir da próxima ação."
+        title="Remover"
       >
         <Button
           className="mt-4"
           onClick={() => setRemoving(true)}
           variant="destructive"
         >
-          Remove rule
+          
+          Remover regra
         </Button>
       </PageSection>
 
       <Dialog onOpenChange={setRemoving} open={removing}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Remove “{label.name}”?</DialogTitle>
+            <DialogTitle>Remover “{label.name}”?</DialogTitle>
             <DialogDescription>
-              Every Bot can do this again from its next action.
+              
+              Todos os Bots podem fazer isso de novo a partir da próxima ação.
             </DialogDescription>
           </DialogHeader>
           {savePolicy.error ? (
@@ -172,7 +175,8 @@ function RuleDetail({ policy, rule }: { policy: ActionPolicy; rule: string }) {
               size="sm"
               variant="ghost"
             >
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               disabled={savePolicy.isPending}
@@ -180,7 +184,7 @@ function RuleDetail({ policy, rule }: { policy: ActionPolicy; rule: string }) {
               size="sm"
               variant="destructive"
             >
-              {savePolicy.isPending ? "Removing…" : "Remove"}
+              {savePolicy.isPending ? "Removendo…" : "Remover"}
             </Button>
           </DialogFooter>
         </DialogContent>

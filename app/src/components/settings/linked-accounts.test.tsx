@@ -26,7 +26,7 @@ test("an active link shows its handle", () => {
 test("a link without a handle says it is linked", () => {
   expect(
     linkedAccountDescription({ ...base, handle: null, status: "active" }),
-  ).toBe("Linked");
+  ).toBe("Vinculado");
 });
 
 test("a link needing reconnection says so first", () => {
@@ -46,7 +46,7 @@ test("a reconnect with no handle does not also say linked", () => {
       handle: null,
       status: "needs_reconnect",
     }),
-  ).toBe("Needs reconnecting");
+  ).toBe("Precisa reconectar");
 });
 
 test("providers map to their own icon with a neutral fallback", () => {
@@ -90,7 +90,7 @@ test("any other 503 is an outage and throws its message", async () => {
 test("a 503 with no JSON body throws the fallback", async () => {
   const response = new Response("upstream down", { status: 503 });
   await expect(linksFromResponse(response)).rejects.toThrow(
-    "Could not load your linked accounts",
+    "Não foi possível carregar suas contas vinculadas",
   );
 });
 
@@ -107,10 +107,10 @@ test("a success unwraps the links", async () => {
 test("a 200 whose body has no links array throws the fallback", async () => {
   await expect(
     linksFromResponse(Response.json({ accounts: [] })),
-  ).rejects.toThrow("Could not load your linked accounts");
+  ).rejects.toThrow("Não foi possível carregar suas contas vinculadas");
   await expect(
     linksFromResponse(new Response("<!doctype html>", { status: 200 })),
-  ).rejects.toThrow("Could not load your linked accounts");
+  ).rejects.toThrow("Não foi possível carregar suas contas vinculadas");
 });
 
 const row = { ...base, handle: "dana", status: "active" as const };
@@ -297,7 +297,7 @@ test("an HTML 404 from a proxy or SPA fallback throws the fallback", async () =>
         headers: { "content-type": "text/html" },
       }),
     ),
-  ).rejects.toThrow("The account could not be disconnected");
+  ).rejects.toThrow("Não foi possível desconectar a conta");
 });
 
 test("any other disconnect failure throws the server message", async () => {
@@ -309,7 +309,7 @@ test("any other disconnect failure throws the server message", async () => {
 test("a disconnect failure without a message throws the fallback", async () => {
   await expect(
     unlinkOutcome(new Response("nope", { status: 502 })),
-  ).rejects.toThrow("The account could not be disconnected");
+  ).rejects.toThrow("Não foi possível desconectar a conta");
 });
 
 test("copying succeeds when the clipboard accepts the text", async () => {

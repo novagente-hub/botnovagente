@@ -14,7 +14,7 @@ import type { NarrationProblem } from "@/lib/browser/narration";
 import type { NarrationChoice } from "./narration-choice";
 import type { NarrationControls } from "./use-narration";
 
-const GOES_ON = "Recording still works.";
+const GOES_ON = "A gravação continua funcionando.";
 
 function languageName(language: string): string {
   try {
@@ -31,8 +31,8 @@ function languageName(language: string): string {
  * one, since that is what they can act on. */
 function lostNarrationSentence(error: string | null): string {
   return error
-    ? `Some of what you said didn't reach the Recorder. ${error}`
-    : `Some of what you said didn't reach the Recorder. ${GOES_ON}`;
+    ? `Parte do que você disse não chegou ao Recorder. ${error}`
+    : `Parte do que você disse não chegou ao Recorder. ${GOES_ON}`;
 }
 
 /** Why narration is off, and what the person can do about it, in one or two short sentences. */
@@ -42,41 +42,41 @@ export function narrationProblemSentence(
 ): string {
   switch (problem) {
     case "unsupported":
-      return `Narration isn't available in this browser, so what you say isn't recorded. ${GOES_ON}`;
+      return `A narração não está disponível neste navegador, então o que você diz não é gravado. ${GOES_ON}`;
     case "on-device":
-      return `This browser can't turn speech into text on your computer, and OpenBot sends your voice nowhere else, so narration is off. ${GOES_ON}`;
+      return `Este navegador não consegue transformar fala em texto no seu computador, e o OpenBot não envia sua voz para nenhum outro lugar, então a narração está desativada. ${GOES_ON}`;
     case "speech-pack":
-      return `Your browser has to download its ${languageName(language)} speech recognition to your computer first. Turn narration on to download it. ${GOES_ON}`;
+      return `Seu navegador precisa primeiro baixar o reconhecimento de fala em ${languageName(language)} para o seu computador. Ative a narração para baixá-lo. ${GOES_ON}`;
     case "not-allowed":
-      return `OpenBot can't use your microphone, so narration is off. Allow the microphone for this site, then turn narration on again. ${GOES_ON}`;
+      return `O OpenBot não consegue usar seu microfone, então a narração está desativada. Permita o microfone para este site e ative a narração de novo. ${GOES_ON}`;
     case "no-microphone":
-      return `No microphone was found, or another app is using it. ${GOES_ON}`;
+      return `Nenhum microfone foi encontrado, ou outro app está usando. ${GOES_ON}`;
     case "service":
-      return `This browser's speech recognition is off or unavailable, so narration is off. ${GOES_ON}`;
+      return `O reconhecimento de fala deste navegador está desativado ou indisponível, então a narração está desativada. ${GOES_ON}`;
     case "language":
-      return `This browser can't turn ${languageName(language)} speech into text on your computer, so narration is off. ${GOES_ON}`;
+      return `Este navegador não consegue transformar fala em ${languageName(language)} em texto no seu computador, então a narração está desativada. ${GOES_ON}`;
     case "network":
-      return "Can't reach this browser's speech service. Narration tries again in a moment.";
+      return "Não é possível acessar o serviço de fala deste navegador. A narração tenta de novo em instantes.";
   }
 }
 
 /** What the person is told while their browser downloads the narration's language: narration starts by itself. */
 export function downloadingSentence(language: string): string {
-  return `Your browser is downloading its ${languageName(language)} speech recognition to your computer. Narration starts when it's ready.`;
+  return `Seu navegador está baixando o reconhecimento de fala em ${languageName(language)} para o seu computador. A narração começa quando estiver pronto.`;
 }
 
 /** What the Desktop narration row says, from the Recorder's own report of whether it hears the person. */
 function nativeNarrationSentence(voice: LauncherState["voice"]): string {
   switch (voice) {
     case "listening":
-      return "Listening. Say what you're doing as you go.";
+      return "Ouvindo. Diga o que está fazendo enquanto faz.";
     case "muted":
-      return "Muted in the Recorder, so what you say isn't recorded. Turn it on again from the Recorder's button in your browser's toolbar.";
+      return "Silenciado no Recorder, então o que você diz não é gravado. Ative de novo pelo botão do Recorder na barra de ferramentas do navegador.";
     case "unavailable":
-      return `The Recorder can't hear your microphone, so what you say isn't recorded. The Recorder's button in your browser's toolbar says why. ${GOES_ON}`;
+      return `O Recorder não consegue ouvir seu microfone, então o que você diz não é gravado. O botão do Recorder na barra de ferramentas do navegador diz o motivo. ${GOES_ON}`;
     // Nothing is being recorded yet, or the Recorder has not said.
     default:
-      return "On. The Recorder hears your microphone while you record, so say what you're doing as you go.";
+      return "Ativada. O Recorder ouve seu microfone enquanto você grava, então diga o que está fazendo enquanto faz.";
   }
 }
 
@@ -86,11 +86,11 @@ function narrationChoiceSentence(
 ) {
   switch (narration) {
     case "on":
-      return "On. The Recorder in your browser listens to your microphone while you record, and turns your speech into text on your computer.";
+      return "Ativada. O Recorder no seu navegador ouve seu microfone enquanto você grava e transforma sua fala em texto no seu computador.";
     case "off":
-      return "Off. The Recorder doesn't open your microphone.";
+      return "Desativada. O Recorder não abre seu microfone.";
     case null:
-      return "Not chosen yet. Record asks before your first recording, and the microphone stays closed until you say yes.";
+      return "Ainda não escolhido. Gravar pergunta antes da sua primeira gravação, e o microfone fica fechado até você dizer sim.";
   }
 }
 
@@ -120,7 +120,7 @@ export function NativeNarrationRow({
           {on ? <IconMicrophone /> : <IconMicrophoneOff />}
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>Narration</ItemTitle>
+          <ItemTitle>Narração</ItemTitle>
           {choice.narration !== undefined ? (
             <ItemDescription className="line-clamp-none">
               {narrationChoiceSentence(choice.narration)}
@@ -129,7 +129,7 @@ export function NativeNarrationRow({
         </ItemContent>
         <ItemActions>
           <Switch
-            aria-label="Narration"
+            aria-label="Narração"
             checked={on}
             disabled={!known}
             onCheckedChange={choice.choose}
@@ -145,7 +145,7 @@ export function NativeNarrationRow({
         {hearing ? <IconMicrophone /> : <IconMicrophoneOff />}
       </ItemMedia>
       <ItemContent>
-        <ItemTitle>Narration</ItemTitle>
+        <ItemTitle>Narração</ItemTitle>
         <ItemDescription className="line-clamp-none">
           {voice === "listening" ? (
             <span className="inline-flex items-center gap-1.5">
@@ -200,12 +200,14 @@ export function NarrationSwitch({
             aria-hidden="true"
             className="size-1.5 shrink-0 rounded-full bg-emerald-500 motion-safe:animate-pulse"
           />
-          Listening
+          
+          Ouvindo
         </span>
       ) : null}
       <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
       <label htmlFor={id} id={labelId} className="text-muted-foreground">
-        Narration
+        
+        Narração
       </label>
       {/* Named by the label's id as well: the switch is a span with role="switch", which `htmlFor` cannot name. */}
       <Switch
@@ -295,12 +297,12 @@ export function NarrationRow({
   const sentence =
     notice ??
     (listening
-      ? "Listening. Say what you're doing as you go."
+      ? "Ouvindo. Diga o que está fazendo enquanto faz."
       : narration.on
-        ? "On. OpenBot hears your microphone while you record and turns your speech into text on your computer, so say what you're doing as you go."
+        ? "Ativada. O OpenBot ouve seu microfone enquanto você grava e transforma sua fala em texto no seu computador, então diga o que está fazendo enquanto faz."
         : choice === null
-          ? "Not chosen yet. Record asks before your first recording, and the microphone stays closed until you say yes."
-          : "Off. What you say isn't recorded.");
+          ? "Ainda não escolhido. Gravar pergunta antes da sua primeira gravação, e o microfone fica fechado até você dizer sim."
+          : "Desativada. O que você diz não é gravado.");
   return (
     <Item size="sm">
       <ItemMedia variant="icon">
@@ -311,7 +313,7 @@ export function NarrationRow({
         )}
       </ItemMedia>
       <ItemContent>
-        <ItemTitle id={labelId}>Narration</ItemTitle>
+        <ItemTitle id={labelId}>Narração</ItemTitle>
         <ItemDescription className="line-clamp-none" role="status">
           {listening ? (
             <span className="inline-flex items-center gap-1.5">

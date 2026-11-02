@@ -96,9 +96,9 @@ export function SignInForm({ requestId }: { requestId: string }) {
 
   if (FINAL_SIGN_IN.includes(data.status))
     return (
-      <PageSection title={data.status === "signed_in" ? "Signed in" : "Closed"}>
+      <PageSection title={data.status === "signed_in" ? "Login feito" : "Fechado"}>
         <p className="text-muted-foreground text-sm">
-          {data.outcome ?? "This sign-in has ended."}
+          {data.outcome ?? "Este login terminou."}
         </p>
       </PageSection>
     );
@@ -106,8 +106,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
   if (data.status === "code_required")
     return (
       <PageSection
-        title="Enter the verification code"
-        description="The site sent a verification code. Enter it to finish signing in."
+        title="Insira o código de verificação"
+        description="O site enviou um código de verificação. Insira-o para concluir o login."
       >
         <form
           className="flex flex-col gap-3"
@@ -124,7 +124,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
           }}
         >
           <label className="flex flex-col gap-1 text-sm" htmlFor={`${id}-code`}>
-            Verification code
+            
+            Código de verificação
             <Input
               id={`${id}-code`}
               autoComplete="one-time-code"
@@ -144,7 +145,7 @@ export function SignInForm({ requestId }: { requestId: string }) {
           <div className="flex flex-wrap gap-2">
             <Button size="sm" type="submit" disabled={busy || !code.trim()}>
               <IconShieldCheck />
-              {submitCode.isPending ? "Checking…" : "Finish signing in"}
+              {submitCode.isPending ? "Verificando…" : "Concluir login"}
             </Button>
             <Button
               size="sm"
@@ -154,7 +155,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
               onClick={() => takeOver.mutate(requestId)}
             >
               <IconPointer />
-              Take over to finish
+              
+              Assumir para concluir
             </Button>
             <Button
               size="sm"
@@ -163,7 +165,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
               disabled={busy}
               onClick={() => cancel.mutate(requestId)}
             >
-              Cancel
+              
+              Cancelar
             </Button>
           </div>
         </form>
@@ -173,8 +176,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
   if (data.status === "taken_over")
     return (
       <PageSection
-        title="Sign in by hand"
-        description="Open the Bot's browser and sign in yourself. Then choose I've signed in and the Bot carries on."
+        title="Entrar manualmente"
+        description="Abra o navegador do Bot e entre você mesmo. Depois escolha Já entrei e o Bot continua."
       >
         <div className="flex flex-wrap gap-2">
           <Button
@@ -184,14 +187,15 @@ export function SignInForm({ requestId }: { requestId: string }) {
               <Link to="/bot" search={{ agent: data.botId, watch: true }} />
             }
           >
-            Open the Bot's browser
+            
+            Abrir o navegador do Bot
           </Button>
           <Button
             size="sm"
             disabled={busy}
             onClick={() => finish.mutate(requestId)}
           >
-            {finish.isPending ? "Finishing…" : "I've signed in"}
+            {finish.isPending ? "Concluindo…" : "Já entrei"}
           </Button>
           <Button
             size="sm"
@@ -199,7 +203,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
             disabled={busy}
             onClick={() => cancel.mutate(requestId)}
           >
-            Cancel
+            
+            Cancelar
           </Button>
         </div>
         {failure ? (
@@ -219,8 +224,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
       ) : null}
       {data.savedLogins.length > 0 ? (
         <PageSection
-          title="Use a saved login"
-          description={`Pick one to use it for this sign-in to ${data.origin}.`}
+          title="Usar um login salvo"
+          description={`Escolha um para usar neste login em ${data.origin}.`}
         >
           <PageRows>
             {data.savedLogins.map((login, index) => (
@@ -245,7 +250,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
                         })
                       }
                     >
-                      Confirm and sign in
+                      
+                      Confirmar e entrar
                     </Button>
                   </ItemActions>
                 </Item>
@@ -255,8 +261,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
         </PageSection>
       ) : null}
       <PageSection
-        title="Enter your login"
-        description="This goes straight into the Bot's browser. The Bot only learns whether it worked."
+        title="Insira seu login"
+        description="Isto vai direto para o navegador do Bot. O Bot só fica sabendo se funcionou."
       >
         <form
           className="flex flex-col gap-3"
@@ -284,7 +290,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
             className="flex flex-col gap-1 text-sm"
             htmlFor={`${id}-username`}
           >
-            Username or email
+            
+            Usuário ou e-mail
             <Input
               id={`${id}-username`}
               autoComplete="username"
@@ -297,7 +304,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
             className="flex flex-col gap-1 text-sm"
             htmlFor={`${id}-password`}
           >
-            Password
+            
+            Senha
             <Input
               id={`${id}-password`}
               autoComplete="current-password"
@@ -318,7 +326,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
                 checked={save}
                 onCheckedChange={(checked) => setSave(checked === true)}
               />
-              Save to Passwords
+              
+              Salvar em Senhas
             </label>
           ) : null}
           {failure ? (
@@ -329,7 +338,7 @@ export function SignInForm({ requestId }: { requestId: string }) {
           <div className="flex flex-wrap gap-2">
             <Button size="sm" type="submit" disabled={busy || !password}>
               <IconLock />
-              {submit.isPending ? "Signing in…" : "Sign in"}
+              {submit.isPending ? "Entrando…" : "Entrar"}
             </Button>
             <Button
               size="sm"
@@ -339,7 +348,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
               onClick={() => takeOver.mutate(requestId)}
             >
               <IconPointer />
-              Take over to sign in
+              
+              Assumir para entrar
             </Button>
             <Button
               size="sm"
@@ -348,7 +358,8 @@ export function SignInForm({ requestId }: { requestId: string }) {
               disabled={busy}
               onClick={() => cancel.mutate(requestId)}
             >
-              Decline
+              
+              Recusar
             </Button>
           </div>
         </form>

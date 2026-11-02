@@ -35,7 +35,7 @@ export function ComputerPane({
     bots[0];
   return (
     <aside
-      aria-label="Computer"
+      aria-label="Computador"
       className="flex h-full min-h-0 flex-col bg-(--opendots-pane)"
       data-testid="opendots-computer-pane"
     >
@@ -44,23 +44,24 @@ export function ComputerPane({
           <span className="flex min-w-0 items-center gap-2 rounded-[9px] bg-(--opendots-tab) px-[9px] py-[7px] text-[13px] text-foreground">
             <IconDeviceDesktop className="size-[15px] shrink-0" />
             <span className="truncate">
-              {bot ? `${bot.name}’s computer` : "Computer"}
+              {bot ? `${bot.name}’s computer` : "Computador"}
             </span>
           </span>
         </div>
-        <IconAction label="Close computer" onClick={onClose}>
+        <IconAction label="Fechar computador" onClick={onClose}>
           <IconX className="size-4" />
         </IconAction>
       </div>
       {agents.isPending ? null : !bot ? (
         <p className="px-[18px] py-3.5 text-[13px] text-(--opendots-muted)">
-          Create a Bot to give it a computer.
+          
+          Crie um Bot para dar um computador a ele.
         </p>
       ) : (
         <div className="min-h-0 flex-1 overflow-y-auto">
           {bots.length > 1 ? (
             <div className="flex items-center gap-2 px-[18px] pt-2.5 text-[13px] text-(--opendots-muted)">
-              <span>Computer for</span>
+              <span>Computador de</span>
               <Select
                 onValueChange={(value) => {
                   if (typeof value === "string") setChosen(value);
@@ -68,7 +69,7 @@ export function ComputerPane({
                 value={bot.id}
               >
                 <SelectTrigger
-                  aria-label="Select Bot computer"
+                  aria-label="Selecionar computador do Bot"
                   className="h-7 border-0 bg-transparent px-1.5 text-[13px] text-foreground shadow-none dark:bg-transparent"
                   size="sm"
                 >

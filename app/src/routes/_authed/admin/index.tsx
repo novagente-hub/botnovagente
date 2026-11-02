@@ -53,107 +53,107 @@ const SECTIONS: {
   }[];
 }[] = [
   {
-    title: "What Bots can reach",
-    description: "Control what Bots can access outside OpenBot.",
+    title: "O que os Bots podem acessar",
+    description: "Controle o que os Bots podem acessar fora do OpenBot.",
     items: [
       {
-        title: "Credentials",
-        description: "Manage this deployment’s keys and tokens.",
+        title: "Credenciais",
+        description: "Gerencie as chaves e tokens desta implantação.",
         icon: IconKey,
         linkOptions: { to: "/admin/credentials" },
       },
       {
-        title: "Boundaries",
-        description: "Define actions that no Bot may take.",
+        title: "Limites",
+        description: "Defina ações que nenhum Bot pode fazer.",
         icon: IconShieldCheck,
         linkOptions: { to: "/admin/boundaries" },
       },
       {
-        title: "Approvals",
-        description: "Choose which actions require approval for members’ Bots.",
+        title: "Aprovações",
+        description: "Escolha quais ações exigem aprovação para os Bots dos membros.",
         icon: IconChecks,
         linkOptions: { to: "/admin/approvals" },
       },
       {
-        title: "Computers",
-        description: "Manage the computers that run Bot tools.",
+        title: "Computadores",
+        description: "Gerencie os computadores que executam as ferramentas dos Bots.",
         icon: IconDeviceDesktop,
         linkOptions: { to: "/admin/computers" },
       },
     ],
   },
   {
-    title: "What Bots can do",
+    title: "O que os Bots podem fazer",
     description:
-      "Configure the apps, skills, and UI components available to Bots.",
+      "Configure os apps, habilidades e componentes de interface disponíveis para os Bots.",
     items: [
       {
         title: "Plugins",
-        description: "Connect services and choose which Bots can use them.",
+        description: "Conecte serviços e escolha quais Bots podem usá-los.",
         icon: IconPuzzle,
         linkOptions: { to: "/admin/plugins" },
       },
       {
-        title: "Skills",
-        description: "Create reusable instructions people can run with /.",
+        title: "Habilidades",
+        description: "Crie instruções reutilizáveis que as pessoas podem executar com /.",
         icon: IconFileText,
         linkOptions: { to: "/admin/skills" },
       },
       {
-        title: "Automatic learning",
+        title: "Aprendizado automático",
         description:
-          "Learn from finished conversations and review the skills it proposes.",
+          "Aprenda com conversas finalizadas e revise as habilidades propostas.",
         icon: IconFileText,
         linkOptions: { to: "/admin/learning" },
       },
       {
-        title: "UI components",
+        title: "Componentes de interface",
         description:
-          "Manage custom components that Bots can display in conversations.",
+          "Gerencie componentes personalizados que os Bots podem exibir nas conversas.",
         icon: IconLayoutGrid,
         linkOptions: { to: "/admin/components" },
       },
       {
         title: "Playground",
-        description: "Write a component and watch it render as you type.",
+        description: "Escreva um componente e veja-o renderizar enquanto digita.",
         icon: IconCode,
         linkOptions: { to: "/admin/playground" },
       },
     ],
   },
   {
-    title: "Who can get in",
+    title: "Quem pode entrar",
     description: "",
     items: [
       {
-        title: "People",
-        description: "Review members, manage admin roles, and remove access.",
+        title: "Pessoas",
+        description: "Revise membros, gerencie funções de administrador e remova acessos.",
         icon: IconUsers,
         linkOptions: { to: "/admin/people" },
       },
       {
-        title: "Enterprise controls",
+        title: "Controles empresariais",
         description:
-          "Configure roles, groups, SSO, SCIM, Skill sharing, network policies, allowlists, and Action Recording.",
+          "Configure funções, grupos, SSO, SCIM, compartilhamento de Habilidades, políticas de rede, listas de permissões e Gravação de ações.",
         icon: IconShieldCheck,
         linkOptions: { to: "/admin/enterprise" },
       },
       {
-        title: "Identity providers",
+        title: "Provedores de identidade",
         description:
-          "Configure your company’s sign-in provider for each email domain.",
+          "Configure o provedor de login da sua empresa para cada domínio de e-mail.",
         icon: IconBuildingBank,
         linkOptions: { to: "/admin/identity-providers" },
       },
     ],
   },
   {
-    title: "What happened",
+    title: "O que aconteceu",
     description: "",
     items: [
       {
-        title: "Audit",
-        description: "Review actions taken in OpenBot and who took them.",
+        title: "Auditoria",
+        description: "Revise as ações feitas no OpenBot e quem as fez.",
         icon: IconListDetails,
         linkOptions: { to: "/admin/audit" },
       },
@@ -164,7 +164,7 @@ const SECTIONS: {
 function RouteComponent() {
   return (
     <PageShell
-      description="Manage settings that apply to everyone and every Bot in this deployment."
+      description="Gerencie configurações que valem para todos e para todos os Bots desta implantação."
       title="Admin"
     >
       {SECTIONS.map((section) => (

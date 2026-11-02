@@ -94,7 +94,7 @@ export function HandoffResumeNotice({
       await resumeHandoffTask(botId, pending, agent, run, abort.signal);
     } catch (error) {
       setProblem(
-        error instanceof Error ? error.message : "Couldn't resume the task.",
+        error instanceof Error ? error.message : "Não foi possível retomar a tarefa.",
       );
     } finally {
       setBusy(false);
@@ -110,8 +110,8 @@ export function HandoffResumeNotice({
       <span>
         {problem ??
           (busy
-            ? "Waiting for this browser handoff to finish."
-            : "A browser task is paused in this conversation.")}
+            ? "Aguardando este repasse do navegador terminar."
+            : "Uma tarefa do navegador está pausada nesta conversa.")}
       </span>
       {busy ? (
         <button
@@ -119,7 +119,8 @@ export function HandoffResumeNotice({
           className="underline"
           onClick={() => controller.current?.abort()}
         >
-          Stop waiting
+          
+          Parar de esperar
         </button>
       ) : (
         <button
@@ -128,7 +129,8 @@ export function HandoffResumeNotice({
           disabled={!pending || agent.isRunning}
           onClick={() => void resume()}
         >
-          Resume task
+          
+          Retomar tarefa
         </button>
       )}
     </div>

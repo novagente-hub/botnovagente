@@ -47,7 +47,7 @@ export const NOT_AVAILABLE = (title: string) =>
   `${title} is not available to this Bot at the moment. An administrator grants components per Bot, and can unpublish one for every Bot at once.`;
 
 export const COULDNT_CHECK = (title: string) =>
-  `Couldn't check whether this Bot may show ${title}. Try again in a moment.`;
+  `Não foi possível verificar se este Bot pode mostrar ${title}. Tente de novo em instantes.`;
 
 export type CardState = "draw" | "wait-for-grant" | { refused: string };
 

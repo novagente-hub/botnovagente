@@ -123,7 +123,7 @@ test("a tool step is named in words and counted as tools", () => {
     .map((n) => call(n, "run_command", { command: "echo 5" }, '"5"'))
     .map(stepDetails);
   expect(steps[0]).toMatchObject({ kind: "tool", label: "Run command" });
-  expect(summarise(steps)).toBe("Used 5 tools");
+  expect(summarise(steps)).toBe("Usou 5 ferramentas");
   expect(
     summarise(
       [
@@ -132,7 +132,7 @@ test("a tool step is named in words and counted as tools", () => {
         call("u", "read_file", {}, '"x"'),
       ].map(stepDetails),
     ),
-  ).toBe("Searched the web and used 2 tools");
+  ).toBe("Pesquisou na web e usou 2 ferramentas");
 });
 
 test("the tools CopilotKit has a renderer for are the ones the app draws", () => {
@@ -222,7 +222,7 @@ test("the app-access card stays out of a group, even before its answer arrives",
 
 test("show_app_access is named in words in a step's details too, and keeps its words to the model out", () => {
   const running = stepDetails(call("card", "show_app_access", { app: "x" }));
-  expect(running.label).toBe("Checking app access");
+  expect(running.label).toBe("Verificando acesso ao app");
   const done = stepDetails(
     call(
       "card",
@@ -233,7 +233,7 @@ test("show_app_access is named in words in a step's details too, and keeps its w
       ),
     ),
   );
-  expect(done.label).toBe("Checked app access");
+  expect(done.label).toBe("Acesso ao app verificado");
   expect(done.output).toBeUndefined();
 });
 
@@ -242,10 +242,10 @@ test("the summary says what was done, never which provider searched", () => {
     search(),
     fetch(["https://imf.org/a", "https://worldbank.org/b"]),
   ].map(stepDetails);
-  expect(summarise(steps)).toBe("Searched the web and read 2 pages");
+  expect(summarise(steps)).toBe("Pesquisou na web e leu 2 páginas");
   expect(JSON.stringify(steps.map((step) => step.label))).not.toContain("exa");
   expect(steps[0]?.detail).toBe("top 5 GDP 2025");
-  expect(steps[1]?.detail).toBe("imf.org and 1 more");
+  expect(steps[1]?.detail).toBe("imf.org e mais 1");
   expect(
     summarise(
       [
@@ -254,14 +254,14 @@ test("the summary says what was done, never which provider searched", () => {
         call("n", "mcp__notion__search", {}, '"x"'),
       ].map(stepDetails),
     ),
-  ).toBe("Used 2 connectors");
+  ).toBe("Usou 2 conectores");
   expect(
     summarise(
       [call("d", "mcp__google-drive__search_files", {}, '"x"')].map(
         stepDetails,
       ),
     ),
-  ).toBe("Used Google Drive");
+  ).toBe("Usou Google Drive");
 });
 
 test("a brokered app is summarised as the app, never with its broker's name", () => {
@@ -269,7 +269,7 @@ test("a brokered app is summarised as the app, never with its broker's name", ()
     call("l", "mcp__composio-airtable__AIRTABLE_LIST_BASES", {}, '"x"'),
     call("s", "mcp__composio-airtable__AIRTABLE_GET_BASE_SCHEMA", {}, '"x"'),
   ].map(stepDetails);
-  expect(summarise(steps)).toBe("Used Airtable");
+  expect(summarise(steps)).toBe("Usou Airtable");
   expect(steps.map((step) => step.label)).toEqual([
     "List bases",
     "Get base schema",
@@ -278,7 +278,7 @@ test("a brokered app is summarised as the app, never with its broker's name", ()
     summarise(
       [call("a", "mcp__arcade-Gmail__ListEmails", {}, '"x"')].map(stepDetails),
     ),
-  ).toBe("Used Gmail");
+  ).toBe("Usou Gmail");
 });
 
 test("a refusal and a failure each count as an issue on the folded line", () => {
@@ -295,9 +295,9 @@ test("a refusal and a failure each count as an issue on the folded line", () => 
       <ToolActivity group={group} active={false} />
     </QueryClientProvider>,
   );
-  expect(view.getByText("2 issues")).toBeDefined();
-  expect(view.getByText("Blocked")).toBeDefined();
-  expect(view.getByText("Didn't work")).toBeDefined();
+  expect(view.getByText("2 problemas")).toBeDefined();
+  expect(view.getByText("Bloqueado")).toBeDefined();
+  expect(view.getByText("Não funcionou")).toBeDefined();
 });
 
 test("while running, the line names the step in progress; opened, a step shows its inputs", () => {
@@ -332,7 +332,7 @@ test("an app's card is drawn once a turn, even when the Bot also asks to show it
     call("list", "mcp__composio-airtable__AIRTABLE_LIST_BASES", {}, refusal),
     call("show", "show_app_access", { app: "airtable" }, shown),
     text("a1"),
-    { kind: "text", id: "q2", role: "user", text: "Try again" },
+    { kind: "text", id: "q2", role: "user", text: "Tentar novamente" },
     call("show2", "show_app_access", { app: "airtable" }, shown),
   ];
   // The refused call keeps its card; the second card for the same app in that turn is dropped, and

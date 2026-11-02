@@ -37,7 +37,7 @@ export function componentListQueryOptions() {
     queryFn: async (): Promise<ComponentRecord[]> => {
       return (
         (await client("/api/components", "components", {
-          fallback: "The components could not be loaded.",
+          fallback: "Não foi possível carregar os componentes.",
         })) ?? []
       );
     },
@@ -63,7 +63,7 @@ export function agentComponentsQueryOptions(agentId: string | undefined) {
         (await client(
           `/api/components/for-agent/${encodeURIComponent(agentId ?? "")}`,
           "components",
-          { fallback: "This Bot's components could not be loaded." },
+          { fallback: "Não foi possível carregar os componentes deste Bot." },
         )) ?? []
       );
     },
@@ -104,7 +104,7 @@ export function dataFunctionsQueryOptions() {
     queryFn: async (): Promise<DataFunctionSummary[]> => {
       return (
         (await client("/api/components/functions", "functions", {
-          fallback: "The data functions could not be loaded.",
+          fallback: "Não foi possível carregar as funções de dados.",
         })) ?? []
       );
     },
@@ -139,12 +139,12 @@ export async function callComponentFunction(
     }
     return {
       allowed: false,
-      reason: "This deployment could not be asked for that data.",
+      reason: "Não foi possível pedir esses dados a esta implantação.",
     };
   } catch {
     return {
       allowed: false,
-      reason: "This deployment could not be reached to read that data.",
+      reason: "Não foi possível acessar esta implantação para ler esses dados.",
     };
   }
 }
@@ -169,7 +169,7 @@ export async function decideComponent(
       return {
         allowed: false,
         reason:
-          "This deployment could not be asked whether that component is allowed, so it was not shown.",
+          "Não foi possível perguntar a esta implantação se esse componente é permitido, então ele não foi exibido.",
       };
     }
     return await response.json();
@@ -177,7 +177,7 @@ export async function decideComponent(
     return {
       allowed: false,
       reason:
-        "This deployment could not be reached to check whether that component is allowed, so it was not shown.",
+        "Não foi possível acessar esta implantação para verificar se esse componente é permitido, então ele não foi exibido.",
     };
   }
 }

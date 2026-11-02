@@ -48,7 +48,7 @@ export async function signInWith(
     // sign-in" leaves somebody looking at three of them with no idea which one refused.
     throw new Error(
       result.error.message ||
-        `Could not start ${providerName(provider)} sign-in.`,
+        `Não foi possível iniciar o login com ${providerName(provider)}.`,
     );
   }
 }
@@ -80,7 +80,7 @@ export async function signInWithEmailDomain(
   if (result.error) {
     throw new Error(
       result.error.message ||
-        "No identity provider is registered for that address.",
+        "Nenhum provedor de identidade está registrado para esse endereço.",
     );
   }
 }

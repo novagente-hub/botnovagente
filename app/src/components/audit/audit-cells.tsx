@@ -55,7 +55,7 @@ export function subjectText(event: AuditEvent): string {
   if (event.eventType === "mcp.tools_discovered")
     return typeof payload.offered === "number" &&
       typeof payload.granted === "number"
-      ? `${payload.offered} of ${payload.granted} tools`
+      ? `${payload.offered} de ${payload.granted} ferramentas`
       : "";
   if (NAMED_TARGETS.has(event.targetType) && event.targetId)
     return typeof payload.function === "string"
@@ -97,19 +97,19 @@ export function botText(event: AuditEvent, nameFor: NameFor): string {
 export function startedByText(event: AuditEvent, nameFor: NameFor): string {
   switch (event.initiatorKind) {
     case "routine":
-      return "A routine";
+      return "Uma rotina";
     case "handoff":
       return event.initiatorId
-        ? `Handed on by ${nameFor(event.initiatorId)}`
-        : "Handed on";
+        ? `Repassado por ${nameFor(event.initiatorId)}`
+        : "Repassado";
     case "memory":
-      return "A memory source";
+      return "Uma fonte de memória";
     case "responsibility":
-      return "A responsibility";
+      return "Uma responsabilidade";
     case "deployment":
-      return "This deployment";
+      return "Esta implantação";
     default:
-      return "A person";
+      return "Uma pessoa";
   }
 }
 
@@ -127,19 +127,19 @@ export function decisionText(event: AuditEvent): string {
   const routed =
     event.eventType === "channel.routed"
       ? payload.viaMention === true
-        ? "The person chose this Bot"
+        ? "A pessoa escolheu este Bot"
         : payload.fallback === true
-          ? "Sent to the default Bot"
-          : "Sent to the Bot it was meant for"
+          ? "Enviado ao Bot padrão"
+          : "Enviado ao Bot a que se destinava"
       : null;
   return (
     routed ??
     DECISIONS[event.eventType] ??
     (outcome === "refused"
-      ? "Blocked"
+      ? "Bloqueado"
       : outcome === "did-not-happen"
-        ? "Did not happen"
-        : "Allowed")
+        ? "Não aconteceu"
+        : "Permitido")
   );
 }
 
@@ -194,7 +194,7 @@ export function decisionDetails(event: AuditEvent): string[] {
   )
     lines.push(payload.reason);
   if (event.eventType === "bot.declined" && typeof payload.reason === "string")
-    lines.push(`${payload.reason}, reported by the Bot itself`);
+    lines.push(`${payload.reason}, informado pelo próprio Bot`);
   if (failed && typeof payload.failure === "string")
     lines.push(payload.failure);
   /*
@@ -212,7 +212,7 @@ export function decisionDetails(event: AuditEvent): string[] {
     decision.allowed === false &&
     decision.carriedOut
   )
-    lines.push("dry-run: recorded, not enforced");
+    lines.push("simulação: registrado, não aplicado");
   return lines;
 }
 
@@ -368,11 +368,11 @@ export const OUTCOME_ROW: Record<AuditOutcome, string> = {
  * and one whose selector could not be reached, and only the last is a fault.
  */
 const DISCOVERY_REASONS: Record<string, string> = {
-  "under-floor": "Few enough tools to offer them all",
-  "nothing-declared": "No skill declares any of these tools",
-  unavailable: "Couldn't choose, so all were offered",
-  "nothing-chosen": "No skill applied, so all were offered",
-  selected: "Chosen by skill",
+  "under-floor": "Poucas ferramentas, então todas foram oferecidas",
+  "nothing-declared": "Nenhuma habilidade declara estas ferramentas",
+  unavailable: "Não foi possível escolher, então todas foram oferecidas",
+  "nothing-chosen": "Nenhuma habilidade se aplicou, então todas foram oferecidas",
+  selected: "Escolhidas pela habilidade",
 };
 
 /** Target types whose id is a name worth putting on screen; anything else falls through. */
@@ -385,46 +385,46 @@ const NAMED_TARGETS = new Set([
 ]);
 
 const DECISIONS: Record<string, string> = {
-  "bot.declined": "The Bot declined",
+  "bot.declined": "O Bot recusou",
   // Not a refusal, so not the refusal colour: nothing was blocked. The Bot was asked and never
   // answered, which is the same complaint as an action that was allowed and then did not happen.
-  "agent.stream_stalled": "The Bot stopped responding",
-  "computer.policy_loaded": "Boundary at start-up",
-  "computer.isolation_loaded": "Isolation at start-up",
-  "computer.control_taken": "A person took control",
-  "computer.control_released": "Control went back to the Bot",
-  "computer.help_requested": "The Bot asked for help",
-  "computer.secret_requested": "The Bot asked for a secret",
-  "computer.secret_supplied": "A person supplied a secret",
-  "computer.reset": "The computer was reset",
-  "computer.browser_cleared": "A person cleared the browser",
-  "computer.updated": "The computer was updated",
-  "computer.stopped": "A person pressed stop",
+  "agent.stream_stalled": "O Bot parou de responder",
+  "computer.policy_loaded": "Limite na inicialização",
+  "computer.isolation_loaded": "Isolamento na inicialização",
+  "computer.control_taken": "Uma pessoa assumiu o controle",
+  "computer.control_released": "O controle voltou para o Bot",
+  "computer.help_requested": "O Bot pediu ajuda",
+  "computer.secret_requested": "O Bot pediu um segredo",
+  "computer.secret_supplied": "Uma pessoa forneceu um segredo",
+  "computer.reset": "O computador foi redefinido",
+  "computer.browser_cleared": "Uma pessoa limpou o navegador",
+  "computer.updated": "O computador foi atualizado",
+  "computer.stopped": "Uma pessoa clicou em parar",
 
-  "component.granted": "Granted to this Bot",
-  "component.revoked": "Taken away from this Bot",
-  "component.published": "Published. Every Bot can use it",
-  "component.unpublished": "Unpublished. No Bot can use it",
-  "component.draft_saved": "Draft saved, not yet published",
-  "component.refused": "Refused",
-  "component.function_granted": "Can read this",
-  "component.function_revoked": "Can no longer read this",
-  "component.function_called": "Read real data",
-  "component.function_refused": "Refused",
+  "component.granted": "Concedido a este Bot",
+  "component.revoked": "Retirado deste Bot",
+  "component.published": "Publicado. Todos os Bots podem usá-lo",
+  "component.unpublished": "Despublicado. Nenhum Bot pode usá-lo",
+  "component.draft_saved": "Rascunho salvo, ainda não publicado",
+  "component.refused": "Recusado",
+  "component.function_granted": "Pode ler isto",
+  "component.function_revoked": "Não pode mais ler isto",
+  "component.function_called": "Leu dados reais",
+  "component.function_refused": "Recusado",
   // A function failure is execution failure, not a policy refusal.
-  "component.function_failed": "Couldn't read it",
+  "component.function_failed": "Não conseguiu ler",
 
   // Not a call and not a decision: the tools this run was allowed to see. Worded so nobody reads it
   // as permission, which it is not — everything named was already granted.
-  "mcp.tools_discovered": "Tools offered for one run",
-  "mcp.call_succeeded": "Called on this Bot's behalf",
-  "mcp.call_rejected": "Blocked",
-  "mcp.call_failed": "The server didn't answer",
+  "mcp.tools_discovered": "Ferramentas oferecidas para uma execução",
+  "mcp.call_succeeded": "Chamado em nome deste Bot",
+  "mcp.call_rejected": "Bloqueado",
+  "mcp.call_failed": "O servidor não respondeu",
   // Not "Blocked": nothing about the Bot was judged, because nothing proved which Bot it was.
-  "mcp.callback_refused": "Couldn't confirm which Bot it was",
+  "mcp.callback_refused": "Não foi possível confirmar qual Bot era",
 
-  "configuration.changed": "Configuration changed",
-  "credential.created": "Credential saved",
+  "configuration.changed": "Configuração alterada",
+  "credential.created": "Credencial salva",
 };
 
 function hostOf(url: string): string {

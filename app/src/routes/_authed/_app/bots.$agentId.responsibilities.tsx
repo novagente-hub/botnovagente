@@ -13,8 +13,8 @@ function ResponsibilitiesPage() {
   return (
     <BotSubpage
       agentId={agentId}
-      description="Review this Bot’s ongoing goals, what triggered each run, and its results."
-      title="Responsibilities"
+      description="Revise os objetivos contínuos deste Bot, o que disparou cada execução e os resultados."
+      title="Responsabilidades"
     >
       {(agent) => <BotResponsibilities agentId={agent.id} />}
     </BotSubpage>

@@ -15,10 +15,10 @@ export function countLabel(
 
 export function accessSummary(skills: number, apps: number): string {
   const parts = [
-    skills ? countLabel(skills, "skill", "skills", "") : "",
+    skills ? countLabel(skills, "habilidade", "habilidades", "") : "",
     apps ? countLabel(apps, "app", "apps", "") : "",
   ].filter(Boolean);
-  return parts.length ? parts.join(", ") : "Nothing granted";
+  return parts.length ? parts.join(", ") : "Nada concedido";
 }
 
 /**
@@ -30,18 +30,18 @@ export function sharingSummary(
   visibility: "public" | "private",
 ): string {
   if (!published) {
-    return visibility === "public" ? "Everyone (public)" : "Not shared";
+    return visibility === "public" ? "Todos (público)" : "Não compartilhado";
   }
   return published.audience === "team"
-    ? "Whole team"
-    : "Specific people and groups";
+    ? "Equipe toda"
+    : "Pessoas e grupos específicos";
 }
 
 export function setupSummary(agent: {
   builtIn: boolean;
   endpoint: string | null;
 }): string {
-  if (agent.builtIn || !agent.endpoint) return "Built in";
+  if (agent.builtIn || !agent.endpoint) return "Integrado";
   try {
     return new URL(agent.endpoint).host;
   } catch {
@@ -60,18 +60,18 @@ export function reachSummary(transports: readonly string[]): string {
   const places = [...new Set(transports)]
     .map((transport) => TRANSPORT_LABEL[transport] ?? transport)
     .sort((a, b) => a.localeCompare(b));
-  return places.length ? places.join(", ") : "Only in OpenBot";
+  return places.length ? places.join(", ") : "Só no OpenBot";
 }
 
 /** The apps feeding this Bot facts, and whether it researches in the background. */
 export function memorySummary(sources: number, research: boolean): string {
   const parts = [
-    sources ? countLabel(sources, "source", "sources", "") : "",
+    sources ? countLabel(sources, "fonte", "fontes", "") : "",
     research
       ? sources
-        ? "background research on"
-        : "Background research on"
+        ? "pesquisa em segundo plano ativada"
+        : "Pesquisa em segundo plano ativada"
       : "",
   ].filter(Boolean);
-  return parts.length ? parts.join(", ") : "Nothing connected";
+  return parts.length ? parts.join(", ") : "Nada conectado";
 }

@@ -7,7 +7,7 @@ async function signOut() {
   await client("/api/auth/sign-out", {
     method: "POST",
     // What a refused sign-out means whoever answers it (Better Auth puts its sentence where `client` does not read).
-    fallback: "Signing out did not finish. Try again.",
+    fallback: "A saída não foi concluída. Tente novamente.",
   });
 }
 

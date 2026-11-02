@@ -35,7 +35,7 @@ test("a bar keeps its node while its label streams", () => {
   const view = render(<BarChartCard points={[{ label: "Re", value: 3 }]} />);
   const before = bars(view.container)[0];
 
-  view.rerender(<BarChartCard points={[{ label: "Revenue", value: 3 }]} />);
+  view.rerender(<BarChartCard points={[{ label: "Receita", value: 3 }]} />);
 
   expect(bars(view.container)[0]).toBe(before);
 });
@@ -76,22 +76,22 @@ test("a metric keeps its node while its label streams", () => {
   const view = render(<MetricsCard metrics={[{ label: "Re", value: "3" }]} />);
   const before = view.getByText("3");
 
-  view.rerender(<MetricsCard metrics={[{ label: "Revenue", value: "3" }]} />);
+  view.rerender(<MetricsCard metrics={[{ label: "Receita", value: "3" }]} />);
 
   expect(view.getByText("3")).toBe(before);
 });
 
 test("a table cell keeps its node while its column name streams", () => {
   const view = render(
-    <DataTable columns={["Re"]} rows={[{ cells: ["north"] }]} title="Sales" />,
+    <DataTable columns={["Re"]} rows={[{ cells: ["north"] }]} title="Vendas" />,
   );
   const before = view.getByText("north").closest("td");
 
   view.rerender(
     <DataTable
-      columns={["Revenue"]}
+      columns={["Receita"]}
       rows={[{ cells: ["north"] }]}
-      title="Sales"
+      title="Vendas"
     />,
   );
 
@@ -102,14 +102,14 @@ test("a table draws its complete rows while the last one is still arriving", () 
   const view = render(
     <GalleryStreamingContext.Provider value>
       <DataTable
-        columns={["Quarter", "Revenue"]}
+        columns={["Quarter", "Receita"]}
         rows={[{ cells: ["Q1", 8] }, { cells: ["Q2"] }]}
-        title="Sales"
+        title="Vendas"
       />
     </GalleryStreamingContext.Provider>,
   );
 
-  expect(view.queryByText(/Waiting for complete table data/)).toBeNull();
+  expect(view.queryByText(/Aguardando os dados completos da tabela/)).toBeNull();
   expect(view.getByText("Q1")).toBeTruthy();
   expect(view.container.querySelectorAll("tbody tr").length).toBe(2);
 });
@@ -117,11 +117,11 @@ test("a table draws its complete rows while the last one is still arriving", () 
 test("a complete table with a short last row is still refused", () => {
   const view = render(
     <DataTable
-      columns={["Quarter", "Revenue"]}
+      columns={["Quarter", "Receita"]}
       rows={[{ cells: ["Q1", 8] }, { cells: ["Q2"] }]}
-      title="Sales"
+      title="Vendas"
     />,
   );
 
-  expect(view.getByText(/Waiting for complete table data/)).toBeTruthy();
+  expect(view.getByText(/Aguardando os dados completos da tabela/)).toBeTruthy();
 });

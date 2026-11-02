@@ -210,7 +210,7 @@ async function computer(path: string, request: Request): Promise<Response> {
       ok: true,
       snapshotId: 7,
       url: "https://forms.example/order",
-      title: "Order",
+      title: "Pedido",
       elements: [{ ref: "e1", role: "button", name: "Submit order" }],
     });
   if (route === "/screenshot")
@@ -340,10 +340,10 @@ function app(inConversation: boolean) {
 async function askForHelp(view: ReturnType<typeof render>) {
   const user = userEvent.setup({ document: view.container.ownerDocument });
   await user.type(
-    await view.findByRole("textbox", { name: "Message" }),
+    await view.findByRole("textbox", { name: "Mensagem" }),
     "Fill in my phone number on the order form",
   );
-  await user.click(view.getByRole("button", { name: "Send message" }));
+  await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   await waitFor(() => expect(control.request?.status).toBe("waiting"), {
     timeout: 5000,
   });
@@ -366,11 +366,11 @@ test("a help request is drawn in the conversation, and after the hand-back the B
   const user = await askForHelp(view);
   // While it is open: the Bot's screen, saying what it needs, with the wheel.
   expect(await view.findByText(ASKED, { exact: false })).toBeTruthy();
-  await user.click(await view.findByRole("button", { name: "Take control" }));
+  await user.click(await view.findByRole("button", { name: "Assumir controle" }));
   await waitFor(() => expect(control.holder).toBe("human"));
   await user.keyboard("{Escape}");
   await user.click(
-    await view.findByRole("button", { name: "Hand back" }, { timeout: 3000 }),
+    await view.findByRole("button", { name: "Devolver controle" }, { timeout: 3000 }),
   );
 
   // The Bot's next run carries what happened and asks for the next step said out loud.
@@ -386,9 +386,9 @@ test("a help request is drawn in the conversation, and after the hand-back the B
   expect(await view.findByText(REPLY)).toBeTruthy();
   const card = view.container.querySelector('[data-help-request="call-help"]');
   expect(card?.textContent).toBe(
-    `Taken over and handed backThe Bot asked: “${ASKED}”`,
+    `Assumido e devolvidoO Bot perguntou: “${ASKED}”`,
   );
-  expect(view.queryByRole("button", { name: "Carry on" })).toBeNull();
+  expect(view.queryByRole("button", { name: "Continuar" })).toBeNull();
 });
 
 test("a Bot that answers the hand-back with no words leaves a step that says so, and Carry on asks it to go on", async () => {
@@ -411,14 +411,14 @@ test("a Bot that answers the hand-back with no words leaves a step that says so,
       view.container.querySelector('[data-help-request="call-help"]')
         ?.textContent,
     ).toBe(
-      `Taken over and handed backThe Bot asked: “${ASKED}” The Bot stopped here without saying what it does next.Carry on`,
+      `Assumido e devolvidoO Bot perguntou: “${ASKED}” O Bot parou aqui sem dizer o que faz a seguir.Continuar`,
     ),
   );
-  await user.click(view.getByRole("button", { name: "Carry on" }));
+  await user.click(view.getByRole("button", { name: "Continuar" }));
   await waitFor(() => expect(runs).toHaveLength(3));
   expect(runs[2]?.messages.at(-1)).toMatchObject({
     role: "user",
-    content: "Please carry on.",
+    content: "Pode continuar.",
   });
 });
 
@@ -447,18 +447,18 @@ test("leaving the conversation while holding control: back in it, the hand-back'
     release = resolve;
   });
   await user.click(
-    await view.findByRole("button", { name: "Hand back" }, { timeout: 5000 }),
+    await view.findByRole("button", { name: "Devolver controle" }, { timeout: 5000 }),
   );
   // The waiting call has its answer and the Bot is working on it: nothing here is paused, and the step says so.
   await waitFor(() => expect(runs).toHaveLength(2), { timeout: 5000 });
   await new Promise((resolve) => setTimeout(resolve, 1500));
   expect(view.queryByText(/A browser task is paused/)).toBeNull();
-  expect(view.queryByRole("button", { name: "Resume task" })).toBeNull();
+  expect(view.queryByRole("button", { name: "Retomar tarefa" })).toBeNull();
   expect(
     view.container.querySelector('[data-help-request="call-help"]')
       ?.textContent,
   ).toBe(
-    `Taken over and handed backThe Bot asked: “${ASKED}” The Bot is carrying on.`,
+    `Assumido e devolvidoO Bot perguntou: “${ASKED}” O Bot está continuando.`,
   );
   release();
 
@@ -468,6 +468,6 @@ test("leaving the conversation while holding control: back in it, the hand-back'
   // And nothing claims a task is paused: it was not, and Resume would run it again.
   await new Promise((resolve) => setTimeout(resolve, 1500));
   expect(view.queryByText(/A browser task is paused/)).toBeNull();
-  expect(view.queryByRole("button", { name: "Resume task" })).toBeNull();
+  expect(view.queryByRole("button", { name: "Retomar tarefa" })).toBeNull();
   expect(runs).toHaveLength(2);
 });

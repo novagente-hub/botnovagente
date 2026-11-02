@@ -42,24 +42,24 @@ export const Route = createFileRoute("/_authed/admin/audit")({
  * answered.
  */
 const FILTERS = [
-  { label: "Everything", icon: IconList, search: "" },
+  { label: "Tudo", icon: IconList, search: "" },
   {
-    label: "Computer actions",
+    label: "Ações no computador",
     icon: IconDeviceDesktop,
     search: "?eventType=computer.action_allowed",
   },
   {
-    label: "Blocked",
+    label: "Bloqueado",
     icon: IconBan,
     search: eventTypeFilter(REFUSED_EVENT_TYPES),
   },
   {
-    label: "Did not happen",
+    label: "Não aconteceu",
     icon: IconAlertTriangle,
     search: eventTypeFilter(DID_NOT_HAPPEN_EVENT_TYPES),
   },
   {
-    label: "Nobody watching",
+    label: "Ninguém acompanhando",
     icon: IconEyeOff,
     search: "?initiatorKind=routine,handoff,responsibility,memory",
   },
@@ -87,7 +87,7 @@ function AuditPage() {
     setExportCapped(null);
     try {
       const response = await client(auditExportUrl(search), {
-        fallback: "Couldn't export audit events. Try again.",
+        fallback: "Não foi possível exportar os eventos de auditoria. Tente novamente.",
       });
       // A file that stopped early must say so, or it reads as the whole trail.
       const capped = Number(response.headers.get("x-audit-export-truncated"));
@@ -105,7 +105,7 @@ function AuditPage() {
       setExportError(
         error instanceof Error
           ? error.message
-          : "Couldn't export audit events. Try again.",
+          : "Não foi possível exportar os eventos de auditoria. Tente novamente.",
       );
     } finally {
       setExporting(false);
@@ -119,13 +119,14 @@ function AuditPage() {
      * because a log is scanned across and rows of prose would make every entry a paragraph.
      */
     <PageShell
-      description="Review Bot actions and actions blocked by this deployment’s policy."
-      title="Audit"
+      description="Revise as ações dos Bots e as ações bloqueadas pela política desta implantação."
+      title="Auditoria"
       width="full"
     >
       {events.isPending ? null : events.isError ? (
         <p className="px-4 text-destructive text-sm" role="alert">
-          Couldn't load the audit log. Reload the page.
+          
+          Não foi possível carregar o registro de auditoria. Recarregue a página.
         </p>
       ) : (
         <AuditTable
@@ -139,9 +140,9 @@ function AuditPage() {
                * group: the pressed one is filled, the rest sit flat inside the same outline.
                */}
               <div className="flex items-center gap-2">
-                <span className="text-muted-foreground text-xs">View</span>
+                <span className="text-muted-foreground text-xs">Ver</span>
                 <fieldset
-                  aria-label="View"
+                  aria-label="Ver"
                   className="inline-flex items-center gap-0.5 rounded-lg border border-border p-0.5"
                 >
                   {FILTERS.map((filter) => {
@@ -172,10 +173,10 @@ function AuditPage() {
                 <div className="relative w-64">
                   <IconSearch className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
                   <Input
-                    aria-label="Search events"
+                    aria-label="Pesquisar eventos"
                     className="h-8 pl-8"
                     onChange={(event) => setQuery(event.target.value)}
-                    placeholder="Search events…"
+                    placeholder="Pesquisar eventos…"
                     type="search"
                     value={query}
                   />
@@ -191,7 +192,8 @@ function AuditPage() {
                     variant="outline"
                   >
                     <IconRefresh />
-                    Refresh
+                    
+                    Atualizar
                   </Button>
                   <Button
                     disabled={exporting}
@@ -200,7 +202,7 @@ function AuditPage() {
                     variant="outline"
                   >
                     <IconDownload />
-                    {exporting ? "Exporting…" : "Export CSV"}
+                    {exporting ? "Exportando…" : "Exportar CSV"}
                   </Button>
                 </div>
               </div>
@@ -211,14 +213,16 @@ function AuditPage() {
               ) : null}
               {exportCapped ? (
                 <p className="text-muted-foreground text-sm" role="status">
-                  The file has the newest {exportCapped.toLocaleString()}{" "}
-                  events, not all of them. Narrow the filter or dates to export
-                  the rest.
+                  
+                  O arquivo tem os {exportCapped.toLocaleString()}{" "}
+                  
+                  eventos mais recentes, não todos. Restrinja o filtro ou as datas para exportar o resto.
                 </p>
               ) : null}
               {rows.length === 0 ? (
-                <PageEmpty icon={IconSearch} title="No matches">
-                  No events match this filter yet.
+                <PageEmpty icon={IconSearch} title="Nenhum resultado">
+                  
+                  Nenhum evento corresponde a este filtro ainda.
                 </PageEmpty>
               ) : null}
             </div>

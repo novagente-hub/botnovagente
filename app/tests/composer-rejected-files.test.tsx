@@ -174,7 +174,7 @@ test("the dismiss button hands back every refusal at once, not one line", () => 
     />,
   );
 
-  fireEvent.click(getByLabelText("Dismiss these 2 refusals"));
+  fireEvent.click(getByLabelText("Dispensar estas 2 recusas"));
 
   expect(dismissed).toBe(1);
 });
@@ -189,5 +189,5 @@ test("a single refusal is dismissed in the singular", () => {
     />,
   );
 
-  expect(getByLabelText("Dismiss this refusal")).toBeTruthy();
+  expect(getByLabelText("Dispensar esta recusa")).toBeTruthy();
 });

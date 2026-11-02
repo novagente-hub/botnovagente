@@ -114,7 +114,7 @@ export async function awaitHandoff(
             requestId,
             reconnecting: true,
             reason:
-              "The handoff could not be reached. Reopen this conversation and use Resume task to check this request again.",
+              "Não foi possível acessar o repasse. Reabra esta conversa e use Retomar tarefa para verificar este pedido de novo.",
           };
         await pause(pollMs, signal);
         continue;
@@ -125,7 +125,7 @@ export async function awaitHandoff(
           ok: false,
           requestId,
           reason:
-            "The computer did not return the requested handoff. Nothing has been marked complete.",
+            "O computador não retornou o repasse pedido. Nada foi marcado como concluído.",
         };
       lastRequest = state.request;
       if (lastRequest.status === "completed") {
@@ -149,7 +149,7 @@ export async function awaitHandoff(
               ok: false,
               requestId,
               reason:
-                "The completed request still reports an active challenge. Check the browser before continuing.",
+                "O pedido concluído ainda indica um desafio ativo. Verifique o navegador antes de continuar.",
             };
           rememberHandoff(
             botId,
@@ -180,7 +180,7 @@ export async function awaitHandoff(
           handoffStatus: lastRequest.status,
           reason:
             lastRequest.interruption ??
-            `The handoff was ${lastRequest.status}. The person has not completed this request.`,
+            `O repasse foi ${lastRequest.status}. A pessoa não concluiu este pedido.`,
         };
       }
       await pause(pollMs, signal);
@@ -191,7 +191,7 @@ export async function awaitHandoff(
         ok: false,
         stopped: true,
         requestId,
-        reason: "The waiting view disconnected.",
+        reason: "A visualização de espera foi desconectada.",
       };
     const current = await readControl(
       botId,
@@ -208,7 +208,7 @@ export async function awaitHandoff(
       stopped: true,
       requestId,
       reason:
-        "Stopped waiting. A person who has control keeps it until they hand back.",
+        "Parou de esperar. Uma pessoa que está com o controle o mantém até devolvê-lo.",
     };
   } finally {
     const remaining = (active.get(identity) ?? 1) - 1;
@@ -247,7 +247,7 @@ export async function runHelpRequest(
   if (!request)
     return {
       ok: false,
-      reason: "The computer did not identify the handoff request.",
+      reason: "O computador não identificou o pedido de repasse.",
     };
   rememberHandoff(botId, request.id, toolCallId);
   return awaitHandoff(botId, request.id, signal);

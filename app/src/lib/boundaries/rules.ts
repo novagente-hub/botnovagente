@@ -11,26 +11,26 @@ export type RuleTemplate = RuleLabel & { rule: string; cost: string };
 
 export const RULE_TEMPLATES: RuleTemplate[] = [
   {
-    name: "Never submit a form",
-    description: "Stops a Bot pressing a submit button, or Enter while typing.",
+    name: "Nunca enviar um formulário",
+    description: "Impede que um Bot clique em um botão de envio ou pressione Enter enquanto digita.",
     // `key` is guarded by tool name so the clause short-circuits before it on actions that have no
     // keypress in them. Both tools that can press Enter are named: `computer_type` takes a `submit`
     // flag that presses it once the text is in, and a rule naming only `computer_key` left that door
     // open.
     rule: '(intent == "activate" && contains(element.name, "submit")) || ((tool.name == "computer_key" || tool.name == "computer_type") && key == "Enter")',
-    cost: "Also stops the Bot pressing Enter anywhere else. A form can submit from Enter in any field.",
+    cost: "Também impede o Bot de pressionar Enter em qualquer outro lugar. Um formulário pode ser enviado com Enter em qualquer campo.",
   },
   {
-    name: "Never type into a password field",
-    description: "Stops a Bot typing into a field labelled as a password.",
+    name: "Nunca digitar em um campo de senha",
+    description: "Impede que um Bot digite em um campo marcado como senha.",
     rule: 'intent == "type" && contains(element.name, "password")',
-    cost: "A password box with a different label isn't covered. The rule matches the label.",
+    cost: "Uma caixa de senha com outro rótulo não é coberta. A regra corresponde ao rótulo.",
   },
   {
-    name: "Stay off social media",
-    description: "Stops a Bot opening Facebook or X.",
+    name: "Ficar longe das redes sociais",
+    description: "Impede que um Bot abra o Facebook ou o X.",
     rule: 'intent == "navigate" && (contains(page.host, "facebook.com") || contains(page.host, "x.com"))',
-    cost: "Only these two sites. A link that redirects there from elsewhere is allowed.",
+    cost: "Só estes dois sites. Um link que redireciona para lá de outro lugar é permitido.",
   },
 ];
 
@@ -39,31 +39,31 @@ export const RULE_ATTRIBUTES: { name: string; meaning: string }[] = [
   {
     name: "tool.name",
     meaning:
-      "The action, such as computer_click, computer_type or computer_key.",
+      "A ação, como computer_click, computer_type ou computer_key.",
   },
   {
     name: "intent",
-    meaning: "What the action is for: activate, type or navigate.",
+    meaning: "Para que serve a ação: activate, type ou navigate.",
   },
-  { name: "bot.id", meaning: "The Bot taking the action." },
-  { name: "actor.id", meaning: "The person the Bot is acting for." },
+  { name: "bot.id", meaning: "O Bot que faz a ação." },
+  { name: "actor.id", meaning: "A pessoa em nome de quem o Bot age." },
   {
     name: "initiator.kind",
     meaning:
-      "What started the run: person, routine or handoff. A scheduled run acts as its owner, so actor.id alone can't tell you.",
+      "O que iniciou a execução: pessoa, rotina ou repasse. Uma execução agendada age como o dono, então actor.id sozinho não diz isso.",
   },
-  { name: "page.url, page.host", meaning: "The page the Bot is on." },
+  { name: "page.url, page.host", meaning: "A página em que o Bot está." },
   {
     name: "element.name, element.role",
-    meaning: "The button, link or field being clicked or typed into.",
+    meaning: "O botão, link ou campo sendo clicado ou preenchido.",
   },
   { name: "key", meaning: "The key pressed, such as Enter." },
-  { name: "file", meaning: "The file being read or written." },
-  { name: "command", meaning: "The command being run." },
+  { name: "file", meaning: "O arquivo sendo lido ou gravado." },
+  { name: "command", meaning: "O comando sendo executado." },
   {
     name: "mcp.server, mcp.tool, mcp.effect",
     meaning:
-      "For a connected app's tool: which app, which tool, and read or write.",
+      "Para a ferramenta de um app conectado: qual app, qual ferramenta, e leitura ou gravação.",
   },
 ];
 
@@ -74,7 +74,7 @@ export function ruleLabel(policy: ActionPolicy, rule: string): RuleLabel {
   const template = RULE_TEMPLATES.find((one) => one.rule === rule);
   if (template)
     return { name: template.name, description: template.description };
-  return { name: "Custom rule", description: "" };
+  return { name: "Regra personalizada", description: "" };
 }
 
 /** The policy without one rule, and without that rule's label. */

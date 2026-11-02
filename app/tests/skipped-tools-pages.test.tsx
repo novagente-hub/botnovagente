@@ -192,7 +192,7 @@ async function warning(view: ReturnType<typeof render>) {
   await view.findByText(KEPT);
   const notice = view
     .getAllByRole("status")
-    .find((element) => element.textContent?.includes("was left out"));
+    .find((element) => element.textContent?.includes("de fora"));
   return notice?.textContent ?? null;
 }
 

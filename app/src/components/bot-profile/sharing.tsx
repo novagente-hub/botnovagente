@@ -85,7 +85,7 @@ export function SharingSections({ agent }: { agent: AgentProfile }) {
 
   return (
     <>
-      <PageSection title="Published">
+      <PageSection title="Publicado">
         {unpublish.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
             {unpublish.error.message}
@@ -100,13 +100,13 @@ export function SharingSections({ agent }: { agent: AgentProfile }) {
               <ItemContent>
                 <ItemTitle>
                   {published.audience === "team"
-                    ? "To the whole team"
+                    ? "Para a equipe toda"
                     : `To ${[...(published.people ?? []), ...(published.groups ?? []).map((group) => `group ${group}`)].join(", ")}`}
                 </ItemTitle>
                 <ItemDescription>
                   {published.visibleToTeam
-                    ? "Each person's conversations with it are private."
-                    : "Teammates can't see it until it has a real name and a description."}
+                    ? "As conversas de cada pessoa com ele são privadas."
+                    : "Os colegas não podem vê-lo até ele ter um nome real e uma descrição."}
                 </ItemDescription>
               </ItemContent>
               {agent.mine ? (
@@ -117,7 +117,8 @@ export function SharingSections({ agent }: { agent: AgentProfile }) {
                     size="sm"
                     variant="outline"
                   >
-                    Unpublish
+                    
+                    Despublicar
                   </Button>
                 </ItemActions>
               ) : null}
@@ -130,7 +131,8 @@ export function SharingSections({ agent }: { agent: AgentProfile }) {
               <ItemContent>
                 <ItemTitle>Link</ItemTitle>
                 <ItemDescription>
-                  Opens a private conversation with it.
+                  
+                  Abre uma conversa privada com ele.
                 </ItemDescription>
               </ItemContent>
               <ItemActions>
@@ -143,7 +145,7 @@ export function SharingSections({ agent }: { agent: AgentProfile }) {
                   size="sm"
                   variant="outline"
                 >
-                  {copied ? "Copied" : "Copy link"}
+                  {copied ? "Copiado" : "Copiar link"}
                 </Button>
               </ItemActions>
             </Item>
@@ -153,22 +155,22 @@ export function SharingSections({ agent }: { agent: AgentProfile }) {
             icon={IconShare}
             title={
               agent.visibility === "public"
-                ? "Not published to the team"
-                : "Not published"
+                ? "Não publicado para a equipe"
+                : "Não publicado"
             }
           >
             {agent.visibility === "public"
-              ? "It's public, so everyone on OpenBot can already use it."
+              ? "É público, então todos no OpenBot já podem usá-lo."
               : agent.mine
-                ? "Only you can use it."
+                ? "Só você pode usá-lo."
                 : null}
           </PageEmpty>
         )}
       </PageSection>
       {agent.mine && (published || publishable) ? (
         <PageSection
-          description="Publishing doesn't change its visibility. You can unpublish at any time."
-          title={published ? "Who it is published to" : "Publish"}
+          description="Publicar não muda a visibilidade. Você pode despublicar a qualquer momento."
+          title={published ? "Para quem está publicado" : "Publicar"}
         >
           {/* More than one value — an audience, then people and groups — so a summary row and a
               dialog rather than a form on the page. */}
@@ -183,7 +185,7 @@ export function SharingSections({ agent }: { agent: AgentProfile }) {
                 <IconUsersGroup />
               </ItemMedia>
               <ItemContent>
-                <ItemTitle>Audience</ItemTitle>
+                <ItemTitle>Público-alvo</ItemTitle>
                 <ItemDescription>{audienceSummary(published)}</ItemDescription>
               </ItemContent>
               <ItemActions>
@@ -202,8 +204,8 @@ export function SharingSections({ agent }: { agent: AgentProfile }) {
       ) : null}
       {me?.role === "admin" && published ? (
         <PageSection
-          description="Pins this Bot at the top of every group member's Bots list. Use * for the whole team."
-          title="Assign to groups"
+          description="Fixa este Bot no topo da lista de Bots de cada membro do grupo. Use * para a equipe toda."
+          title="Atribuir a grupos"
         >
           <Assignments bot={published} />
         </PageSection>
@@ -214,18 +216,18 @@ export function SharingSections({ agent }: { agent: AgentProfile }) {
 
 /** The current answer on the Audience row: who it is published to, as a count. */
 function audienceSummary(current: TeamBot | undefined): string {
-  if (!current) return "Not published";
-  if (current.audience === "team") return "The whole team";
+  if (!current) return "Não publicado";
+  if (current.audience === "team") return "A equipe toda";
   const parts = [
     countLabel(current.people?.length ?? 0, "person", "people", ""),
     countLabel(current.groups?.length ?? 0, "group", "groups", ""),
   ].filter(Boolean);
-  return parts.length ? parts.join(", ") : "Specific people or groups";
+  return parts.length ? parts.join(", ") : "Pessoas ou grupos específicos";
 }
 
 const AUDIENCES = {
-  team: "The whole team",
-  people: "Specific people or groups",
+  team: "A equipe toda",
+  people: "Pessoas ou grupos específicos",
 } as const;
 
 /**
@@ -253,11 +255,11 @@ function PublishDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {current ? "Who it is published to" : "Publish"}
+            {current ? "Para quem está publicado" : "Publicar"}
           </DialogTitle>
           <DialogDescription>
-            Publishing doesn't change its visibility. You can unpublish at any
-            time.
+            
+            Publicar não muda a visibilidade. Você pode despublicar a qualquer momento.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 overflow-y-auto">
@@ -281,7 +283,8 @@ function PublishDialog({
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor={`${formId}-audience`}>
-                  Published to
+                  
+                  Publicado para
                 </FieldLabel>
                 <Select
                   items={AUDIENCES}
@@ -310,21 +313,22 @@ function PublishDialog({
                 <>
                   <Field>
                     <FieldLabel htmlFor={`${formId}-people`}>
-                      People, by email
+                      
+                      Pessoas, por e-mail
                     </FieldLabel>
                     <Input
                       id={`${formId}-people`}
                       onChange={(event) => setEmails(event.target.value)}
-                      placeholder="Comma separated"
+                      placeholder="Separados por vírgula"
                       value={emails}
                     />
                   </Field>
                   <Field>
-                    <FieldLabel htmlFor={`${formId}-groups`}>Groups</FieldLabel>
+                    <FieldLabel htmlFor={`${formId}-groups`}>Grupos</FieldLabel>
                     <Input
                       id={`${formId}-groups`}
                       onChange={(event) => setGroups(event.target.value)}
-                      placeholder="Comma separated"
+                      placeholder="Separados por vírgula"
                       value={groups}
                     />
                   </Field>
@@ -341,7 +345,8 @@ function PublishDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            Cancel
+            
+            Cancelar
           </Button>
           <Button
             disabled={publish.isPending}
@@ -349,7 +354,7 @@ function PublishDialog({
             size="sm"
             type="submit"
           >
-            {current ? "Update" : "Publish to team"}
+            {current ? "Atualizar" : "Publicar para a equipe"}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -373,7 +378,7 @@ function Assignments({ bot }: { bot: TeamBot }) {
         </p>
       ) : null}
       {assigned.length === 0 ? (
-        <PageEmpty icon={IconUsersGroup} title="Not assigned to any group" />
+        <PageEmpty icon={IconUsersGroup} title="Não atribuído a nenhum grupo" />
       ) : null}
       <PageRows>
         {assigned.map((name) => (
@@ -383,7 +388,7 @@ function Assignments({ bot }: { bot: TeamBot }) {
                 <IconUsers />
               </ItemMedia>
               <ItemContent>
-                <ItemTitle>{name === "*" ? "Whole team" : name}</ItemTitle>
+                <ItemTitle>{name === "*" ? "Equipe toda" : name}</ItemTitle>
               </ItemContent>
               <ItemActions>
                 <Button
@@ -395,7 +400,8 @@ function Assignments({ bot }: { bot: TeamBot }) {
                   size="sm"
                   variant="outline"
                 >
-                  Remove
+                  
+                  Remover
                 </Button>
               </ItemActions>
             </Item>
@@ -410,7 +416,7 @@ function Assignments({ bot }: { bot: TeamBot }) {
             <IconPlus />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle>Assign to a group</ItemTitle>
+            <ItemTitle>Atribuir a um grupo</ItemTitle>
           </ItemContent>
           <ItemActions>
             <IconChevronRight className="size-4 text-muted-foreground" />
@@ -433,9 +439,10 @@ function AssignDialog({ bot, onClose }: { bot: TeamBot; onClose: () => void }) {
     <Dialog onOpenChange={(next) => !next && onClose()} open>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Assign {bot.name} to a group</DialogTitle>
+          <DialogTitle>Atribuir {bot.name}  a um grupo</DialogTitle>
           <DialogDescription>
-            It's pinned at the top of every member's Bots list.
+            
+            Fica fixado no topo da lista de Bots de cada membro.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4">
@@ -447,11 +454,11 @@ function AssignDialog({ bot, onClose }: { bot: TeamBot; onClose: () => void }) {
             }}
           >
             <Field>
-              <FieldLabel htmlFor={`${formId}-group`}>Group, or *</FieldLabel>
+              <FieldLabel htmlFor={`${formId}-group`}>Grupo, ou *</FieldLabel>
               <Input
                 id={`${formId}-group`}
                 onChange={(event) => setGroup(event.target.value)}
-                placeholder="* for the whole team"
+                placeholder="* para a equipe toda"
                 value={group}
               />
             </Field>
@@ -464,7 +471,8 @@ function AssignDialog({ bot, onClose }: { bot: TeamBot; onClose: () => void }) {
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            Cancel
+            
+            Cancelar
           </Button>
           <Button
             disabled={!group.trim() || assign.isPending}
@@ -472,7 +480,8 @@ function AssignDialog({ bot, onClose }: { bot: TeamBot; onClose: () => void }) {
             size="sm"
             type="submit"
           >
-            Assign
+            
+            Atribuir
           </Button>
         </DialogFooter>
       </DialogContent>

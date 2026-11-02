@@ -16,6 +16,6 @@ const onboarding = readFileSync(
 );
 
 test("onboarding says what every Bot gets, not a computer of its own", () => {
-  expect(onboarding).toContain("Each Bot has its own browser and files");
+  expect(onboarding).toContain("Cada Bot tem o próprio navegador e arquivos");
   expect(onboarding).not.toMatch(/Each Bot has its own computer/);
 });

@@ -85,28 +85,31 @@ export function ApprovalSettings() {
       ) : null}
       {me?.role === "admin" ? (
         <p className="mt-6 text-muted-foreground text-sm">
-          Team settings and shared account requests are in{" "}
+          
+          Configurações da equipe e pedidos de contas compartilhadas estão em{" "}
           <Link className="underline underline-offset-4" to="/admin/approvals">
-            Admin → Approvals
+            
+            Admin → Aprovações
           </Link>
           .
         </p>
       ) : null}
-      <PageSection title="Before a Bot acts">
+      <PageSection title="Antes de um Bot agir">
         <PageRows>
           <Item size="sm">
             <ItemMedia variant="icon">
               <IconHandStop />
             </ItemMedia>
             <ItemContent>
-              <ItemTitle>Ask before making changes</ItemTitle>
+              <ItemTitle>Perguntar antes de fazer alterações</ItemTitle>
               <ItemDescription>
-                Review a Bot's changes to websites, connected apps, and files.
+                
+                Revisar alterações de um Bot em sites, apps conectados e arquivos.
               </ItemDescription>
             </ItemContent>
             <ItemActions>
               <Switch
-                aria-label="Ask before making changes"
+                aria-label="Perguntar antes de fazer alterações"
                 checked={inbox.data?.enabled ?? false}
                 disabled={inbox.isLoading || preferences.isPending}
                 onCheckedChange={(enabled) => preferences.mutate({ enabled })}
@@ -121,15 +124,14 @@ export function ApprovalSettings() {
                   <IconEyeCheck />
                 </ItemMedia>
                 <ItemContent>
-                  <ItemTitle id="auto-review-title">Auto-review</ItemTitle>
+                  <ItemTitle id="auto-review-title">Revisão automática</ItemTitle>
                   <ItemDescription
                     className="line-clamp-none"
                     id="auto-review-description"
                   >
-                    {enforced ? "An admin requires this. " : ""}
-                    Before a Bot does something that could affect your accounts
-                    or share information, OpenBot checks it against your request
-                    and your rules. If it can't tell, it asks you.
+                    {enforced ? "Um administrador exige isto. " : ""}
+                    
+                    Antes de um Bot fazer algo que possa afetar suas contas ou compartilhar informações, o OpenBot verifica isso com o seu pedido e as suas regras. Se não tiver certeza, ele pergunta a você.
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
@@ -152,21 +154,21 @@ export function ApprovalSettings() {
                   <IconTerminal2 />
                 </ItemMedia>
                 <ItemContent>
-                  <ItemTitle>Commands on your computer</ItemTitle>
+                  <ItemTitle>Comandos no seu computador</ItemTitle>
                   <ItemDescription className="line-clamp-none">
                     {inbox.data.hostCommands &&
                     inbox.data.hostCommands !==
                       inbox.data.preferences.hostCommands
-                      ? `An admin limits this to "${HOST_LABELS[inbox.data.hostCommands]}". `
+                      ? `Um administrador limita isto a "${HOST_LABELS[inbox.data.hostCommands]}". `
                       : ""}
-                    The OpenBot desktop app still shows you each command before
-                    it runs.
+                    
+                    O app de desktop do OpenBot ainda mostra cada comando antes de executá-lo.
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
                   <LabelSelect
                     disabled={preferences.isPending}
-                    label="Commands on your computer"
+                    label="Comandos no seu computador"
                     labels={HOST_LABELS}
                     onChange={(hostCommands) =>
                       preferences.mutate({ hostCommands })
@@ -182,22 +184,22 @@ export function ApprovalSettings() {
       <PageSection
         description={
           <>
-            The strictest matching rule wins. An "ask" rule beats an "allow"
-            rule. Team rules are locked. Passwords, security settings and
-            payments are always handed to you. Rules for one Bot are on{" "}
+            
+            A regra correspondente mais rígida vence. Uma regra "perguntar" vence uma regra "permitir". As regras da equipe são bloqueadas. Senhas, configurações de segurança e pagamentos sempre ficam com você. As regras de um Bot ficam na{" "}
             <Link className="underline underline-offset-4" to="/bots">
-              that Bot's page
+              
+              página desse Bot
             </Link>
             .
             {rulesOff
-              ? " An admin has turned off personal rules. Yours are kept but don't apply."
+              ? " Um administrador desativou as regras pessoais. As suas ficam guardadas, mas não valem."
               : ""}
           </>
         }
-        title="Rules for every Bot"
+        title="Regras para todos os Bots"
       >
         {saved === 0 ? (
-          <PageEmpty icon={IconChecklist} title="No rules yet" />
+          <PageEmpty icon={IconChecklist} title="Nenhuma regra ainda" />
         ) : null}
         {saved > 0 || canAdd ? (
           <PageRows>
@@ -231,7 +233,7 @@ export function ApprovalSettings() {
             {canAdd ? (
               <>
                 {saved > 0 ? <Separator /> : null}
-                <RuleForm botField={false} label="Add a rule" save={addRule} />
+                <RuleForm botField={false} label="Adicionar regra" save={addRule} />
               </>
             ) : null}
           </PageRows>
@@ -239,8 +241,8 @@ export function ApprovalSettings() {
       </PageSection>
       {agents.data !== undefined && otherBots.length > 0 ? (
         <PageSection
-          description="These don't match a Bot you can open. They still apply to any Bot they match. Remove the ones you don't want."
-          title="Rules for other Bots"
+          description="Estas não correspondem a um Bot que você possa abrir. Elas ainda valem para qualquer Bot correspondente. Remova as que não quiser."
+          title="Regras para outros Bots"
         >
           <PageRows>
             {otherBots.map((rule, index) => (

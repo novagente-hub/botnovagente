@@ -42,9 +42,9 @@ import {
 } from "@/lib/approvals";
 
 export const HOST_LABELS: Record<HostCommandPolicy, string> = {
-  ask: "Ask every time",
-  allow: "Always allow",
-  never: "Never",
+  ask: "Perguntar sempre",
+  allow: "Sempre permitir",
+  never: "Nunca",
 };
 
 /**
@@ -122,8 +122,8 @@ export function RuleRow({
   // since two rules for one tool differ only there.
   const match = [
     rule.effect !== "*" ? rule.effect : null,
-    rule.scope !== "*" ? `on ${rule.scope}` : null,
-    rule.botId !== "*" ? `for ${rule.botId}` : null,
+    rule.scope !== "*" ? `em ${rule.scope}` : null,
+    rule.botId !== "*" ? `para ${rule.botId}` : null,
   ]
     .filter(Boolean)
     .join(" ");
@@ -139,7 +139,7 @@ export function RuleRow({
             {match}
           </ItemDescription>
         ) : null}
-        {locked ? <ItemDescription>Locked</ItemDescription> : null}
+        {locked ? <ItemDescription>Bloqueada</ItemDescription> : null}
       </ItemContent>
       <ItemActions>
         {locked ? (
@@ -150,7 +150,7 @@ export function RuleRow({
           <>
             <LabelSelect
               disabled={disabled}
-              label={`Behaviour for ${rule.toolRef}`}
+              label={`Comportamento para ${rule.toolRef}`}
               labels={labels}
               onChange={onChange}
               value={rule.behaviour}
@@ -161,7 +161,8 @@ export function RuleRow({
               size="sm"
               variant="outline"
             >
-              Remove
+              
+              Remover
             </Button>
           </>
         )}
@@ -234,7 +235,8 @@ export function RuleForm({
         <ItemContent>
           <ItemTitle>{label}</ItemTitle>
           <ItemDescription>
-            A tool or app, and what a Bot does before using it.
+            
+            Uma ferramenta ou app, e o que o Bot faz antes de usá-lo.
           </ItemDescription>
         </ItemContent>
         <ItemActions>
@@ -246,8 +248,8 @@ export function RuleForm({
           <DialogHeader>
             <DialogTitle>{label}</DialogTitle>
             <DialogDescription>
-              Use * to match anything. mcp/gmail/* means every Gmail tool. A
-              target of *.example.com means every page on that site.
+              Use * para corresponder a qualquer coisa. mcp/gmail/* significa todas as
+              ferramentas do Gmail. Um alvo *.example.com significa todas as páginas desse site.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4">
@@ -264,14 +266,14 @@ export function RuleForm({
               <FieldGroup>
                 {field(
                   "toolRef",
-                  "Tool or app",
+                  "Ferramenta ou app",
                   "mcp/gmail/*, computer_click, host/*",
                 )}
-                {field("effect", "Kind of action", "* , write, read, delegate")}
-                {field("scope", "Target", "*, a site, a folder, a Bot name")}
-                {botField ? field("botId", "Bot", "* for every Bot") : null}
+                {field("effect", "Tipo de ação", "* , write, read, delegate")}
+                {field("scope", "Alvo", "*, um site, uma pasta, um nome de Bot")}
+                {botField ? field("botId", "Bot", "* para todos os Bots") : null}
                 <Field>
-                  <FieldLabel htmlFor={`${id}-behaviour`}>Behaviour</FieldLabel>
+                  <FieldLabel htmlFor={`${id}-behaviour`}>Comportamento</FieldLabel>
                   <LabelSelect
                     id={`${id}-behaviour`}
                     labels={BEHAVIOUR_LABELS}
@@ -291,7 +293,8 @@ export function RuleForm({
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button onClick={close} size="sm" variant="outline">
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               disabled={save.isPending || !rule.toolRef.trim()}
@@ -299,7 +302,8 @@ export function RuleForm({
               size="sm"
               type="submit"
             >
-              Save rule
+              
+              Salvar regra
             </Button>
           </DialogFooter>
         </DialogContent>

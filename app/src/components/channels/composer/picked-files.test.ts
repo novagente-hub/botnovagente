@@ -58,7 +58,7 @@ describe("screenPickedFiles", () => {
     const result = screenPickedFiles([big], { alreadyStaged: 0 });
 
     expect(result.accepted).toEqual([]);
-    expect(result.rejected[0].reason).toMatch(/too large/);
+    expect(result.rejected[0].reason).toMatch(/grande demais/);
   });
 
   test("rejects an oversized image", () => {
@@ -66,7 +66,7 @@ describe("screenPickedFiles", () => {
     const result = screenPickedFiles([big], { alreadyStaged: 0 });
 
     expect(result.accepted).toEqual([]);
-    expect(result.rejected[0].reason).toMatch(/too large/);
+    expect(result.rejected[0].reason).toMatch(/grande demais/);
   });
 
   /**
@@ -99,7 +99,7 @@ describe("screenPickedFiles", () => {
     const result = screenPickedFiles([huge], { alreadyStaged: 0 });
 
     expect(result.accepted).toEqual([]);
-    expect(result.rejected[0].reason).toMatch(/too large|larger than/);
+    expect(result.rejected[0].reason).toMatch(/grande demais/);
   });
 
   test("a claim that names a format it does not accept is still refused here", () => {
@@ -172,7 +172,7 @@ describe("screenPickedFiles", () => {
     expect(result.accepted).toEqual([]);
     expect(result.rejected).toHaveLength(1);
     expect(result.rejected[0].reason).toMatch(/SVG/);
-    expect(result.rejected[0].reason).not.toMatch(/at most/);
+    expect(result.rejected[0].reason).not.toMatch(/no máximo/);
   });
 
   /** The same, for the size ceiling: an oversized image is too large, not one file too many. */
@@ -184,8 +184,8 @@ describe("screenPickedFiles", () => {
 
     expect(result.accepted).toEqual([]);
     expect(result.rejected).toHaveLength(1);
-    expect(result.rejected[0].reason).toMatch(/too large for an image/);
-    expect(result.rejected[0].reason).not.toMatch(/at most/);
+    expect(result.rejected[0].reason).toMatch(/grande demais para uma imagem/);
+    expect(result.rejected[0].reason).not.toMatch(/no máximo/);
   });
 
   test("keeps accepted files in input order when good and bad are interleaved", () => {

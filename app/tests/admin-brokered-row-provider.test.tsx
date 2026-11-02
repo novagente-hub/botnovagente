@@ -166,12 +166,12 @@ function everythingRendered(view: ReturnType<typeof render>): string {
 }
 
 /** Waits for the row only, whichever broker it names: the assertions below do the judging. */
-const WAIT_FOR_ROW = /^Set [A-Z]+_API_KEY on this deployment\./;
+const WAIT_FOR_ROW = /^Defina [A-Z]+_API_KEY nesta implantação\./;
 
 const COMPOSIO_KEY_MISSING =
-  "Set COMPOSIO_API_KEY on this deployment. Until then, this account can't be connected or disconnected here. The app stays turned on, and its tool grants still stand.";
+  "Defina COMPOSIO_API_KEY nesta implantação. Até lá, esta conta não pode ser conectada nem desconectada aqui. O app continua ativado, e as concessões de ferramentas continuam valendo.";
 const ARCADE_KEY_MISSING =
-  "Set ARCADE_API_KEY on this deployment. Until then, this account can't be connected or disconnected here. The app stays turned on, and its tool grants still stand.";
+  "Defina ARCADE_API_KEY nesta implantação. Até lá, esta conta não pode ser conectada nem desconectada aqui. O app continua ativado, e as concessões de ferramentas continuam valendo.";
 
 for (const shared of [false, true]) {
   const row = shared ? "team row" : "personal row";

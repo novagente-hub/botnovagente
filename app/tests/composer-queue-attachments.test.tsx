@@ -175,7 +175,7 @@ beforeEach(() => {
 /** A drop, as the browser delivers one: files hanging off `dataTransfer`. */
 function drop(form: Element, files: File[]) {
   fireEvent.drop(form, {
-    dataTransfer: { files, items: [], types: ["Files"] },
+    dataTransfer: { files, items: [], types: ["Arquivos"] },
   });
 }
 
@@ -203,8 +203,8 @@ function correction() {
 async function uploaded({ queryByLabelText }: RenderResult, name: string) {
   await waitFor(() => {
     expect(queryByLabelText(`Remove ${name}`)).not.toBeNull();
-    const button = (queryByLabelText("Send message") ??
-      queryByLabelText("Queue message")) as HTMLButtonElement | null;
+    const button = (queryByLabelText("Enviar mensagem") ??
+      queryByLabelText("Colocar mensagem na fila")) as HTMLButtonElement | null;
     expect(button?.disabled).toBe(false);
   });
 }
@@ -315,8 +315,8 @@ async function dropAndWait(view: RenderResult, files: File[]) {
   drop(view.container.querySelector("form") as HTMLFormElement, files);
   await waitFor(() => expect(chips(view)).toHaveLength(files.length));
   await waitFor(() => {
-    const button = (view.queryByLabelText("Send message") ??
-      view.queryByLabelText("Queue message")) as HTMLButtonElement | null;
+    const button = (view.queryByLabelText("Enviar mensagem") ??
+      view.queryByLabelText("Colocar mensagem na fila")) as HTMLButtonElement | null;
     expect(button?.disabled).toBe(false);
   });
 }
@@ -386,9 +386,9 @@ test("taking a queued message back releases the rows it was carrying", async () 
    * both sentences are live — so declining now leaves the wiring between them unpinned, and
    * swapping the two arms of that ternary passed the whole suite.
    */
-  expect(alert.textContent).toContain("removed with its queued message");
-  expect(alert.textContent).not.toContain("merged");
-  expect(alert.textContent).not.toContain("at most");
+  expect(alert.textContent).toContain("removido junto com a mensagem na fila");
+  expect(alert.textContent).not.toContain("juntadas");
+  expect(alert.textContent).not.toContain("no máximo");
 });
 
 /**
@@ -697,7 +697,7 @@ test("a ninth pick behind eight parked files is refused here, without a round tr
   // strip the person is looking at and can see is empty.
   expect(alert.textContent).toContain("ninth.txt");
   expect(alert.textContent).toContain(
-    `at most ${MAX_ATTACHMENTS_PER_MESSAGE} attachments`,
+    `no máximo ${MAX_ATTACHMENTS_PER_MESSAGE} anexos`,
   );
 
   // AND IT NEVER LEFT THE BROWSER. This is the half that says the refusal came from here: the

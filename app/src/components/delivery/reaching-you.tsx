@@ -94,19 +94,19 @@ const TRANSPORT: Record<
   { link: string; icon: typeof IconBrandSlack; summary: string }
 > = {
   slack: {
-    link: "Link Slack",
+    link: "Vincular Slack",
     icon: IconBrandSlack,
-    summary: "Continue a conversation from Slack.",
+    summary: "Continue uma conversa pelo Slack.",
   },
   teams: {
-    link: "Link Microsoft Teams",
+    link: "Vincular Microsoft Teams",
     icon: IconBrandTeams,
-    summary: "Continue a conversation from Microsoft Teams.",
+    summary: "Continue uma conversa pelo Microsoft Teams.",
   },
   sms: {
-    link: "Connect a phone",
+    link: "Conectar um telefone",
     icon: IconDeviceMobileMessage,
-    summary: "Continue a conversation by text message.",
+    summary: "Continue uma conversa por mensagem de texto.",
   },
 };
 
@@ -157,40 +157,41 @@ export function ReachingYou({ agentId: fixedBot }: { agentId?: string }) {
     (transport === "sms" && challengeId !== "");
   const summary = (transport: Transport) => {
     if (transport === "sms" && challengeId) {
-      return "A verification code is on its way. Enter it to finish.";
+      return "Um código de verificação está a caminho. Insira-o para concluir.";
     }
     if (heldLink(transport)) {
-      return "Your link code is ready to send. Open this to see it again.";
+      return "Seu código de vínculo está pronto para enviar. Abra isto para vê-lo de novo.";
     }
     if (open(transport)) return TRANSPORT[transport].summary;
     return transport === "sms"
-      ? "Text messages aren't set up yet. An admin has to turn them on first."
-      : "Not set up yet. An admin has to turn on Slack and Teams first.";
+      ? "As mensagens de texto ainda não estão configuradas. Um administrador precisa ativá-las primeiro."
+      : "Ainda não configurado. Um administrador precisa ativar o Slack e o Teams primeiro.";
   };
 
   return (
     <>
       {fixedBot === undefined ? (
         <p className="mt-6 text-muted-foreground text-sm">
-          Your devices, recent deliveries, and where each kind of update goes
-          are in{" "}
+          
+          Seus dispositivos, entregas recentes e para onde vai cada tipo de atualização estão em{" "}
           <Link
             className="underline underline-offset-4"
             to="/settings/notifications"
           >
-            Settings → Notifications
+            
+            Configurações → Notificações
           </Link>
           .
         </p>
       ) : null}
-      <PageSection title="Connected destinations">
+      <PageSection title="Destinos conectados">
         {listError ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
             {listError.message}
           </p>
         ) : null}
         {reach.isPending || !destinations ? null : destinations.length === 0 ? (
-          <PageEmpty icon={IconSend} title="No destinations connected" />
+          <PageEmpty icon={IconSend} title="Nenhum destino conectado" />
         ) : (
           <PageRows>
             {destinations.map((binding, index) => {
@@ -213,7 +214,7 @@ export function ReachingYou({ agentId: fixedBot }: { agentId?: string }) {
                       <ItemDescription>
                         {botName(binding.agentId)}
                         {binding.optedOutAt
-                          ? " · You texted STOP. Text START to resume."
+                          ? " · Você enviou STOP. Envie START para retomar."
                           : null}
                       </ItemDescription>
                     </ItemContent>
@@ -224,7 +225,8 @@ export function ReachingYou({ agentId: fixedBot }: { agentId?: string }) {
                         size="sm"
                         variant="outline"
                       >
-                        Disconnect
+                        
+                        Desconectar
                       </Button>
                     </ItemActions>
                   </Item>
@@ -235,8 +237,8 @@ export function ReachingYou({ agentId: fixedBot }: { agentId?: string }) {
         )}
       </PageSection>
       <PageSection
-        description="In a Slack or Teams channel that others can read, the Bot replies to you in a direct message."
-        title="Connect a conversation"
+        description="Em um canal do Slack ou Teams que outras pessoas leem, o Bot responde a você por mensagem direta."
+        title="Conectar uma conversa"
       >
         {reach.data ? (
           <PageRows>
@@ -365,14 +367,15 @@ function ConnectDialog({
         <DialogHeader>
           <DialogTitle>{TRANSPORT[transport].link}</DialogTitle>
           <DialogDescription>
-            Each account or phone number works with one conversation at a time.
-            Linking it here moves it from the one it's linked to now.
+            
+            Cada conta ou número de telefone funciona com uma conversa por vez. Vincular aqui o move da conversa à qual está vinculado agora.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 grid gap-4 overflow-y-auto">
           <Field>
             <FieldLabel htmlFor={`${formId}-conversation`}>
-              Conversation
+              
+              Conversa
             </FieldLabel>
             <Select
               items={Object.fromEntries(
@@ -388,7 +391,7 @@ function ConnectDialog({
               value={channelId || null}
             >
               <SelectTrigger className="w-full" id={`${formId}-conversation`}>
-                <SelectValue placeholder="Choose a conversation" />
+                <SelectValue placeholder="Escolha uma conversa" />
               </SelectTrigger>
               <SelectContent>
                 {conversations.map((channel) => (
@@ -412,7 +415,7 @@ function ConnectDialog({
                 value={pickedBot || null}
               >
                 <SelectTrigger className="w-full" id={`${formId}-bot`}>
-                  <SelectValue placeholder="Choose a Bot" />
+                  <SelectValue placeholder="Escolha um Bot" />
                 </SelectTrigger>
                 <SelectContent>
                   {selected?.agentIds.map((id) => (
@@ -431,7 +434,8 @@ function ConnectDialog({
               size="sm"
               variant="outline"
             >
-              Load more conversations
+              
+              Carregar mais conversas
             </Button>
           ) : null}
           {transport === "sms" ? (
@@ -447,7 +451,8 @@ function ConnectDialog({
               >
                 <Field>
                   <FieldLabel htmlFor={`${formId}-phone`}>
-                    Phone number
+                    
+                    Número de telefone
                   </FieldLabel>
                   <div className="flex items-center gap-2">
                     <Input
@@ -465,7 +470,8 @@ function ConnectDialog({
                       type="submit"
                       variant={challengeId ? "outline" : "default"}
                     >
-                      Send verification code
+                      
+                      Enviar código de verificação
                     </Button>
                   </div>
                 </Field>
@@ -488,7 +494,8 @@ function ConnectDialog({
                 >
                   <Field>
                     <FieldLabel htmlFor={`${formId}-code`}>
-                      Verification code
+                      
+                      Código de verificação
                     </FieldLabel>
                     <div className="flex items-center gap-2">
                       <Input
@@ -503,7 +510,8 @@ function ConnectDialog({
                         size="sm"
                         type="submit"
                       >
-                        Confirm phone
+                        
+                        Confirmar telefone
                       </Button>
                     </div>
                   </Field>
@@ -514,10 +522,12 @@ function ConnectDialog({
             <Item size="sm" variant="muted">
               <ItemContent>
                 <ItemDescription className="line-clamp-none">
-                  Send this message to the OpenBot app in{" "}
+                  
+                  Envie esta mensagem para o app OpenBot em até{" "}
                   {linked.platform === "teams" ? "Microsoft Teams" : "Slack"}{" "}
                   within {Math.ceil((linked.expiresAt - Date.now()) / 60_000)}{" "}
-                  minutes. It links that account to this conversation and Bot.
+                  
+                  minutos. Isso vincula aquela conta a esta conversa e a este Bot.
                 </ItemDescription>
                 <ItemTitle className="break-all font-mono">
                   {linked.command}
@@ -532,7 +542,7 @@ function ConnectDialog({
                   size="sm"
                   variant="outline"
                 >
-                  {copied ? "Copied" : "Copy"}
+                  {copied ? "Copiado" : "Copiar"}
                 </Button>
               </ItemActions>
             </Item>
@@ -545,7 +555,8 @@ function ConnectDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" variant="outline">
-            Close
+            
+            Fechar
           </Button>
           {/* A phone's two steps each submit their own field, beside it. */}
           {transport === "sms" ? null : (

@@ -64,7 +64,7 @@ export async function takeControl(computerId: string, requestId?: string) {
     requestId ??
     (
       await callControl(computerId, "/control/request", {
-        reason: "I want to take control of the browser.",
+        reason: "Quero assumir o controle do navegador.",
         // A person's own take, so nothing shows its reason back to them as though the Bot had asked.
         source: "manual",
       } satisfies RequestHelpInput)
@@ -103,12 +103,12 @@ export async function supplySecret(
     } | null;
     return {
       ok: false,
-      error: body?.error ?? "Couldn't type that into the page. Try again.",
+      error: body?.error ?? "Não foi possível digitar isso na página. Tente novamente.",
     };
   } catch {
     return {
       ok: false,
-      error: "Couldn't reach the Bot's computer. Try again.",
+      error: "Não foi possível acessar o computador do Bot. Tente novamente.",
     };
   }
 }

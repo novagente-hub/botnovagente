@@ -51,7 +51,7 @@ import { cn } from "@/lib/utils";
 export function tabName(tab: BrowserTab): string {
   const title = tab.title.trim();
   if (title && title !== tab.url) return title;
-  if (!tab.url || tab.url === "about:blank") return "New tab";
+  if (!tab.url || tab.url === "about:blank") return "Nova aba";
   try {
     return new URL(tab.url).host || tab.url;
   } catch {
@@ -166,7 +166,7 @@ export function TabStrip({
   return (
     <div className="flex min-w-0 items-center gap-1 border-b border-border px-2 py-1.5">
       <div
-        aria-label="Tabs"
+        aria-label="Abas"
         className="flex min-w-0 items-center gap-1 overflow-x-auto"
         role="tablist"
       >
@@ -182,7 +182,7 @@ export function TabStrip({
             >
               <button
                 aria-controls={panelId(ids)}
-                aria-keyshortcuts="Delete"
+                aria-keyshortcuts="Excluir"
                 aria-selected={tab.active}
                 className="min-w-0 flex-1 truncate rounded-lg py-1 pr-1 pl-2.5 text-left text-[0.8rem] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 disabled={disabled}
@@ -209,7 +209,7 @@ export function TabStrip({
                 onClick={() => onClose(tab.id)}
                 size="icon-xs"
                 tabIndex={-1}
-                title={`Close ${name}`}
+                title={`Fechar ${name}`}
                 variant="ghost"
               >
                 <IconX />
@@ -219,7 +219,7 @@ export function TabStrip({
         })}
       </div>
       <Button
-        aria-label="New tab"
+        aria-label="Nova aba"
         disabled={disabled}
         onClick={onNew}
         size="icon-sm"
@@ -252,7 +252,7 @@ export function TabPanel({
   if (!tabs) return <div className={className}>{children}</div>;
   return (
     <div
-      aria-label={active ? undefined : "Browser"}
+      aria-label={active ? undefined : "Navegador"}
       aria-labelledby={active ? tabId(ids, active.id) : undefined}
       className={className}
       id={panelId(ids)}
@@ -306,7 +306,7 @@ export function AddressBar({
   }, [focus, still, onFocused]);
   return (
     <form
-      aria-label="Address bar"
+      aria-label="Barra de endereço"
       className="flex items-center gap-1 border-b border-border px-2 py-1.5"
       onSubmit={(event) => {
         event.preventDefault();
@@ -320,7 +320,7 @@ export function AddressBar({
       }}
     >
       <Button
-        aria-label="Back"
+        aria-label="Voltar"
         disabled={still}
         onClick={() => onMove("back")}
         size="icon-sm"
@@ -329,7 +329,7 @@ export function AddressBar({
         <IconArrowLeft />
       </Button>
       <Button
-        aria-label="Forward"
+        aria-label="Avançar"
         disabled={still}
         onClick={() => onMove("forward")}
         size="icon-sm"
@@ -338,7 +338,7 @@ export function AddressBar({
         <IconArrowRight />
       </Button>
       <Button
-        aria-label="Reload"
+        aria-label="Recarregar"
         disabled={still}
         onClick={() => onMove("reload")}
         size="icon-sm"
@@ -348,11 +348,11 @@ export function AddressBar({
       </Button>
       {clear ? (
         <Button
-          aria-label="Clear browser data"
+          aria-label="Limpar dados do navegador"
           disabled={clear.disabled}
           onClick={clear.ask}
           size="icon-sm"
-          title="Clear browser data"
+          title="Limpar dados do navegador"
           variant="ghost"
         >
           <IconEraser />
@@ -360,7 +360,7 @@ export function AddressBar({
       ) : null}
       <InputGroup className="ml-1 h-8 flex-1 bg-background text-sm">
         <InputGroupInput
-          aria-label="Address"
+          aria-label="Endereço"
           ref={input}
           disabled={disabled}
           readOnly={readOnly}
@@ -369,7 +369,7 @@ export function AddressBar({
           onKeyDown={(event) => {
             if (event.key === "Escape") setDraft(null);
           }}
-          placeholder="Search or type an address"
+          placeholder="Pesquise ou digite um endereço"
           spellCheck={false}
           value={draft ?? address}
         />
@@ -434,10 +434,10 @@ export function ClearBrowserDialog({
           : {})}
       >
         <DialogHeader>
-          <DialogTitle>Clear this browser?</DialogTitle>
+          <DialogTitle>Limpar este navegador?</DialogTitle>
           <DialogDescription>
-            Cookies, saved passwords and history are wiped. You'll have to sign
-            in everywhere again.
+            
+            Cookies, senhas salvas e histórico são apagados. Você terá que entrar em tudo de novo.
           </DialogDescription>
         </DialogHeader>
         {clear.error ? (
@@ -453,7 +453,8 @@ export function ClearBrowserDialog({
             size="sm"
             variant="outline"
           >
-            Cancel
+            
+            Cancelar
           </Button>
           <Button
             disabled={clear.isPending}
@@ -461,14 +462,14 @@ export function ClearBrowserDialog({
               clear.mutate(undefined, {
                 onSuccess: () => {
                   onOpenChange(false);
-                  toast.add({ title: "Browser cleared", type: "success" });
+                  toast.add({ title: "Navegador limpo", type: "success" });
                 },
               })
             }
             size="sm"
             variant="destructive"
           >
-            {clear.isPending ? "Clearing…" : "Clear"}
+            {clear.isPending ? "Limpando…" : "Limpar"}
           </Button>
         </DialogFooter>
       </DialogContent>

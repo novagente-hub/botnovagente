@@ -44,7 +44,7 @@ export function HandoffTool() {
       const running = status !== "complete" && result === undefined;
       return (
         <ToolLine
-          label={asked ? `Asked ${asked}` : "Asked another Bot"}
+          label={asked ? `Asked ${asked}` : "Perguntou a outro Bot"}
           detail={given?.task}
           running={running}
           refused={!running && refused(result)}
@@ -58,12 +58,14 @@ export function HandoffTool() {
             {given?.task ? <p>{given.task}</p> : null}
             {given?.constraints ? (
               <p className="text-muted-foreground">
-                Constraints: {given.constraints}
+                
+                Restrições: {given.constraints}
               </p>
             ) : null}
             {given?.expecting ? (
               <p className="text-muted-foreground">
-                Wanted back: {given.expecting}
+                
+                Retorno esperado: {given.expecting}
               </p>
             ) : null}
             {typeof result === "string" ? (

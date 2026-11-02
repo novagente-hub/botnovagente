@@ -67,7 +67,7 @@ test("a conversation that is not pinned offers Pin, and pinning asks for it", as
   serving([summary("c1", false)]);
   const view = draw();
 
-  const pin = await view.findByRole("button", { name: "Pin conversation" });
+  const pin = await view.findByRole("button", { name: "Fixar conversa" });
   await waitFor(() => expect(pin.hasAttribute("disabled")).toBe(false));
   fireEvent.click(pin);
 
@@ -79,7 +79,7 @@ test("a pinned conversation offers Unpin", async () => {
   const view = draw();
 
   expect(
-    await view.findByRole("button", { name: "Unpin conversation" }),
+    await view.findByRole("button", { name: "Desafixar conversa" }),
   ).toBeTruthy();
 });
 
@@ -91,11 +91,11 @@ test("Delete is confirmed, and leaves the conversation before deleting it", asyn
   });
 
   fireEvent.click(
-    await view.findByRole("button", { name: "Delete conversation…" }),
+    await view.findByRole("button", { name: "Excluir conversa…" }),
   );
   expect(requests).not.toContain("DELETE /api/channels/c1");
 
-  fireEvent.click(await view.findByRole("button", { name: "Delete" }));
+  fireEvent.click(await view.findByRole("button", { name: "Excluir" }));
 
   await waitFor(() => expect(requests).toContain("DELETE /api/channels/c1"));
   expect(order).toEqual(["leave after 1 requests"]);

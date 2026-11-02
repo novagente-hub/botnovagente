@@ -28,11 +28,12 @@ export function ComputerControlButton({
           }
         }}
       >
-        {human ? "Hand back" : "Take control"}
+        {human ? "Devolver controle" : "Assumir controle"}
       </Button>
       {control?.transitioning ? (
         <span className="text-xs text-muted-foreground" role="status">
-          Finishing the current action…
+          
+          Concluindo a ação atual…
         </span>
       ) : null}
       {problem ? (
@@ -82,7 +83,7 @@ export function ComputerChatControls({
   return (
     <Button
       aria-expanded={open}
-      aria-label={open ? "Close Computer" : "Open Computer"}
+      aria-label={open ? "Fechar Computador" : "Abrir Computador"}
       className={open ? "relative bg-foreground/5" : "relative"}
       disabled={!computerId}
       onClick={() => onOpenChange(!open)}
@@ -92,7 +93,7 @@ export function ComputerChatControls({
       <IconDeviceDesktop className="size-4.5" />
       {needsYou ? (
         <span
-          aria-label="Needs you"
+          aria-label="Precisa de você"
           className="absolute top-1 right-1 size-2 rounded-full bg-amber-500 ring-2 ring-background"
           role="img"
         />

@@ -29,7 +29,7 @@ function RouteComponent() {
           size={22}
         />
         <span className="min-w-0 truncate text-sm tracking-tight">
-          {channel.data?.name ?? "Group"}
+          {channel.data?.name ?? "Grupo"}
         </span>
         <GroupPeopleButton channelId={channelId} />
       </div>

@@ -159,7 +159,7 @@ test("picking a skin draws it at once and saves it on the account", async () => 
   answers.set("PATCH /api/settings/preferences", () => save.promise);
   const { view, user } = renderSettings();
 
-  const picker = view.getByRole("combobox", { name: "Skin" });
+  const picker = view.getByRole("combobox", { name: "Tema visual" });
   await waitFor(() => expect(picker.getAttribute("data-disabled")).toBeNull());
   // The default skin goes by the product's own name, whatever brand.yaml calls it.
   expect(picker.textContent).toContain(appConfig.brand.productName);
@@ -208,7 +208,7 @@ test("a skin the account could not save is put back, and the picker says so", as
   answers.set("PATCH /api/settings/preferences", () => save.promise);
   const { view, user } = renderSettings();
 
-  const picker = view.getByRole("combobox", { name: "Skin" });
+  const picker = view.getByRole("combobox", { name: "Tema visual" });
   await waitFor(() => expect(picker.getAttribute("data-disabled")).toBeNull());
   await user.click(picker);
   await user.click(await view.findByRole("option", { name: /^OpenMuse/ }));
@@ -273,7 +273,7 @@ test("signing out forgets the cached skin, so the next person starts from the de
 test("a sign-out the server refused keeps the skin", async () => {
   signedIn();
   setSkin("openduet");
-  serve("POST /api/auth/sign-out", { error: "Try again" }, 500);
+  serve("POST /api/auth/sign-out", { error: "Tentar novamente" }, 500);
 
   await expect(
     queryClient
@@ -373,7 +373,7 @@ test("a skin switched while on a screen only the old skin has lands on home, dra
   // Home, inside the new skin's frame, with something on it.
   expect(
     // Home draws its composer; its greeting is personal, so it is not what this waits for.
-    await view.findByRole("textbox", { name: "Message" }, HOME),
+    await view.findByRole("textbox", { name: "Mensagem" }, HOME),
   ).toBeTruthy();
   expect(document.querySelector("[data-opendots-main]")).not.toBeNull();
 });

@@ -262,30 +262,30 @@ test("with the Recorder here and connected, one click opens a popover where Reco
   inBrowser("chrome", [recorder]);
   const { view, router } = draw();
   // Hosted OpenBot, which used to send this button to the browser in the page: here it is the browser it is open in.
-  const button = await view.findByRole("button", { name: "Browser" });
-  expect(view.queryByRole("link", { name: "Browser" })).toBeNull();
+  const button = await view.findByRole("button", { name: "Navegador" });
+  expect(view.queryByRole("link", { name: "Navegador" })).toBeNull();
   expect(button.getAttribute("aria-haspopup")).toBe("dialog");
   expect(button.getAttribute("aria-expanded")).toBe("false");
 
   const user = userEvent.setup({ document });
   await user.click(button);
-  const dialog = await view.findByRole("dialog", { name: "Record a task" });
+  const dialog = await view.findByRole("dialog", { name: "Gravar uma tarefa" });
   expect(button.getAttribute("aria-expanded")).toBe("true");
   // It says what a recording holds before Record is pressed, the saves and AI assistant conversations among it.
   expect(dialog.textContent).toContain(
-    "What you do in this browser goes into your own Learning space, in every tab you use, until you stop: your steps, what each step saves, AI assistant conversations, and your narration when it's on.",
+    "O que você faz neste navegador vai para o seu próprio espaço de Aprendizado, em todas as abas que usar, até você parar: seus passos, o que cada passo salva, conversas com assistentes de IA e sua narração, quando ativada.",
   );
   // Focus goes to the task name, ready to type.
   await waitFor(() =>
     expect(document.activeElement?.getAttribute("aria-label")).toBe(
-      "Task name",
+      "Nome da tarefa",
     ),
   );
-  const record = view.getByRole("button", { name: "Record" });
+  const record = view.getByRole("button", { name: "Gravar" });
   expect(record.hasAttribute("disabled")).toBe(true);
 
   await user.type(
-    view.getByRole("textbox", { name: "Task name" }),
+    view.getByRole("textbox", { name: "Nome da tarefa" }),
     "  Submit the receipt ",
   );
   await user.click(record);
@@ -299,7 +299,7 @@ test("with the Recorder here and connected, one click opens a popover where Reco
     await view.findByRole("dialog", { name: "Submit the receipt" }),
   ).toBeTruthy();
   expect(dots(view)).toEqual([
-    expect.stringMatching(/^Recording: Submit the receipt, 0:0\d$/),
+    expect.stringMatching(/^Gravando: Submit the receipt, 0:0\d$/),
   ]);
   expect(view.getByRole("timer").textContent).toMatch(/^0:0\d · 0 actions$/);
   expect(dialog.isConnected).toBe(true);
@@ -314,9 +314,9 @@ test("with the Recorder here and connected, one click opens a popover where Reco
     { timeout: 2500 },
   );
 
-  await user.click(view.getByRole("button", { name: "Stop" }));
+  await user.click(view.getByRole("button", { name: "Parar" }));
   await waitFor(() => expect(sent(recorder, "openbot.stop").length).toBe(1));
-  await view.findByRole("dialog", { name: "Record a task" });
+  await view.findByRole("dialog", { name: "Gravar uma tarefa" });
   expect(view.getByRole("status").textContent).toBe(
     "Saved “Submit the receipt” to your Learning space: 3 actions.",
   );
@@ -337,12 +337,12 @@ test("Record here carries the person's narration choice from their account, and 
   const { view } = draw();
   const user = userEvent.setup({ document });
   const recordTask = async (name: string) => {
-    await user.click(await view.findByRole("button", { name: "Browser" }));
+    await user.click(await view.findByRole("button", { name: "Navegador" }));
     await user.type(
-      await view.findByRole("textbox", { name: "Task name" }),
+      await view.findByRole("textbox", { name: "Nome da tarefa" }),
       name,
     );
-    await user.click(view.getByRole("button", { name: "Record" }));
+    await user.click(view.getByRole("button", { name: "Gravar" }));
   };
   await recordTask("Submit the receipt");
   await waitFor(() =>
@@ -350,7 +350,7 @@ test("Record here carries the person's narration choice from their account, and 
       { type: "openbot.record", title: "Submit the receipt", narrate: false },
     ]),
   );
-  await user.click(await view.findByRole("button", { name: "Stop" }));
+  await user.click(await view.findByRole("button", { name: "Parar" }));
   await waitFor(() => expect(sent(recorder, "openbot.stop").length).toBe(1));
   await user.keyboard("{Escape}");
 
@@ -359,11 +359,11 @@ test("Record here carries the person's narration choice from their account, and 
   await act(() => queryClient.invalidateQueries());
   await recordTask("Book the room");
   const question = await view.findByRole("dialog", {
-    name: "Narrate while you record?",
+    name: "Narrar enquanto grava?",
   });
   expect(sent(recorder, "openbot.record")).toHaveLength(1);
   await user.click(
-    within(question).getByRole("button", { name: "Record with narration" }),
+    within(question).getByRole("button", { name: "Gravar com narração" }),
   );
   await waitFor(() =>
     expect(sent(recorder, "openbot.record")).toEqual([
@@ -379,38 +379,38 @@ test("Record and Stop from the keyboard: Tab to the button, Enter opens the popo
   recorder.connected = true;
   inBrowser("edge", [recorder]);
   const { view } = draw();
-  const button = await view.findByRole("button", { name: "Browser" });
+  const button = await view.findByRole("button", { name: "Navegador" });
   const user = userEvent.setup({ document });
   await user.tab();
   expect(document.activeElement).toBe(button);
   await user.keyboard("{Enter}");
-  await view.findByRole("dialog", { name: "Record a task" });
+  await view.findByRole("dialog", { name: "Gravar uma tarefa" });
   await waitFor(() =>
     expect(document.activeElement?.getAttribute("aria-label")).toBe(
-      "Task name",
+      "Nome da tarefa",
     ),
   );
   await user.keyboard("Book the flight{Enter}");
   await view.findByRole("dialog", { name: "Book the flight" });
   // Record gave way to Stop, the one control while it records, and the keyboard is on it rather than lost.
-  await waitFor(() => expect(document.activeElement?.textContent).toBe("Stop"));
+  await waitFor(() => expect(document.activeElement?.textContent).toBe("Parar"));
   await user.keyboard("{Escape}");
   await waitFor(() => expect(popover()).toBeNull());
   expect(document.activeElement).toBe(button);
   expect(button.getAttribute("aria-expanded")).toBe("false");
   // Still recording, which the dot says.
   expect(dots(view)).toEqual([
-    expect.stringMatching(/^Recording: Book the flight, 0:0\d$/),
+    expect.stringMatching(/^Gravando: Book the flight, 0:0\d$/),
   ]);
   await user.keyboard(" ");
   await view.findByRole("dialog", { name: "Book the flight" });
-  await waitFor(() => expect(document.activeElement?.textContent).toBe("Stop"));
+  await waitFor(() => expect(document.activeElement?.textContent).toBe("Parar"));
   await user.keyboard("{Enter}");
-  await view.findByRole("dialog", { name: "Record a task" });
+  await view.findByRole("dialog", { name: "Gravar uma tarefa" });
   // And Stop gave way to the task name, ready for the next one.
   await waitFor(() =>
     expect(document.activeElement?.getAttribute("aria-label")).toBe(
-      "Task name",
+      "Nome da tarefa",
     ),
   );
   expect(view.getByRole("status").textContent).toBe(
@@ -425,9 +425,9 @@ test("a Record the Recorder refuses shows its own sentence in the popover, and a
   inBrowser("chrome", [recorder]);
   const { view } = draw();
   const user = userEvent.setup({ document });
-  await user.click(await view.findByRole("button", { name: "Browser" }));
+  await user.click(await view.findByRole("button", { name: "Navegador" }));
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Pay the invoice{Enter}",
   );
   const alert = await view.findByRole("alert");
@@ -437,7 +437,7 @@ test("a Record the Recorder refuses shows its own sentence in the popover, and a
   // Not a toast: the popover is where the person pressed Record.
   expect(toasts()).toEqual([]);
   recorder.refuseRecord = null;
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   await view.findByRole("dialog", { name: "Pay the invoice" });
   expect(view.queryByRole("alert")).toBeNull();
 });
@@ -447,16 +447,16 @@ test("the dot is read from the Recorder every second while it records and rarely
   recorder.connected = true;
   inBrowser("chrome", [recorder]);
   const { view } = draw();
-  await view.findByRole("button", { name: "Browser" });
+  await view.findByRole("button", { name: "Navegador" });
   const asked = () => sent(recorder, "openbot.state").length;
   await waitFor(() => expect(asked()).toBe(1));
   await act(() => Bun.sleep(2200));
   expect(asked()).toBe(1);
 
   const user = userEvent.setup({ document });
-  await user.click(view.getByRole("button", { name: "Browser" }));
+  await user.click(view.getByRole("button", { name: "Navegador" }));
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "File the report{Enter}",
   );
   await view.findByRole("dialog", { name: "File the report" });
@@ -471,14 +471,14 @@ test("after Stop the dot does not wait for the server to hear of it: a recording
   inBrowser("chrome", [recorder]);
   const { view } = draw();
   const user = userEvent.setup({ document });
-  await user.click(await view.findByRole("button", { name: "Browser" }));
+  await user.click(await view.findByRole("button", { name: "Navegador" }));
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Close the ticket{Enter}",
   );
   await view.findByRole("dialog", { name: "Close the ticket" });
-  await user.click(view.getByRole("button", { name: "Stop" }));
-  await view.findByRole("dialog", { name: "Record a task" });
+  await user.click(view.getByRole("button", { name: "Parar" }));
+  await view.findByRole("dialog", { name: "Gravar uma tarefa" });
   // The server still has the Recorder's last report of that recording (it reports every 30 s and on each change).
   state = {
     ...closedState("screen"),
@@ -508,7 +508,7 @@ test("after Stop the dot does not wait for the server to hear of it: a recording
   await queryClient.invalidateQueries();
   expect(
     await view.findByRole("img", {
-      name: /^Recording: Submit the timesheet, 0:0\d$/,
+      name: /^Gravando: Submit the timesheet, 0:0\d$/,
     }),
   ).toBeTruthy();
 });
@@ -518,7 +518,7 @@ test("with the Recorder here but not connected, one click connects it as Setting
   inBrowser("chrome", [recorder]);
   const { view } = draw();
   const user = userEvent.setup({ document });
-  await user.click(await view.findByRole("button", { name: "Browser" }));
+  await user.click(await view.findByRole("button", { name: "Navegador" }));
   // A code minted by the server, handed to the Recorder with openbot.connect.
   await waitFor(() =>
     expect(sent(recorder, "openbot.connect")).toEqual([
@@ -526,18 +526,18 @@ test("with the Recorder here but not connected, one click connects it as Setting
     ]),
   );
   expect(requests).toContain(`POST ${recorderPaths.connectCodes}`);
-  await view.findByText("Confirm in the OpenBot Recorder tab that opened.");
+  await view.findByText("Confirme na aba do OpenBot Recorder que abriu.");
   expect(
-    view.getByRole("dialog", { name: "Connect the OpenBot Recorder" }),
+    view.getByRole("dialog", { name: "Conectar o OpenBot Recorder" }),
   ).toBeTruthy();
 
   // The person clicks Connect on the Recorder's page; OpenBot hears of it within the 2 s it asks in while it waits.
   recorder.confirm();
-  await view.findByRole("dialog", { name: "Record a task" }, { timeout: 3000 });
+  await view.findByRole("dialog", { name: "Gravar uma tarefa" }, { timeout: 3000 });
   // One connect, however long it waited.
   expect(sent(recorder, "openbot.connect").length).toBe(1);
   await user.type(
-    view.getByRole("textbox", { name: "Task name" }),
+    view.getByRole("textbox", { name: "Nome da tarefa" }),
     "Approve the leave{Enter}",
   );
   await view.findByRole("dialog", { name: "Approve the leave" });
@@ -550,21 +550,21 @@ test("a Cancel on the Recorder's Connect page reaches the popover within a secon
   inBrowser("chrome", [recorder]);
   const { view } = draw();
   const user = userEvent.setup({ document });
-  await user.click(await view.findByRole("button", { name: "Browser" }));
-  await view.findByText("Confirm in the OpenBot Recorder tab that opened.");
+  await user.click(await view.findByRole("button", { name: "Navegador" }));
+  await view.findByText("Confirme na aba do OpenBot Recorder que abriu.");
   recorder.cancel();
   await view.findByText(
-    "You cancelled in the OpenBot Recorder tab. Nothing was connected.",
+    "Você cancelou na aba do OpenBot Recorder. Nada foi conectado.",
     {},
     { timeout: 1500 },
   );
   // Connect again asks the Recorder again, and waits on its Connect page afresh.
-  await user.click(view.getByRole("button", { name: "Connect this browser" }));
-  await view.findByText("Confirm in the OpenBot Recorder tab that opened.");
+  await user.click(view.getByRole("button", { name: "Conectar este navegador" }));
+  await view.findByText("Confirme na aba do OpenBot Recorder que abriu.");
   expect(sent(recorder, "openbot.connect").length).toBe(2);
   recorder.closeTab();
   await view.findByText(
-    "The OpenBot Recorder tab closed before you confirmed. Nothing was connected.",
+    "A aba do OpenBot Recorder fechou antes de você confirmar. Nada foi conectado.",
     {},
     { timeout: 1500 },
   );
@@ -576,19 +576,19 @@ test("for a trusted OpenBot the one click connects the Recorder with no Connect 
   inBrowser("edge", [recorder]);
   const { view } = draw();
   const user = userEvent.setup({ document });
-  await user.click(await view.findByRole("button", { name: "Browser" }));
-  await view.findByRole("dialog", { name: "Record a task" });
+  await user.click(await view.findByRole("button", { name: "Navegador" }));
+  await view.findByRole("dialog", { name: "Gravar uma tarefa" });
   expect(sent(recorder, "openbot.connect").length).toBe(1);
   expect(recorder.connected).toBe(true);
   // The popover opened on the connect message, with nothing in it to focus, so focus sat on the popover; it moves to
   // the task name once that appears, so the person can type at once (the real-browser run found it left behind).
   await waitFor(() =>
     expect(document.activeElement?.getAttribute("aria-label")).toBe(
-      "Task name",
+      "Nome da tarefa",
     ),
   );
   expect(
-    view.queryByText("Confirm in the OpenBot Recorder tab that opened."),
+    view.queryByText("Confirme na aba do OpenBot Recorder que abriu."),
   ).toBeNull();
 });
 
@@ -598,33 +598,33 @@ test("a connect the Recorder refuses says why in its own sentence, and Try again
   inBrowser("chrome", [recorder]);
   const { view } = draw();
   const user = userEvent.setup({ document });
-  await user.click(await view.findByRole("button", { name: "Browser" }));
+  await user.click(await view.findByRole("button", { name: "Navegador" }));
   const alert = await view.findByRole("alert");
   expect(alert.textContent).toBe(
-    "Your organization set the Recorder to another OpenBot.",
+    "Sua organização configurou o Recorder para outro OpenBot.",
   );
   // Reopening the popover does not ask again by itself.
   await user.keyboard("{Escape}");
   await waitFor(() => expect(popover()).toBeNull());
-  await user.click(view.getByRole("button", { name: "Browser" }));
+  await user.click(view.getByRole("button", { name: "Navegador" }));
   await view.findByRole("alert");
   expect(sent(recorder, "openbot.connect").length).toBe(1);
 
   recorder.refuseConnect = null;
   recorder.trusted = true;
-  await user.click(view.getByRole("button", { name: "Try again" }));
-  await view.findByRole("dialog", { name: "Record a task" });
+  await user.click(view.getByRole("button", { name: "Tentar novamente" }));
+  await view.findByRole("dialog", { name: "Gravar uma tarefa" });
   expect(sent(recorder, "openbot.connect").length).toBe(2);
 });
 
 for (const [error, sentence] of [
   [
     "exchange-refused",
-    "OpenBot didn't accept the Recorder's connect request. Try again.",
+    "O OpenBot não aceitou o pedido de conexão do Recorder. Tente novamente.",
   ],
   [
     "openbot-unreachable",
-    "The Recorder couldn't reach OpenBot to connect. Check your connection and try again.",
+    "O Recorder não conseguiu acessar o OpenBot para conectar. Verifique sua conexão e tente novamente.",
   ],
 ] as const) {
   test(`a trusted connect the Recorder could not complete with OpenBot (${error}) says so in OpenBot's words`, async () => {
@@ -634,9 +634,9 @@ for (const [error, sentence] of [
     inBrowser("chrome", [recorder]);
     const { view } = draw();
     const user = userEvent.setup({ document });
-    await user.click(await view.findByRole("button", { name: "Browser" }));
+    await user.click(await view.findByRole("button", { name: "Navegador" }));
     expect((await view.findByRole("alert")).textContent).toBe(sentence);
-    expect(view.getByRole("button", { name: "Try again" })).toBeTruthy();
+    expect(view.getByRole("button", { name: "Tentar novamente" })).toBeTruthy();
   });
 }
 
@@ -659,7 +659,7 @@ for (const [brands, store, url, name] of [
     // No extension lists OpenBot in its externally_connectable, so the page has no `chrome.runtime` at all.
     inBrowser(brands, null);
     const { view, router } = draw();
-    const link = await view.findByRole("link", { name: "Browser" });
+    const link = await view.findByRole("link", { name: "Navegador" });
     expect(link.getAttribute("href")).toBe(url);
     expect(link.getAttribute("target")).toBe("_blank");
     expect(link.getAttribute("rel")).toBe("noopener noreferrer");
@@ -669,7 +669,7 @@ for (const [brands, store, url, name] of [
     await user.click(link);
     await waitFor(() => expect(toasts()).toEqual([storeTabSentence(store)]));
     expect(storeTabSentence(store)).toBe(
-      `The OpenBot Recorder's page is open in a new tab. Add it to ${name} to record from OpenBot.`,
+      `A página do OpenBot Recorder está aberta em uma nova aba. Adicione-o ao ${name} para gravar pelo OpenBot.`,
     );
     expect(router.state.location.pathname).toBe("/");
     expect(browserRoutes()).toEqual([]);
@@ -682,10 +682,10 @@ for (const [brands, store, url, name] of [
       focusManager.setFocused(true);
     });
     undo.push(() => focusManager.setFocused(undefined));
-    const button = await view.findByRole("button", { name: "Browser" });
+    const button = await view.findByRole("button", { name: "Navegador" });
     recorder.trusted = true;
     await user.click(button);
-    await view.findByRole("dialog", { name: "Record a task" });
+    await view.findByRole("dialog", { name: "Gravar uma tarefa" });
   });
 }
 
@@ -693,7 +693,7 @@ test("where another extension gave the page chrome.runtime but the Recorder is n
   published();
   inBrowser("chrome", []);
   const { view } = draw();
-  const link = await view.findByRole("link", { name: "Browser" });
+  const link = await view.findByRole("link", { name: "Navegador" });
   expect(link.getAttribute("href")).toBe(
     `https://chromewebstore.google.com/detail/${CHROME_STORE_ID}`,
   );
@@ -702,7 +702,7 @@ test("where another extension gave the page chrome.runtime but the Recorder is n
 test("before the Recorder is published, Chrome with no Recorder keeps today's button: hosted, the link to the Browser page", async () => {
   inBrowser("chrome", null);
   const { view } = draw();
-  const link = await view.findByRole("link", { name: "Browser" });
+  const link = await view.findByRole("link", { name: "Navegador" });
   expect(link.getAttribute("href")).toBe("/browser");
 });
 
@@ -710,7 +710,7 @@ test("before the Recorder is published, Chrome with no Recorder keeps today's bu
   state = closedState("native");
   inBrowser("chrome", []);
   const { view } = draw();
-  const button = await view.findByRole("button", { name: "Browser" });
+  const button = await view.findByRole("button", { name: "Navegador" });
   expect(button.getAttribute("aria-haspopup")).toBeNull();
   const user = userEvent.setup({ document });
   await user.click(button);
@@ -725,7 +725,7 @@ test("a Recorder from before openbot.state keeps today's button, as OpenBot cann
   recorder.older = true;
   inBrowser("chrome", [recorder]);
   const { view } = draw();
-  const link = await view.findByRole("link", { name: "Browser" });
+  const link = await view.findByRole("link", { name: "Navegador" });
   expect(link.getAttribute("href")).toBe("/browser");
   expect(sent(recorder, "openbot.state").length).toBe(1);
 });
@@ -738,7 +738,7 @@ test("OpenBot Desktop's own app window on Windows (WebView2, which reports Edge'
   // WebView2 gives its page `chrome.webview` for its host; were it to give `chrome.runtime` as well, still nothing.
   undo.push(installChromeRuntime([recorder], { webview: {} }));
   const { view } = draw();
-  const button = await view.findByRole("button", { name: "Browser" });
+  const button = await view.findByRole("button", { name: "Navegador" });
   expect(button.getAttribute("aria-haspopup")).toBeNull();
   const user = userEvent.setup({ document });
   await user.click(button);
@@ -768,7 +768,7 @@ for (const [where, setUp] of [
     published();
     undo.push(setUp());
     const { view } = draw();
-    const link = await view.findByRole("link", { name: "Browser" });
+    const link = await view.findByRole("link", { name: "Navegador" });
     expect(link.getAttribute("href")).toBe("/browser");
     expect(requests).toEqual([`GET ${browserApiPaths.state}`]);
   });
@@ -782,7 +782,7 @@ test("where the server cannot say which Recorders it trusts, the button is today
   const { view } = draw();
   const link = await view.findByRole(
     "link",
-    { name: "Browser" },
+    { name: "Navegador" },
     { timeout: 5000 },
   );
   expect(link.getAttribute("href")).toBe("/browser");

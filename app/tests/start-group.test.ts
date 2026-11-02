@@ -44,7 +44,7 @@ test("a first message that does not send discards the empty group and opens noth
         return { id: "channel-1" };
       },
       send: async () => {
-        throw new Error("Your message could not be sent to the group.");
+        throw new Error("Não foi possível enviar sua mensagem ao grupo.");
       },
       discard: async (channelId) => {
         calls.push(`discard ${channelId}`);
@@ -53,7 +53,7 @@ test("a first message that does not send discards the empty group and opens noth
         calls.push("open");
       },
     }),
-  ).rejects.toThrow("Your message could not be sent to the group.");
+  ).rejects.toThrow("Não foi possível enviar sua mensagem ao grupo.");
   expect(calls).toEqual(["create", "discard channel-1"]);
 });
 
@@ -64,14 +64,14 @@ test("a discard that also fails still reports the message's failure, not the dis
       text: "Hello.",
       create: async () => ({ id: "channel-1" }),
       send: async () => {
-        throw new Error("Your message could not be sent to the group.");
+        throw new Error("Não foi possível enviar sua mensagem ao grupo.");
       },
       discard: async () => {
         throw new Error("Could not delete this channel");
       },
       open: async () => undefined,
     }),
-  ).rejects.toThrow("Your message could not be sent to the group.");
+  ).rejects.toThrow("Não foi possível enviar sua mensagem ao grupo.");
 });
 
 test("a group that could not be made sends nothing and opens nothing", async () => {
@@ -81,7 +81,7 @@ test("a group that could not be made sends nothing and opens nothing", async () 
       agentIds: ["knowledge", "risk-analyst"],
       text: "Hello.",
       create: async () => {
-        throw new Error("The group could not be started.");
+        throw new Error("Não foi possível iniciar o grupo.");
       },
       send: async () => {
         calls.push("send");
@@ -93,6 +93,6 @@ test("a group that could not be made sends nothing and opens nothing", async () 
         calls.push("open");
       },
     }),
-  ).rejects.toThrow("The group could not be started.");
+  ).rejects.toThrow("Não foi possível iniciar o grupo.");
   expect(calls).toEqual([]);
 });

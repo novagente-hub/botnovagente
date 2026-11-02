@@ -37,7 +37,7 @@ export function EscalationTool() {
       const running = status !== "complete" && result === undefined;
       return (
         <ToolLine
-          label="Asked you"
+          label="Perguntou a você"
           detail={given?.question}
           running={running}
           refused={!running && !reached(result)}

@@ -66,7 +66,7 @@ export function GrantList({
     onSuccess: (authorizationUrl) => {
       if (authorizationUrl === null) {
         setNotice(
-          "OpenBot answered without a consent link, so nothing was authorized. Try again, or ask an admin if it keeps happening.",
+          "O OpenBot respondeu sem um link de consentimento, então nada foi autorizado. Tente novamente ou fale com um administrador se continuar acontecendo.",
         );
         return;
       }
@@ -77,16 +77,18 @@ export function GrantList({
   if (grants.isPending) return null;
   if (grants.error) {
     return (
-      <PageSection title="Actions">
+      <PageSection title="Ações">
         <p className="text-destructive text-sm" role="alert">
-          Couldn't read what this account allows right now.{" "}
+          
+          Não foi possível ler o que esta conta permite agora.{" "}
           <Button
             onClick={() => grants.refetch()}
             size="sm"
             type="button"
             variant="outline"
           >
-            Retry
+            
+            Tentar de novo
           </Button>
         </p>
       </PageSection>
@@ -97,11 +99,12 @@ export function GrantList({
   if (couldNotRead(all, appNames)) {
     const [only] = all;
     return (
-      <PageSection title="Actions">
+      <PageSection title="Ações">
         {/* Not an action: the entry's label is the toolkit's own name, which a person must not
             see in their grant list as if it were one. */}
         <p data-could-not-read="" role="status" className="text-sm">
-          Couldn't read what this account allows right now.
+          
+          Não foi possível ler o que esta conta permite agora.
           {only?.state === "unknown" ? ` ${only.reason}` : null}{" "}
           <Button
             onClick={() => grants.refetch()}
@@ -109,7 +112,8 @@ export function GrantList({
             type="button"
             variant="outline"
           >
-            Retry
+            
+            Tentar de novo
           </Button>
         </p>
       </PageSection>
@@ -141,8 +145,8 @@ export function GrantList({
 
   return (
     <PageSection
-      description="Grouped by the permission each action asks for. This matches what the consent screen shows."
-      title="Actions"
+      description="Agrupadas pela permissão que cada ação pede. Corresponde ao que a tela de consentimento mostra."
+      title="Ações"
     >
       {notice ? (
         <p className="text-destructive text-sm" role="alert">
@@ -150,9 +154,9 @@ export function GrantList({
         </p>
       ) : null}
       <Input
-        aria-label="Search actions"
+        aria-label="Pesquisar ações"
         onChange={(event) => setSearch(event.target.value)}
-        placeholder="Search actions"
+        placeholder="Pesquisar ações"
         type="search"
         value={search}
       />
@@ -165,9 +169,9 @@ export function GrantList({
         >
           <p className="mb-1 text-muted-foreground text-xs">
             {group.kind === "whole-app"
-              ? "Everything in this app, approved together"
+              ? "Tudo neste app, aprovado em conjunto"
               : group.kind === "none"
-                ? "Asks for no permission of its own"
+                ? "Não pede nenhuma permissão própria"
                 : `Needs ${group.scopes.join(", ")}`}
           </p>
           <PageRows>
@@ -196,7 +200,8 @@ export function GrantList({
                       type="button"
                       variant="outline"
                     >
-                      Authorize
+                      
+                      Autorizar
                     </Button>
                   ) : null}
                   {grant.state === "unknown" ? (
@@ -206,7 +211,8 @@ export function GrantList({
                       type="button"
                       variant="outline"
                     >
-                      Retry
+                      
+                      Tentar de novo
                     </Button>
                   ) : null}
                 </ItemActions>
@@ -217,13 +223,13 @@ export function GrantList({
       ))}
       {hidden > 0 ? (
         <p className="text-muted-foreground text-sm">
-          {hidden} more {hidden === 1 ? "action" : "actions"} not yet
-          authorized. Search to find {hidden === 1 ? "it" : "one"}.
+          Mais {hidden} {hidden === 1 ? "ação ainda não autorizada" : "ações ainda não autorizadas"}. Pesquise para encontrar.
         </p>
       ) : null}
       {term.length > 0 && groups.length === 0 ? (
         <p className="text-muted-foreground text-sm">
-          No action matches that search.
+          
+          Nenhuma ação corresponde a essa busca.
         </p>
       ) : null}
       {choosing !== null ? (
@@ -258,7 +264,7 @@ function ConsentNotice({
 }) {
   return (
     <fieldset
-      aria-label={`Before you authorize ${action}`}
+      aria-label={`Antes de autorizar ${action}`}
       className="m-0 flex min-w-0 flex-col gap-2 rounded-lg border p-3"
       data-consent-copy=""
     >
@@ -271,10 +277,12 @@ function ConsentNotice({
           type="button"
           variant="outline"
         >
-          Continue to consent
+          
+          Continuar para o consentimento
         </Button>
         <Button onClick={onCancel} size="sm" type="button" variant="ghost">
-          Cancel
+          
+          Cancelar
         </Button>
       </div>
     </fieldset>
@@ -286,17 +294,17 @@ function describe(grant: GrantState, canAuthorize: boolean): string {
     case "authorized":
       // Nobody authorized an action that needs no authorization, so the row does not say they did.
       return grant.authorization === "not-required"
-        ? "Needs no authorization."
+        ? "Não precisa de autorização."
         : "Authorized.";
     case "needs-consent":
       return canAuthorize
-        ? "Not authorized yet."
-        : "Not authorized yet. An admin can authorize it.";
+        ? "Ainda não autorizado."
+        : "Ainda não autorizado. Um administrador pode autorizar.";
     case "needs-operator":
       return grant.missing.length > 0
-        ? `Missing ${grant.missing.join(", ")}. An admin has to set it. Authorizing can't fix it.`
-        : "A setting is missing. An admin has to set it. Authorizing can't fix it.";
+        ? `Falta ${grant.missing.join(", ")}. Um administrador precisa definir. Autorizar não resolve.`
+        : "Falta uma configuração. Um administrador precisa definir. Autorizar não resolve.";
     case "unknown":
-      return `Couldn't read this one right now. ${grant.reason}`;
+      return `Não foi possível ler esta agora. ${grant.reason}`;
   }
 }

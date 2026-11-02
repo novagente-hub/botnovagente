@@ -47,7 +47,7 @@ function WelcomeStep() {
       <div className="h-8" />
       <IllustrationFrame
         className="flex flex-col items-center px-8 pt-16 pb-10"
-        label="A message box where you hand off tasks to your Bots"
+        label="Uma caixa de mensagem onde você passa tarefas para seus Bots"
       >
         <AgentOrb size="72px" />
         {/*
@@ -71,7 +71,7 @@ function WelcomeStep() {
             compact
             className="scale-90"
             editorClassName="text-base"
-            initialValue="Hand off tasks to your team of Bots"
+            initialValue="Passe tarefas para sua equipe de Bots"
           />
         </div>
       </IllustrationFrame>
@@ -83,7 +83,8 @@ function ComputerUseStep() {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tight max-w-md text-center">
-        Each Bot has its own browser and files
+        
+        Cada Bot tem o próprio navegador e arquivos
       </h1>
       <div className="h-8" />
       <div className="relative aspect-5/3 w-full max-w-lg rounded-2xl overflow-hidden border border-border">
@@ -104,13 +105,13 @@ type RosterCard = Pick<AgentProfile, "id" | "name" | "avatarSeed">;
 const AGENTS_PLACEHOLDER: RosterCard[] = [
   {
     id: "placeholder-research",
-    name: "Research Analyst",
+    name: "Analista de pesquisa",
     avatarSeed: "research-analyst",
   },
-  { id: "placeholder-data", name: "Data Analyst", avatarSeed: "data-analyst" },
+  { id: "placeholder-data", name: "Analista de dados", avatarSeed: "data-analyst" },
   {
     id: "placeholder-support",
-    name: "Support Desk",
+    name: "Central de suporte",
     avatarSeed: "support-agent",
   },
 ];
@@ -132,12 +133,13 @@ function RosterStep() {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tight max-w-md text-center">
-        Pick a Bot or make your own
+        
+        Escolha um Bot ou crie o seu
       </h1>
       <div className="h-8" />
       <IllustrationFrame
         className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6"
-        label={`Bots you can work with, such as ${roster.map((a) => a.name).join(", ")}, and one of your own`}
+        label={`Bots com quem você pode trabalhar, como ${roster.map((a) => a.name).join(", ")}, e um só seu`}
       >
         {roster.map((a) => {
           return (
@@ -152,7 +154,7 @@ function RosterStep() {
                   {a.name}
                 </h3>
                 {a.example ? (
-                  <span className="text-xs text-muted-foreground">Example</span>
+                  <span className="text-xs text-muted-foreground">Exemplo</span>
                 ) : null}
               </div>
             </div>
@@ -161,7 +163,8 @@ function RosterStep() {
         <div className="bg-card p-4 rounded-lg flex flex-row gap-4 items-center">
           <div className="rounded-full size-[40px] border border-foreground/30 border-dashed" />
           <h3 className="line-clamp-1 text-base font-medium tracking-tight text-foreground/70">
-            Your own Bot
+            
+            Seu próprio Bot
           </h3>
         </div>
       </IllustrationFrame>
@@ -180,7 +183,8 @@ function LocalStep() {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tight max-w-md text-center">
-        It runs on your machine
+        
+        Ele roda na sua máquina
       </h1>
       {/*
        * "Stored", and the model named, because "your data never leaves" would be untrue: every turn
@@ -188,8 +192,8 @@ function LocalStep() {
        * word about sign-in either: activating a local install signs you in to CopilotKit.
        */}
       <p className="mt-3 max-w-md text-center text-muted-foreground">
-        Your conversations, files and Bots are stored on this computer. Only
-        what you send to your model leaves it.
+        
+        Suas conversas, arquivos e Bots ficam neste computador. Só o que você envia ao seu modelo sai dele.
       </p>
       <div className="h-8" />
       <IllustrationFrame
@@ -209,10 +213,12 @@ function AgentsStep() {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tight max-w-md text-center">
-        Bring the agents you already have
+        
+        Traga os agentes que você já tem
       </h1>
       <p className="mt-3 max-w-md text-center text-muted-foreground">
-        Any AG-UI agent can join as a Bot. Add one from Bots, then New Bot.
+        
+        Qualquer agente AG-UI pode entrar como Bot. Adicione um em Bots, depois Novo Bot.
       </p>
       <div className="h-8" />
       <IllustrationFrame
@@ -237,16 +243,17 @@ function OrganizationStep() {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tight max-w-md text-center">
-        Deploy it for your organization
+        
+        Implante na sua organização
       </h1>
       <p className="mt-3 max-w-md text-center text-muted-foreground">
-        Run one container image, or a Helm chart for EKS, GKE or AKS. Your
-        people sign in with Google, Microsoft or Okta.
+        
+        Rode uma imagem de container ou um Helm chart para EKS, GKE ou AKS. Sua equipe entra com Google, Microsoft ou Okta.
       </p>
       <div className="h-8" />
       <IllustrationFrame
         className="flex justify-center px-6 py-8"
-        label="Your people sign in with Google, Microsoft or Okta, and your organization gets its own rules, its own Bots and an audit trail"
+        label="Sua equipe entra com Google, Microsoft ou Okta, e sua organização ganha regras próprias, Bots próprios e uma trilha de auditoria"
       >
         <OrganizationFlow />
       </IllustrationFrame>
@@ -260,7 +267,8 @@ function OrganizationStep() {
         rel="noopener noreferrer"
         target="_blank"
       >
-        Talk to an engineer
+        
+        Fale com um engenheiro
       </a>
     </div>
   );
@@ -270,27 +278,27 @@ function Introduction({ localEvaluation }: { localEvaluation: boolean }) {
   return (
     <IntroAnimation
       scenes={[
-        { id: "welcome", label: "Welcome", content: <WelcomeStep /> },
+        { id: "welcome", label: "Boas-vindas", content: <WelcomeStep /> },
         {
           id: "computer",
-          label: "Each Bot has its own browser and files",
+          label: "Cada Bot tem o próprio navegador e arquivos",
           content: <ComputerUseStep />,
         },
         {
           id: "roster",
-          label: "Pick a Bot or make your own",
+          label: "Escolha um Bot ou crie o seu",
           content: <RosterStep />,
         },
         ...(localEvaluation
           ? [
               {
                 id: "local",
-                label: "It runs on your machine",
+                label: "Ele roda na sua máquina",
                 content: <LocalStep />,
               },
               {
                 id: "agents",
-                label: "Bring the agents you already have",
+                label: "Traga os agentes que você já tem",
                 content: <AgentsStep />,
               },
             ]
@@ -399,14 +407,16 @@ function RouteComponent() {
               {capabilitiesError && !capabilities ? (
                 <div className="mt-4 text-center">
                   <p className="text-sm text-destructive" role="alert">
-                    We couldn't load your setup. Try again to continue.
+                    
+                    Não foi possível carregar sua configuração. Tente novamente para continuar.
                   </p>
                   <Button
                     variant="ghost"
                     disabled={loadingCapabilities}
                     onClick={() => retryCapabilities()}
                   >
-                    Try again
+                    
+                    Tentar novamente
                   </Button>
                 </div>
               ) : null}
@@ -435,7 +445,8 @@ function RouteComponent() {
                     }
                     size="lg"
                   >
-                    Continue
+                    
+                    Continuar
                   </Button>
                 )}
                 {step !== "intro" && (
@@ -453,7 +464,8 @@ function RouteComponent() {
                     variant="secondary"
                     size="lg"
                   >
-                    Back
+                    
+                    Voltar
                   </Button>
                 )}
               </motion.div>

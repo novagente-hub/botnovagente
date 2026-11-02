@@ -181,7 +181,7 @@ const RESTORING_ANSWER_LINES = [
 function RestoringTranscript() {
   return (
     // One announcement, with every bar hidden from it: nine empty shapes read aloud is worse.
-    <div aria-label="Loading this conversation" role="status">
+    <div aria-label="Carregando esta conversa" role="status">
       <div aria-hidden="true" className="flex justify-end pb-7">
         <Skeleton className="h-10 w-64 rounded-xl bg-muted/40 motion-reduce:animate-none" />
       </div>
@@ -216,7 +216,8 @@ function Thinking() {
       // is doing. The text says it, so a screen reader is told the same thing the shimmer implies.
       role="status"
     >
-      Thinking
+      
+      Pensando
     </p>
   );
 }
@@ -378,7 +379,7 @@ function Queued({
            * `status` rather than `alert`, matching the thinking line: a person who has just chosen
            * to queue something is not being interrupted by the news that it is queued.
            */}
-          <span role="status">Queued</span>
+          <span role="status">Na fila</span>
           {onRemove ? (
             <button
               /*
@@ -396,7 +397,8 @@ function Queued({
               onClick={onRemove}
               type="button"
             >
-              Remove
+              
+              Remover
             </button>
           ) : null}
         </MessageFooter>
@@ -638,7 +640,7 @@ function RoutineFiring({ instruction }: { instruction: string }) {
     <div className="flex min-w-0 items-baseline gap-2 text-muted-foreground text-sm">
       <IconClock aria-hidden className="size-4 shrink-0 translate-y-0.5" />
       <span className="min-w-0">
-        <span className="font-medium">Routine ran.</span>{" "}
+        <span className="font-medium">Rotina executada.</span>{" "}
         <span className="whitespace-pre-wrap">{instruction}</span>
       </span>
     </div>
@@ -673,13 +675,14 @@ function ResponsibilityFiring({
       <IconClock aria-hidden className="size-4 shrink-0 translate-y-0.5" />
       <div className="min-w-0">
         <p>
-          <span className="font-medium">Responsibility ran.</span> Trigger:{" "}
+          <span className="font-medium">Responsabilidade executada.</span>  Gatilho:{" "}
           {describeTrigger(turn.trigger)}
         </p>
         <p className="whitespace-pre-wrap">{turn.instruction}</p>
         <details className="group mt-1">
           <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-sm text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
-            Details
+            
+            Detalhes
             <IconChevronDown
               aria-hidden
               className="size-3 transition-transform group-open:rotate-180 motion-reduce:transition-none"
@@ -1135,9 +1138,9 @@ function SentAttachmentTile({ attachment }: { attachment: SentAttachment }) {
         <div className="min-w-0">
           {/* `title` because the tile is fixed-width and a long name is cut, not wrapped. */}
           <p className="truncate font-medium text-sm" title={filename}>
-            {filename ?? "Untitled file"}
+            {filename ?? "Arquivo sem título"}
           </p>
-          <p className="text-muted-foreground text-xs">Attachment</p>
+          <p className="text-muted-foreground text-xs">Anexo</p>
         </div>
       </div>
     );
@@ -1146,7 +1149,7 @@ function SentAttachmentTile({ attachment }: { attachment: SentAttachment }) {
   return (
     <AttachmentLightbox filename={filename} url={url}>
       <img
-        alt={filename ? `Attachment: ${filename}` : "Attachment"}
+        alt={filename ? `Attachment: ${filename}` : "Anexo"}
         className="size-32 rounded-xl object-cover"
         onError={() => setFailedToLoad(true)}
         src={url}
@@ -1167,8 +1170,8 @@ function SentAttachmentTile({ attachment }: { attachment: SentAttachment }) {
  */
 function unavailableSentence(filename?: string): string {
   return filename
-    ? `${filename} is unavailable.`
-    : "This attachment is unavailable.";
+    ? `${filename} não está disponível.`
+    : "Este anexo não está disponível.";
 }
 
 /**
@@ -1228,7 +1231,7 @@ export function LightboxPicture({
 
   return (
     <img
-      alt={filename ?? "Attachment"}
+      alt={filename ?? "Anexo"}
       className="max-h-[88svh] max-w-[92vw] rounded-lg object-contain"
       onError={() => setFailedToLoad(true)}
       src={url}
@@ -1262,7 +1265,7 @@ function AttachmentLightbox({
   filename?: string;
   url: string;
 }) {
-  const label = filename ?? "Attachment";
+  const label = filename ?? "Anexo";
   /*
    * Controlled only so that clicking the dark space around the picture closes it, the way every
    * lightbox a reader has used does. The popup covers the viewport (see below), so it — not the
@@ -1307,7 +1310,7 @@ function AttachmentLightbox({
         <DialogClose
           render={
             <button
-              aria-label="Close"
+              aria-label="Fechar"
               className="absolute top-4 right-4 grid size-9 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
               type="button"
             />
@@ -1329,7 +1332,7 @@ function AttachmentLightbox({
  */
 function activityName(activityType: string): string {
   return activityType === "open-generative-ui"
-    ? "This Bot's generated interface"
+    ? "Interface gerada por este Bot"
     : activityType;
 }
 

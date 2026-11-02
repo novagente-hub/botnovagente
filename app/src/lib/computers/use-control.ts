@@ -55,7 +55,7 @@ function createControlStore(computerId: string): ControlStore {
         ? snapshot.problem?.startsWith("Reconnecting:")
           ? null
           : snapshot.problem
-        : "Reconnecting: browser ownership could not be checked. Input is paused.",
+        : "Reconectando: não foi possível verificar quem controla o navegador. A entrada está pausada.",
     });
   };
   // Keep the same store through Strict Mode resubscriptions and pending mutations.
@@ -72,7 +72,7 @@ function createControlStore(computerId: string): ControlStore {
       publish({
         ...snapshot,
         problem:
-          "The handoff request could not be identified. Retry the connection.",
+          "Não foi possível identificar o pedido de repasse. Tente reconectar.",
       });
       return false;
     }
@@ -96,14 +96,14 @@ function createControlStore(computerId: string): ControlStore {
         busy: false,
         problem: next
           ? null
-          : "Control could not be changed. Check the connection and retry.",
+          : "Não foi possível mudar o controle. Verifique a conexão e tente de novo.",
       });
       return next !== null;
     } catch {
       publish({
         ...snapshot,
         busy: false,
-        problem: "The computer could not be reached. Retry when it reconnects.",
+        problem: "Não foi possível acessar o computador. Tente de novo quando ele reconectar.",
       });
       return false;
     } finally {

@@ -216,11 +216,11 @@ function everythingRendered(view: ReturnType<typeof render>): string {
   return `${view.container.textContent ?? ""}\n${view.container.innerHTML}`;
 }
 
-const PAGE = "Bots use this as you, and see only what you can see.";
+const PAGE = "Os Bots usam isto como você e veem só o que você pode ver.";
 const CONNECTED =
-  "Signed in with Gmail. Bots you allow use your Gmail as you. Disconnecting removes their access everywhere.";
+  "Conectado com Gmail. Os Bots que você permitir usam seu Gmail como você. Desconectar remove o acesso deles em todos os lugares.";
 const DISCONNECTED =
-  "No Bot can use this as you. Connecting takes you to Gmail to approve access.";
+  "Nenhum Bot pode usar isto como você. Conectar leva você ao Gmail para aprovar o acesso.";
 
 // ---- 1 and 2: the sibling list, rendered ----
 
@@ -236,7 +236,7 @@ test("a connected app with siblings NAMES each of them in the confirmation", asy
   expect(text).toContain("googlecalendar");
   expect(text).toContain("googledocs");
   expect(text).toContain(
-    "Disconnecting also ends your access to googlecalendar and googledocs, which share this connection.",
+    "Desconectar também encerra seu acesso a googlecalendar e googledocs, que compartilham esta conexão.",
   );
   expect(text).not.toContain("gmail,");
 });
@@ -248,7 +248,7 @@ test("with no siblings NO sibling copy appears at all, not an empty block", asyn
     siblings: { siblings: [], unanswered: 0 },
   });
   const view = renderScreen();
-  await view.findByText("Disconnect");
+  await view.findByText("Desconectar");
   // The read has happened, and answered empty.
   await new Promise((resolve) => setTimeout(resolve, 50));
   expect(siblingReads.length).toBeGreaterThan(0);
@@ -266,7 +266,7 @@ test("with no siblings NO sibling copy appears at all, not an empty block", asyn
 test("a Composio deployment always answers empty, so it draws no sibling copy either", async () => {
   install({ provider: "composio", connected: true });
   const view = renderScreen();
-  await view.findByText("Disconnect");
+  await view.findByText("Desconectar");
   await new Promise((resolve) => setTimeout(resolve, 50));
   expect(view.container.textContent).not.toContain("also ends");
 });
@@ -274,10 +274,10 @@ test("a Composio deployment always answers empty, so it draws no sibling copy ei
 test("apps that could not be asked about are a count and never names", () => {
   expect(disconnectSiblingsNotice({ siblings: [], unanswered: 0 })).toBeNull();
   expect(disconnectSiblingsNotice({ siblings: ["slack"], unanswered: 2 })).toBe(
-    "Disconnecting also ends your access to slack, which shares this connection. 2 other apps couldn't be checked and may be affected too.",
+    "Desconectar também encerra seu acesso a slack, que compartilha esta conexão. 2 outros apps não puderam ser verificados e podem ser afetados também.",
   );
   expect(disconnectSiblingsNotice({ siblings: [], unanswered: 1 })).toBe(
-    "1 app on this connection couldn't be checked, so disconnecting may end it too.",
+    "1 app nesta conexão não pôde ser verificado, então desconectar pode encerrá-lo também.",
   );
 });
 
@@ -294,7 +294,7 @@ test("the sibling list is not drawn once there is no account for a Disconnect to
    * Arcade authorizes per action, so the row withholds a whole-app Connect that could only reach
    * the adapter's refusal. The row's disconnected state is what is being waited for either way.
    */
-  await view.findByText("Approved per action");
+  await view.findByText("Aprovado por ação");
   expect(view.container.textContent).not.toContain("googledocs");
   expect(siblingReads.length).toBe(0);
 });
@@ -311,7 +311,7 @@ for (const connected of [true, false]) {
         siblings: { siblings: ["googledocs"], unanswered: 1 },
       });
       const view = renderScreen("?action=Gmail.ListEmails");
-      await view.findByText("You just authorized Gmail.ListEmails.");
+      await view.findByText("Você acabou de autorizar Gmail.ListEmails.");
       if (connected && configured) await view.findByText(/googledocs/);
       const rendered = everythingRendered(view);
       expect(rendered).not.toMatch(/composio/i);
@@ -322,16 +322,16 @@ for (const connected of [true, false]) {
 
 test("where a screen does name the broker, the vocabulary names the active one", () => {
   expect(brokeredDisconnectNote("arcade")).toBe(
-    "Disconnecting also ends the account at Arcade.",
+    "Desconectar também encerra a conta em Arcade.",
   );
   expect(brokeredDisconnectNote("composio")).toBe(
-    "Disconnecting also ends the account at Composio.",
+    "Desconectar também encerra a conta em Composio.",
   );
   expect(brokeredKeyMissing("arcade")).toBe(
-    "Set ARCADE_API_KEY on this deployment. Until then, this account can't be connected or disconnected here. The app stays turned on, and its tool grants still stand.",
+    "Defina ARCADE_API_KEY nesta implantação. Até lá, esta conta não pode ser conectada nem desconectada aqui. O app continua ativado, e as concessões de ferramentas continuam valendo.",
   );
   expect(brokeredKeyMissing("composio")).toBe(
-    "Set COMPOSIO_API_KEY on this deployment. Until then, this account can't be connected or disconnected here. The app stays turned on, and its tool grants still stand.",
+    "Defina COMPOSIO_API_KEY nesta implantação. Até lá, esta conta não pode ser conectada nem desconectada aqui. O app continua ativado, e as concessões de ferramentas continuam valendo.",
   );
 });
 
@@ -341,7 +341,7 @@ for (const provider of ["composio", "arcade"] as const) {
   test(`a connected page on ${provider} says what Bots do, and names no broker`, async () => {
     install({ provider, connected: true });
     const view = renderScreen();
-    await view.findByText("Disconnect");
+    await view.findByText("Desconectar");
     const rendered = everythingRendered(view);
     expect(rendered).toContain(PAGE);
     expect(rendered).not.toMatch(/composio|arcade/i);
@@ -351,7 +351,7 @@ for (const provider of ["composio", "arcade"] as const) {
 test("a connected Composio page renders its sentences verbatim", async () => {
   install({ provider: "composio", connected: true });
   const view = renderScreen();
-  await view.findByText(/Disconnecting removes their access/);
+  await view.findByText(/Desconectar remove o acesso deles/);
   const text = view.container.textContent ?? "";
   expect(text).toContain(PAGE);
   expect(text).toContain(CONNECTED);
@@ -360,7 +360,7 @@ test("a connected Composio page renders its sentences verbatim", async () => {
 test("a disconnected Composio page renders its sentences verbatim", async () => {
   install({ provider: "composio", connected: false });
   const view = renderScreen();
-  await view.findByText(/Connecting takes you to/);
+  await view.findByText(/Conectar leva você ao/);
   const text = view.container.textContent ?? "";
   expect(text).toContain(PAGE);
   expect(text).toContain(DISCONNECTED);
@@ -369,9 +369,9 @@ test("a disconnected Composio page renders its sentences verbatim", async () => 
 test("a disconnected Arcade page points at the action list, not at a Connect it does not draw", async () => {
   install({ provider: "arcade", connected: false });
   const view = renderScreen();
-  await view.findByText("Approved per action");
+  await view.findByText("Aprovado por ação");
   expect(view.container.textContent).toContain(
-    "No Bot can use this as you. Authorize the actions you want below.",
+    "Nenhum Bot pode usar isto como você. Autorize as ações que quiser abaixo.",
   );
 });
 
@@ -381,14 +381,14 @@ test("a redirect carrying an action marks that action", async () => {
   install({ provider: "arcade", connected: true });
   const view = renderScreen("?action=Gmail.ListEmails");
   const marked = await view.findByRole("status");
-  expect(marked.textContent).toBe("You just authorized Gmail.ListEmails.");
+  expect(marked.textContent).toBe("Você acabou de autorizar Gmail.ListEmails.");
   expect(marked.getAttribute("data-landed-action")).toBe("Gmail.ListEmails");
 });
 
 test("a landing without an action behaves as it did", async () => {
   install({ provider: "arcade", connected: true });
   const view = renderScreen();
-  await view.findByText("Disconnect");
+  await view.findByText("Desconectar");
   expect(view.queryByRole("status")).toBeNull();
   expect(view.container.textContent).not.toContain("just authorized");
 });

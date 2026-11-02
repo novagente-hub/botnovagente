@@ -16,7 +16,7 @@ test("appends to text without replacing earlier edits", () => {
 test("preserves agent and skill chips", () => {
   const chips: Segment[] = [
     { type: "chip", trigger: "@", value: "agent-1", displayText: "Agent" },
-    { type: "chip", trigger: "/", value: "skill-1", displayText: "Skill" },
+    { type: "chip", trigger: "/", value: "skill-1", displayText: "Habilidade" },
   ];
   const result = appendDictation(chips, "hello");
   expect(result.slice(0, 2)).toEqual(chips);

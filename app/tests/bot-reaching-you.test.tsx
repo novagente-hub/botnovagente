@@ -105,14 +105,14 @@ test("only this Bot's destinations are listed", async () => {
   serving();
   const view = draw();
   expect(await view.findByText(/^Slack/)).toBeTruthy();
-  expect(view.getAllByRole("button", { name: "Disconnect" })).toHaveLength(1);
+  expect(view.getAllByRole("button", { name: "Desconectar" })).toHaveLength(1);
 });
 
 /** The link flow is a dialog: open it from its row, then choose the conversation it continues. */
 async function openSlackLink(view: ReturnType<typeof draw>) {
   const user = userEvent.setup({ document });
-  await view.findByRole("button", { name: "Disconnect" });
-  await user.click(view.getByRole("button", { name: /^Link Slack/ }));
+  await view.findByRole("button", { name: "Desconectar" });
+  await user.click(view.getByRole("button", { name: /^Vincular Slack/ }));
   return user;
 }
 
@@ -121,7 +121,7 @@ async function chooseConversation(
   user: ReturnType<typeof userEvent.setup>,
   name: string,
 ) {
-  await user.click(view.getByRole("combobox", { name: /^Conversation/ }));
+  await user.click(view.getByRole("combobox", { name: /^Conversa/ }));
   await user.click(await view.findByRole("option", { name }));
 }
 
@@ -130,15 +130,15 @@ test("linking Slack needs only a conversation, and warns that it moves the accou
   const view = draw();
   const user = await openSlackLink(view);
   expect(view.queryByRole("combobox", { name: /^Bot/ })).toBeNull();
-  expect(view.getByText(/Linking it here moves it/)).toBeTruthy();
-  await user.click(view.getByRole("combobox", { name: /^Conversation/ }));
+  expect(view.getByText(/Vincular aqui o move/)).toBeTruthy();
+  await user.click(view.getByRole("combobox", { name: /^Conversa/ }));
   const options = (await view.findAllByRole("option")).map(
     (option) => option.textContent,
   );
   expect(options).toContain("Finance desk");
   expect(options).not.toContain("Docs desk");
   await user.click(view.getByRole("option", { name: "Finance desk" }));
-  await user.click(view.getByRole("button", { name: "Link Slack" }));
+  await user.click(view.getByRole("button", { name: "Vincular Slack" }));
   await waitFor(() =>
     expect(writes).toContainEqual({
       request: "POST /api/delivery/opentag/start",
@@ -157,17 +157,17 @@ test("closing the dialog keeps the link code, so reopening the row shows it agai
   const view = draw();
   const user = await openSlackLink(view);
   await chooseConversation(view, user, "Finance desk");
-  await user.click(view.getByRole("button", { name: "Link Slack" }));
+  await user.click(view.getByRole("button", { name: "Vincular Slack" }));
   expect(await view.findByText("link abc")).toBeTruthy();
   await user.keyboard("{Escape}");
   await waitFor(() => expect(view.queryByRole("dialog")).toBeNull());
   // The row says a code is waiting, and opening it shows that code without asking for another.
-  expect(view.getByText(/Your link code is ready to send/)).toBeTruthy();
-  await user.click(view.getByRole("button", { name: /^Link Slack/ }));
+  expect(view.getByText(/Seu código de vínculo está pronto para enviar/)).toBeTruthy();
+  await user.click(view.getByRole("button", { name: /^Vincular Slack/ }));
   expect(await view.findByText("link abc")).toBeTruthy();
   // With the conversation it links, so "this conversation" still names one.
   expect(
-    view.getByRole("combobox", { name: /^Conversation/ }).textContent,
+    view.getByRole("combobox", { name: /^Conversa/ }).textContent,
   ).toContain("Finance desk");
   expect(
     writes.filter(
@@ -181,12 +181,12 @@ test("nothing can be linked until a conversation is chosen", async () => {
   const view = draw();
   const user = await openSlackLink(view);
   expect(
-    view.getByRole("button", { name: "Link Slack" }).hasAttribute("disabled"),
+    view.getByRole("button", { name: "Vincular Slack" }).hasAttribute("disabled"),
   ).toBe(true);
   await chooseConversation(view, user, "Finance desk");
   await waitFor(() =>
     expect(
-      view.getByRole("button", { name: "Link Slack" }).hasAttribute("disabled"),
+      view.getByRole("button", { name: "Vincular Slack" }).hasAttribute("disabled"),
     ).toBe(false),
   );
 });
@@ -194,13 +194,13 @@ test("nothing can be linked until a conversation is chosen", async () => {
 test("a transport the deployment cannot reach says why instead of opening", async () => {
   serving();
   const view = draw();
-  await view.findByRole("button", { name: "Disconnect" });
+  await view.findByRole("button", { name: "Desconectar" });
   expect(
-    view.queryByRole("button", { name: /^Link Microsoft Teams/ }),
+    view.queryByRole("button", { name: /^Vincular Microsoft Teams/ }),
   ).toBeNull();
   expect(
     view.getByText(
-      "Not set up yet. An admin has to turn on Slack and Teams first.",
+      "Ainda não configurado. Um administrador precisa ativar o Slack e o Teams primeiro.",
     ),
   ).toBeTruthy();
 });
@@ -210,12 +210,12 @@ test("a phone is verified for the chosen conversation, then asks for its code", 
   sessionStorage.clear();
   const view = draw();
   const user = userEvent.setup({ document });
-  await view.findByRole("button", { name: "Disconnect" });
-  await user.click(view.getByRole("button", { name: /^Connect a phone/ }));
+  await view.findByRole("button", { name: "Desconectar" });
+  await user.click(view.getByRole("button", { name: /^Conectar um telefone/ }));
   await chooseConversation(view, user, "Finance desk");
-  await user.type(view.getByLabelText("Phone number"), "+15551234567");
+  await user.type(view.getByLabelText("Número de telefone"), "+15551234567");
   await user.click(
-    view.getByRole("button", { name: "Send verification code" }),
+    view.getByRole("button", { name: "Enviar código de verificação" }),
   );
   await waitFor(() =>
     expect(writes).toContainEqual({
@@ -227,8 +227,8 @@ test("a phone is verified for the chosen conversation, then asks for its code", 
       },
     }),
   );
-  await user.type(await view.findByLabelText("Verification code"), "123456");
-  await user.click(view.getByRole("button", { name: "Confirm phone" }));
+  await user.type(await view.findByLabelText("Código de verificação"), "123456");
+  await user.click(view.getByRole("button", { name: "Confirmar telefone" }));
   await waitFor(() =>
     expect(writes).toContainEqual({
       request: "POST /api/delivery/sms/confirm",

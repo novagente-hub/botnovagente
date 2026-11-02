@@ -55,7 +55,7 @@ afterAll(async () => {
  * `.dropEffect`, and nothing here is asked to be a real `DataTransfer`.
  */
 function transfer(...files: File[]) {
-  return { dropEffect: "copy", files, items: [], types: ["Files"] };
+  return { dropEffect: "copy", files, items: [], types: ["Arquivos"] };
 }
 
 /*
@@ -151,10 +151,10 @@ test("a drop with no channel behind it says so, and says what to do instead", as
   const alert = await findByRole("alert");
   expect(alert.textContent).toContain("screenshot.png");
   // The "not yet" sentence: there is a next step, and it is the one the compose screen is for.
-  expect(alert.textContent).toContain("no conversation here yet");
+  expect(alert.textContent).toContain("Ainda não há conversa aqui");
   // And NOT the other one. Telling somebody on `/channel/new` that their conversation is over
   // would be false about a conversation that has not started.
-  expect(alert.textContent).not.toContain("can no longer take messages");
+  expect(alert.textContent).not.toContain("não aceita mais mensagens");
 });
 
 test("a drop on a disabled conversation says that one instead", async () => {
@@ -171,9 +171,9 @@ test("a drop on a disabled conversation says that one instead", async () => {
 
   const alert = await findByRole("alert");
   expect(alert.textContent).toContain("receipt.png");
-  expect(alert.textContent).toContain("can no longer take messages");
+  expect(alert.textContent).toContain("não aceita mais mensagens");
   // No "send this first" advice on a conversation where sending is the thing that cannot happen.
-  expect(alert.textContent).not.toContain("no conversation here yet");
+  expect(alert.textContent).not.toContain("Ainda não há conversa aqui");
 });
 
 test("two files refused at once produce two lines, one per file", async () => {
@@ -314,7 +314,7 @@ test("a file let go over the refusal it caused is caught as well", async () => {
  *
  * The sentence used to be chosen by `attachmentsEnabled` — is there a channel — which is right for
  * three of the four states and wrong for this one. A composer that is BOTH `disabled` and
- * channel-less was told "there is no conversation here yet. Send this message first, then attach to
+ * channel-less was told "there is Ainda não há conversa aqui. Send this message first, then attach to
  * the one it opens", with the Send button beside it shut. Following that instruction is pressing a
  * dead button; the person concludes the app is broken rather than that this conversation is over.
  * `disabled` is the question actually being answered: can they do the thing the sentence is about
@@ -333,10 +333,10 @@ test("a disabled composer with no channel does not tell people to send first", a
 
   const alert = await findByRole("alert");
   expect(alert.textContent).toContain("late.png");
-  expect(alert.textContent).toContain("can no longer take messages");
+  expect(alert.textContent).toContain("não aceita mais mensagens");
   // The half that made the old sentence a lie, asserted rather than assumed: the control it sent
   // them to is shut.
-  expect((getByLabelText("Send message") as HTMLButtonElement).disabled).toBe(
+  expect((getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled).toBe(
     true,
   );
   expect(alert.textContent).not.toContain("Send this message first");

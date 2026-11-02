@@ -19,7 +19,7 @@ export function IdeasScreen() {
   const suggestions = useQuery(proactiveSuggestionsQueryOptions());
   if (!bot) {
     return (
-      <MuseScreen title="Ideas">
+      <MuseScreen title="Ideias">
         <NoBot />
       </MuseScreen>
     );
@@ -28,13 +28,13 @@ export function IdeasScreen() {
     suggestions.data !== undefined &&
     !suggestions.data.some((suggestion) => suggestion.agentId === bot.id);
   return (
-    <MuseScreen title="Ideas">
+    <MuseScreen title="Ideias">
       <div className="[&>section:first-child]:mt-0">
         {none ? (
           <MuseEmpty
-            detail={`${bot.name} suggests next steps here once background research is on.`}
+            detail={`${bot.name} sugere próximos passos aqui quando a pesquisa em segundo plano estiver ativa.`}
             icon={IconBulb}
-            title="No suggestions yet"
+            title="Nenhuma sugestão ainda"
           />
         ) : (
           <SuggestionsInbox agentId={bot.id} />

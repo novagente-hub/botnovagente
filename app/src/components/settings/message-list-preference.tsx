@@ -35,9 +35,10 @@ export function MessageListPreference() {
     <PageRows>
       <Item size="sm">
         <ItemContent>
-          <ItemTitle>Message list emphasis</ItemTitle>
+          <ItemTitle>Destaque da lista de mensagens</ItemTitle>
           <ItemDescription>
-            Choose which line stands out in the sidebar.
+            
+            Escolha qual linha se destaca na barra lateral.
           </ItemDescription>
         </ItemContent>
         <ItemActions>
@@ -50,18 +51,18 @@ export function MessageListPreference() {
               }
             }}
           >
-            <SelectTrigger aria-label="Message list emphasis">
+            <SelectTrigger aria-label="Destaque da lista de mensagens">
               <SelectValue>
                 {emphasis
                   ? emphasis === "agent"
-                    ? "Bot name"
-                    : "Conversation title"
-                  : "Loading…"}
+                    ? "Nome do Bot"
+                    : "Título da conversa"
+                  : "Carregando…"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="thread">Conversation title</SelectItem>
-              <SelectItem value="agent">Bot name</SelectItem>
+              <SelectItem value="thread">Título da conversa</SelectItem>
+              <SelectItem value="agent">Nome do Bot</SelectItem>
             </SelectContent>
           </Select>
         </ItemActions>
@@ -76,7 +77,8 @@ export function MessageListPreference() {
             size="sm"
             onClick={() => void preferences.refetch()}
           >
-            Try again
+            
+            Tentar novamente
           </Button>
         </div>
       ) : null}
@@ -87,19 +89,20 @@ export function MessageListPreference() {
       ) : null}
       {save.isPending ? (
         <p role="status" className="px-3 text-sm text-muted-foreground">
-          Saving…
+          
+          Salvando…
         </p>
       ) : null}
       {emphasis ? (
         <div className="flex justify-center px-6 pt-3 pb-6">
           <figure
-            aria-label="Message list preview"
+            aria-label="Prévia da lista de mensagens"
             className="flex h-16 w-full max-w-xs items-center rounded-lg border border-border bg-sidebar px-3"
           >
             <ChannelItemContent
               participantIds={["message-list-preview"]}
               name="General Assistant"
-              title="Plan next week"
+              title="Planejar a próxima semana"
               lastMessageAt="2h"
               emphasis={emphasis}
             />

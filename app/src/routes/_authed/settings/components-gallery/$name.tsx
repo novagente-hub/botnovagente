@@ -28,7 +28,7 @@ import { componentListQueryOptions } from "@/lib/components/queries";
 
 /** The same way back from every state this route can be in. */
 const BACK = {
-  label: "Components gallery",
+  label: "Galeria de componentes",
   linkProps: { to: "/settings/components-gallery" },
 } as const;
 
@@ -76,9 +76,10 @@ function RouteComponent() {
 
   if (components.error) {
     return (
-      <PageShell backButton={BACK} title="Components gallery">
+      <PageShell backButton={BACK} title="Galeria de componentes">
         <p className="mt-8 text-destructive text-sm" role="alert">
-          Couldn't load components. Reload the page.
+          
+          Não foi possível carregar os componentes. Recarregue a página.
         </p>
       </PageShell>
     );
@@ -96,14 +97,15 @@ function RouteComponent() {
     return (
       <PageShell
         backButton={BACK}
-        description="There's no component with that name."
-        title="No such component"
+        description="Não existe componente com esse nome."
+        title="Componente inexistente"
       >
         <Empty className="mt-12 min-h-[30dvh] border border-dashed">
           <EmptyHeader>
             <EmptyTitle>{name}</EmptyTitle>
             <EmptyDescription className="text-pretty">
-              It may have been removed or unpublished.
+              
+              Ele pode ter sido removido ou despublicado.
             </EmptyDescription>
           </EmptyHeader>
           <Button
@@ -111,7 +113,8 @@ function RouteComponent() {
             size="sm"
             variant="outline"
           >
-            Back to the gallery
+            
+            Voltar à galeria
           </Button>
         </Empty>
       </PageShell>
@@ -133,13 +136,13 @@ function RouteComponent() {
         </div>
       </div>
 
-      <PageSection title="Details">
+      <PageSection title="Detalhes">
         <PageRows>
-          <FactRow icon={<IconTag />} label="Kind">
+          <FactRow icon={<IconTag />} label="Tipo">
             {component.kind}
           </FactRow>
           <Separator />
-          <FactRow icon={<IconCode />} label="Called as">
+          <FactRow icon={<IconCode />} label="Chamado como">
             <code className="rounded bg-foreground/5 px-1.5 py-0.5 text-xs">
               {component.name}
             </code>

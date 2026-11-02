@@ -10,9 +10,9 @@ import { type ActionPolicy, computerKeys } from "./queries";
 export type ComputerAction = "stop" | "reset" | "update";
 
 const PAST: Record<ComputerAction, string> = {
-  stop: "stopped",
-  reset: "reset",
-  update: "updated",
+  stop: "parado",
+  reset: "redefinido",
+  update: "atualizado",
 };
 
 function invalidateComputers(queryClient: QueryClient) {
@@ -39,7 +39,7 @@ export function setComputerStateMutationOptions(queryClient: QueryClient) {
           computer: variables.computer,
           ...(variables.botId ? { botId: variables.botId } : {}),
         },
-        fallback: `The computer could not be ${PAST[variables.action]}.`,
+        fallback: `Não foi possível deixar o computador ${PAST[variables.action]}.`,
       });
     },
     /** A reset deletes the profile those commands ran on; a stop keeps it, so only reset forgets. */
@@ -64,7 +64,7 @@ export function saveActionPolicyMutationOptions(queryClient: QueryClient) {
       client("/api/computers/policy", "policy", {
         method: "PUT",
         body: next,
-        fallback: "The boundary could not be saved.",
+        fallback: "Não foi possível salvar o limite.",
       }),
     onSuccess: () => invalidateComputers(queryClient),
   });

@@ -27,7 +27,7 @@ export function botBrowserStateQueryOptions(botId: string) {
     queryFn: async (): Promise<BotBrowserApiState> =>
       (
         await client(botBrowserApiPaths.state(botId), {
-          fallback: "Couldn't load the Bot's browser.",
+          fallback: "Não foi possível carregar o navegador do Bot.",
         })
       ).json(),
     refetchInterval: BROWSER_POLL_MS,

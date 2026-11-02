@@ -113,7 +113,7 @@ function GroupFaces({
 function TypingBadge() {
   return (
     <div className="absolute -bottom-0.5 -right-0.5 flex items-center gap-0.5 rounded-full bg-sidebar p-0.5 ring-2 ring-sidebar">
-      <span className="sr-only">Working…</span>
+      <span className="sr-only">Trabalhando…</span>
       <Dot className="[animation-delay:-0.3s]" />
       <Dot className="[animation-delay:-0.15s]" />
       <Dot />

@@ -102,15 +102,16 @@ function IdentityProvidersPage() {
     <PageShell
       action={
         <Button onClick={() => setOpen(true)} size="lg">
-          Add a provider
+          
+          Adicionar provedor
         </Button>
       }
-      description="Configure your company’s SAML or OpenID Connect provider. Email domains determine which provider people use to sign in."
-      title="Identity providers"
+      description="Configure o provedor SAML ou OpenID Connect da sua empresa. Os domínios de e-mail determinam qual provedor cada pessoa usa para entrar."
+      title="Provedores de identidade"
     >
       <PageSection
-        description="Google, Microsoft and Okta are set in the environment. They don't show here."
-        title="Registered"
+        description="Google, Microsoft e Okta são definidos no ambiente. Eles não aparecem aqui."
+        title="Registrados"
       >
         {failure ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
@@ -119,19 +120,22 @@ function IdentityProvidersPage() {
         ) : null}
         {providers.isPending ? null : providers.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            Couldn't load identity providers. Reload the page.
+            
+            Não foi possível carregar os provedores de identidade. Recarregue a página.
           </p>
         ) : providers.data?.length === 0 ? (
           <PageEmpty
             action={
               <Button onClick={() => setOpen(true)} size="sm" variant="outline">
-                Add a provider
+                
+                Adicionar provedor
               </Button>
             }
             icon={IconBuildingBank}
-            title="No identity providers yet"
+            title="Nenhum provedor de identidade ainda"
           >
-            Use the metadata from your identity team.
+            
+            Use os metadados da sua equipe de identidade.
           </PageEmpty>
         ) : (
           <PageRows>
@@ -156,7 +160,8 @@ function IdentityProvidersPage() {
                       variant="destructive"
                     >
                       <IconTrash />
-                      Remove
+                      
+                      Remover
                     </Button>
                   </ItemActions>
                 </Item>
@@ -170,7 +175,7 @@ function IdentityProvidersPage() {
       <Dialog onOpenChange={setOpen} open={open}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add an identity provider</DialogTitle>
+            <DialogTitle>Adicionar provedor de identidade</DialogTitle>
           </DialogHeader>
           <DialogBody className="mt-4 space-y-4 overflow-y-auto">
             {/* The submit button is in the footer and reaches this form by id, so DialogBody stays a
@@ -193,7 +198,7 @@ function IdentityProvidersPage() {
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="providerId">Name</Label>
+                <Label htmlFor="providerId">Nome</Label>
                 <Input
                   id="providerId"
                   onChange={(event) =>
@@ -206,7 +211,7 @@ function IdentityProvidersPage() {
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="domain">Email domain</Label>
+                <Label htmlFor="domain">Domínio de e-mail</Label>
                 <Input
                   id="domain"
                   onChange={(event) =>
@@ -218,13 +223,13 @@ function IdentityProvidersPage() {
                 />
                 {/* Said out loud because it is the field that decides who this applies to. */}
                 <p className="text-muted-foreground text-xs">
-                  Anybody with an address at this domain signs in here. Separate
-                  several with commas.
+                  
+                  Qualquer pessoa com endereço neste domínio entra por aqui. Separe vários com vírgulas.
                 </p>
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="issuer">Issuer</Label>
+                <Label htmlFor="issuer">Emissor</Label>
                 <Input
                   id="issuer"
                   onChange={(event) =>
@@ -240,7 +245,7 @@ function IdentityProvidersPage() {
               {draft.protocol === "saml" ? (
                 <>
                   <div className="space-y-1.5">
-                    <Label htmlFor="entryPoint">Sign-on URL</Label>
+                    <Label htmlFor="entryPoint">URL de login</Label>
                     <Input
                       id="entryPoint"
                       onChange={(event) =>
@@ -253,7 +258,7 @@ function IdentityProvidersPage() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="metadata">Metadata XML</Label>
+                    <Label htmlFor="metadata">XML de metadados</Label>
                     <Textarea
                       className="font-mono text-xs"
                       id="metadata"
@@ -266,15 +271,15 @@ function IdentityProvidersPage() {
                       value={draft.metadata}
                     />
                     <p className="text-muted-foreground text-xs">
-                      The file from your identity team. It includes the signing
-                      certificate.
+                      
+                      O arquivo da sua equipe de identidade. Inclui o certificado de assinatura.
                     </p>
                   </div>
                 </>
               ) : (
                 <>
                   <div className="space-y-1.5">
-                    <Label htmlFor="clientId">Client ID</Label>
+                    <Label htmlFor="clientId">ID do cliente</Label>
                     <Input
                       id="clientId"
                       onChange={(event) =>
@@ -285,7 +290,7 @@ function IdentityProvidersPage() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="clientSecret">Client secret</Label>
+                    <Label htmlFor="clientSecret">Segredo do cliente</Label>
                     <Input
                       id="clientSecret"
                       onChange={(event) =>
@@ -317,7 +322,8 @@ function IdentityProvidersPage() {
               type="button"
               variant="outline"
             >
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               disabled={register.isPending}
@@ -325,7 +331,7 @@ function IdentityProvidersPage() {
               size="sm"
               type="submit"
             >
-              {register.isPending ? "Adding…" : "Add"}
+              {register.isPending ? "Adicionando…" : "Adicionar"}
             </Button>
           </DialogFooter>
         </DialogContent>

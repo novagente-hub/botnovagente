@@ -45,8 +45,8 @@ async function exportWith(headers: Record<string, string>) {
       <RouterProvider router={router} />
     </QueryClientProvider>,
   );
-  fireEvent.click(await view.findByText("Export CSV"));
-  await view.findByText("Export CSV");
+  fireEvent.click(await view.findByText("Exportar CSV"));
+  await view.findByText("Exportar CSV");
   return view;
 }
 
@@ -54,7 +54,7 @@ async function exportWith(headers: Record<string, string>) {
 test("an export that stopped at the cap says how much the file holds", async () => {
   const view = await exportWith({ "x-audit-export-truncated": "5000" });
   const notice = await view.findByRole("status");
-  expect(notice.textContent).toContain("newest 5,000 events");
+  expect(notice.textContent).toContain("5,000 eventos mais recentes");
 });
 
 test("a whole export says nothing extra", async () => {

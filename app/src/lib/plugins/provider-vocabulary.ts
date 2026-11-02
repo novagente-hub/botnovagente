@@ -48,19 +48,19 @@ export type ProviderVocabulary = {
 const VOCABULARY: Record<PluginsProvider, ProviderVocabulary> = {
   composio: {
     name: "Composio",
-    directoryLabel: "Browse Composio",
+    directoryLabel: "Explorar Composio",
     envVar: "COMPOSIO_API_KEY",
     directoryPath: "/admin/plugins/composio",
     directoryDescription:
-      "A few hundred apps. Each person connects their own account.",
+      "Algumas centenas de apps. Cada pessoa conecta a própria conta.",
   },
   arcade: {
     name: "Arcade",
-    directoryLabel: "Browse Arcade",
+    directoryLabel: "Explorar Arcade",
     envVar: "ARCADE_API_KEY",
     directoryPath: "/admin/plugins/arcade",
     directoryDescription:
-      "Apps nobody here has reviewed. Each person connects their own account.",
+      "Apps que ninguém aqui revisou. Cada pessoa conecta a própria conta.",
   },
 };
 
@@ -77,12 +77,12 @@ export function providerVocabulary(
  * fallback once spelled a vendor on its own and printed Composio's name on an Arcade deployment.
  */
 export function directoryReadFailure(provider: PluginsProvider): string {
-  return `Couldn't load ${VOCABULARY[provider].name}'s app directory. Reload the page.`;
+  return `Não foi possível carregar o diretório de apps de ${VOCABULARY[provider].name}. Recarregue a página.`;
 }
 
 /** The "More apps" section's own sentence. */
 export function moreAppsSectionDescription(provider: PluginsProvider): string {
-  return `Apps from ${VOCABULARY[provider].name}. Nobody here has reviewed them.`;
+  return `Apps de ${VOCABULARY[provider].name}. Ninguém aqui os revisou.`;
 }
 
 /**
@@ -108,7 +108,7 @@ export function moreAppsRow(
   if (!configured) {
     return {
       title: name,
-      description: `Not set up. Set ${envVar} on this deployment to browse its apps.`,
+      description: `Não configurado. Defina ${envVar} nesta implantação para explorar os apps.`,
       linked: false,
     };
   }
@@ -123,7 +123,7 @@ export function moreAppsRow(
 export function brokeredConnectionDescription(
   provider: PluginsProvider,
 ): string {
-  return `Reached through ${VOCABULARY[provider].name}, which holds each person's own account.`;
+  return `Acessado por meio de ${VOCABULARY[provider].name}, que guarda a conta de cada pessoa.`;
 }
 
 /** The "How this is reached" row for a brokered app: its sentence and its badge. */
@@ -133,14 +133,14 @@ export function brokeredReach(provider: PluginsProvider): {
 } {
   const { name } = VOCABULARY[provider];
   return {
-    description: `${name} holds the account. This deployment sends one key and who is asking. Each person connects their own, and a Bot sees only what that person can see. There is no token to paste.`,
-    badge: `Through ${name}`,
+    description: `${name} guarda a conta. Esta implantação envia uma chave e quem está pedindo. Cada pessoa conecta a sua, e um Bot vê só o que essa pessoa pode ver. Não há token para colar.`,
+    badge: `Via ${name}`,
   };
 }
 
 /** What disconnecting a brokered account does, said where the button is. */
 export function brokeredDisconnectNote(provider: PluginsProvider): string {
-  return `Disconnecting also ends the account at ${VOCABULARY[provider].name}.`;
+  return `Desconectar também encerra a conta em ${VOCABULARY[provider].name}.`;
 }
 
 /**
@@ -166,15 +166,15 @@ export function brokeredPerActionTrip(
   provider: PluginsProvider,
   where: "below" | "settings",
 ): string {
-  const stem = `${VOCABULARY[provider].name} approves one action at a time, so there's nothing to connect for the whole app.`;
+  const stem = `${VOCABULARY[provider].name} aprova uma ação por vez, então não há nada para conectar no app inteiro.`;
   return where === "below"
-    ? `${stem} Authorize the actions you want below.`
-    : `${stem} Authorize them from Connections.`;
+    ? `${stem} Autorize as ações que quiser abaixo.`
+    : `${stem} Autorize-as em Conexões.`;
 }
 
 /** What a person is told where the deployment has no key for the active broker. */
 export function brokeredKeyMissing(provider: PluginsProvider): string {
-  return `Set ${VOCABULARY[provider].envVar} on this deployment. Until then, this account can't be connected or disconnected here. The app stays turned on, and its tool grants still stand.`;
+  return `Defina ${VOCABULARY[provider].envVar} nesta implantação. Até lá, esta conta não pode ser conectada nem desconectada aqui. O app continua ativado, e as concessões de ferramentas continuam valendo.`;
 }
 
 /**
@@ -197,22 +197,22 @@ export function disconnectSiblingsNotice(answer: {
   const parts: string[] = [];
   if (siblings.length > 0) {
     parts.push(
-      `Disconnecting also ends your access to ${joinNames(siblings)}, which ${siblings.length === 1 ? "shares" : "share"} this connection.`,
+      `Desconectar também encerra seu acesso a ${joinNames(siblings)}, que ${siblings.length === 1 ? "compartilha" : "compartilham"} esta conexão.`,
     );
   }
   if (unanswered > 0) {
     parts.push(
       siblings.length > 0
-        ? `${unanswered} other ${unanswered === 1 ? "app" : "apps"} couldn't be checked and may be affected too.`
-        : `${unanswered} ${unanswered === 1 ? "app" : "apps"} on this connection couldn't be checked, so disconnecting may end ${unanswered === 1 ? "it" : "them"} too.`,
+        ? `${unanswered} ${unanswered === 1 ? "outro app não pôde ser verificado e pode ser afetado" : "outros apps não puderam ser verificados e podem ser afetados"} também.`
+        : `${unanswered} ${unanswered === 1 ? "app nesta conexão não pôde ser verificado" : "apps nesta conexão não puderam ser verificados"}, então desconectar pode encerrá-${unanswered === 1 ? "lo" : "los"} também.`,
     );
   }
   return parts.length > 0 ? parts.join(" ") : null;
 }
 
 function joinNames(names: readonly string[]): string {
-  if (names.length <= 2) return names.join(" and ");
-  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+  if (names.length <= 2) return names.join(" e ");
+  return `${names.slice(0, -1).join(", ")} e ${names[names.length - 1]}`;
 }
 
 /**

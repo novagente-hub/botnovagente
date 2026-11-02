@@ -89,7 +89,7 @@ beforeEach(() => {
 /** A drop, as the browser delivers one: files hanging off `dataTransfer`. */
 function drop(form: Element, files: File[]) {
   fireEvent.drop(form, {
-    dataTransfer: { files, items: [], types: ["Files"] },
+    dataTransfer: { files, items: [], types: ["Arquivos"] },
   });
 }
 
@@ -117,7 +117,7 @@ async function uploaded(
 ) {
   await waitFor(() => {
     expect(queryByLabelText(`Remove ${name}`)).not.toBeNull();
-    expect((getByLabelText("Send message") as HTMLButtonElement).disabled).toBe(
+    expect((getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled).toBe(
       false,
     );
   });
@@ -158,7 +158,7 @@ test("a send in flight takes its attachment off the composer, so a second press 
   // twice for the length of the run, and `canSendDraft` unlocks on attachments alone, so the empty
   // text box was not what kept the button from going again.
   expect(queryByLabelText("Remove notes.txt")).toBeNull();
-  expect((getByLabelText("Send message") as HTMLButtonElement).disabled).toBe(
+  expect((getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled).toBe(
     true,
   );
 
@@ -345,7 +345,7 @@ test("a refusal is dismissible, and a send clears it", async () => {
 
   // Closable on its own, for somebody who drops a bad file and then thinks better of the whole
   // message rather than sending one.
-  fireEvent.click(getByLabelText("Dismiss this refusal"));
+  fireEvent.click(getByLabelText("Dispensar esta recusa"));
   expect(queryByRole("alert")).toBeNull();
 
   // And cleared by a send, which is the other way out.

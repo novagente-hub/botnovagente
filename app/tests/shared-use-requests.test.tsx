@@ -77,18 +77,18 @@ const draw = () =>
     </QueryClientProvider>,
   );
 
-describe("Shared account requests", () => {
+describe("Pedidos de contas compartilhadas", () => {
   test("shows what is asked against what is approved now, and why", async () => {
     role = "admin";
     const view = draw();
     expect(
-      await view.findByText("Helpdesk wants the shared Team GitHub account"),
+      await view.findByText("Helpdesk quer a conta compartilhada Team GitHub"),
     ).toBeTruthy();
-    expect(view.getByText("Now: Only its owner")).toBeTruthy();
-    expect(view.getByText("Asked: Everyone, and outside input")).toBeTruthy();
+    expect(view.getByText("Agora: Só o dono")).toBeTruthy();
+    expect(view.getByText("Pedido: Todos, e entrada externa")).toBeTruthy();
     expect(
       view.getByText(
-        "An action was blocked. This Bot reaches more people than approved.",
+        "Uma ação foi bloqueada. Este Bot alcança mais pessoas do que o aprovado.",
       ),
     ).toBeTruthy();
   });
@@ -96,7 +96,7 @@ describe("Shared account requests", () => {
   test("approving posts once", async () => {
     role = "admin";
     const view = draw();
-    await userEvent.click(await view.findByRole("button", { name: "Approve" }));
+    await userEvent.click(await view.findByRole("button", { name: "Aprovar" }));
     expect(posted).toEqual(["/api/approvals/shared-use/r1/approve"]);
   });
 
@@ -104,7 +104,7 @@ describe("Shared account requests", () => {
     role = "admin";
     alreadyDecided = true;
     const view = draw();
-    await userEvent.click(await view.findByRole("button", { name: "Decline" }));
+    await userEvent.click(await view.findByRole("button", { name: "Recusar" }));
     expect(
       await view.findByText("That request has already been decided."),
     ).toBeTruthy();

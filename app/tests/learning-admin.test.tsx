@@ -63,7 +63,7 @@ test("an administrator excludes a Bot and saves without losing the default or pa
   const view = page();
   const participation = await view.findByLabelText("bot participation");
   fireEvent.change(participation, { target: { value: "exclude" } });
-  fireEvent.click(view.getByRole("button", { name: "Save Learning settings" }));
+  fireEvent.click(view.getByRole("button", { name: "Salvar configurações de Aprendizado" }));
   await waitFor(() =>
     expect(saved).toEqual({
       enabled: false,
@@ -71,7 +71,7 @@ test("an administrator excludes a Bot and saves without losing the default or pa
       agents: { bot: null },
     }),
   );
-  await view.findByText("Settings saved.");
+  await view.findByText("Configurações salvas.");
 });
 
 test("an unavailable settings store shows an error instead of an editable empty configuration", async () => {
@@ -90,7 +90,7 @@ test("an unavailable settings store shows an error instead of an editable empty 
     ).toBeGreaterThan(0),
   );
   expect(
-    view.queryByRole("button", { name: "Save Learning settings" }),
+    view.queryByRole("button", { name: "Salvar configurações de Aprendizado" }),
   ).toBeNull();
 });
 
@@ -147,17 +147,17 @@ test.each([
   [
     { enabled: true, defaultTarget: null, agents: {} },
     { state: "absent", containerId: "openbot" },
-    'This Intelligence project has no "openbot" Learning container yet',
+    'ainda não tem um container de Aprendizado "openbot"',
   ],
   [
     { enabled: true, defaultTarget: { containerId: "openbot" }, agents: {} },
     { state: "assigned", containerId: "openbot" },
-    'OpenBot assigned this Intelligence project\'s "openbot" container automatically',
+    'atribuiu automaticamente o container "openbot"',
   ],
   [
     { enabled: true, defaultTarget: null, agents: {} },
     { state: "not_entitled" },
-    "plan doesn't include Learning",
+    "não inclui Aprendizado",
   ],
 ] as const)(
   "the page says what automatic assignment found (%#)",
@@ -178,9 +178,9 @@ test("a deployment that chose its own container hears nothing about automatic as
     automatic: { state: "saved" },
   });
   const view = page();
-  await view.findByLabelText("Default container ID");
+  await view.findByLabelText("ID do container (Padrão)");
   await waitFor(() =>
-    expect(view.queryByText("Loading Learning settings…")).toBeNull(),
+    expect(view.queryByText("Carregando configurações de Aprendizado…")).toBeNull(),
   );
   expect(view.queryByText("OpenBot assigned", { exact: false })).toBeNull();
   expect(
@@ -198,7 +198,7 @@ test("a missing container shows exactly what to run, and a Create button only wh
   const cannot = page();
   await cannot.findByText(instructions, { exact: false });
   expect(
-    cannot.queryByRole("button", { name: "Create the openbot container" }),
+    cannot.queryByRole("button", { name: "Criar o container openbot" }),
   ).toBeNull();
   cleanup();
 
@@ -236,14 +236,14 @@ test("a missing container shows exactly what to run, and a Create button only wh
   );
   const can = page();
   fireEvent.click(
-    await can.findByRole("button", { name: "Create the openbot container" }),
+    await can.findByRole("button", { name: "Criar o container openbot" }),
   );
-  await can.findByText("container automatically", { exact: false });
+  await can.findByText("atribuiu automaticamente o container", { exact: false });
   expect(created).toBe(1);
   // Let the refetch the creation started settle before the DOM is torn down.
   await waitFor(() =>
     expect(
-      can.queryByRole("button", { name: "Create the openbot container" }),
+      can.queryByRole("button", { name: "Criar o container openbot" }),
     ).toBeNull(),
   );
   await new Promise((resolve) => setTimeout(resolve, 50));

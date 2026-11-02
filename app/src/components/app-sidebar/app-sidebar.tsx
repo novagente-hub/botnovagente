@@ -240,7 +240,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               )}
             />
             <Button
-              aria-label="New conversation"
+              aria-label="Nova conversa"
               size="icon"
               variant="ghost"
               render={(props) => (
@@ -388,7 +388,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   variant="destructive"
                 >
                   <IconLogout />
-                  Sign out
+                  
+                  Sair
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

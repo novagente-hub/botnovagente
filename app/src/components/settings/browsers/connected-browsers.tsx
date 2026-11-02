@@ -47,13 +47,14 @@ export function ConnectedBrowsers({
     recorderConnectionsQueryOptions({ listed: true }),
   );
   return (
-    <PageSection title="Connected browsers">
+    <PageSection title="Navegadores conectados">
       {connections.isPending ? null : connections.error ? (
         <p className="text-destructive text-sm" role="alert">
-          Couldn't load your connected browsers. Reload the page.
+          
+          Não foi possível carregar seus navegadores conectados. Recarregue a página.
         </p>
       ) : connections.data.connections.length === 0 ? (
-        <PageEmpty>No browsers connected yet.</PageEmpty>
+        <PageEmpty>Nenhum navegador conectado ainda.</PageEmpty>
       ) : (
         <PageRows>
           {connections.data.connections.map((connection, index) => (
@@ -92,12 +93,12 @@ function ConnectedBrowserRow({
     revokeRecorderConnectionMutationOptions(queryClient),
   );
   const name = here ? `${connection.label} · This browser` : connection.label;
-  // The browser the dialog is about, by the name the row shows: "this browser" only for the copy in the browser this page
+  // The browser the dialog is about, by the name the row shows: "este navegador" only for the copy in the browser this page
   // is open in, which every row's dialog used to say.
   const which = here
-    ? "this browser"
+    ? "este navegador"
     : connection.via === "openbot-browser"
-      ? "your OpenBot browser"
+      ? "seu navegador OpenBot"
       : connection.label;
   return (
     <>
@@ -109,21 +110,21 @@ function ConnectedBrowserRow({
           <ItemTitle>{name}</ItemTitle>
           <ItemDescription>
             {connection.via === "openbot-browser"
-              ? "Your OpenBot browser, connected "
-              : "Connected "}
+              ? "Seu navegador OpenBot, conectado "
+              : "Conectado "}
             {connectedAt.format(new Date(connection.createdAt))}
             {connection.via === "desktop"
-              ? " from OpenBot Desktop"
+              ? " do OpenBot Desktop"
               : connection.via === "web"
-                ? " from OpenBot"
+                ? " do OpenBot"
                 : ""}
             ,{" "}
             {/* A recording streams to the gateway, not to OpenBot, so its last use lags: it says so instead. */}
             {connection.recording
-              ? "recording now"
+              ? "gravando agora"
               : connection.lastUsedAt
-                ? `last used ${relativeTime(connection.lastUsedAt)}`
-                : "never used"}
+                ? `último uso ${relativeTime(connection.lastUsedAt)}`
+                : "nunca usado"}
           </ItemDescription>
         </ItemContent>
         <ItemActions>
@@ -137,20 +138,19 @@ function ConnectedBrowserRow({
               setAsking(true);
             }}
           >
-            {revoke.isPending ? "Disconnecting…" : "Disconnect"}
+            {revoke.isPending ? "Desconectando…" : "Desconectar"}
           </Button>
         </ItemActions>
       </Item>
       <Dialog onOpenChange={setAsking} open={asking}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Disconnect {connection.label}?</DialogTitle>
+            <DialogTitle>Desconectar {connection.label}?</DialogTitle>
           </DialogHeader>
           <DialogBody className="mt-4 text-sm">
             <p>
-              OpenBot signs the Recorder in {which} out. It records nothing for
-              you until you connect it again, and a recording running there
-              stops.
+              
+              O OpenBot desconecta o Recorder em {which}  . Ele não grava nada para você até ser conectado de novo, e uma gravação em andamento lá é interrompida.
             </p>
             {revoke.error ? (
               <p className="mt-2 text-destructive" role="alert">
@@ -160,7 +160,8 @@ function ConnectedBrowserRow({
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button size="sm" variant="ghost" onClick={() => setAsking(false)}>
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               size="sm"
@@ -172,7 +173,7 @@ function ConnectedBrowserRow({
                 })
               }
             >
-              {revoke.isPending ? "Disconnecting…" : "Disconnect"}
+              {revoke.isPending ? "Desconectando…" : "Desconectar"}
             </Button>
           </DialogFooter>
         </DialogContent>

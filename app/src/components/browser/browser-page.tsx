@@ -36,9 +36,9 @@ import {
   useRecording,
 } from "./recording";
 
-const TITLE = "Browser";
+const TITLE = "Navegador";
 const DESCRIPTION =
-  "Your own browser, with the OpenBot Recorder already in it. Record a task and what you do goes into your own Learning space.";
+  "Seu próprio navegador, já com o OpenBot Recorder. Grave uma tarefa e o que você fizer vai para o seu próprio espaço de Aprendizado.";
 
 const PRODUCT_NAMES: Record<BrowserProduct, string> = {
   chrome: "Google Chrome",
@@ -61,7 +61,8 @@ export function BrowserPage() {
     return (
       <PageShell title={TITLE}>
         <p className="mt-6 text-destructive text-sm" role="alert">
-          Couldn't load your browser. Reload the page.
+          
+          Não foi possível carregar seu navegador. Recarregue a página.
         </p>
       </PageShell>
     );
@@ -72,7 +73,7 @@ export function BrowserPage() {
       <PageShell title={TITLE}>
         <PageEmpty>
           {state.data.note ??
-            "OpenBot isn't set up to run a browser for you. Ask an admin."}
+            "O OpenBot não está configurado para executar um navegador para você. Fale com um administrador."}
         </PageEmpty>
       </PageShell>
     );
@@ -110,7 +111,8 @@ function OpenedBrowser({ state }: { state: BrowserApiState }) {
             </p>
             {open.error ? (
               <Button onClick={() => open.mutate()} size="sm" variant="outline">
-                Try again
+                
+                Tentar novamente
               </Button>
             ) : null}
           </div>
@@ -162,7 +164,7 @@ function NativeBrowser({
   const recording = useRecording(state, choice);
   return (
     <PageShell title={TITLE} description={DESCRIPTION}>
-      <PageSection title="Your browser">
+      <PageSection title="Seu navegador">
         <PageRows>
           <Item size="sm">
             <ItemMedia variant="icon">
@@ -173,7 +175,7 @@ function NativeBrowser({
               <ItemDescription>
                 {state.problem ??
                   (state.open
-                    ? "Open in its own window on your desktop."
+                    ? "Abrir em uma janela própria na sua área de trabalho."
                     : "Closed.")}
               </ItemDescription>
             </ItemContent>
@@ -184,7 +186,7 @@ function NativeBrowser({
                 size="sm"
                 variant="outline"
               >
-                {state.open ? "Bring to front" : "Open"}
+                {state.open ? "Trazer para frente" : "Abrir"}
               </Button>
             </ItemActions>
           </Item>
@@ -195,7 +197,7 @@ function NativeBrowser({
           </p>
         ) : null}
       </PageSection>
-      <PageSection title="Record a task" description={RECORDING_DESCRIPTION}>
+      <PageSection title="Gravar uma tarefa" description={RECORDING_DESCRIPTION}>
         <PageRows>
           <RecordingRow recording={recording} />
           {recording.stopped ? (

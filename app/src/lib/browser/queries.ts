@@ -52,7 +52,7 @@ export function browserStateQueryOptions(options?: { poll?: boolean }) {
     queryFn: async (): Promise<BrowserApiState> =>
       (
         await client(browserApiPaths.state, {
-          fallback: "Couldn't load your browser.",
+          fallback: "Não foi possível carregar seu navegador.",
         })
       ).json(),
     refetchInterval: options?.poll

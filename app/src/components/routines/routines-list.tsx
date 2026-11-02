@@ -66,14 +66,14 @@ function lastRunLabel(lastRun: RoutineRecord["lastRun"]): {
 } {
   if (lastRun === null) {
     return {
-      text: "Hasn't run yet",
+      text: "Ainda não executou",
       className: "text-muted-foreground",
       dot: "bg-muted-foreground/40",
     };
   }
   if (lastRun.status === null) {
     return {
-      text: "Running…",
+      text: "Executando…",
       className: "text-muted-foreground",
       dot: "animate-pulse bg-muted-foreground",
     };
@@ -138,22 +138,22 @@ const RUN_STATUS: Record<
   { text: string; dot: string; className: string }
 > = {
   running: {
-    text: "Running",
+    text: "Executando",
     dot: "animate-pulse bg-muted-foreground",
     className: "",
   },
-  succeeded: { text: "Succeeded", dot: "bg-emerald-500", className: "" },
+  succeeded: { text: "Sucesso", dot: "bg-emerald-500", className: "" },
   failed: {
-    text: "Failed",
+    text: "Falhou",
     dot: "bg-destructive",
     className: "text-destructive",
   },
   skipped: {
-    text: "Skipped",
+    text: "Ignorado",
     dot: "bg-amber-500",
     className: "text-amber-600 dark:text-amber-500",
   },
-  waiting: { text: "Waiting for you", dot: "bg-sky-500", className: "" },
+  waiting: { text: "Aguardando você", dot: "bg-sky-500", className: "" },
 };
 
 /** Every firing of one routine, newest first, each linking to the thread it ran in. */
@@ -168,7 +168,7 @@ function RoutineRuns({ routine }: { routine: RoutineRecord }) {
       </p>
     );
   if (!runs.data?.length)
-    return <p className="text-muted-foreground text-xs">No runs yet.</p>;
+    return <p className="text-muted-foreground text-xs">Nenhuma execução ainda.</p>;
   return (
     <ul className="flex w-full flex-col gap-1.5">
       {runs.data.map((run) => {
@@ -189,10 +189,10 @@ function RoutineRuns({ routine }: { routine: RoutineRecord }) {
             </span>
             <span className="text-muted-foreground">
               {run.source === "run_now"
-                ? "Run now"
+                ? "Executar agora"
                 : run.source === "trigger"
-                  ? "Triggered"
-                  : "Scheduled"}{" "}
+                  ? "Disparada"
+                  : "Agendada"}{" "}
               · {relativeTime(run.startedAt)}
             </span>
             {routine.channel.gone ? null : (
@@ -201,7 +201,8 @@ function RoutineRuns({ routine }: { routine: RoutineRecord }) {
                 params={{ channelId: routine.channel.id }}
                 to="/channel/$channelId"
               >
-                Open conversation
+                
+                Abrir conversa
               </Link>
             )}
             {run.error ? (
@@ -259,27 +260,29 @@ export function RoutinesList({
       {noWorker ? (
         <p className="mt-4 text-muted-foreground text-sm" role="alert">
           <span className="font-medium text-amber-600 dark:text-amber-500">
-            Routines aren't running.
+            
+            As rotinas não estão em execução.
           </span>{" "}
           {sweep?.lastSweptAt
-            ? `OpenBot last checked them ${relativeTime(sweep.lastSweptAt)}. None will run until it starts again. Ask an admin if this keeps happening.`
-            : "OpenBot hasn't started running routines yet, so none of these will run. Ask an admin to set this up."}
+            ? `O OpenBot as verificou pela última vez ${relativeTime(sweep.lastSweptAt)}. Nenhuma vai executar até ele iniciar de novo. Fale com um administrador se continuar acontecendo.`
+            : "O OpenBot ainda não começou a executar rotinas, então nenhuma destas vai executar. Peça a um administrador para configurar."}
         </p>
       ) : null}
 
       {/* Pending renders nothing: the empty-state sentence would otherwise flash for the fetch. */}
       {routines.isPending ? null : routines.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          Couldn't load your routines. Reload the page.
+          
+          Não foi possível carregar suas rotinas. Recarregue a página.
         </p>
       ) : rows.length === 0 ? (
         <PageEmpty
           icon={IconClock}
-          title={agentId ? "No routines for this Bot yet" : "No routines yet"}
+          title={agentId ? "Nenhuma rotina para este Bot ainda" : "Nenhuma rotina ainda"}
         >
           {agentId
-            ? 'Ask it something like "every weekday at 9, send me…" and it shows up here.'
-            : 'Ask a Bot something like "every weekday at 9, send me…" and it shows up here.'}
+            ? 'Peça algo como "todo dia útil às 9, me envie…" e ela aparece aqui.'
+            : 'Peça a um Bot algo como "todo dia útil às 9, me envie…" e ela aparece aqui.'}
         </PageEmpty>
       ) : (
         <PageRows>
@@ -310,7 +313,7 @@ export function RoutinesList({
                      * page uses for its per-Bot grant switches.
                      */}
                     <Switch
-                      aria-label={`Enable the routine scheduled ${routine.schedule}`}
+                      aria-label={`Ativar a rotina agendada ${routine.schedule}`}
                       checked={routine.enabled}
                       disabled={
                         setEnabled.isPending &&
@@ -332,7 +335,8 @@ export function RoutinesList({
                     >
                       {routine.channel.gone ? (
                         <Chip className="border-destructive/40 text-destructive">
-                          Conversation deleted
+                          
+                          Conversa excluída
                         </Chip>
                       ) : (
                         // Where it posts is a place, so the chip goes there.
@@ -341,7 +345,7 @@ export function RoutinesList({
                           to="/channel/$channelId"
                         >
                           <Chip className="text-muted-foreground transition-colors hover:text-foreground">
-                            {routine.channel.name ?? "Untitled conversation"}
+                            {routine.channel.name ?? "Conversa sem título"}
                           </Chip>
                         </Link>
                       )}
@@ -358,7 +362,7 @@ export function RoutinesList({
                        * takes its place, so the switch's state has a word as well as a position.
                        */}
                       {!routine.enabled ? (
-                        <Chip className="text-muted-foreground">Paused</Chip>
+                        <Chip className="text-muted-foreground">Pausada</Chip>
                       ) : new Date(routine.nextRunAt).getTime() <=
                         Date.now() ? (
                         /*
@@ -367,11 +371,13 @@ export function RoutinesList({
                          */
                         <Chip className="text-amber-600 dark:text-amber-500">
                           <span className="size-1.5 animate-pulse rounded-full bg-amber-500" />
-                          Due
+                          
+                          Prevista
                         </Chip>
                       ) : (
                         <Chip className="text-muted-foreground">
-                          Next {relativeTime(routine.nextRunAt)}
+                          
+                          Próxima {relativeTime(routine.nextRunAt)}
                         </Chip>
                       )}
                     </div>
@@ -382,7 +388,7 @@ export function RoutinesList({
                        * on, because a paused routine never runs.
                        */}
                       <Button
-                        aria-label={`Run the routine scheduled ${routine.schedule} now`}
+                        aria-label={`Executar agora a rotina agendada ${routine.schedule}`}
                         disabled={
                           !routine.enabled ||
                           (runNow.isPending && runNow.variables === routine.id)
@@ -395,18 +401,19 @@ export function RoutinesList({
                         size="sm"
                         title={
                           routine.enabled
-                            ? "Runs it now, for real. The Bot does the work and posts in the conversation."
-                            : "This routine is paused. Turn it on first."
+                            ? "Executa agora, de verdade. O Bot faz o trabalho e publica na conversa."
+                            : "Esta rotina está pausada. Ative-a primeiro."
                         }
                         type="button"
                         variant="outline"
                       >
                         <IconPlayerPlay />
-                        Run now
+                        
+                        Executar agora
                       </Button>
                       <Button
                         aria-expanded={historyId === routine.id}
-                        aria-label={`Run history for the routine scheduled ${routine.schedule}`}
+                        aria-label={`Histórico de execuções da rotina agendada ${routine.schedule}`}
                         onClick={() =>
                           setHistoryId(
                             historyId === routine.id ? null : routine.id,
@@ -417,10 +424,11 @@ export function RoutinesList({
                         variant="ghost"
                       >
                         <IconHistory />
-                        History
+                        
+                        Histórico
                       </Button>
                       <Button
-                        aria-label={`Delete the routine scheduled ${routine.schedule}`}
+                        aria-label={`Excluir a rotina agendada ${routine.schedule}`}
                         onClick={() => {
                           deleteRoutine.reset();
                           setConfirmingId(routine.id);
@@ -430,7 +438,8 @@ export function RoutinesList({
                         variant="ghost"
                       >
                         <IconTrash />
-                        Delete
+                        
+                        Excluir
                       </Button>
                     </div>
                   </ItemFooter>
@@ -462,9 +471,10 @@ export function RoutinesList({
             UI would otherwise render a nested dialog with no backdrop at all. */}
         <DialogContent overlayClassName="bg-black/20 supports-backdrop-filter:backdrop-blur-sm">
           <DialogHeader>
-            <DialogTitle>Delete "{confirming?.schedule}"?</DialogTitle>
+            <DialogTitle>Excluir "{confirming?.schedule}"?</DialogTitle>
             <DialogDescription>
-              This routine stops for good. You can't undo this.
+              
+              Esta rotina para de vez. Não é possível desfazer.
             </DialogDescription>
           </DialogHeader>
           {deleteRoutine.error ? (
@@ -481,7 +491,8 @@ export function RoutinesList({
               type="button"
               variant="outline"
             >
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               disabled={deleteRoutine.isPending}
@@ -495,7 +506,7 @@ export function RoutinesList({
               type="button"
               variant="destructive"
             >
-              {deleteRoutine.isPending ? "Deleting…" : "Delete"}
+              {deleteRoutine.isPending ? "Excluindo…" : "Excluir"}
             </Button>
           </DialogFooter>
         </DialogContent>

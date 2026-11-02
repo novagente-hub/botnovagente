@@ -22,7 +22,7 @@ describe("playground JSON editors", () => {
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.fields.sampleArguments).toContain(
-        "Sample arguments must be valid JSON",
+        "Argumentos de exemplo precisam ser um JSON válido",
       );
     }
   });
@@ -30,11 +30,11 @@ describe("playground JSON editors", () => {
   test.each(["[]", "null", '"text"'])(
     "rejects %p because the editors must contain objects",
     (raw) => {
-      const result = parseJsonObject(raw, "Sample arguments");
+      const result = parseJsonObject(raw, "Argumentos de exemplo");
 
       expect(result.ok).toBe(false);
       if (!result.ok) {
-        expect(result.message).toContain("must be a JSON object");
+        expect(result.message).toContain("devem ser um objeto JSON");
       }
     },
   );

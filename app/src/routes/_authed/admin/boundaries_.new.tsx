@@ -45,7 +45,7 @@ export const Route = createFileRoute("/_authed/admin/boundaries_/new")({
 });
 
 const BACK = {
-  label: "Boundaries",
+  label: "Limites",
   linkProps: { to: "/admin/boundaries" as const },
 };
 
@@ -140,10 +140,10 @@ function NewRulePage() {
   return (
     <PageShell
       backButton={BACK}
-      description="Define an action that no Bot may take. This boundary applies to every Bot’s next action."
-      title="Add rule"
+      description="Defina uma ação que nenhum Bot pode fazer. Este limite vale para a próxima ação de todos os Bots."
+      title="Adicionar regra"
     >
-      <PageSection title="Start from">
+      <PageSection title="Começar de">
         <PageRows>
           {options.map((option, index) => {
             const custom = option.value === "custom";
@@ -165,14 +165,14 @@ function NewRulePage() {
                   </ItemMedia>
                   <ItemContent>
                     <ItemTitle>
-                      {template ? template.name : "Write your own"}
+                      {template ? template.name : "Escrever a sua"}
                     </ItemTitle>
                     <ItemDescription>
                       {template
                         ? taken
-                          ? "Already one of your rules."
+                          ? "Já é uma das suas regras."
                           : template.description
-                        : "Describe the action yourself, in CEL."}
+                        : "Descreva a ação você mesmo, em CEL."}
                     </ItemDescription>
                   </ItemContent>
                   {selected ? (
@@ -189,7 +189,7 @@ function NewRulePage() {
       </PageSection>
 
       {chosen ? (
-        <PageSection title="The rule">
+        <PageSection title="A regra">
           <form
             className="mt-4"
             noValidate
@@ -213,34 +213,37 @@ function NewRulePage() {
                     )}
                     variant="outline"
                   >
-                    Cancel
+                    
+                    Cancelar
                   </Button>
                   <Button
                     disabled={!ready || savePolicy.isPending}
                     type="submit"
                   >
-                    {savePolicy.isPending ? "Adding…" : "Add rule"}
+                    {savePolicy.isPending ? "Adicionando…" : "Adicionar regra"}
                   </Button>
                 </>
               }
             >
               <FieldGroup>
                 <Field>
-                  <FieldLabel htmlFor="rule-name">Name</FieldLabel>
+                  <FieldLabel htmlFor="rule-name">Nome</FieldLabel>
                   <Input
                     id="rule-name"
                     maxLength={80}
                     onChange={(event) => setName(event.target.value)}
-                    placeholder="Never delete files"
+                    placeholder="Nunca excluir arquivos"
                     value={name}
                   />
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="rule-description">
-                    What it stops
+                    
+                    O que ela impede
                   </FieldLabel>
                   <FieldDescription>
-                    One sentence, shown under the name in the list.
+                    
+                    Uma frase, mostrada abaixo do nome na lista.
                   </FieldDescription>
                   <Input
                     id="rule-description"
@@ -250,11 +253,10 @@ function NewRulePage() {
                   />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="rule-expression">Rule</FieldLabel>
+                  <FieldLabel htmlFor="rule-expression">Regra</FieldLabel>
                   <FieldDescription>
-                    Written in CEL. A rule that can't be evaluated counts as a
-                    match, so a typo stops actions rather than letting them
-                    through.
+                    
+                    Escrita em CEL. Uma regra que não pode ser avaliada conta como correspondência, então um erro de digitação impede ações em vez de deixá-las passar.
                   </FieldDescription>
                   <Textarea
                     autoCapitalize="off"
@@ -271,7 +273,8 @@ function NewRulePage() {
                   />
                   {duplicate ? (
                     <p className="text-destructive text-sm">
-                      This rule is already in place.
+                      
+                      Esta regra já está em vigor.
                     </p>
                   ) : null}
                   {chosen !== "custom" ? (
@@ -291,7 +294,7 @@ function NewRulePage() {
                   type="button"
                   variant="outline"
                 >
-                  {testing ? "Testing…" : "Test on recent activity"}
+                  {testing ? "Testando…" : "Testar na atividade recente"}
                 </Button>
                 {tested ? <TestResult report={tested} /> : null}
               </div>
@@ -317,7 +320,8 @@ function RuleReference() {
   return (
     <details className="text-sm">
       <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-        What a rule can check
+        
+        O que uma regra pode verificar
       </summary>
       <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
         {RULE_ATTRIBUTES.map((attribute) => (
@@ -330,9 +334,9 @@ function RuleReference() {
         ))}
       </dl>
       <p className="mt-3 text-muted-foreground">
-        A rule that names something an action doesn't have, such as{" "}
-        <code className="font-mono text-xs">key</code> on a click, counts as a
-        match. Name the tool first so the rest is only checked where it applies:{" "}
+        
+        Uma regra que cita algo que a ação não tem, como{" "}
+        <code className="font-mono text-xs">key</code>  em um clique, conta como correspondência. Cite a ferramenta primeiro para que o resto só seja verificado onde se aplica:{" "}
         <code className="font-mono text-xs">
           tool.name == "computer_key" && key == "Enter"
         </code>
@@ -346,8 +350,8 @@ function TestResult({ report }: { report: DryRunReport }) {
   if (report.scanned === 0) {
     return (
       <p className="mt-3 text-muted-foreground text-sm" role="status">
-        No recorded actions to test against yet. The rule is valid; you'll see
-        what it stops once Bots have acted.
+        
+        Nenhuma ação registrada para testar ainda. A regra é válida; você verá o que ela impede depois que os Bots agirem.
       </p>
     );
   }
@@ -355,8 +359,8 @@ function TestResult({ report }: { report: DryRunReport }) {
     <div className="mt-3" role="status">
       <p className="text-muted-foreground text-sm">
         {report.wouldRefuse === 0
-          ? `Of the last ${report.scanned} recorded actions, this rule would have stopped none. It may still stop future ones.`
-          : `Of the last ${report.scanned} recorded actions, this rule would have stopped ${report.wouldRefuse}.`}
+          ? `Das últimas ${report.scanned} ações registradas, esta regra não teria impedido nenhuma. Ela ainda pode impedir futuras.`
+          : `Das últimas ${report.scanned} ações registradas, esta regra teria impedido ${report.wouldRefuse}.`}
       </p>
       <DryRunChanges
         changes={report.changes.filter((change) => change.would === "refused")}

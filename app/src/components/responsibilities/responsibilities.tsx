@@ -51,10 +51,11 @@ export function BotResponsibilities({ agentId }: { agentId?: string }) {
       action={
         <Button onClick={() => setCreating(true)} size="sm" variant="ghost">
           <IconPlus />
-          New responsibility
+          
+          Nova responsabilidade
         </Button>
       }
-      title="Goals"
+      title="Objetivos"
     >
       {/* Pending, error, empty, rows — pending first, so no sentence asserts anything mid-fetch. */}
       {goals.isPending ? null : goals.error ? (
@@ -70,15 +71,16 @@ export function BotResponsibilities({ agentId }: { agentId?: string }) {
               variant="outline"
             >
               <IconPlus />
-              New responsibility
+              
+              Nova responsabilidade
             </Button>
           }
           icon={IconChecklist}
-          title="No responsibilities yet"
+          title="Nenhuma responsabilidade ainda"
         >
           {agentId
-            ? "Work you give this Bot to keep doing shows up here."
-            : "Work you give your Bots to keep doing shows up here."}
+            ? "O trabalho contínuo que você der a este Bot aparece aqui."
+            : "O trabalho contínuo que você der aos seus Bots aparece aqui."}
         </PageEmpty>
       ) : (
         <PageRows>

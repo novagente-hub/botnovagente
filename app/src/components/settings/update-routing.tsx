@@ -23,16 +23,16 @@ import { queryClient } from "@/query-client";
 
 const KIND_LABEL: Record<UpdateKind, { title: string; description: string }> = {
   progress: {
-    title: "Progress",
-    description: "Replies and results from work you weren't watching.",
+    title: "Progresso",
+    description: "Respostas e resultados de trabalhos que você não estava acompanhando.",
   },
   decision: {
-    title: "Decisions",
-    description: "Approvals a Bot needs before it acts.",
+    title: "Decisões",
+    description: "Aprovações de que um Bot precisa antes de agir.",
   },
   question: {
-    title: "Questions",
-    description: "Things a Bot asked you and is waiting on.",
+    title: "Perguntas",
+    description: "Coisas que um Bot perguntou e está esperando.",
   },
 };
 
@@ -62,12 +62,13 @@ export function UpdateRoutingSection() {
     reach.data ? reach.data.available[transport] : true;
   return (
     <PageSection
-      description="Choose where to receive each type of update when you’re away. All updates remain available in the web app."
-      title="Where updates go"
+      description="Escolha onde receber cada tipo de atualização quando estiver fora. Todas as atualizações continuam disponíveis no app web."
+      title="Para onde vão as atualizações"
     >
       {routing.isPending || reach.isPending ? null : routing.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          Couldn't load where your updates go. Reload the page.
+          
+          Não foi possível carregar para onde vão suas atualizações. Recarregue a página.
         </p>
       ) : (
         <PageRows>
@@ -95,7 +96,7 @@ export function UpdateRoutingSection() {
                         key={transport.id}
                       >
                         <Switch
-                          aria-label={`${KIND_LABEL[kind].title} by ${transport.label}`}
+                          aria-label={`${KIND_LABEL[kind].title} por ${transport.label}`}
                           checked={
                             configured(transport.id) && allowed(transport.id)
                           }
@@ -119,7 +120,8 @@ export function UpdateRoutingSection() {
                           {transport.label}
                           {configured(transport.id) ? null : (
                             <span className="text-muted-foreground text-xs">
-                              Not set up
+                              
+                              Não configurado
                             </span>
                           )}
                         </span>

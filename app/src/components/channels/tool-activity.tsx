@@ -289,7 +289,7 @@ export function stepDetails(step: ToolItem): StepDetails {
     return {
       id: step.id,
       kind: "browser",
-      label: browser.label ?? "Used the browser",
+      label: browser.label ?? "Usou o navegador",
       ...(browser.title ? { detail: browser.title } : {}),
       ...(browser.href ? { href: browser.href } : {}),
       pending: browser.pending,
@@ -353,7 +353,7 @@ export function stepDetails(step: ToolItem): StepDetails {
       ...(first
         ? {
             detail: more.length
-              ? `${hostOf(first)} and ${more.length} more`
+              ? `${hostOf(first)} e mais ${more.length}`
               : hostOf(first),
           }
         : {}),
@@ -372,7 +372,7 @@ export function stepDetails(step: ToolItem): StepDetails {
 
 function joinPhrases(phrases: string[]): string {
   if (phrases.length <= 1) return phrases[0] ?? "";
-  return `${phrases.slice(0, -1).join(", ")} and ${phrases.at(-1)}`;
+  return `${phrases.slice(0, -1).join(", ")} e ${phrases.at(-1)}`;
 }
 
 function plural(count: number, one: string, many: string): string {
@@ -389,23 +389,23 @@ function plural(count: number, one: string, many: string): string {
 export function summarise(steps: readonly StepDetails[]): string {
   const of = (kind: StepKind) => steps.filter((step) => step.kind === kind);
   const phrases: string[] = [];
-  if (of("search").length) phrases.push("searched the web");
+  if (of("search").length) phrases.push("pesquisou na web");
   const read = of("fetch").reduce((sum, step) => sum + step.pages, 0);
-  if (read) phrases.push(`read ${plural(read, "page", "pages")}`);
+  if (read) phrases.push(`leu ${plural(read, "página", "páginas")}`);
   const browser = of("browser");
   const browsed = browser.reduce((sum, step) => sum + step.pages, 0);
-  if (browsed) phrases.push(`browsed ${plural(browsed, "page", "pages")}`);
-  else if (browser.length) phrases.push("used the browser");
+  if (browsed) phrases.push(`navegou por ${plural(browsed, "página", "páginas")}`);
+  else if (browser.length) phrases.push("usou o navegador");
   const connectors = [
     ...new Set(of("connector").map((step) => step.connector ?? "")),
   ].filter(Boolean);
-  if (connectors.length === 1) phrases.push(`used ${connectors[0]}`);
+  if (connectors.length === 1) phrases.push(`usou ${connectors[0]}`);
   else if (connectors.length > 1)
     phrases.push(
-      `used ${plural(connectors.length, "connector", "connectors")}`,
+      `usou ${plural(connectors.length, "conector", "conectores")}`,
     );
   const tools = of("tool").length;
-  if (tools) phrases.push(`used ${plural(tools, "tool", "tools")}`);
+  if (tools) phrases.push(`usou ${plural(tools, "ferramenta", "ferramentas")}`);
   const sentence = joinPhrases(phrases);
   return sentence.charAt(0).toUpperCase() + sentence.slice(1);
 }
@@ -457,15 +457,16 @@ function StepStatus({ step, active }: { step: StepDetails; active: boolean }) {
   if (step.pending)
     return (
       <span className="shrink-0 text-muted-foreground">
-        {active ? "In progress" : "Not completed"}
+        {active ? "Em andamento" : "Não concluído"}
       </span>
     );
   if (step.refused)
-    return <span className="shrink-0 text-destructive">Blocked</span>;
+    return <span className="shrink-0 text-destructive">Bloqueado</span>;
   if (step.failed)
     return (
       <span className="shrink-0 text-amber-600 dark:text-amber-500">
-        Didn't work
+        
+        Não funcionou
       </span>
     );
   return null;
@@ -494,7 +495,7 @@ function StepRow({ step, active }: { step: StepDetails; active: boolean }) {
   const reason =
     step.failed && step.kind === "browser" ? (
       <p className="mt-0.5 pl-6 text-destructive">
-        {step.reason ?? "Couldn't finish this step."}
+        {step.reason ?? "Não foi possível concluir esta etapa."}
       </p>
     ) : null;
   // A browser step says everything it has in its line. Anything else opens to what it was given
@@ -561,7 +562,7 @@ export function ToolActivity({
       <ToolLine
         icon={<IconStack kinds={kinds} />}
         label={running && current ? `${current.label}…` : summarise(steps)}
-        detail={issues ? plural(issues, "issue", "issues") : undefined}
+        detail={issues ? plural(issues, "problema", "problemas") : undefined}
         running={running}
       >
         <ol className="space-y-2 py-1">

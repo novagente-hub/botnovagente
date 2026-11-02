@@ -37,25 +37,25 @@ export function InlineApproval({
   const handOff = request.action.policy?.behaviour === "hand_off";
   const choices: [ApprovalDecision, string][] = handOff
     ? [
-        ["handled", "I did it myself"],
-        ["deny", "Don't do it"],
+        ["handled", "Eu mesmo fiz"],
+        ["deny", "Não fazer"],
       ]
     : [
-        ["allow_once", "Allow once"],
-        ["allow_always", "Always allow here"],
-        ["deny", "Deny"],
+        ["allow_once", "Permitir uma vez"],
+        ["allow_always", "Sempre permitir aqui"],
+        ["deny", "Negar"],
       ];
   return (
     <section
-      aria-label="Waiting for your approval"
+      aria-label="Aguardando sua aprovação"
       className="space-y-2 rounded-lg border p-3 text-sm"
     >
       <p className="font-medium">
-        {handOff ? "This needs you" : "Waiting for your approval"}:{" "}
+        {handOff ? "Isto precisa de você" : "Aguardando sua aprovação"}:{" "}
         {request.action.toolRef
           .replace(/^computer_|^host\//, "")
           .replaceAll("_", " ")}{" "}
-        on {request.action.scope}
+        em {request.action.scope}
       </p>
       {request.action.policy ? (
         <p className="text-muted-foreground">{request.action.policy.reason}</p>

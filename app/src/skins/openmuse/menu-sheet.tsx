@@ -62,7 +62,7 @@ export function MenuSheet({ onClose }: { onClose: () => void }) {
   const body = useRef<HTMLDivElement>(null);
   const searching = search.trim().length > 0;
   const shown = pinnedFirst(matchingChannels(channels.data, search));
-  const botName = bot?.name ?? "your Bot";
+  const botName = bot?.name ?? "seu Bot";
 
   return (
     <MuseSheet
@@ -73,26 +73,28 @@ export function MenuSheet({ onClose }: { onClose: () => void }) {
     >
       <div className="flex flex-col gap-3.5">
         <LinkRow
-          detail={`Your ongoing conversation with ${botName}`}
+          detail={`Sua conversa em andamento com ${botName}`}
           icon={IconMessageCircle}
           render={<MainChatLink agentId={bot?.id} onClick={onClose} />}
-          title="Main chat"
+          title="Chat principal"
         />
         <MuseLinkButton
           icon={IconPlus}
           primary
           render={<NewChatLink agentId={bot?.id} onClick={onClose} />}
         >
-          New chat
+          
+          Novo chat
         </MuseLinkButton>
         <div className="mt-3 flex items-center justify-between">
-          <h2 className={museText.heading}>Conversations</h2>
+          <h2 className={museText.heading}>Conversas</h2>
           <MuseLinkButton
             icon={IconUsersGroup}
             render={<Link onClick={onClose} to="/channel/new" />}
             small
           >
-            New group
+            
+            Novo grupo
           </MuseLinkButton>
         </div>
         <label className="relative block">
@@ -101,20 +103,20 @@ export function MenuSheet({ onClose }: { onClose: () => void }) {
             className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-4 size-4 text-muted-foreground"
           />
           <input
-            aria-label="Search conversations"
+            aria-label="Pesquisar conversas"
             className="min-h-[45px] w-full rounded-[19px] border border-border bg-card py-3 pr-4 pl-10 text-[16px] text-foreground outline-none placeholder:text-muted-foreground focus-visible:border-[var(--openmuse-focus)]"
             onChange={(event) => setSearch(event.target.value)}
-            placeholder="Search conversations"
+            placeholder="Pesquisar conversas"
             value={search}
           />
         </label>
         {channels.isPending ? null : channels.error ? (
-          <ErrorNotice error="Couldn't load your conversations." />
+          <ErrorNotice error="Não foi possível carregar suas conversas." />
         ) : shown.length === 0 ? (
           <p className={museText.muted}>
             {searching
-              ? `No conversation has “${search.trim()}” in its name or latest message.`
-              : `Start a conversation with ${botName} and it shows up here.`}
+              ? `Nenhuma conversa tem “${search.trim()}” no nome ou na última mensagem.`
+              : `Comece uma conversa com ${botName} e ela aparece aqui.`}
           </p>
         ) : (
           <div>
@@ -133,15 +135,15 @@ export function MenuSheet({ onClose }: { onClose: () => void }) {
           searching={searching}
         />
         <p className={museText.small}>
-          A conversation stays with the Bots in it. Pin one to keep it at the
-          top.
+          
+          Uma conversa fica com os Bots que estão nela. Fixe uma para mantê-la no topo.
         </p>
         <Divider className="my-1.5" />
         <div>
           <LinkRow
             icon={IconHome}
             render={<Link onClick={onClose} to="/" />}
-            title="Home"
+            title="Início"
           />
           {/* OpenBot's own destinations, from the one list its sidebar draws. */}
           {navigation.map((item) => (
@@ -165,7 +167,8 @@ export function MenuSheet({ onClose }: { onClose: () => void }) {
           }}
           small
         >
-          Sign out
+          
+          Sair
         </MuseButton>
         <ErrorNotice error={signOut.error?.message} />
       </div>
@@ -198,7 +201,7 @@ function ConversationRow({
   const title =
     channel.summary?.trim() ||
     channel.lastMessage?.trim() ||
-    "New conversation";
+    "Nova conversa";
   const who = group
     ? channel.agentIds
         .map((id) => agents.data?.find((agent) => agent.id === id)?.name)
@@ -247,7 +250,8 @@ function ConversationRow({
             </span>
             {busy ? (
               <span className="shrink-0 text-[var(--openmuse-accent)]">
-                · working
+                
+                · trabalhando
               </span>
             ) : null}
           </span>
@@ -256,12 +260,12 @@ function ConversationRow({
           <span
             className="mt-2 size-2 shrink-0 rounded-full bg-[var(--openmuse-accent)]"
             role="img"
-            aria-label="Unread"
+            aria-label="Não lidos"
           />
         ) : null}
         {channel.pinned ? (
           <IconPinFilled
-            aria-label="Pinned"
+            aria-label="Fixados"
             className="mt-1 size-3.5 shrink-0 text-muted-foreground"
           />
         ) : null}
@@ -275,10 +279,11 @@ function ConversationRow({
           }
           small
         >
-          {channel.pinned ? "Unpin" : "Pin"}
+          {channel.pinned ? "Desafixar" : "Fixar"}
         </MuseButton>
         <MuseButton icon={IconTrash} onClick={() => setConfirming(true)} small>
-          Delete
+          
+          Excluir
         </MuseButton>
       </div>
       <ErrorNotice error={setPinned.error?.message} />

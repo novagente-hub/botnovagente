@@ -175,13 +175,13 @@ function mounted(
 }
 
 const press = (card: ReturnType<typeof mounted>) =>
-  fireEvent.click(card.view.getByRole("button", { name: /^Connect$/ }));
+  fireEvent.click(card.view.getByRole("button", { name: /^Conectar$/ }));
 
 test("asks for the app by name, in the words the Bot used", async () => {
   const card = mounted();
 
   await waitFor(() =>
-    expect(card.view.getByText(/Connect Notion/)).toBeTruthy(),
+    expect(card.view.getByRole("button", { name: /^Conectar$/ })).toBeTruthy(),
   );
   expect(
     card.view.getByText(/You have not connected your Notion account/),
@@ -191,7 +191,7 @@ test("asks for the app by name, in the words the Bot used", async () => {
 test("sends the person to the vendor in another tab, never in this one", async () => {
   const card = mounted();
   const before = window.location.href;
-  await waitFor(() => card.view.getByRole("button", { name: /^Connect$/ }));
+  await waitFor(() => card.view.getByRole("button", { name: /^Conectar$/ }));
 
   press(card);
 
@@ -199,7 +199,7 @@ test("sends the person to the vendor in another tab, never in this one", async (
     expect(card.sentTo).toContain("https://notion.test/consent"),
   );
   expect(window.location.href).toBe(before);
-  expect(card.view.getByText(/Finish in the tab that opened/)).toBeTruthy();
+  expect(card.view.getByText(/Termine na aba que abriu/)).toBeTruthy();
 });
 
 test("claims the tab on the click itself, before the request that mints the url", async () => {
@@ -210,7 +210,7 @@ test("claims the tab on the click itself, before the request that mints the url"
    * never there.
    */
   const card = mounted();
-  await waitFor(() => card.view.getByRole("button", { name: /^Connect$/ }));
+  await waitFor(() => card.view.getByRole("button", { name: /^Conectar$/ }));
 
   press(card);
 
@@ -223,24 +223,24 @@ test("claims the tab on the click itself, before the request that mints the url"
 
 test("offers the link when the browser blocked the tab anyway", async () => {
   const card = mounted({ popupsAllowed: false });
-  await waitFor(() => card.view.getByRole("button", { name: /^Connect$/ }));
+  await waitFor(() => card.view.getByRole("button", { name: /^Conectar$/ }));
 
   press(card);
 
   const link = await waitFor(() =>
-    card.view.getByRole("link", { name: /Open Notion's sign-in/ }),
+    card.view.getByRole("link", { name: /Abrir o login de Notion/ }),
   );
   expect(link.getAttribute("href")).toBe("https://notion.test/consent");
 });
 
 test("says where to type a key for an app that has no page to visit", async () => {
   const card = mounted({ answers: "fields" });
-  await waitFor(() => card.view.getByRole("button", { name: /^Connect$/ }));
+  await waitFor(() => card.view.getByRole("button", { name: /^Conectar$/ }));
 
   press(card);
 
   const link = await waitFor(() =>
-    card.view.getByRole("link", { name: /Enter it on Notion's page/ }),
+    card.view.getByRole("link", { name: /Insira-a na página de Notion/ }),
   );
   expect(link.getAttribute("href")).toBe("/connections/srv_notion");
   // The blank tab claimed on the click is let go rather than left sitting on about:blank.
@@ -254,12 +254,12 @@ test("says connected when the press records an account the vendor already held",
    * for an app that had just been connected through a sign-in.
    */
   const card = mounted({ answers: "connected" });
-  await waitFor(() => card.view.getByRole("button", { name: /^Connect$/ }));
+  await waitFor(() => card.view.getByRole("button", { name: /^Conectar$/ }));
 
   press(card);
 
   await waitFor(() =>
-    expect(card.view.getByText(/Notion is connected/)).toBeTruthy(),
+    expect(card.view.getByText(/Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./)).toBeTruthy(),
   );
   expect(card.view.queryByText(/needs a key from you/)).toBeNull();
   // Nothing to visit: the claimed tab is let go without ever being pointed anywhere.
@@ -269,7 +269,7 @@ test("says connected when the press records an account the vendor already held",
 
 test("lets go of the claimed tab when connecting fails", async () => {
   const card = mounted({ answers: "failure" });
-  await waitFor(() => card.view.getByRole("button", { name: /^Connect$/ }));
+  await waitFor(() => card.view.getByRole("button", { name: /^Conectar$/ }));
 
   press(card);
 
@@ -285,10 +285,10 @@ test("says so once the account is actually listed, rather than once they return"
   });
 
   await waitFor(() =>
-    expect(card.view.getByText(/Notion is connected/)).toBeTruthy(),
+    expect(card.view.getByText(/Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./)).toBeTruthy(),
   );
   // No button to press any more: the next step is to ask the Bot again.
-  expect(card.view.queryByRole("button", { name: /^Connect$/ })).toBeNull();
+  expect(card.view.queryByRole("button", { name: /^Conectar$/ })).toBeNull();
 });
 
 test("does not read a withdrawn credential as a connected account", async () => {
@@ -301,9 +301,9 @@ test("does not read a withdrawn credential as a connected account", async () => 
   });
 
   await waitFor(() =>
-    expect(card.view.getByRole("button", { name: /^Connect$/ })).toBeTruthy(),
+    expect(card.view.getByRole("button", { name: /^Conectar$/ })).toBeTruthy(),
   );
-  expect(card.view.queryByText(/Notion is connected/)).toBeNull();
+  expect(card.view.queryByText(/Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./)).toBeNull();
 });
 
 test("does not read a Shared app's deployment account as this person's", async () => {
@@ -312,20 +312,20 @@ test("does not read a Shared app's deployment account as this person's", async (
   });
 
   await waitFor(() =>
-    expect(card.view.getByRole("button", { name: /^Connect$/ })).toBeTruthy(),
+    expect(card.view.getByRole("button", { name: /^Conectar$/ })).toBeTruthy(),
   );
-  expect(card.view.queryByText(/Notion is connected/)).toBeNull();
+  expect(card.view.queryByText(/Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./)).toBeNull();
 });
 
 test("once connected in front of the person, the conversation carries on by itself, once", async () => {
   const asked: string[] = [];
   const card = mounted({ answers: "connected", asked });
-  await waitFor(() => card.view.getByRole("button", { name: /^Connect$/ }));
+  await waitFor(() => card.view.getByRole("button", { name: /^Conectar$/ }));
 
   press(card);
 
   await waitFor(() => expect(asked).toEqual([carryOnMessage("Notion")]));
-  expect(card.view.getByText("Notion is connected.")).toBeTruthy();
+  expect(card.view.getByText("Notion está conectado.")).toBeTruthy();
   await settleReactWork();
   expect(asked).toHaveLength(1);
 });

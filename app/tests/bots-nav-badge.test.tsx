@@ -72,13 +72,13 @@ test("the badge adds up what waits on the person across every Bot", async () => 
   ]);
   const { view } = draw();
   const badge = await view.findByText("3");
-  expect(badge.getAttribute("aria-label")).toBe("3 things need you");
+  expect(badge.getAttribute("aria-label")).toBe("3 itens precisam de você");
 });
 
 test("with only unread messages the badge is a dot, not a number", async () => {
   serving([attention("expenses", { unread: 2 })]);
   const { view } = draw();
-  expect(await view.findByLabelText("Unread messages")).toBeTruthy();
+  expect(await view.findByLabelText("Mensagens não lidas")).toBeTruthy();
   expect(view.container.textContent).toBe("");
 });
 
@@ -115,5 +115,5 @@ test("a Bot that starts needing the person sends a browser notification", async 
   await act(async () => {
     await client.refetchQueries({ queryKey: botLifecycleKeys.attention });
   });
-  await waitFor(() => expect(sent).toEqual(["Expenses needs you"]));
+  await waitFor(() => expect(sent).toEqual(["Expenses precisa de você"]));
 });

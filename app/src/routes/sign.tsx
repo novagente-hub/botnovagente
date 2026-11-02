@@ -76,7 +76,7 @@ export const Route = createFileRoute("/sign")({
 function SignScreen() {
   const { flow_id: flowId } = Route.useSearch();
   // Which provider is being opened, rather than whether one is: with three buttons, a single
-  // boolean would put "Opening…" on all of them.
+  // boolean would put "Abrindo…" on all of them.
   const [opening, setOpening] = useState<AuthProviderId | "sso" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { data: options } = useQuery(authProvidersQueryOptions());
@@ -104,7 +104,7 @@ function SignScreen() {
       setError(
         caughtError instanceof Error
           ? caughtError.message
-          : "No company sign-in is set up for that address.",
+          : "Nenhum login empresarial está configurado para esse endereço.",
       );
       setOpening(null);
     }
@@ -124,7 +124,7 @@ function SignScreen() {
       setError(
         caughtError instanceof Error
           ? caughtError.message
-          : `Couldn't open ${providerName(provider)} sign-in. Try again.`,
+          : `Não foi possível abrir o login com ${providerName(provider)}. Tente novamente.`,
       );
       setOpening(null);
     }
@@ -153,8 +153,8 @@ function SignScreen() {
           {/* Centred against the button, not against the space left of the mark. */}
           <span className="flex-1 text-center">
             {opening === provider
-              ? `Opening ${providerName(provider)}…`
-              : `Continue with ${providerName(provider)}`}
+              ? `Abrindo ${providerName(provider)}…`
+              : `Continuar com ${providerName(provider)}`}
           </span>
           {/* Balances the mark so the label sits in the middle of the button. */}
           <span aria-hidden="true" className="size-[18px]" />
@@ -205,15 +205,16 @@ function SignScreen() {
         >
           {options?.ssoRequired ? (
             <p className="mb-3 text-center text-sm text-muted-foreground">
-              Your organization requires you to sign in with your company
-              account.
+              
+              Sua organização exige que você entre com a conta da empresa.
             </p>
           ) : null}
           {providers.length > 0 && !options?.ssoRequired ? (
             providerButtons
           ) : options?.sso || options?.ssoRequired ? null : (
             <p className="text-center text-sm text-muted-foreground">
-              Sign-in isn't set up yet. An admin has to set it up first.
+              
+              O login ainda não está configurado. Um administrador precisa configurá-lo primeiro.
             </p>
           )}
           {/*
@@ -247,8 +248,8 @@ function SignScreen() {
                 variant="outline"
               >
                 {opening === "sso"
-                  ? "Opening…"
-                  : "Continue with your company account"}
+                  ? "Abrindo…"
+                  : "Continuar com sua conta da empresa"}
               </Button>
             </form>
           ) : null}
@@ -256,7 +257,8 @@ function SignScreen() {
           {options?.ssoRequired && providers.length > 0 ? (
             <details className="mt-4 text-sm">
               <summary className="cursor-pointer text-center text-muted-foreground">
-                Admin sign-in
+                
+                Login de administrador
               </summary>
               <div className="mt-3">{providerButtons}</div>
             </details>

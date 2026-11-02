@@ -80,7 +80,7 @@ export function BotSettingsRows({ agent }: { agent: AgentProfile }) {
   const rows: Row[] = [
     {
       to: "/bots/$agentId/responsibilities",
-      title: "Responsibilities",
+      title: "Responsabilidades",
       icon: IconTargetArrow,
       summary: goals.data
         ? countLabel(
@@ -89,13 +89,13 @@ export function BotSettingsRows({ agent }: { agent: AgentProfile }) {
             ).length,
             "active",
             "active",
-            "None active",
+            "Nenhuma ativa",
           )
         : "",
     },
     {
       to: "/bots/$agentId/reach",
-      title: "Reaching you",
+      title: "Como falar com você",
       icon: IconDeviceMobile,
       summary: reach.data
         ? reachSummary(
@@ -109,7 +109,7 @@ export function BotSettingsRows({ agent }: { agent: AgentProfile }) {
     },
     {
       to: "/bots/$agentId/memory",
-      title: "Memory",
+      title: "Memória",
       icon: IconBrain,
       summary:
         sources.data && research.data
@@ -124,7 +124,7 @@ export function BotSettingsRows({ agent }: { agent: AgentProfile }) {
     },
     {
       to: "/bots/$agentId/approvals",
-      title: "Approval rules",
+      title: "Regras de aprovação",
       icon: IconChecks,
       summary: approvals.data
         ? countLabel(
@@ -134,13 +134,13 @@ export function BotSettingsRows({ agent }: { agent: AgentProfile }) {
             ).length,
             "rule",
             "rules",
-            "No rules",
+            "Sem regras",
           )
         : "",
     },
     {
       to: "/bots/$agentId/routines",
-      title: "Routines",
+      title: "Rotinas",
       icon: IconClock,
       summary: routines.data
         ? countLabel(
@@ -148,13 +148,13 @@ export function BotSettingsRows({ agent }: { agent: AgentProfile }) {
               .length,
             "routine",
             "routines",
-            "No routines",
+            "Sem rotinas",
           )
         : "",
     },
     {
       to: "/bots/$agentId/access",
-      title: "Skills and access",
+      title: "Habilidades e acesso",
       icon: IconPuzzle,
       summary: plugins.data
         ? accessSummary(
@@ -167,7 +167,7 @@ export function BotSettingsRows({ agent }: { agent: AgentProfile }) {
       ? [
           {
             to: "/bots/$agentId/sharing" as const,
-            title: "Sharing",
+            title: "Compartilhamento",
             icon: IconUsersGroup,
             summary: teamBots.data
               ? sharingSummary(published, agent.visibility)
@@ -177,14 +177,14 @@ export function BotSettingsRows({ agent }: { agent: AgentProfile }) {
       : []),
     {
       to: "/bots/$agentId/setup",
-      title: "Setup",
+      title: "Configuração",
       icon: IconSettings,
       summary: setupSummary(agent),
     },
   ];
 
   return (
-    <PageSection title="Settings for this Bot">
+    <PageSection title="Configurações deste Bot">
       <PageRows>
         {rows.map(({ to, title, icon: Icon, summary }, index) => (
           <Fragment key={to}>

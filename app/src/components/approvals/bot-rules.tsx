@@ -47,21 +47,22 @@ export function BotApprovalRules({ agentId }: { agentId: string }) {
     <PageSection
       description={
         <>
-          The strictest matching rule wins. An "ask" rule beats an "allow" rule.
-          Rules for every Bot are in{" "}
+          
+          A regra correspondente mais rígida vence. Uma regra "perguntar" vence uma regra "permitir". As regras de todos os Bots estão em{" "}
           <Link
             className="underline underline-offset-4"
             to="/settings/approvals"
           >
-            Settings → Approvals
+            
+            Configurações → Aprovações
           </Link>
           .
           {rulesOff
-            ? " An admin has turned off personal rules. Yours are kept but don't apply."
+            ? " Um administrador desativou as regras pessoais. As suas ficam guardadas, mas não valem."
             : ""}
         </>
       }
-      title="Rules"
+      title="Regras"
     >
       {error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
@@ -69,7 +70,7 @@ export function BotApprovalRules({ agentId }: { agentId: string }) {
         </p>
       ) : null}
       {saved === 0 ? (
-        <PageEmpty icon={IconChecklist} title="No rules for this Bot" />
+        <PageEmpty icon={IconChecklist} title="Nenhuma regra para este Bot" />
       ) : null}
       {saved > 0 || canAdd ? (
         <PageRows>
@@ -106,7 +107,7 @@ export function BotApprovalRules({ agentId }: { agentId: string }) {
               <RuleForm
                 botField={false}
                 forBot={agentId}
-                label="Add a rule"
+                label="Adicionar regra"
                 save={addRule}
               />
             </>

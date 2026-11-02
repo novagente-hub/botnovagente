@@ -51,11 +51,11 @@ const ICONS: Record<ActivityKind, typeof IconBell> = {
 };
 
 const KIND_LABEL: Record<ActivityKind, string> = {
-  routine: "Routine",
-  responsibility: "Responsibility",
-  handoff: "Delegated task",
-  approval: "Approval",
-  question: "Question",
+  routine: "Rotina",
+  responsibility: "Responsabilidade",
+  handoff: "Tarefa delegada",
+  approval: "Aprovação",
+  question: "Pergunta",
   follow_up: "Follow-up",
 };
 
@@ -100,7 +100,7 @@ function ActivityRow({
       size="sm"
       variant="outline"
     >
-      {stop.isPending ? "Stopping…" : "Stop"}
+      {stop.isPending ? "Parando…" : "Parar"}
     </Button>
   ) : item.cancellable ? (
     <Button
@@ -109,7 +109,7 @@ function ActivityRow({
       size="sm"
       variant="outline"
     >
-      {cancel.isPending ? "Cancelling…" : "Cancel"}
+      {cancel.isPending ? "Cancelando…" : "Cancelar"}
     </Button>
   ) : null;
   const content = (
@@ -129,7 +129,7 @@ function ActivityRow({
       <ItemContent>
         <ItemTitle>{item.title}</ItemTitle>
         <ItemDescription>
-          {KIND_LABEL[item.kind]} · {item.needsYou ? "needs you" : item.status}
+          {KIND_LABEL[item.kind]} · {item.needsYou ? "precisa de você" : item.status}
           {when ? ` · ${when}` : ""}
           {item.detail ? ` · ${item.detail}` : ""}
         </ItemDescription>
@@ -147,7 +147,8 @@ function ActivityRow({
         <ItemActions>
           {link ? (
             <Button render={link} size="sm" variant="ghost">
-              Open
+              
+              Abrir
             </Button>
           ) : null}
           {control}
@@ -214,7 +215,7 @@ export function BotActivityGlance({ agentId }: { agentId: string }) {
       ].slice(0, GLANCE)
     : [];
   return (
-    <PageSection title="Activity">
+    <PageSection title="Atividade">
       <PageRows>
         {upcoming.map(({ item, live }) => (
           <Fragment key={item.id}>
@@ -232,11 +233,11 @@ export function BotActivityGlance({ agentId }: { agentId: string }) {
             </ItemMedia>
           )}
           <ItemContent>
-            <ItemTitle>All activity</ItemTitle>
+            <ItemTitle>Toda a atividade</ItemTitle>
             <ItemDescription>
               {activity.data
                 ? activitySummary(activity.data)
-                : "Couldn't load this Bot's activity."}
+                : "Não foi possível carregar a atividade deste Bot."}
             </ItemDescription>
           </ItemContent>
           <ItemActions>
@@ -255,14 +256,14 @@ export function BotActivityGlance({ agentId }: { agentId: string }) {
 export function activitySummary(activity: BotActivity): string {
   const parts = [
     activity.inProgress.length
-      ? `${activity.inProgress.length} in progress`
+      ? `${activity.inProgress.length} em andamento`
       : null,
-    activity.scheduled.length ? `${activity.scheduled.length} scheduled` : null,
+    activity.scheduled.length ? `${activity.scheduled.length} ${activity.scheduled.length === 1 ? "agendada" : "agendadas"}` : null,
   ].filter(Boolean);
   if (parts.length) return parts.join(" · ");
   return activity.completed.length
-    ? "Nothing running or scheduled"
-    : "Nothing yet";
+    ? "Nada em execução ou agendado"
+    : "Nada ainda";
 }
 
 /** In progress, Scheduled and Completed, read from the ledgers the work already lives in. */
@@ -271,9 +272,10 @@ export function BotActivitySections({ agentId }: { agentId: string }) {
   if (activity.isPending) return null;
   if (activity.error)
     return (
-      <PageSection title="Activity">
+      <PageSection title="Atividade">
         <p className="mt-4 text-destructive text-sm" role="alert">
-          Couldn't load this Bot's activity. Reload the page.
+          
+          Não foi possível carregar a atividade deste Bot. Recarregue a página.
         </p>
       </PageSection>
     );
@@ -281,22 +283,22 @@ export function BotActivitySections({ agentId }: { agentId: string }) {
     <>
       <ActivitySection
         agentId={agentId}
-        empty="Nothing is running or waiting on you."
+        empty="Nada está em execução ou esperando por você."
         items={activity.data.inProgress}
         live
-        title="In progress"
+        title="Em andamento"
       />
       <ActivitySection
         agentId={agentId}
-        empty="Nothing is scheduled."
+        empty="Nada está agendado."
         items={activity.data.scheduled}
-        title="Scheduled"
+        title="Agendado"
       />
       <ActivitySection
         agentId={agentId}
-        empty="Nothing has finished yet."
+        empty="Nada foi concluído ainda."
         items={activity.data.completed}
-        title="Completed"
+        title="Concluído"
       />
     </>
   );

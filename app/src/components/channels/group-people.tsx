@@ -49,7 +49,7 @@ export function GroupPeopleButton({ channelId }: { channelId: string }) {
   const iCreated = people.some(
     (person) => person.creator && person.userId === me?.id,
   );
-  const count = `${people.length} ${people.length === 1 ? "person" : "people"}`;
+  const count = `${people.length} ${people.length === 1 ? "pessoa" : "pessoas"}`;
 
   return (
     <>
@@ -65,10 +65,10 @@ export function GroupPeopleButton({ channelId }: { channelId: string }) {
       <Dialog onOpenChange={setOpen} open={open}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>People in this group</DialogTitle>
+            <DialogTitle>Pessoas neste grupo</DialogTitle>
             <DialogDescription>
-              Everyone here sees the whole conversation. Every Bot in it answers
-              them.
+              
+              Todos aqui veem a conversa inteira. Todos os Bots nela respondem a eles.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4 grid gap-4 overflow-y-auto">
@@ -85,10 +85,10 @@ export function GroupPeopleButton({ channelId }: { channelId: string }) {
                       </ItemMedia>
                       <ItemContent>
                         <ItemTitle>
-                          {self ? "You" : (person.name ?? person.email)}
+                          {self ? "Você" : (person.name ?? person.email)}
                         </ItemTitle>
                         <ItemDescription>
-                          {person.creator ? "Started this group" : person.email}
+                          {person.creator ? "Iniciou este grupo" : person.email}
                         </ItemDescription>
                       </ItemContent>
                       {removable ? (
@@ -96,7 +96,7 @@ export function GroupPeopleButton({ channelId }: { channelId: string }) {
                           <Button
                             aria-label={
                               self
-                                ? "Leave this group"
+                                ? "Sair deste grupo"
                                 : `Remove ${person.email}`
                             }
                             disabled={remove.isPending}
@@ -104,7 +104,7 @@ export function GroupPeopleButton({ channelId }: { channelId: string }) {
                             size="sm"
                             variant="outline"
                           >
-                            {self ? "Leave" : "Remove"}
+                            {self ? "Sair" : "Remover"}
                           </Button>
                         </ItemActions>
                       ) : null}
@@ -121,9 +121,9 @@ export function GroupPeopleButton({ channelId }: { channelId: string }) {
               }}
             >
               <Input
-                aria-label="Their email"
+                aria-label="E-mail da pessoa"
                 onChange={(event) => setEmail(event.target.value)}
-                placeholder="Add someone by email"
+                placeholder="Adicionar alguém por e-mail"
                 type="email"
                 value={email}
               />
@@ -132,7 +132,8 @@ export function GroupPeopleButton({ channelId }: { channelId: string }) {
                 size="sm"
                 type="submit"
               >
-                Add
+                
+                Adicionar
               </Button>
             </form>
             {add.error || remove.error ? (

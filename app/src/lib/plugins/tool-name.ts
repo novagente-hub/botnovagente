@@ -106,8 +106,8 @@ export function connectorName(server: string): string {
  */
 const OWN_TOOLS: Record<string, { running: string; done: string }> = {
   [SHOW_APP_ACCESS_TOOL]: {
-    running: "Checking app access",
-    done: "Checked app access",
+    running: "Verificando acesso ao app",
+    done: "Acesso ao app verificado",
   },
 };
 

@@ -80,7 +80,7 @@ afterEach(() => {
  */
 function drop(form: Element, files: File[]) {
   fireEvent.drop(form, {
-    dataTransfer: { files, items: [], types: ["Files"] },
+    dataTransfer: { files, items: [], types: ["Arquivos"] },
   });
 }
 
@@ -109,7 +109,7 @@ test("a pick-time refusal still names the file with no crypto.randomUUID", async
   ]);
 
   await waitFor(() => expect(view.queryByRole("alert")).not.toBeNull());
-  expect(view.queryByText(/SVG files aren't accepted/)).not.toBeNull();
+  expect(view.queryByText(/Arquivos SVG não são aceitos/)).not.toBeNull();
   // The rest of the gesture survived the refusal, which is the part the throw used to take with it.
   await waitFor(() =>
     expect(view.queryByLabelText("Remove notes.txt")).not.toBeNull(),

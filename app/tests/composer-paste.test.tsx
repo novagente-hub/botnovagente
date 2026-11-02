@@ -84,7 +84,7 @@ function clipboard({
       type: file.type,
       getAsFile: () => file,
     })),
-    types: [...(files.length > 0 ? ["Files"] : []), "text/plain"],
+    types: [...(files.length > 0 ? ["Arquivos"] : []), "text/plain"],
     getData: (type: string) => (type === "text/plain" ? text : ""),
   };
 }
@@ -136,7 +136,7 @@ async function uploaded(
 ) {
   await waitFor(() => {
     expect(queryByLabelText(`Remove ${name}`)).not.toBeNull();
-    expect((getByLabelText("Send message") as HTMLButtonElement).disabled).toBe(
+    expect((getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled).toBe(
       false,
     );
   });

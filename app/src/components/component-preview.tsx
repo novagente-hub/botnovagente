@@ -21,7 +21,7 @@ export function AdminComponentPreview({
   });
   if (kind === "sandboxed" && sandboxed.isPending) return null;
   if (kind === "sandboxed" && sandboxed.error) {
-    return <PreviewNotice>Preview could not be loaded.</PreviewNotice>;
+    return <PreviewNotice>Não foi possível carregar a prévia.</PreviewNotice>;
   }
   return (
     <ComponentPreview
@@ -65,7 +65,8 @@ export function ComponentPreview({
     if (!sandboxed.published || sandboxed.publishedHtml === null) {
       return (
         <PreviewNotice>
-          Publish in the playground to see a preview.
+          
+          Publique no playground para ver uma prévia.
         </PreviewNotice>
       );
     }
@@ -82,7 +83,7 @@ export function ComponentPreview({
       <FittedPreview fill={fill}>
         <div
           className="w-full"
-          title="Published component with saved sample arguments"
+          title="Componente publicado com argumentos de exemplo salvos"
         >
           <OpenGenerativeUIActivityRenderer
             activityType="open-generative-ui"
@@ -99,10 +100,10 @@ export function ComponentPreview({
   return (
     <PreviewNotice>
       {entry
-        ? "This one is only drawn in a conversation."
+        ? "Este só é desenhado em uma conversa."
         : kind === "sandboxed"
-          ? "Published in the playground."
-          : "This build cannot draw this."}
+          ? "Publicado no playground."
+          : "Esta versão não consegue desenhar isto."}
     </PreviewNotice>
   );
 }

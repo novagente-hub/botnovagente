@@ -105,7 +105,7 @@ function channel(
   overrides: Partial<ChannelSummary> & { id: string; agentIds: string[] },
 ): ChannelSummary {
   return {
-    name: "Conversation",
+    name: "Conversa",
     threadId: `thread-${overrides.id}`,
     active: true,
     lastMessageAt: earlier,
@@ -144,7 +144,7 @@ const channels = [
   channel({
     id: "g-team",
     agentIds: [muse.id, scout.id],
-    name: "Team",
+    name: "Equipe",
     summary: "Launch plan",
   }),
 ];
@@ -354,7 +354,7 @@ const plugins: PluginsPage = {
       key: "google-drive",
       title: "Google Drive",
       vendor: "Google",
-      summary: "Files",
+      summary: "Arquivos",
       docsUrl: "",
       auth: "user-oauth",
       perInstance: false,
@@ -512,7 +512,7 @@ const hrefOf = (name: string | RegExp) =>
 
 async function openMenu() {
   fireEvent.click(
-    await page().findByRole("button", { name: "Open conversations and menu" }),
+    await page().findByRole("button", { name: "Abrir conversas e menu" }),
   );
   return page().findByRole("dialog");
 }
@@ -534,26 +534,26 @@ describe("the frame", () => {
     serve();
     renderAt("/connections");
     const centre = await page().findByRole("button", {
-      name: /^Muse, Ready to review · 1 approval\. Switch Bot$/,
+      name: /^Muse, Pronto para revisar · 1 aprovação\. Trocar Bot$/,
     });
     expect(centre.textContent).toContain("Muse");
     expect(page().getByTestId("openmuse-status").textContent).toBe(
-      "Ready to review · 1 approval",
+      "Pronto para revisar · 1 aprovação",
     );
     // The bell carries the one pending approval.
     expect(
-      page().getByRole("button", { name: "Needs you, 1 waiting" }),
+      page().getByRole("button", { name: "Precisa de você, 1 aguardando" }),
     ).toBeTruthy();
   });
 
   test("a one-to-one conversation puts its own Bot at the centre", async () => {
     serve();
     renderAt("/channel/c-scout");
-    await page().findByRole("button", { name: /^Scout, .*Switch Bot$/ });
+    await page().findByRole("button", { name: /^Scout, .*Trocar Bot$/ });
     // Scout has a turn running in its channel; the line says so.
     await waitFor(() =>
       expect(page().getByTestId("openmuse-status").textContent).toBe(
-        "Working on Competitor notes…",
+        "Trabalhando em Competitor notes…",
       ),
     );
     expect(page().getByTestId("page").textContent).toBe(
@@ -573,13 +573,13 @@ describe("the frame", () => {
       ).toBe("/channel/c-muse"),
     );
     expect(
-      tabs.getByRole("link", { name: "Activity" }).getAttribute("href"),
+      tabs.getByRole("link", { name: "Atividade" }).getAttribute("href"),
     ).toBe("/s/activity");
-    expect(tabs.getByRole("link", { name: "Ideas" }).getAttribute("href")).toBe(
+    expect(tabs.getByRole("link", { name: "Ideias" }).getAttribute("href")).toBe(
       "/s/ideas",
     );
     expect(
-      tabs.getByRole("link", { name: "Goals" }).getAttribute("aria-current"),
+      tabs.getByRole("link", { name: "Objetivos" }).getAttribute("aria-current"),
     ).toBe("page");
     expect(tabs.getByRole("link", { name: "Apps" }).getAttribute("href")).toBe(
       "/connections",
@@ -587,9 +587,9 @@ describe("the frame", () => {
   });
 
   test.each([
-    ["/s/activity", "Activity"],
-    ["/s/ideas", "Ideas"],
-    ["/s/goals", "Goals"],
+    ["/s/activity", "Atividade"],
+    ["/s/ideas", "Ideias"],
+    ["/s/goals", "Objetivos"],
     ["/connections", "Apps"],
     ["/channel/c-muse", "Chat"],
     ["/routines", null],
@@ -631,7 +631,7 @@ describe("the frame", () => {
   test("the chosen Bot is remembered per person, not per machine", async () => {
     serve({ userId: "u-1" });
     renderAt("/s/activity");
-    fireEvent.click(await page().findByRole("button", { name: /Switch Bot$/ }));
+    fireEvent.click(await page().findByRole("button", { name: /Trocar Bot$/ }));
     fireEvent.click(
       within(await page().findByRole("dialog")).getByRole("button", {
         name: /Scout/,
@@ -721,7 +721,7 @@ describe("the frame wears the deployment's brand, not OpenMuse's", () => {
   test("the centre Bot is drawn with its own OpenBot avatar", async () => {
     serve();
     renderAt("/connections");
-    const centre = await page().findByRole("button", { name: /Switch Bot$/ });
+    const centre = await page().findByRole("button", { name: /Trocar Bot$/ });
     // AbstractAvatar names the drawing after the Bot, as on its OpenBot page.
     expect(within(centre).getByRole("img", { name: "Muse" })).toBeTruthy();
     expect(capybaras()).toEqual([]);
@@ -738,7 +738,7 @@ describe("the frame wears the deployment's brand, not OpenMuse's", () => {
       { preconnect: originalFetch.preconnect },
     );
     renderAt("/s/activity");
-    const centre = await page().findByRole("button", { name: "Choose a Bot" });
+    const centre = await page().findByRole("button", { name: "Escolha um Bot" });
     await waitFor(() => expect(centre.textContent).toContain(PRODUCT));
     expect(readable()).not.toMatch(/openmuse/i);
     expect(capybaras()).toEqual([]);
@@ -748,16 +748,16 @@ describe("the frame wears the deployment's brand, not OpenMuse's", () => {
 describe("every OpenBot surface stays reachable", () => {
   // A row's name is its title and then its one line of detail, so each is matched from its start.
   const surfaces: [RegExp, string][] = [
-    [/^Main chat/, "/channel/c-muse"],
-    [/^New chat$/, "/channel/new?agent=picked-harness"],
-    [/^New group$/, "/channel/new"],
-    [/^Home$/, "/"],
+    [/^Chat principal/, "/channel/c-muse"],
+    [/^Novo chat$/, "/channel/new?agent=picked-harness"],
+    [/^Novo grupo$/, "/channel/new"],
+    [/^Início$/, "/"],
     // OpenBot's own destinations, from the shared navigation list its sidebar draws.
     [/^Bots$/, "/bots"],
-    [/^Capabilities$/, "/capabilities"],
-    [/^Connections$/, "/connections"],
+    [/^Capacidades$/, "/capabilities"],
+    [/^Conexões$/, "/connections"],
     [/^Admin$/, "/admin"],
-    [/^Settings$/, "/settings"],
+    [/^Configurações$/, "/settings"],
   ];
 
   test("the menu reaches every surface, every conversation and every group", async () => {
@@ -790,7 +790,7 @@ describe("every OpenBot surface stays reachable", () => {
       serve({ role });
       renderAt("/s/goals");
       const menu = within(await openMenu());
-      await menu.findByRole("link", { name: /^Settings$/ });
+      await menu.findByRole("link", { name: /^Configurações$/ });
       for (const item of navigationFor(role)) {
         expect(
           menu
@@ -805,7 +805,7 @@ describe("every OpenBot surface stays reachable", () => {
     serve({ role: "user" });
     renderAt("/s/activity");
     const menu = within(await openMenu());
-    await menu.findByRole("link", { name: /^Settings$/ });
+    await menu.findByRole("link", { name: /^Configurações$/ });
     expect(menu.queryByRole("link", { name: /^Admin$/ })).toBeNull();
   });
 
@@ -821,7 +821,7 @@ describe("every OpenBot surface stays reachable", () => {
     serve();
     const router = renderAt(path);
     const menu = within(await openMenu());
-    const settings = await menu.findByRole("link", { name: /^Settings$/ });
+    const settings = await menu.findByRole("link", { name: /^Configurações$/ });
     expect(settings.getAttribute("href")).toBe("/settings");
     fireEvent.click(settings);
     await waitFor(() =>
@@ -832,14 +832,14 @@ describe("every OpenBot surface stays reachable", () => {
   test("the Bot switcher reaches each Bot's page, the roster and a new Bot", async () => {
     serve();
     renderAt("/connections");
-    fireEvent.click(await page().findByRole("button", { name: /Switch Bot$/ }));
+    fireEvent.click(await page().findByRole("button", { name: /Trocar Bot$/ }));
     const sheet = within(await page().findByRole("dialog"));
     expect(hrefOf(/^Muse's page/)).toBe("/bots/picked-harness");
     expect(
-      sheet.getByRole("link", { name: /^All Bots/ }).getAttribute("href"),
+      sheet.getByRole("link", { name: /^Todos os Bots/ }).getAttribute("href"),
     ).toBe("/bots");
     expect(
-      sheet.getByRole("link", { name: /^New Bot/ }).getAttribute("href"),
+      sheet.getByRole("link", { name: /^Novo Bot/ }).getAttribute("href"),
     ).toBe("/bots?new=true");
     // A Bot that is waiting on the person says so; one with only unread messages does not.
     expect(sheet.getByText("Needs you · 1 approval")).toBeTruthy();
@@ -856,13 +856,13 @@ describe("each tab is OpenBot's own sections for the centre Bot", () => {
     serve();
     renderAt("/s/activity");
     // OpenBot's Needs you section, with OpenBot's own approval and its details always shown.
-    expect(await page().findByText("Muse wants to open url")).toBeTruthy();
+    expect(await page().findByText("Muse quer open url")).toBeTruthy();
     expect(page().getByText(/"url": "https:\/\/example.com"/)).toBeTruthy();
     // OpenBot's activity sections for the Bot.
     expect(await page().findByText("Morning briefing")).toBeTruthy();
     expect(page().getByText("Draft the launch post")).toBeTruthy();
-    expect(page().getByRole("heading", { name: "In progress" })).toBeTruthy();
-    expect(page().getByRole("heading", { name: "Completed" })).toBeTruthy();
+    expect(page().getByRole("heading", { name: "Em andamento" })).toBeTruthy();
+    expect(page().getByRole("heading", { name: "Concluído" })).toBeTruthy();
   });
 
   test("Ideas shows only the centre Bot's suggestions and starts one through OpenBot", async () => {
@@ -874,9 +874,9 @@ describe("each tab is OpenBot's own sections for the centre Bot", () => {
     expect(page().queryByText("Compare pricing pages")).toBeNull();
     // OpenBot's own background-research section for the Bot sits under the suggestions.
     expect(
-      page().getByRole("heading", { name: "Background research" }),
+      page().getByRole("heading", { name: "Pesquisa em segundo plano" }),
     ).toBeTruthy();
-    fireEvent.click(page().getByRole("button", { name: "Start as task" }));
+    fireEvent.click(page().getByRole("button", { name: "Iniciar como tarefa" }));
     await waitFor(() =>
       expect(
         calls.some(
@@ -901,7 +901,7 @@ describe("each tab is OpenBot's own sections for the centre Bot", () => {
     renderAt("/s/goals");
     fireEvent.click(
       await page().findByRole("switch", {
-        name: "Enable the routine scheduled Every weekday at 9:00",
+        name: "Ativar a rotina agendada Every weekday at 9:00",
       }),
     );
     await waitFor(() =>
@@ -917,14 +917,14 @@ describe("each tab is OpenBot's own sections for the centre Bot", () => {
     const calls = serve();
     renderAt("/s/goals");
     fireEvent.click(
-      await page().findByRole("button", { name: "Needs you, 1 waiting" }),
+      await page().findByRole("button", { name: "Precisa de você, 1 aguardando" }),
     );
     const sheet = within(await page().findByRole("dialog"));
-    expect(await sheet.findByText("Muse wants to open url")).toBeTruthy();
+    expect(await sheet.findByText("Muse quer open url")).toBeTruthy();
     // What it will send is always on screen, as in OpenBot.
     expect(sheet.getByText(/"url": "https:\/\/example.com"/)).toBeTruthy();
     expect(sheet.queryByText(/send email/)).toBeNull();
-    fireEvent.click(sheet.getByRole("button", { name: "Allow once" }));
+    fireEvent.click(sheet.getByRole("button", { name: "Permitir uma vez" }));
     await waitFor(() =>
       expect(calls).toContainEqual({
         method: "POST",
@@ -974,7 +974,7 @@ describe("the rules the frame runs on", () => {
 
   test("something waiting on the person outranks work in progress", () => {
     const busy = [
-      channel({ id: "x", agentIds: ["b"], busy: true, summary: "Report" }),
+      channel({ id: "x", agentIds: ["b"], busy: true, summary: "Relatório" }),
     ];
     const base = {
       agentId: "b",
@@ -988,30 +988,30 @@ describe("the rules the frame runs on", () => {
     };
     expect(
       statusLine({ attention: undefined, channels: busy, agentId: "b" }),
-    ).toBe("Working on Report…");
+    ).toBe("Trabalhando em Relatório…");
     expect(
       statusLine({
         attention: { ...base, questions: 2 },
         channels: busy,
         agentId: "b",
       }),
-    ).toBe("Needs your input · 2 questions");
+    ).toBe("Precisa da sua resposta · 2 perguntas");
     expect(
       statusLine({
         attention: { ...base, approvals: 1 },
         channels: busy,
         agentId: "b",
       }),
-    ).toBe("Ready to review · 1 approval");
+    ).toBe("Pronto para revisar · 1 aprovação");
     expect(
       statusLine({
         attention: { ...base, paused: true },
         channels: [],
         agentId: "b",
       }),
-    ).toBe("Paused");
+    ).toBe("Pausado");
     expect(statusLine({ attention: base, channels: [], agentId: "b" })).toBe(
-      "Ready when you are",
+      "Pronto quando você estiver",
     );
   });
 });

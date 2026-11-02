@@ -139,7 +139,7 @@ function links(root: HTMLElement) {
   }));
 }
 
-function expected(role: "admin" | "user", section: "primary" | "account") {
+function expected(role: "admin" | "user", section: "primary" | "do dono") {
   return navigationFor(role)
     .filter((item) => item.section === section)
     .map((item) => ({ label: item.label, to: item.to }));
@@ -164,7 +164,7 @@ test.each(["user", "admin"] as const)(
     ).toEqual(expected(role, "primary"));
     // Bots keeps its count of what waits on the person, and only Bots has one.
     const badge = within(footer).getByRole("img", {
-      name: "1 thing needs you",
+      name: "1 item precisa de você",
     });
     expect(badge.closest("a")?.getAttribute("href")).toBe("/bots");
 
@@ -174,10 +174,10 @@ test.each(["user", "admin"] as const)(
       .getAllByRole("menuitem")
       .map((item) => item.textContent?.trim());
     expect(items).toEqual([
-      ...expected(role, "account").map((item) => item.label),
-      "Sign out",
+      ...expected(role, "do dono").map((item) => item.label),
+      "Sair",
     ]);
-    expect(links(menu)).toEqual(expected(role, "account"));
+    expect(links(menu)).toEqual(expected(role, "do dono"));
   },
 );
 

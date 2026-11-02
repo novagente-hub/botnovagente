@@ -33,7 +33,7 @@ const goal = (id: string, agentId: string, title: string) => ({
   threadId: "thread",
   title,
   instruction: "Do it.",
-  successCriteria: "Done.",
+  successCriteria: "Pronto.",
   status: "active",
   progress: "",
   lastResult: null,
@@ -125,9 +125,9 @@ test("a new responsibility needs no Bot picked, and offers only this Bot's conve
   const view = draw();
   await view.findByText("Reconcile receipts");
   const user = userEvent.setup({ document });
-  await user.click(view.getByRole("button", { name: /New responsibility/ }));
+  await user.click(view.getByRole("button", { name: /Nova responsabilidade/ }));
   expect(view.queryByRole("combobox", { name: /^Bot/ })).toBeNull();
-  await user.click(view.getByRole("combobox", { name: /^Conversation/ }));
+  await user.click(view.getByRole("combobox", { name: /^Conversa/ }));
   const options = (await view.findAllByRole("option")).map(
     (option) => option.textContent,
   );
@@ -135,11 +135,11 @@ test("a new responsibility needs no Bot picked, and offers only this Bot's conve
   expect(options).not.toContain("Docs desk");
 
   await user.click(view.getByRole("option", { name: "Finance desk" }));
-  await user.type(view.getByLabelText("Title"), "Close the month");
-  await user.type(view.getByLabelText("Instruction"), "Close it.");
-  await user.type(view.getByLabelText("Success criteria"), "Closed.");
+  await user.type(view.getByLabelText("Título"), "Close the month");
+  await user.type(view.getByLabelText("Instrução"), "Close it.");
+  await user.type(view.getByLabelText("Critérios de sucesso"), "Closed.");
   fireEvent.submit(
-    (view.getByRole("button", { name: /Create/ }) as HTMLButtonElement)
+    (view.getByRole("button", { name: /Criar/ }) as HTMLButtonElement)
       .form as HTMLFormElement,
   );
   await waitFor(() =>

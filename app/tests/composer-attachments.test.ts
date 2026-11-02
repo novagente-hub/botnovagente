@@ -109,7 +109,7 @@ describe("uploadToChannel", () => {
 
     await expect(
       uploadToChannel("chan_1", "group_1")(file("receipt.png", "image/png")),
-    ).rejects.toThrow('Couldn\'t upload "receipt.png". Try again.');
+    ).rejects.toThrow('Não foi possível enviar "receipt.png". Tente novamente.');
   });
 
   test("a refusal whose `error` is empty throws the named fallback, not an empty refusal", async () => {
@@ -120,7 +120,7 @@ describe("uploadToChannel", () => {
 
     await expect(
       uploadToChannel("chan_1", "group_1")(file("receipt.png", "image/png")),
-    ).rejects.toThrow('Couldn\'t upload "receipt.png". Try again.');
+    ).rejects.toThrow('Não foi possível enviar "receipt.png". Tente novamente.');
   });
 
   test("a refusal whose `error` is not a string throws the named fallback", async () => {
@@ -129,7 +129,7 @@ describe("uploadToChannel", () => {
 
     await expect(
       uploadToChannel("chan_1", "group_1")(file("receipt.png", "image/png")),
-    ).rejects.toThrow('Couldn\'t upload "receipt.png". Try again.');
+    ).rejects.toThrow('Não foi possível enviar "receipt.png". Tente novamente.');
   });
 
   /**
@@ -150,7 +150,7 @@ describe("uploadToChannel", () => {
 
     const upload = uploadToChannel("chan_1", "group_1");
     await expect(upload(file("receipt.png", "image/png"))).rejects.toThrow(
-      'Couldn\'t upload "receipt.png". Try again.',
+      'Não foi possível enviar "receipt.png". Tente novamente.',
     );
     await expect(upload(file("receipt.png", "image/png"))).rejects.not.toThrow(
       /JSON/,
@@ -168,7 +168,7 @@ describe("uploadToChannel", () => {
 
     await expect(
       uploadToChannel("chan_1", "group_1")(file("receipt.png", "image/png")),
-    ).rejects.toThrow('Couldn\'t upload "receipt.png". Try again.');
+    ).rejects.toThrow('Não foi possível enviar "receipt.png". Tente novamente.');
   });
 });
 

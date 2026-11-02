@@ -14,14 +14,14 @@ export function needsInput(bot: BotAttention): number {
 export function attentionSummary(bot: BotAttention): string {
   const parts: string[] = [];
   if (bot.questions)
-    parts.push(`${bot.questions} question${bot.questions === 1 ? "" : "s"}`);
+    parts.push(`${bot.questions} ${bot.questions === 1 ? "pergunta" : "perguntas"}`);
   if (bot.approvals)
-    parts.push(`${bot.approvals} approval${bot.approvals === 1 ? "" : "s"}`);
+    parts.push(`${bot.approvals} ${bot.approvals === 1 ? "aprovação" : "aprovações"}`);
   if (bot.handoffs)
     parts.push(
-      `${bot.handoffs} stalled hand-off${bot.handoffs === 1 ? "" : "s"}`,
+      `${bot.handoffs} ${bot.handoffs === 1 ? "repasse parado" : "repasses parados"}`,
     );
-  if (bot.unread) parts.push(`${bot.unread} unread`);
+  if (bot.unread) parts.push(`${bot.unread} ${bot.unread === 1 ? "não lida" : "não lidas"}`);
   return parts.join(", ");
 }
 
@@ -51,7 +51,7 @@ function useAttentionNotifications(bots: BotAttention[] | undefined) {
       if (bot.notify === "none" || now <= (previous.get(bot.agentId) ?? 0))
         continue;
       try {
-        new Notification(`${bot.name} needs you`, {
+        new Notification(`${bot.name} precisa de você`, {
           body: attentionSummary(bot),
           tag: `openbot-attention-${bot.agentId}`,
         });
@@ -80,7 +80,7 @@ export function BotsNavBadge() {
   if (waiting > 0) {
     return (
       <span
-        aria-label={`${waiting} ${waiting === 1 ? "thing needs" : "things need"} you`}
+        aria-label={`${waiting} ${waiting === 1 ? "item precisa" : "itens precisam"} de você`}
         className="ml-auto rounded-full bg-primary px-1.5 text-[11px] font-medium text-primary-foreground tabular-nums"
         role="img"
       >
@@ -91,7 +91,7 @@ export function BotsNavBadge() {
   if (bots.some((bot) => bot.unread > 0)) {
     return (
       <span
-        aria-label="Unread messages"
+        aria-label="Mensagens não lidas"
         className="ml-auto size-2 rounded-full bg-primary"
         role="img"
       />

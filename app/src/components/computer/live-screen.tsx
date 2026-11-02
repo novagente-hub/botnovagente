@@ -51,7 +51,7 @@ function modifierBits(event: {
 function remoteKey(event: KeyboardEvent) {
   return event.key === "Meta"
     ? {
-        key: "Control",
+        key: "Controle",
         code: event.code === "MetaRight" ? "ControlRight" : "ControlLeft",
         windowsVirtualKeyCode: 17,
       }
@@ -109,7 +109,7 @@ export function LiveScreen({
   onProblem,
   onReconnecting,
   retryKey = 0,
-  label = "The Bot's screen. You have control. Click and type here.",
+  label = "A tela do Bot. Você está com o controle. Clique e digite aqui.",
   autoFocus = false,
   ref,
 }: Props) {
@@ -222,7 +222,7 @@ export function LiveScreen({
       };
       if (typeof message.type !== "string") return;
       if (message.type === "error") {
-        onProblem?.(message.error ?? "Couldn't show the screen.");
+        onProblem?.(message.error ?? "Não foi possível mostrar a tela.");
         return;
       }
       if (message.type !== "frame" || !message.data) return;
@@ -551,7 +551,7 @@ export function LiveScreen({
             tabIndex: 0,
           }
         : {})}
-      aria-label={driving ? label : "The Bot's screen, live"}
+      aria-label={driving ? label : "A tela do Bot, ao vivo"}
       data-connected={connected}
     />
   );

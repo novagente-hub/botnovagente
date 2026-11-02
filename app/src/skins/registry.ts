@@ -12,7 +12,7 @@ import type { Skin, SkinId } from "./types";
 const openbot: Skin = {
   id: "openbot",
   name: appConfig.brand.productName,
-  description: "The standard look, with your conversations in a sidebar.",
+  description: "O visual padrão, com suas conversas em uma barra lateral.",
 };
 
 /** Keyed by every id in `SKIN_IDS`, so a skin cannot be listed without being registered. */

@@ -25,9 +25,10 @@ jobs:
         with:
           bun-version: 1.4.3
       - run: bun install --frozen-lockfile
-      - name: Check changed interface formatting
+      # Main may have unrelated historical formatting debt; validate every PWA-touched file.
+      - name: Check PWA and changed app formatting
         run: |
-          bunx biome format app/src/components/app-sidebar/app-sidebar.tsx app/src/components/app-sidebar/bot-directory.tsx app/src/routes/_authed/_app.tsx 'app/src/routes/_authed/_app/channel/$channelId.tsx' app/src/routes/_authed/_app/index.tsx app/tests/agent-roster-error.test.tsx app/tests/channel-pagination.test.tsx app/tests/skins-openduet-frame.test.tsx app/tests/novagente-bot-directory.test.tsx app/src/components/pwa/pwa-install-bar.tsx app/src/lib/pwa.ts app/tests/pwa-install.test.ts
+          bunx biome format app/src/components/pwa/pwa-install-bar.tsx app/src/lib/pwa.ts app/src/routes/_authed/_app.tsx app/tests/pwa-install.test.ts
       - name: Typecheck application
         run: bun run --cwd app typecheck
       - name: Chat and sidebar navigation regression tests

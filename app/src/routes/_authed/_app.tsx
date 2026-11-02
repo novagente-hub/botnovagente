@@ -6,33 +6,33 @@ import { SidebarShell } from "@/components/layout/sidebar-shell";
 import { useActiveSkin } from "@/skins/registry";
 
 export const Route = createFileRoute("/_authed/_app")({
-	component: RouteComponent,
+  component: RouteComponent,
 });
 
 function RouteComponent() {
-	const { Frame } = useActiveSkin();
+  const { Frame } = useActiveSkin();
 
-	if (Frame) {
-		return (
-			<Frame>
-				<Outlet />
-			</Frame>
-		);
-	}
+  if (Frame) {
+    return (
+      <Frame>
+        <Outlet />
+      </Frame>
+    );
+  }
 
-	return (
-		// One viewport, never scrolls: panes scroll inside it. A growable shell lets the transcript's
-		// scroller size against the page, grow it, and grow again.
-		<SidebarShell
-			className="novagente-chat-shell dark h-svh overflow-hidden"
-			width="340px"
-		>
-			<AppSidebar />
-			<main className="flex-1 flex flex-col min-h-0 overflow-hidden">
-				<SelfHostBanner />
-				<PwaInstallBar />
-				<Outlet />
-			</main>
-		</SidebarShell>
-	);
+  return (
+    // One viewport, never scrolls: panes scroll inside it. A growable shell lets the transcript's
+    // scroller size against the page, grow it, and grow again.
+    <SidebarShell
+      className="novagente-chat-shell dark h-svh overflow-hidden"
+      width="340px"
+    >
+      <AppSidebar />
+      <main className="flex-1 flex flex-col min-h-0 overflow-hidden">
+        <SelfHostBanner />
+        <PwaInstallBar />
+        <Outlet />
+      </main>
+    </SidebarShell>
+  );
 }

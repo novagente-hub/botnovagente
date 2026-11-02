@@ -16,6 +16,20 @@ permissions:
 jobs:
   conexoes:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: openbot
+          POSTGRES_PASSWORD: openbot
+          POSTGRES_DB: openbot_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U openbot -d openbot_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -26,6 +40,16 @@ jobs:
       - run: bun install --frozen-lockfile
       - name: Testar isolamento e permissões
         run: bun test server/tests/novagente-conexoes.test.ts
+      - name: Migrar PostgreSQL descartável para teste
+        env:
+          DATABASE_URL: postgres://openbot:openbot@localhost:5432/openbot_test
+        run: |
+          cd server
+          bunx drizzle-kit migrate --config=drizzle.config.ts
+      - name: Testar autorização contra PostgreSQL real
+        env:
+          TEST_DATABASE_URL: postgres://openbot:openbot@localhost:5432/openbot_test
+        run: bun test server/tests/novagente-conexoes.integration.test.ts
       - name: Verificar tipos
         run: |
           bun run --cwd server typecheck
@@ -37,6 +61,7 @@ jobs:
             server/src/conexoes/routes.ts \
             server/src/db/schema/novagente-conexoes.ts \
             server/tests/novagente-conexoes.test.ts \
+            server/tests/novagente-conexoes.integration.test.ts \
             server/src/app.ts \
             server/src/index.ts \
             app/src/components/conexoes/conexoes-panel.tsx

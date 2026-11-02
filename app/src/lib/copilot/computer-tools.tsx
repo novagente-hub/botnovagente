@@ -12,6 +12,7 @@ import {
   runHelpRequest,
   runNavigation,
 } from "@/lib/computers/handoff";
+import { readScreenshot } from "@/lib/computers/screen";
 import { useActiveBotHolder } from "./active-bot";
 import { useFrontendTool } from "./approval-tools";
 import {
@@ -34,6 +35,9 @@ const WAIT_FOR_SECRET_MS = 10 * 60_000;
 
 /** How often the waiting handler asks whether the person has answered yet. */
 const WAIT_POLL_MS = 1_000;
+
+/** Screenshot frames by tool call, kept in this tab only (never sent to the model). */
+const SCREENSHOTS = new Map<string, string>();
 
 /** Hold the secret-entry call open until its masked prompt is answered, cancelled, or expires. */
 async function waitForSecret(
@@ -903,6 +907,61 @@ export function ComputerTools() {
         notYet={stillStarting(outcomeOf(result))}
       />
     ),
+  });
+
+  /*
+   * NovaBot: a screenshot the person can see. The image stays in this tab (shown under the turn);
+   * the model only gets what it is of, since the Bot's model (DeepSeek) reads text, not images.
+   */
+  useFrontendTool({
+    available: offered.browser,
+    name: "computer_screenshot",
+    description:
+      "Take a screenshot of the browser on your computer and show it to the person in this " +
+      "conversation. Use it when they ask for a screenshot, print or picture of the screen. You get " +
+      "back only the address and size, not the image, so use computer_read to know what it says.",
+    parameters: z.object({}),
+    handler: async (
+      _input: Record<string, never>,
+      { toolCall }: { toolCall?: { id?: string } } = {},
+    ) => {
+      const shot = await readScreenshot(bot.current);
+      if (!shot.frame)
+        return {
+          ok: false,
+          reason: shot.error ?? shot.notReady?.reason ?? "The computer is not ready yet.",
+        };
+      if (toolCall?.id) SCREENSHOTS.set(toolCall.id, shot.frame.base64);
+      return {
+        ok: true,
+        shownToPerson: true,
+        url: shot.frame.url ?? null,
+        width: shot.frame.width,
+        height: shot.frame.height,
+        capturedAt: shot.frame.capturedAt,
+      };
+    },
+    render: ({ result, status, toolCallId }) => {
+      const outcome = outcomeOf(result);
+      const image = toolCallId ? SCREENSHOTS.get(toolCallId) : undefined;
+      return (
+        <div>
+          <ActionLine
+            running={status !== "complete"}
+            label="Took a screenshot"
+            failed={didNotWork(outcome)}
+          />
+          {image ? (
+            <img
+              alt="Screenshot of the Bot's browser"
+              data-testid="computer-screenshot"
+              className="mt-2 max-w-full rounded border"
+              src={`data:image/png;base64,${image}`}
+            />
+          ) : null}
+        </div>
+      );
+    },
   });
 
   return null;

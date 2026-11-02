@@ -1,19 +1,12 @@
-import {
-  afterAll,
-  beforeAll,
-  describe,
-  expect,
-  test,
-} from "bun:test";
+import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { randomUUID } from "node:crypto";
 import { inArray } from "drizzle-orm";
-import { createConexoesStore, ConnectionRefusedError } from "../src/conexoes/store";
-import { createDatabase } from "../src/db/client";
 import {
-  agents,
-  novagenteApplications,
-  users,
-} from "../src/db/schema";
+  createConexoesStore,
+  ConnectionRefusedError,
+} from "../src/conexoes/store";
+import { createDatabase } from "../src/db/client";
+import { agents, novagenteApplications, users } from "../src/db/schema";
 import { TEST_POOL, testDatabaseUrl } from "./support/database";
 
 /**
@@ -50,7 +43,9 @@ beforeAll(async () => {
 
 afterAll(async () => {
   if (appId) {
-    await db.delete(novagenteApplications).where(inArray(novagenteApplications.id, [appId]));
+    await db
+      .delete(novagenteApplications)
+      .where(inArray(novagenteApplications.id, [appId]));
   }
   await db.delete(agents).where(inArray(agents.id, [bot]));
   await db.delete(users).where(inArray(users.id, [alice, bob]));
@@ -65,11 +60,11 @@ describe("NOVAGENTE Conexões: SQL real e isolamento", () => {
     );
     appId = app.id;
     expect(app.sessionStatus).toBe("not_connected");
-    expect((await store.list(bob))).toHaveLength(0);
+    expect(await store.list(bob)).toHaveLength(0);
     expect(await store.allowed(alice, appId, bot, "view")).toBe(false);
-    await expect(store.grant(bob, appId, bot, "operate")).rejects.toBeInstanceOf(
-      ConnectionRefusedError,
-    );
+    await expect(
+      store.grant(bob, appId, bot, "operate"),
+    ).rejects.toBeInstanceOf(ConnectionRefusedError);
     await expect(store.remove(bob, appId)).rejects.toBeInstanceOf(
       ConnectionRefusedError,
     );
@@ -78,7 +73,7 @@ describe("NOVAGENTE Conexões: SQL real e isolamento", () => {
     expect(await store.allowed(alice, appId, bot, "view")).toBe(true);
     expect(await store.allowed(alice, appId, bot, "operate")).toBe(false);
     expect(await store.allowed(bob, appId, bot, "view")).toBe(false);
-    expect((await store.listGrants(bob, appId))).toEqual([]);
+    expect(await store.listGrants(bob, appId)).toEqual([]);
 
     await store.grant(alice, appId, bot, "operate");
     expect(await store.allowed(alice, appId, bot, "operate")).toBe(true);

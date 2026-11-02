@@ -27,11 +27,11 @@ jobs:
       - run: bun install --frozen-lockfile
       - name: Check changed interface formatting
         run: |
-          bunx biome format app/src/components/app-sidebar/app-sidebar.tsx app/src/components/app-sidebar/bot-directory.tsx app/src/routes/_authed/_app.tsx 'app/src/routes/_authed/_app/channel/$channelId.tsx' app/src/routes/_authed/_app/index.tsx app/tests/agent-roster-error.test.tsx app/tests/channel-pagination.test.tsx app/tests/skins-openduet-frame.test.tsx app/tests/novagente-bot-directory.test.tsx
+          bunx biome format app/src/components/app-sidebar/app-sidebar.tsx app/src/components/app-sidebar/bot-directory.tsx app/src/routes/_authed/_app.tsx 'app/src/routes/_authed/_app/channel/$channelId.tsx' app/src/routes/_authed/_app/index.tsx app/tests/agent-roster-error.test.tsx app/tests/channel-pagination.test.tsx app/tests/skins-openduet-frame.test.tsx app/tests/novagente-bot-directory.test.tsx app/src/components/pwa/pwa-install-bar.tsx app/src/lib/pwa.ts app/tests/pwa-install.test.ts
       - name: Typecheck application
         run: bun run --cwd app typecheck
       - name: Chat and sidebar navigation regression tests
         run: |
-          bun test app/tests/agent-roster-error.test.tsx app/tests/channel-pagination.test.tsx app/tests/skins-openduet-frame.test.tsx app/tests/novagente-bot-directory.test.tsx app/tests/home-fallback-routing.test.tsx
+          bun test app/tests/pwa-install.test.ts app/tests/agent-roster-error.test.tsx app/tests/channel-pagination.test.tsx app/tests/skins-openduet-frame.test.tsx app/tests/novagente-bot-directory.test.tsx app/src/components/pwa/pwa-install-bar.tsx app/src/lib/pwa.ts app/tests/pwa-install.test.ts app/tests/home-fallback-routing.test.tsx
       - name: Build user interface
         run: bun run --cwd app build

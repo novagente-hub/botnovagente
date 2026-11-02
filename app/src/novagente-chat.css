@@ -384,3 +384,54 @@
   border: 1px solid #303036;
   color: #e9e9ee;
 }
+
+/* Mobile/PWA keyboard fix: always keep the composer reachable. */
+@media (max-width: 767px) {
+  .novagente-chat-shell {
+    height: 100dvh;
+  }
+  .novagente-chat-shell .novagente-start-screen {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .novagente-chat-shell .novagente-start-header {
+    height: 56px;
+    min-height: 56px;
+    flex-shrink: 0;
+  }
+  .novagente-chat-shell .novagente-start-content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    min-height: 0;
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 18px 14px calc(188px + env(safe-area-inset-bottom));
+  }
+  .novagente-chat-shell .novagente-start-composer {
+    position: fixed;
+    z-index: 10;
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom) + var(--novabot-keyboard-inset, 0px));
+    width: auto;
+    max-width: none;
+    margin: 0;
+    box-shadow: 0 8px 28px #0009;
+  }
+  .novagente-chat-shell .novagente-start-composer [data-slot="composer"] {
+    min-width: 0;
+    max-height: min(50dvh, 280px);
+    overflow-y: auto;
+  }
+  .novagente-chat-shell [data-slot="composer-column"] {
+    min-width: 0;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+  }
+}

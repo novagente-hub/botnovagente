@@ -55,7 +55,7 @@ export function hostAccessQueryOptions() {
     refetchInterval: 2_000,
     queryFn: (): Promise<HostAccessStatus> =>
       client("/api/host-access", {
-        fallback: "Folder access could not be loaded.",
+        fallback: "Não foi possível carregar o acesso às pastas.",
       }).then((response) => response.json()),
   });
 }
@@ -68,7 +68,7 @@ export function requestHostFolderGrantMutationOptions(
       client("/api/host-access/grants", {
         method: "POST",
         body: { botId: variables.botId },
-        fallback: "The desktop app could not open the folder chooser.",
+        fallback: "O app de desktop não conseguiu abrir o seletor de pastas.",
       }).then((response) => response.json()),
     onSuccess: () => invalidateHostAccess(queryClient),
     onError: () => invalidateHostAccess(queryClient),
@@ -82,7 +82,7 @@ export function revokeHostFolderGrantMutationOptions(queryClient: QueryClient) {
         `/api/host-access/grants/${encodeURIComponent(variables.grantId)}`,
         {
           method: "DELETE",
-          fallback: "The host folder grant could not be revoked.",
+          fallback: "Não foi possível revogar a permissão da pasta do host.",
         },
       );
     },
@@ -95,7 +95,7 @@ export function stopHostAccessMutationOptions(queryClient: QueryClient) {
     mutationFn: async () => {
       await client("/api/host-access/stop", {
         method: "POST",
-        fallback: "Host folder access could not be stopped.",
+        fallback: "Não foi possível interromper o acesso às pastas do host.",
       });
     },
     onSuccess: () => invalidateHostAccess(queryClient),

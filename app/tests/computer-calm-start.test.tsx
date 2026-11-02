@@ -15,8 +15,8 @@ import { ComputerView } from "@/components/computer/computer-view";
 test("a call turned away by a computer still starting reads as not done yet, not as a failure", () => {
   const view = render(
     <ToolLine
-      label="Clicked"
-      detail="The computer is still starting."
+      label="Clicou"
+      detail="O computador ainda está iniciando."
       notYet
     />,
   );
@@ -144,7 +144,7 @@ test("a computer that is starting says so, calmly, and shows no problem", async 
       active
       computerId="sales"
       intervalMs={10}
-      name="Sales"
+      name="Vendas"
       toolCallId="call-1"
     />,
   );
@@ -173,7 +173,7 @@ test("failed screenshots during a start are not a problem until the grace runs o
       active
       computerId="sales"
       intervalMs={10}
-      name="Sales"
+      name="Vendas"
       startupGraceMs={200}
     />,
   );
@@ -187,7 +187,7 @@ test("failed screenshots during a start are not a problem until the grace runs o
   // Past the grace, with still no frame, it is worth saying.
   expect(
     await view.findByText(
-      "Can't show the screen right now",
+      "Não é possível mostrar a tela agora",
       {},
       { timeout: 1000 },
     ),
@@ -212,7 +212,7 @@ test("a computer the server cannot reach is a problem straight away", async () =
   });
 
   const view = renderWithQueries(
-    <ComputerView active computerId="sales" intervalMs={10} name="Sales" />,
+    <ComputerView active computerId="sales" intervalMs={10} name="Vendas" />,
   );
 
   expect(
@@ -233,7 +233,7 @@ test("a computer that is off, watched from the side panel, says it starts when t
       active
       computerId="sales"
       intervalMs={10}
-      name="Sales"
+      name="Vendas"
       startupGraceMs={30}
     />,
   );
@@ -258,10 +258,10 @@ test("a live stream that drops shows a quiet badge, not the Retry panel", async 
   serve({ "/screenshot": frame });
 
   const view = renderWithQueries(
-    <ComputerView active computerId="sales" intervalMs={10} name="Sales" />,
+    <ComputerView active computerId="sales" intervalMs={10} name="Vendas" />,
   );
-  await view.findByAltText("What the Bot is looking at");
-  fireEvent.click(view.getByLabelText("Open the Bot's screen full size"));
+  await view.findByAltText("O que o Bot está vendo");
+  fireEvent.click(view.getByLabelText("Abrir a tela do Bot em tamanho real"));
   await waitFor(() => expect(SocketDouble.all.length).toBe(1));
   await act(async () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
@@ -271,8 +271,8 @@ test("a live stream that drops shows a quiet badge, not the Retry panel", async 
     SocketDouble.all[0]?.onclose?.();
   });
 
-  expect(view.getByText("Reconnecting…")).toBeDefined();
-  expect(view.queryByText("Retry")).toBeNull();
+  expect(view.getByText("Reconectando…")).toBeDefined();
+  expect(view.queryByText("Tentar de novo")).toBeNull();
 });
 
 test("a computer that was off and then fails is not called off for ever", async () => {
@@ -294,14 +294,14 @@ test("a computer that was off and then fails is not called off for ever", async 
       active
       computerId="sales"
       intervalMs={10}
-      name="Sales"
+      name="Vendas"
       startupGraceMs={100}
     />,
   );
 
   expect(
     await view.findByText(
-      "Can't show the screen right now",
+      "Não é possível mostrar a tela agora",
       {},
       { timeout: 1000 },
     ),
@@ -320,16 +320,16 @@ test("a computer that goes to sleep stops showing its last frame", async () => {
   });
 
   const view = renderWithQueries(
-    <ComputerView active computerId="sales" intervalMs={10} name="Sales" />,
+    <ComputerView active computerId="sales" intervalMs={10} name="Vendas" />,
   );
 
-  await view.findByAltText("What the Bot is looking at");
+  await view.findByAltText("O que o Bot está vendo");
   await waitFor(() => {
     expect(
       view.getByText(
         "Sales's computer is off. It starts when the Bot next uses it.",
       ),
     ).toBeDefined();
-    expect(view.queryByAltText("What the Bot is looking at")).toBeNull();
+    expect(view.queryByAltText("O que o Bot está vendo")).toBeNull();
   });
 });

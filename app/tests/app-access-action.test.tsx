@@ -141,7 +141,7 @@ function mounted(
 }
 
 const COPY: [string, Partial<AppAccess>, RegExp][] = [
-  ["ready", {}, /^Ready to use\.$/],
+  ["ready", {}, /^Pronto para usar\.$/],
   [
     "ready, on the owner's account",
     { accountHolder: "owner" },
@@ -212,12 +212,12 @@ test.each(COPY)("says whose move it is: %s", (_, overrides, sentence) => {
 
 test("no sentence about a switched-off app says an admin turned it off", () => {
   for (const [, overrides] of COPY.filter(([, o]) => o.state === "disabled"))
-    expect(appAccessSentence(appAccess(overrides))).not.toMatch(/Turned off/);
+    expect(appAccessSentence(appAccess(overrides))).not.toMatch(/Desativado/);
 });
 
 test("ready offers nothing to press", async () => {
   const { view } = mounted(appAccess());
-  await view.findByText("Ready to use.");
+  await view.findByText("Pronto para usar.");
   expect(view.queryByRole("button")).toBeNull();
   expect(view.queryByRole("link")).toBeNull();
 });
@@ -229,7 +229,7 @@ test("not connected offers Connect, which starts the person's own consent in a n
   expect(sent.map((call) => `${call.method} ${call.url}`)).toContain(
     "POST /api/plugins/servers/composio-gmail/connect?returnTo=settings",
   );
-  await view.findByText("Finish in the tab that opened.");
+  await view.findByText("Termine na aba que abriu.");
 });
 
 test("an app connected with a typed key goes to its page in Settings, where the form is", async () => {
@@ -237,13 +237,13 @@ test("an app connected with a typed key goes to its page in Settings, where the 
     appAccess({ state: "not_connected", connect: "key" }),
   );
   // Drawn as a button (`Button` over a `Link`), and an anchor underneath with the address.
-  const link = (await view.findByText("Connect")).closest("a");
+  const link = (await view.findByText("Conectar")).closest("a");
   expect(link?.getAttribute("href")).toBe("/connections/composio-gmail");
 });
 
 test("a Composio app to reconnect goes to Settings, because the connect route refuses a row that stands", async () => {
   const { view } = mounted(appAccess({ state: "reconnect" }));
-  const link = (await view.findByText("Reconnect")).closest("a");
+  const link = (await view.findByText("Reconectar")).closest("a");
   expect(link?.getAttribute("href")).toBe("/connections/composio-gmail");
 });
 
@@ -290,7 +290,7 @@ test("closing the sign-in tab ends the wait, rather than waiting for it forever"
       { timeout: 3_000 },
     );
     expect(view.queryByText("Waiting for Gmail…")).toBeNull();
-    expect(view.queryByText("Finish in the tab that opened.")).toBeNull();
+    expect(view.queryByText("Termine na aba que abriu.")).toBeNull();
   });
 });
 
@@ -317,7 +317,7 @@ test("a Reconnect on the owner's account offers nothing: only the owner can reco
   const { view } = mounted(
     appAccess({ state: "reconnect", accountHolder: "owner" }),
   );
-  await view.findByText(/Only the Bot's owner can reconnect it/);
+  await view.findByText(/Só o dono do Bot pode reconectá-la/);
   expect(view.queryByRole("button")).toBeNull();
   expect(view.queryByRole("link")).toBeNull();
 });
@@ -330,7 +330,7 @@ test("a Shared app waiting on an admin's approval offers nothing: the refused ca
       accountMode: "shared",
     }),
   );
-  await view.findByText(/Only an admin can approve it/);
+  await view.findByText(/Só um administrador pode aprovar/);
   expect(view.queryByRole("button")).toBeNull();
 });
 
@@ -379,7 +379,7 @@ test("a pending request reads Requested, and Withdraw cancels it", async () => {
       },
     }),
   );
-  await view.findByText("Requested");
+  await view.findByText("Solicitado");
   expect(
     view.queryByRole("button", { name: "Request access to Gmail" }),
   ).toBeNull();
@@ -534,7 +534,7 @@ test.each([
 
 test("an owner is asked about their own app, by the Bot's name where the caller has it", () => {
   const owners = appAccess({ state: "owner_grantable", granted: false });
-  expect(appAccessSentence(owners)).toBe("Let this Bot use your Gmail?");
+  expect(appAccessSentence(owners)).toBe("Permitir que este Bot use seu Gmail?");
   expect(appAccessSentence(owners, "Research Bot")).toBe(
     "Let Research Bot use your Gmail?",
   );
@@ -544,7 +544,7 @@ test("an owner is asked about their own app, by the Bot's name where the caller 
   // An app on nobody's own account is not "your" anything.
   expect(
     appAccessSentence(
-      { ...owners, displayName: "Routines", account: "deployment" },
+      { ...owners, displayName: "Rotinas", account: "deployment" },
       "Research Bot",
     ),
   ).toBe("Let Research Bot use Routines?");
@@ -574,7 +574,7 @@ test("Connect and allow opens the person's consent first, and gives the app once
   });
   const { view, sent, opened, swap } = mounted(waiting);
   fireEvent.click(
-    await view.findByRole("button", { name: /after you connect it$/ }),
+    await view.findByRole("button", { name: /depois de conectá-la$/ }),
   );
   await waitFor(() => expect(opened).toEqual(["https://gmail.test/consent"]));
   const gives = () =>

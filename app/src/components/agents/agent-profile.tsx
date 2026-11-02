@@ -65,7 +65,8 @@ export function AgentProfile({
   if (agent.error || !agent.data) {
     return (
       <p className="p-8 text-sm text-destructive" role="alert">
-        Couldn't load this Bot.
+        
+        Não foi possível carregar este Bot.
       </p>
     );
   }
@@ -92,14 +93,15 @@ export function AgentProfile({
         </div>
 
         <div className="flex flex-wrap justify-center gap-1.5">
-          <Tag>{profile.visibility === "private" ? "Private" : "Public"}</Tag>
-          {profile.systemOwned ? <Tag>System owned</Tag> : null}
+          <Tag>{profile.visibility === "private" ? "Privado" : "Público"}</Tag>
+          {profile.systemOwned ? <Tag>Do sistema</Tag> : null}
         </div>
       </header>
 
       <section className="grid gap-2">
         <h2 className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-          What it does
+          
+          O que ele faz
         </h2>
         <p className="text-sm whitespace-pre-wrap text-pretty">
           {profile.roleDescription}
@@ -113,7 +115,8 @@ export function AgentProfile({
             void navigate({ search: { agent: agentId }, to: "/channel/new" })
           }
         >
-          New conversation
+          
+          Nova conversa
         </Button>
         <Button
           className="w-full text-sm!"
@@ -122,7 +125,8 @@ export function AgentProfile({
           )}
           variant="outline"
         >
-          Open {profile.name}
+          
+          Abrir {profile.name}
         </Button>
       </div>
       {footer ? (

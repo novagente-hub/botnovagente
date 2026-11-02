@@ -58,22 +58,22 @@ export const STATUS: Record<
   Status,
   { label: string; icon: typeof IconTarget }
 > = {
-  active: { label: "Active", icon: IconTarget },
-  paused: { label: "Paused", icon: IconPlayerPause },
-  completed: { label: "Completed", icon: IconCircleCheck },
+  active: { label: "Ativo", icon: IconTarget },
+  paused: { label: "Pausada", icon: IconPlayerPause },
+  completed: { label: "Concluído", icon: IconCircleCheck },
 };
 
 const SOURCE_LABEL: Record<Source, string> = {
   manual: "Manual",
   slack: "Slack",
   github: "GitHub",
-  schedule: "Schedule",
-  connector: "Connected app",
+  schedule: "Agenda",
+  connector: "App conectado",
   webhook: "Webhook",
   linear: "Linear",
   sentry: "Sentry",
   pagerduty: "PagerDuty",
-  email: "Email",
+  email: "E-mail",
 };
 
 /**
@@ -90,7 +90,7 @@ export function summaryFor(
   const status = STATUS[goal.status].label;
   if (goal.status === "completed") return status;
   if (goal.status === "paused")
-    return `${status} · Nothing starts it until you resume it`;
+    return `${status} · Nada a inicia até você retomá-la`;
   const starts = [
     ...goal.subscriptions.map(
       (subscription) =>
@@ -100,8 +100,8 @@ export function summaryFor(
       .filter((trigger) => trigger.enabled)
       .map((trigger) => `${KIND_LABEL[trigger.kind]} trigger`),
   ];
-  if (starts.length) return `${status} · Starts on ${starts.join(", ")}`;
-  return triggers ? `${status} · Runs when asked` : status;
+  if (starts.length) return `${status} · Começa em ${starts.join(", ")}`;
+  return triggers ? `${status} · Executa quando pedido` : status;
 }
 
 /**
@@ -128,7 +128,7 @@ export function ResponsibilityDialog({
     goal.progress
       ? {
           key: "progress",
-          label: "Progress",
+          label: "Progresso",
           icon: IconProgress,
           text: goal.progress,
         }
@@ -136,7 +136,7 @@ export function ResponsibilityDialog({
     goal.lastResult
       ? {
           key: "result",
-          label: "Last result",
+          label: "Último resultado",
           icon: IconFlag,
           text: goal.lastResult,
         }
@@ -161,16 +161,16 @@ export function ResponsibilityDialog({
                     <IconTarget />
                   </ItemMedia>
                   <ItemContent>
-                    <ItemTitle>Active</ItemTitle>
+                    <ItemTitle>Ativo</ItemTitle>
                     <ItemDescription>
                       {goal.status === "active"
-                        ? "Its events and triggers start it."
-                        : "Paused. Its triggers won't start it."}
+                        ? "Os eventos e gatilhos dela a iniciam."
+                        : "Pausada. Os gatilhos não vão iniciá-la."}
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions>
                     <Switch
-                      aria-label="Active"
+                      aria-label="Ativo"
                       checked={goal.status === "active"}
                       disabled={action.isPending}
                       onCheckedChange={(active) =>
@@ -205,10 +205,10 @@ export function ResponsibilityDialog({
                     <IconPlayerPlay />
                   </ItemMedia>
                   <ItemContent>
-                    <ItemTitle>Run now</ItemTitle>
+                    <ItemTitle>Executar agora</ItemTitle>
                     <ItemDescription>
-                      Runs it now, for real. The Bot does the work and can post
-                      and take actions.
+                      
+                      Executa agora, de verdade. O Bot faz o trabalho e pode publicar e agir.
                     </ItemDescription>
                   </ItemContent>
                 </Item>
@@ -234,9 +234,10 @@ export function ResponsibilityDialog({
                     <IconCircleCheck />
                   </ItemMedia>
                   <ItemContent>
-                    <ItemTitle>Complete</ItemTitle>
+                    <ItemTitle>Concluir</ItemTitle>
                     <ItemDescription>
-                      Mark it done. Nothing starts it after this.
+                      
+                      Marcar como concluída. Nada a inicia depois disso.
                     </ItemDescription>
                   </ItemContent>
                 </Item>
@@ -257,7 +258,7 @@ export function ResponsibilityDialog({
                 <IconMessage />
               </ItemMedia>
               <ItemContent>
-                <ItemTitle>Open conversation</ItemTitle>
+                <ItemTitle>Abrir conversa</ItemTitle>
               </ItemContent>
               <ItemActions>
                 <IconChevronRight className="size-4 text-muted-foreground" />
@@ -287,7 +288,7 @@ export function ResponsibilityDialog({
           >
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor={`${formId}-title`}>Title</FieldLabel>
+                <FieldLabel htmlFor={`${formId}-title`}>Título</FieldLabel>
                 <Input
                   id={`${formId}-title`}
                   value={title}
@@ -298,7 +299,8 @@ export function ResponsibilityDialog({
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${formId}-instruction`}>
-                  Instruction
+                  
+                  Instrução
                 </FieldLabel>
                 <Textarea
                   id={`${formId}-instruction`}
@@ -310,7 +312,8 @@ export function ResponsibilityDialog({
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${formId}-criteria`}>
-                  Success criteria
+                  
+                  Critérios de sucesso
                 </FieldLabel>
                 <Textarea
                   id={`${formId}-criteria`}
@@ -347,7 +350,7 @@ export function ResponsibilityDialog({
                       <IconWebhook />
                     </ItemMedia>
                     <ItemContent>
-                      <ItemTitle>Events</ItemTitle>
+                      <ItemTitle>Eventos</ItemTitle>
                       <ItemDescription className="line-clamp-none">
                         {goal.subscriptions
                           .map(
@@ -373,7 +376,8 @@ export function ResponsibilityDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            Cancel
+            
+            Cancelar
           </Button>
           <Button
             disabled={edit.isPending}
@@ -381,7 +385,7 @@ export function ResponsibilityDialog({
             size="sm"
             type="submit"
           >
-            {edit.isPending ? "Saving…" : "Save"}
+            {edit.isPending ? "Saving…" : "Salvar"}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -390,12 +394,12 @@ export function ResponsibilityDialog({
 }
 
 const RUN_LABEL: Record<string, string> = {
-  queued: "Queued",
-  running: "Running",
-  waiting: "Waiting for you",
-  succeeded: "Succeeded",
-  failed: "Failed",
-  skipped: "Skipped",
+  queued: "Na fila",
+  running: "Executando",
+  waiting: "Aguardando você",
+  succeeded: "Sucesso",
+  failed: "Falhou",
+  skipped: "Ignorado",
 };
 function runStatusClass(status: string) {
   return status === "failed"
@@ -427,9 +431,9 @@ function Runs({
   return (
     <section className="grid gap-2">
       <div className="flex items-center justify-between gap-2">
-        <h3 className="font-medium text-sm">Runs</h3>
+        <h3 className="font-medium text-sm">Execuções</h3>
         <Button onClick={onToggle} size="sm" type="button" variant="ghost">
-          {shown ? "Hide runs" : "View runs"}
+          {shown ? "Ocultar execuções" : "Ver execuções"}
         </Button>
       </div>
       {!shown ? null : runs.isPending ? null : runs.error ? (
@@ -459,15 +463,17 @@ function Runs({
                     params={{ channelId }}
                     className="text-sm underline"
                   >
-                    Open conversation
+                    
+                    Abrir conversa
                   </Link>
                 </ItemActions>
                 {run.waiting || run.error || run.replyText ? (
                   <ItemFooter className="min-w-0 flex-col items-stretch">
                     {run.waiting && (
                       <p>
-                        Waiting for {run.waiting.kind}. Answer at the top of
-                        this Bot's page or in the conversation.
+                        
+                        Aguardando {run.waiting.kind}. Responda no topo da
+                        página deste Bot ou na conversa.
                       </p>
                     )}
                     {run.error && (
@@ -483,7 +489,7 @@ function Runs({
           ))}
         </div>
       ) : (
-        <p className="text-muted-foreground text-sm">No runs yet.</p>
+        <p className="text-muted-foreground text-sm">Nenhuma execução ainda.</p>
       )}
     </section>
   );

@@ -63,7 +63,7 @@ test("an administrator excludes a Bot and saves without losing the default or pa
   const view = page();
   const participation = await view.findByLabelText("bot participation");
   fireEvent.change(participation, { target: { value: "exclude" } });
-  fireEvent.click(view.getByRole("button", { name: "Save Learning settings" }));
+  fireEvent.click(view.getByRole("button", { name: "Salvar configurações de Aprendizado" }));
   await waitFor(() =>
     expect(saved).toEqual({
       enabled: false,
@@ -71,7 +71,7 @@ test("an administrator excludes a Bot and saves without losing the default or pa
       agents: { bot: null },
     }),
   );
-  await view.findByText("Settings saved.");
+  await view.findByText("Configurações salvas.");
 });
 
 test("an unavailable settings store shows an error instead of an editable empty configuration", async () => {
@@ -90,7 +90,7 @@ test("an unavailable settings store shows an error instead of an editable empty 
     ).toBeGreaterThan(0),
   );
   expect(
-    view.queryByRole("button", { name: "Save Learning settings" }),
+    view.queryByRole("button", { name: "Salvar configurações de Aprendizado" }),
   ).toBeNull();
 });
 
@@ -180,7 +180,7 @@ test("a deployment that chose its own container hears nothing about automatic as
   const view = page();
   await view.findByLabelText("Default container ID");
   await waitFor(() =>
-    expect(view.queryByText("Loading Learning settings…")).toBeNull(),
+    expect(view.queryByText("Carregando configurações de Aprendizado…")).toBeNull(),
   );
   expect(view.queryByText("OpenBot assigned", { exact: false })).toBeNull();
   expect(

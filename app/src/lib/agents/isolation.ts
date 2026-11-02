@@ -7,11 +7,11 @@
 
 /** What Isolated means. */
 export const ISOLATED_EXPLAINED =
-  "Runs in its own computer. Nothing it does can reach your other Bots' files or logins. Costs more to run.";
+  "Roda em um computador próprio. Nada do que ele faz alcança os arquivos ou logins dos seus outros Bots. Custa mais para rodar.";
 
 /** Added for a public Bot, whose one computer is everybody's. */
 export const ISOLATED_PUBLIC =
-  "Everyone who uses this Bot shares that computer.";
+  "Todos que usam este Bot compartilham esse computador.";
 
 /**
  * Said on an isolated Bot's Visibility row. Its one computer is shared by everybody who uses it, so a public one shares
@@ -19,27 +19,27 @@ export const ISOLATED_PUBLIC =
  * before it is made public, and while it is.
  */
 export const ISOLATED_PUBLIC_SHARES_LOGINS =
-  "Everyone who uses it shares its computer, so anything signed in to there is theirs too.";
+  "Todos que o usam compartilham o computador dele, então qualquer login feito ali é deles também.";
 
 /** The same, said to the owner of a private isolated Bot before they make it public. */
 export const ISOLATED_MAKING_PUBLIC =
-  "Making it public shares its computer, and anything signed in to there, with everyone who uses it.";
+  "Torná-lo público compartilha o computador dele, e qualquer login feito ali, com todos que o usam.";
 
 /** Why it cannot be ticked on this deployment. */
 export const ISOLATION_UNAVAILABLE =
-  "This OpenBot can't give a Bot a computer of its own.";
+  "Este OpenBot não consegue dar a um Bot um computador próprio.";
 
 /** Why it cannot be ticked by this person. */
 export const ISOLATION_NOT_ALLOWED =
-  "Your admin turned off Isolated Bots for you.";
+  "Seu administrador desativou os Bots isolados para você.";
 
 /** An isolated Bot whose owner lost the switch, which keeps running on their shared computer. */
 export const ISOLATION_WITHDRAWN =
-  "Your admin turned off Isolated Bots, so this Bot runs on your computer.";
+  "Seu administrador desativou os Bots isolados, então este Bot roda no seu computador.";
 
 /** An isolated Bot on a deployment that can no longer make it a computer of its own. */
 export const ISOLATION_GONE =
-  "This OpenBot can't give a Bot a computer of its own, so this Bot runs on your computer.";
+  "Este OpenBot não consegue dar a um Bot um computador próprio, então este Bot roda no seu computador.";
 
 /** The whole explanation for a Bot of this visibility. */
 export function isolatedExplained(isPublic: boolean): string {

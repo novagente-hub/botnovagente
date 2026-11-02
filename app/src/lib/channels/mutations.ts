@@ -18,7 +18,7 @@ export function createChannelMutationOptions(queryClient: QueryClient) {
       const response = await client("/api/channels", {
         method: "POST",
         body: { agentIds },
-        fallback: "Couldn't start a conversation.",
+        fallback: "Não foi possível iniciar uma conversa.",
       });
       return ((await response.json()) as { channel: AgentChannel }).channel;
     },
@@ -84,7 +84,7 @@ export function setChannelPinnedMutationOptions(queryClient: QueryClient) {
       await client(`/api/channels/${variables.channelId}/pin`, {
         method: "PUT",
         body: { pinned: variables.pinned },
-        fallback: "Couldn't pin this conversation.",
+        fallback: "Não foi possível fixar esta conversa.",
       });
     },
     onSuccess: () =>
@@ -107,7 +107,7 @@ export function markChannelReadMutationOptions(queryClient: QueryClient) {
     mutationFn: async (channelId: string) => {
       await client(`/api/channels/${channelId}/read`, {
         method: "PUT",
-        fallback: "Couldn't mark this conversation as read.",
+        fallback: "Não foi possível marcar esta conversa como lida.",
       });
     },
     onSuccess: () =>
@@ -150,7 +150,7 @@ export function deleteChannelMutationOptions(queryClient: QueryClient) {
     mutationFn: async (channelId: string) => {
       await client(`/api/channels/${channelId}`, {
         method: "DELETE",
-        fallback: "Couldn't delete this conversation.",
+        fallback: "Não foi possível excluir esta conversa.",
       });
     },
     // The roster only. The open channel's detail query would refetch into the fresh 404 and

@@ -97,7 +97,7 @@ export function ScreenBrowser({
             aria-hidden="true"
             className="size-4.5 shrink-0 text-muted-foreground"
           />
-          <h1 className="truncate text-sm tracking-tight">Browser</h1>
+          <h1 className="truncate text-sm tracking-tight">Navegador</h1>
         </div>
         <RecordingBar recording={recording}>
           <NarrationSwitch
@@ -226,7 +226,7 @@ function Screen({
             <LiveScreen
               computerId={computerId}
               driving
-              label="Your browser. Click it to type into it, and press Escape to leave it."
+              label="Seu navegador. Clique nele para digitar e pressione Esc para sair."
               onProblem={setProblem}
               ref={screen}
               retryKey={retryKey}
@@ -242,9 +242,9 @@ function Screen({
             </div>
           ) : !open ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-4 text-center text-muted-foreground text-sm">
-              <span>Your browser is closed.</span>
+              <span>Seu navegador está fechado.</span>
               <Button disabled={reopening} onClick={reopen} size="sm">
-                {reopening ? "Opening…" : "Open it again"}
+                {reopening ? "Opening…" : "Abrir de novo"}
               </Button>
             </div>
           ) : problem ? (
@@ -258,7 +258,8 @@ function Screen({
                 size="sm"
                 variant="outline"
               >
-                Try again
+                
+                Tentar novamente
               </Button>
             </div>
           ) : null}

@@ -139,7 +139,7 @@ function links(root: HTMLElement) {
   }));
 }
 
-function expected(role: "admin" | "user", section: "primary" | "account") {
+function expected(role: "admin" | "user", section: "primary" | "do dono") {
   return navigationFor(role)
     .filter((item) => item.section === section)
     .map((item) => ({ label: item.label, to: item.to }));
@@ -174,10 +174,10 @@ test.each(["user", "admin"] as const)(
       .getAllByRole("menuitem")
       .map((item) => item.textContent?.trim());
     expect(items).toEqual([
-      ...expected(role, "account").map((item) => item.label),
-      "Sign out",
+      ...expected(role, "do dono").map((item) => item.label),
+      "Sair",
     ]);
-    expect(links(menu)).toEqual(expected(role, "account"));
+    expect(links(menu)).toEqual(expected(role, "do dono"));
   },
 );
 

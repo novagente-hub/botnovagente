@@ -94,7 +94,7 @@ beforeEach(() => {
 
 function drop(form: Element, files: File[]) {
   fireEvent.drop(form, {
-    dataTransfer: { files, items: [], types: ["Files"] },
+    dataTransfer: { files, items: [], types: ["Arquivos"] },
   });
 }
 
@@ -186,7 +186,7 @@ test("an upload nobody removed keeps its row", async () => {
   // carrying an upload in flight, so a live Send is an upload that has been answered.
   await waitFor(() =>
     expect(
-      (view.getByLabelText("Send message") as HTMLButtonElement).disabled,
+      (view.getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled,
     ).toBe(false),
   );
 
@@ -226,7 +226,7 @@ test("a message that was sent keeps the rows it carried", async () => {
   // has been answered — and a submit fired before that would be a no-op.
   await waitFor(() =>
     expect(
-      (view.getByLabelText("Send message") as HTMLButtonElement).disabled,
+      (view.getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled,
     ).toBe(false),
   );
 
@@ -269,7 +269,7 @@ test("a parked message keeps the rows it is carrying", async () => {
   releaseUploads();
   await waitFor(() =>
     expect(
-      (view.getByLabelText("Queue message") as HTMLButtonElement).disabled,
+      (view.getByLabelText("Colocar mensagem na fila") as HTMLButtonElement).disabled,
     ).toBe(false),
   );
 

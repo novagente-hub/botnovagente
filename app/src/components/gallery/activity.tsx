@@ -90,7 +90,7 @@ export function ActivityReportCard({
           : {
               status: "refused",
               reason:
-                result.reason ?? result.error ?? "Couldn't read that data.",
+                result.reason ?? result.error ?? "Não foi possível ler esses dados.",
             },
       );
     });
@@ -102,24 +102,24 @@ export function ActivityReportCard({
 
   if (!report) {
     return (
-      <GalleryFrame title="Report">
-        <p className="text-sm text-muted-foreground">Choosing a report…</p>
+      <GalleryFrame title="Relatório">
+        <p className="text-sm text-muted-foreground">Escolhendo um relatório…</p>
       </GalleryFrame>
     );
   }
 
   if (state.status === "reading") {
     return (
-      <GalleryFrame caption="Reading from OpenBot" title={title ?? "Report"}>
-        <p className="text-sm text-muted-foreground">Reading…</p>
+      <GalleryFrame caption="Lendo do OpenBot" title={title ?? "Relatório"}>
+        <p className="text-sm text-muted-foreground">Lendo…</p>
       </GalleryFrame>
     );
   }
 
   if (state.status === "refused") {
     return (
-      <GalleryFrame title={title ?? "Report"}>
-        <p className="text-sm text-destructive">Not shown</p>
+      <GalleryFrame title={title ?? "Relatório"}>
+        <p className="text-sm text-destructive">Não exibido</p>
         <p className="mt-1 text-sm text-foreground/80">{state.reason}</p>
       </GalleryFrame>
     );
@@ -152,9 +152,10 @@ function ActivityChart({
   const rows = data?.rows ?? [];
   if (rows.length === 0) {
     return (
-      <GalleryFrame title={title ?? "Bot activity"}>
+      <GalleryFrame title={title ?? "Atividade dos Bots"}>
         <p className="text-sm text-muted-foreground">
-          No Bot has done anything in the last {data?.days ?? 7} days.
+          
+          Nenhum Bot fez nada nos últimos {data?.days ?? 7} days.
         </p>
       </GalleryFrame>
     );
@@ -176,12 +177,13 @@ function ActivityChart({
             size="sm"
             variant="outline"
           >
-            Ask about the busiest
+            
+            Perguntar sobre o mais ativo
           </Button>
         ) : undefined
       }
-      caption={`Counted from OpenBot's audit trail, last ${data.days} days`}
-      title={title ?? "Bot activity"}
+      caption={`Contado a partir da trilha de auditoria do OpenBot, últimos ${data.days} dias`}
+      title={title ?? "Atividade dos Bots"}
     >
       <ul className="flex flex-col gap-2">
         {rows.map((row, index) => (
@@ -221,9 +223,10 @@ function RefusalList({
   const rows = data?.rows ?? [];
   if (rows.length === 0) {
     return (
-      <GalleryFrame title={title ?? "Recent refusals"}>
+      <GalleryFrame title={title ?? "Recusas recentes"}>
         <p className="text-sm text-muted-foreground">
-          OpenBot hasn't refused anything.
+          
+          O OpenBot não recusou nada.
         </p>
       </GalleryFrame>
     );
@@ -242,12 +245,13 @@ function RefusalList({
             size="sm"
             variant="outline"
           >
-            Explain the latest
+            
+            Explicar o mais recente
           </Button>
         ) : undefined
       }
-      caption="Read from OpenBot's audit trail"
-      title={title ?? "Recent refusals"}
+      caption="Lido da trilha de auditoria do OpenBot"
+      title={title ?? "Recusas recentes"}
     >
       <ul className="flex flex-col gap-2">
         {rows.map((row) => (
@@ -280,7 +284,7 @@ export const GALLERY: GalleryComponent[] = [
      * only means to show what the component looks like. Admin draws it as unpreviewable instead.
      */
     name: "showActivityReport",
-    title: "Activity report",
+    title: "Relatório de atividade",
     kind: "card",
     description:
       "Show what this deployment has actually been doing, read from its own records rather than from anything you know. Use for 'what have the Bots been up to' and 'what has been refused'. You choose the report and the period; the figures are read for you and you will not see them.",

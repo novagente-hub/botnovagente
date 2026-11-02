@@ -161,12 +161,12 @@ test("an app an admin gave this Bot is on, and not yours to switch off", async (
     gmail.hasAttribute("disabled") ||
       gmail.getAttribute("aria-disabled") === "true",
   ).toBe(true);
-  expect(view.getByText("An admin gave it to this Bot.")).toBeTruthy();
+  expect(view.getByText("Um administrador deu isto a este Bot.")).toBeTruthy();
 });
 
 test("somebody else's Bot has no Your apps section", async () => {
   serving([]);
   const view = draw({ ...BOT, mine: false });
-  await view.findByText("What it can use");
-  expect(view.queryByText("Your apps")).toBeNull();
+  await view.findByText("O que ele pode usar");
+  expect(view.queryByText("Seus apps")).toBeNull();
 });

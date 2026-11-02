@@ -29,10 +29,10 @@ const ICONS = {
 
 /** What the line says was done. The subject beside it says what it was done to. */
 const LABELS = {
-  command: "Ran",
-  read_file: "Read",
-  write_file: "Saved",
-  list_files: "Listed",
+  command: "Executou",
+  read_file: "Leu",
+  write_file: "Salvou",
+  list_files: "Listou",
 } as const;
 
 function timeOf(at: number): string {
@@ -76,7 +76,7 @@ function Entry({ entry }: { entry: ComputerActivity }) {
 
       {entry.refused === true ? (
         <p className="mt-1 pl-5 text-destructive text-xs">
-          {entry.output || "A boundary refused it."}
+          {entry.output || "Um limite recusou."}
         </p>
       ) : (
         <div className="mt-1 max-h-64 overflow-auto pl-5">
@@ -106,7 +106,8 @@ export function ActivityLog({ computerId }: { computerId: string }) {
       <Empty className="h-[180px] border border-dashed">
         <EmptyHeader>
           <EmptyTitle className="text-muted-foreground">
-            Nothing yet. Commands the Bot runs and files it reads appear here.
+            
+            Nada ainda. Os comandos que o Bot executa e os arquivos que ele lê aparecem aqui.
           </EmptyTitle>
         </EmptyHeader>
       </Empty>

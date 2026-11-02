@@ -193,7 +193,7 @@ for (const accountMode of [null, "shared"] as const) {
 
     // The notice survives the strip.
     const notice = await view.findByRole("status");
-    expect(notice.textContent).toBe("You just authorized Gmail.ListEmails.");
+    expect(notice.textContent).toBe("Você acabou de autorizar Gmail.ListEmails.");
 
     // Half two: the grant list, drawn only now — after the strip — still marks the landed row.
     api.release();

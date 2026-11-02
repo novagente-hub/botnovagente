@@ -72,13 +72,13 @@ const TEXT_FIELDS: {
   icon: typeof IconId;
   multiline?: boolean;
 }[] = [
-  { field: "name", label: "Name", icon: IconId },
-  { field: "title", label: "Title", icon: IconTag },
+  { field: "name", label: "Nome", icon: IconId },
+  { field: "title", label: "Título", icon: IconTag },
   {
     field: "roleDescription",
     // Not "Role": beside "Title" it read as a second job title, when it is the standing
     // instruction the Bot carries into every channel. The create dialog says the same.
-    label: "What it does",
+    label: "O que ele faz",
     icon: IconTextCaption,
     multiline: true,
   },
@@ -97,7 +97,7 @@ export function SetupSections({ agent }: { agent: AgentProfile }) {
 
   return (
     <>
-      <PageSection title="Identity">
+      <PageSection title="Identidade">
         <PageRows>
           {TEXT_FIELDS.map(({ field, label, icon: Icon }, index) => (
             <Fragment key={field}>
@@ -143,9 +143,10 @@ export function SetupSections({ agent }: { agent: AgentProfile }) {
                   <IconShieldCheck />
                 </ItemMedia>
                 <ItemContent>
-                  <ItemTitle>System owned</ItemTitle>
+                  <ItemTitle>Do sistema</ItemTitle>
                   <ItemDescription>
-                    Comes with OpenBot. It doesn't belong to a person.
+                    
+                    Vem com o OpenBot. Não pertence a uma pessoa.
                   </ItemDescription>
                 </ItemContent>
               </Item>
@@ -184,16 +185,16 @@ function VisibilityRow({
         <IconEye />
       </ItemMedia>
       <ItemContent>
-        <ItemTitle>Visibility</ItemTitle>
+        <ItemTitle>Visibilidade</ItemTitle>
         <ItemDescription>
           {error ??
             (agent.visibility === "private"
               ? agent.isolationActive
-                ? `Only you can see it and start conversations with it. ${ISOLATED_MAKING_PUBLIC}`
-                : "Only you can see it and start conversations with it."
+                ? `Só você pode vê-lo e iniciar conversas com ele. ${ISOLATED_MAKING_PUBLIC}`
+                : "Só você pode vê-lo e iniciar conversas com ele."
               : agent.isolationActive
-                ? `Everyone on OpenBot can find and use it. ${ISOLATED_PUBLIC_SHARES_LOGINS}`
-                : "Everyone on OpenBot can find and use it.")}
+                ? `Todos no OpenBot podem encontrá-lo e usá-lo. ${ISOLATED_PUBLIC_SHARES_LOGINS}`
+                : "Todos no OpenBot podem encontrá-lo e usá-lo.")}
         </ItemDescription>
       </ItemContent>
       <ItemActions>
@@ -201,7 +202,7 @@ function VisibilityRow({
           <Select
             disabled={saving}
             // The label map, so the closed trigger says "Private" rather than the raw value.
-            items={{ private: "Private", public: "Public" }}
+            items={{ private: "Privado", public: "Público" }}
             onValueChange={async (next) => {
               if (next === agent.visibility) return;
               setError(null);
@@ -212,7 +213,7 @@ function VisibilityRow({
                 setError(
                   failure instanceof Error
                     ? failure.message
-                    : "Couldn't save. Try again.",
+                    : "Não foi possível salvar. Tente novamente.",
                 );
               } finally {
                 setSaving(false);
@@ -224,13 +225,13 @@ function VisibilityRow({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="private">Private</SelectItem>
-              <SelectItem value="public">Public</SelectItem>
+              <SelectItem value="private">Privado</SelectItem>
+              <SelectItem value="public">Público</SelectItem>
             </SelectContent>
           </Select>
         ) : (
           <span className="text-muted-foreground text-sm">
-            {agent.visibility === "private" ? "Private" : "Public"}
+            {agent.visibility === "private" ? "Privado" : "Público"}
           </span>
         )}
       </ItemActions>
@@ -271,7 +272,7 @@ function IsolatedRow({
     (agent.isolated || (available && allowed));
 
   const summary = agent.systemOwned
-    ? "Comes with OpenBot, so it runs on the computer of whoever is using it."
+    ? "Vem com o OpenBot, então roda no computador de quem estiver usando."
     : agent.isolated
       ? agent.isolationActive
         ? isolatedExplained(isPublic)
@@ -292,7 +293,7 @@ function IsolatedRow({
         <IconDeviceDesktop />
       </ItemMedia>
       <ItemContent>
-        <ItemTitle id={`isolated-${agent.id}`}>Isolated</ItemTitle>
+        <ItemTitle id={`isolated-${agent.id}`}>Isolado</ItemTitle>
         <ItemDescription className="line-clamp-none">
           {error ?? summary}
         </ItemDescription>
@@ -312,7 +313,7 @@ function IsolatedRow({
                 setError(
                   failure instanceof Error
                     ? failure.message
-                    : "Couldn't save. Try again.",
+                    : "Não foi possível salvar. Tente novamente.",
                 );
               } finally {
                 setSaving(false);
@@ -321,7 +322,7 @@ function IsolatedRow({
           />
         ) : (
           <span className="text-muted-foreground text-sm">
-            {agent.isolated ? "On" : "Off"}
+            {agent.isolated ? "Em" : "Desativado"}
           </span>
         )}
       </ItemActions>
@@ -332,8 +333,8 @@ function IsolatedRow({
 /** Where a Bot without a computer of its own runs: on the computer of whoever is using it. */
 function sharedSummary(isPublic: boolean): string {
   return isPublic
-    ? "Runs on the computer of whoever is using it."
-    : "Runs on your computer, alongside your other Bots.";
+    ? "Roda no computador de quem estiver usando."
+    : "Roda no seu computador, junto com seus outros Bots.";
 }
 
 /**
@@ -363,7 +364,7 @@ function EditTextDialog({
     const parsed = schema.safeParse(draft);
     if (!parsed.success) {
       setError(
-        parsed.error.issues[0]?.message ?? "Check this field and try again.",
+        parsed.error.issues[0]?.message ?? "Verifique este campo e tente novamente.",
       );
       return;
     }
@@ -375,7 +376,7 @@ function EditTextDialog({
       setError(
         failure instanceof Error
           ? failure.message
-          : "Couldn't save. Try again.",
+          : "Não foi possível salvar. Tente novamente.",
       );
     } finally {
       setSaving(false);
@@ -423,10 +424,11 @@ function EditTextDialog({
             size="sm"
             variant="outline"
           >
-            Cancel
+            
+            Cancelar
           </Button>
           <Button disabled={saving} onClick={() => void submit()} size="sm">
-            {saving ? "Saving…" : "Save"}
+            {saving ? "Saving…" : "Salvar"}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -441,21 +443,21 @@ function EditTextDialog({
 function ConnectionSection({ agent }: { agent: AgentProfile }) {
   const builtIn = !agent.endpoint || agent.builtIn;
   return (
-    <PageSection title="Connection">
+    <PageSection title="Conexão">
       <PageRows>
         <Item size="sm">
           <ItemMedia variant="icon">
             <IconPlugConnected />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle>{builtIn ? "Built in" : "Agent URL"}</ItemTitle>
+            <ItemTitle>{builtIn ? "Integrado" : "URL do agente"}</ItemTitle>
             <ItemDescription
               className={
                 builtIn ? undefined : "line-clamp-none break-all font-mono"
               }
             >
               {builtIn
-                ? "Runs inside OpenBot. There's nothing to connect."
+                ? "Roda dentro do OpenBot. Não há nada para conectar."
                 : agent.endpoint}
             </ItemDescription>
           </ItemContent>

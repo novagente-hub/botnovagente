@@ -41,9 +41,9 @@ test("onboarding name step starts empty for a placeholder profile", () => {
       <OnboardingNameStep onSaved={() => {}} />
     </QueryClientProvider>,
   );
-  expect(view.getByRole("heading", { name: "Let's get to it." })).toBeTruthy();
+  expect(view.getByRole("heading", { name: "Vamos começar." })).toBeTruthy();
   expect(
-    view.getByRole("button", { name: "Get started" }).hasAttribute("disabled"),
+    view.getByRole("button", { name: "Começar" }).hasAttribute("disabled"),
   ).toBe(true);
 });
 
@@ -53,7 +53,7 @@ test("onboarding name step preserves a saved name when revisited", () => {
       <OnboardingNameStep onSaved={() => {}} />
     </QueryClientProvider>,
   );
-  expect((view.getByLabelText("Name") as HTMLInputElement).value).toBe("Sam");
+  expect((view.getByLabelText("Nome") as HTMLInputElement).value).toBe("Sam");
   expect(view.queryByRole("dialog")).toBeNull();
 });
 
@@ -73,12 +73,12 @@ test("settings saves only the display name and refreshes the current user", asyn
     </QueryClientProvider>,
   );
   const user = userEvent.setup({ document });
-  await user.clear(view.getByLabelText("Name"));
-  await user.type(view.getByLabelText("Name"), " Samuel ");
-  fireEvent.click(view.getByRole("button", { name: "Save name" }));
+  await user.clear(view.getByLabelText("Nome"));
+  await user.type(view.getByLabelText("Nome"), " Samuel ");
+  fireEvent.click(view.getByRole("button", { name: "Salvar nome" }));
   await waitFor(() =>
     expect(view.getByRole("status").textContent).toBe(
-      "Your name has been saved.",
+      "Seu nome foi salvo.",
     ),
   );
   expect(sent).toEqual({ name: "Samuel" });
@@ -96,13 +96,13 @@ test("failed saves show an error and preserve the draft for retry", async () => 
       <ProfileNameForm initialName="Sam" />
     </QueryClientProvider>,
   );
-  fireEvent.click(view.getByRole("button", { name: "Save name" }));
+  fireEvent.click(view.getByRole("button", { name: "Salvar nome" }));
   await waitFor(() =>
     expect(view.getByRole("alert").textContent).toContain(
       "Could not save your profile.",
     ),
   );
-  expect((view.getByLabelText("Name") as HTMLInputElement).value).toBe("Sam");
+  expect((view.getByLabelText("Nome") as HTMLInputElement).value).toBe("Sam");
 });
 
 test("an untouched settings form reflects a name saved by the welcome dialog", () => {
@@ -117,7 +117,7 @@ test("an untouched settings form reflects a name saved by the welcome dialog", (
       <ProfileNameForm initialName="Sam" />
     </QueryClientProvider>,
   );
-  expect((view.getByLabelText("Name") as HTMLInputElement).value).toBe("Sam");
+  expect((view.getByLabelText("Nome") as HTMLInputElement).value).toBe("Sam");
 });
 
 test("a profile refetch does not overwrite an unsaved draft", async () => {
@@ -128,13 +128,13 @@ test("a profile refetch does not overwrite an unsaved draft", async () => {
     </QueryClientProvider>,
   );
   const user = userEvent.setup({ document });
-  await user.type(view.getByLabelText("Name"), " Julien");
+  await user.type(view.getByLabelText("Nome"), " Julien");
   view.rerender(
     <QueryClientProvider client={query}>
       <ProfileNameForm initialName="Samuel" />
     </QueryClientProvider>,
   );
-  expect((view.getByLabelText("Name") as HTMLInputElement).value).toBe(
+  expect((view.getByLabelText("Nome") as HTMLInputElement).value).toBe(
     "Sam Julien",
   );
 });
@@ -157,10 +157,10 @@ test("onboarding advances only after the name has been saved", async () => {
       />
     </QueryClientProvider>,
   );
-  fireEvent.click(view.getByRole("button", { name: "Get started" }));
+  fireEvent.click(view.getByRole("button", { name: "Começar" }));
   await waitFor(() =>
     expect(
-      view.getByRole("button", { name: "Saving…" }).hasAttribute("disabled"),
+      view.getByRole("button", { name: "Salvando…" }).hasAttribute("disabled"),
     ).toBe(true),
   );
   expect(advances).toBe(0);
@@ -183,8 +183,8 @@ test("onboarding stays on the name step when saving fails", async () => {
       />
     </QueryClientProvider>,
   );
-  fireEvent.click(view.getByRole("button", { name: "Get started" }));
+  fireEvent.click(view.getByRole("button", { name: "Começar" }));
   await view.findByRole("alert");
   expect(advances).toBe(0);
-  expect((view.getByLabelText("Name") as HTMLInputElement).value).toBe("Sam");
+  expect((view.getByLabelText("Nome") as HTMLInputElement).value).toBe("Sam");
 });

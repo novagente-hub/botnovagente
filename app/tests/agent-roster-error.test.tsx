@@ -85,7 +85,7 @@ function agent(
 ): AgentProfile {
   return {
     name: "Agent",
-    title: "Title",
+    title: "Título",
     roleDescription: "Role",
     avatarSeed: "seed",
     visibility: "private",

@@ -52,7 +52,7 @@ function Decision(props: { respond?: (result: unknown) => Promise<void> }) {
 
 const spec = {
   name: "askApproval",
-  title: "Approval",
+  title: "Aprovação",
   kind: "decision",
   description: "Built-in words.",
   parameters: {},

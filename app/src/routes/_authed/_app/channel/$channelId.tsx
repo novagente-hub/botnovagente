@@ -84,7 +84,7 @@ function RouteComponent() {
       onClose={() => show(null)}
       open={(isSettingsOpen || isWatching) && agentId !== undefined}
       detailWidth={isWatching ? SCREEN_PANEL_WIDTH : undefined}
-      title={isWatching ? "Computer" : undefined}
+      title={isWatching ? "Computador" : undefined}
       detail={
         agentId === undefined ? null : isWatching ? (
           // Manual watch remains active even when there is no current browser action.
@@ -146,7 +146,7 @@ function RouteComponent() {
                 ease: EASE_OUT,
               }}
             >
-              {channel.data?.name ?? "Channel"}
+              {channel.data?.name ?? "Canal"}
             </motion.span>
           </div>
           <div className="flex flex-row gap-1.5">
@@ -156,7 +156,7 @@ function RouteComponent() {
               onOpenChange={(open) => show(open ? "watch" : null)}
             />
             <Button
-              aria-label="This conversation's Bot"
+              aria-label="O Bot desta conversa"
               aria-pressed={isSettingsOpen}
               className={isSettingsOpen ? "bg-foreground/5" : undefined}
               disabled={agentId === undefined}
@@ -199,7 +199,8 @@ function ChannelBody({
   if (hasError || !channel) {
     return (
       <p className="p-8 text-sm text-destructive" role="alert">
-        Couldn't load this conversation. Reload the page.
+        
+        Não foi possível carregar esta conversa. Recarregue a página.
       </p>
     );
   }

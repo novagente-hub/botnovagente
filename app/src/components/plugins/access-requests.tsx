@@ -56,9 +56,10 @@ export function AccessRequestsSection({ app }: { app?: string }) {
   if (inbox.isPending) return null;
   if (inbox.error)
     return (
-      <PageSection title="Requests">
+      <PageSection title="Pedidos">
         <p className="mt-4 text-destructive text-sm" role="alert">
-          Couldn't load access requests. Reload the page.
+          
+          Não foi possível carregar os pedidos de acesso. Recarregue a página.
         </p>
       </PageSection>
     );
@@ -68,10 +69,10 @@ export function AccessRequestsSection({ app }: { app?: string }) {
     <PageSection
       description={
         app
-          ? "People asking for this app. Approve does what they asked, right away."
-          : "People asking for an app to be turned on, given to a Bot, or connected. Approve does what they asked, right away."
+          ? "Pessoas pedindo este app. Aprovar faz o que pediram, na hora."
+          : "Pessoas pedindo que um app seja ativado, dado a um Bot ou conectado. Aprovar faz o que pediram, na hora."
       }
-      title="Requests"
+      title="Pedidos"
     >
       <PageRows>
         {requests.map((request, index) => (
@@ -90,11 +91,11 @@ export function askedFor(request: AppAccessRequest): string {
   const bot = request.botName ?? "a Bot";
   switch (request.kind) {
     case "enable":
-      return `Turn on ${request.appTitle} for ${bot}`;
+      return `Ativar ${request.appTitle} para ${bot}`;
     case "grant":
       return `Give ${request.appTitle} to ${bot}`;
     case "connect_shared":
-      return `Connect the shared ${request.appTitle} account`;
+      return `Conectar a conta compartilhada ${request.appTitle}`;
   }
 }
 
@@ -108,7 +109,7 @@ function AccessRequestRow({ request }: { request: AppAccessRequest }) {
   );
   const busy = approve.isPending || dismiss.isPending;
   const error = approve.error ?? dismiss.error;
-  const who = request.requesterName ?? request.requesterEmail ?? "Somebody";
+  const who = request.requesterName ?? request.requesterEmail ?? "Alguém";
   return (
     <Item data-request={request.id} size="sm">
       <ItemMedia variant="icon">
@@ -119,7 +120,7 @@ function AccessRequestRow({ request }: { request: AppAccessRequest }) {
         <ItemDescription className="line-clamp-none">
           {who} asked {relativeTime(request.createdAt)}
           {request.kind === "connect_shared" && request.botName
-            ? `, for ${request.botName}`
+            ? `, para ${request.botName}`
             : ""}
           . <GrantNote request={request} />
         </ItemDescription>
@@ -134,7 +135,7 @@ function AccessRequestRow({ request }: { request: AppAccessRequest }) {
           size="sm"
           variant="ghost"
         >
-          {dismiss.isPending ? "Dismissing…" : "Dismiss"}
+          {dismiss.isPending ? "Dismissing…" : "Dispensar"}
         </Button>
         <Button
           disabled={busy}
@@ -144,7 +145,7 @@ function AccessRequestRow({ request }: { request: AppAccessRequest }) {
           }}
           size="sm"
         >
-          {approve.isPending ? "Approving…" : "Approve"}
+          {approve.isPending ? "Approving…" : "Aprovar"}
         </Button>
       </ItemActions>
       {error ? (
@@ -165,8 +166,8 @@ function AccessRequestRow({ request }: { request: AppAccessRequest }) {
  */
 function GrantNote({ request }: { request: AppAccessRequest }) {
   if (request.kind === "connect_shared" || !request.agentId) return null;
-  const bot = request.botName ?? "the Bot";
-  const where = `the Bot's page under ${request.appTitle}`;
+  const bot = request.botName ?? "o Bot";
+  const where = `a página do Bot, em ${request.appTitle}`;
   const page =
     request.kind === "grant" ? (
       <Link
@@ -180,8 +181,8 @@ function GrantNote({ request }: { request: AppAccessRequest }) {
     );
   return (
     <>
-      Approving gives {bot} only {request.appTitle}'s read-only actions. Choose
-      any others on {page}.
+      
+      Aprovar concede as ações somente leitura de {bot} only {request.appTitle}. Escolha outras em {page}.
     </>
   );
 }

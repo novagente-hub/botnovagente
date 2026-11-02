@@ -71,13 +71,13 @@ export function parseJsonObject(raw: string, label: string): JsonObjectResult {
   } catch (thrown) {
     const reason =
       thrown instanceof SyntaxError ? thrown.message : "invalid JSON";
-    return { ok: false, message: `${label} must be valid JSON: ${reason}` };
+    return { ok: false, message: `${label} precisa ser um JSON válido: ${reason}` };
   }
 
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
     return {
       ok: false,
-      message: `${label} must be a JSON object, not ${jsonKind(value)}.`,
+      message: `${label} deve ser um objeto JSON, não ${jsonKind(value)}.`,
     };
   }
 
@@ -87,9 +87,9 @@ export function parseJsonObject(raw: string, label: string): JsonObjectResult {
 export function validatePlaygroundDraft(draft: Draft): PlaygroundValidation {
   const schema = parseJsonObject(
     draft.argumentSchema,
-    "Arguments (JSON Schema)",
+    "Argumentos (JSON Schema)",
   );
-  const sample = parseJsonObject(draft.sampleArguments, "Sample arguments");
+  const sample = parseJsonObject(draft.sampleArguments, "Argumentos de exemplo");
   if (!schema.ok || !sample.ok) {
     return {
       ok: false,
@@ -156,7 +156,7 @@ function PlaygroundPage() {
       setNotice(null);
       setError(
         Object.values(current.fields)[0] ??
-          "Fix the JSON fields before saving.",
+          "Corrija os campos JSON antes de salvar.",
       );
       return null;
     }
@@ -168,7 +168,7 @@ function PlaygroundPage() {
     setNotice(null);
     const payload = input();
     if (!payload) return;
-    saveDraft.mutate(payload, { onSuccess: () => setNotice("Draft saved.") });
+    saveDraft.mutate(payload, { onSuccess: () => setNotice("Rascunho salvo.") });
   };
 
   const publish = () => {
@@ -207,8 +207,8 @@ function PlaygroundPage() {
           <div>
             <h1 className="font-bold text-2xl">Playground</h1>
             <p className="mt-1 max-w-prose text-pretty text-muted-foreground text-sm leading-relaxed">
-              Write a component and publish it without redeploying. Your edits
-              are a draft. Conversations only show what is published.
+              
+              Escreva um componente e publique sem reimplantar. Suas edições são um rascunho. As conversas só mostram o que está publicado.
             </p>
           </div>
         </div>
@@ -220,7 +220,8 @@ function PlaygroundPage() {
             type="button"
             variant="outline"
           >
-            Save draft
+            
+            Salvar rascunho
           </Button>
           <Button
             /* `publish` saves first, since publishing acts on the stored draft, not the editors. */
@@ -229,7 +230,8 @@ function PlaygroundPage() {
             size="sm"
             type="button"
           >
-            Publish
+            
+            Publicar
           </Button>
         </div>
       </header>
@@ -255,22 +257,22 @@ function PlaygroundPage() {
         <div className="space-y-3">
           <div className="grid gap-2 md:grid-cols-2">
             <TextField
-              label="Name"
+              label="Nome"
               onChange={set("slug")}
               placeholder="refund_card"
               value={draft.slug}
             />
             <TextField
-              label="Title"
+              label="Título"
               onChange={set("title")}
-              placeholder="Refund card"
+              placeholder="Cartão de reembolso"
               value={draft.title}
             />
           </div>
           <TextField
-            label="What the model is told about it"
+            label="O que o modelo sabe sobre ele"
             onChange={set("description")}
-            placeholder="Show a refund with its amount, reason and status."
+            placeholder="Mostra um reembolso com valor, motivo e status."
             value={draft.description}
           />
           <CodeField label="HTML" onChange={set("html")} value={draft.html} />
@@ -284,7 +286,7 @@ function PlaygroundPage() {
             error={
               !validation.ok ? validation.fields.argumentSchema : undefined
             }
-            label="Arguments (JSON Schema)"
+            label="Argumentos (JSON Schema)"
             onChange={set("argumentSchema")}
             value={draft.argumentSchema}
           />
@@ -292,7 +294,7 @@ function PlaygroundPage() {
             error={
               !validation.ok ? validation.fields.sampleArguments : undefined
             }
-            label="Sample arguments"
+            label="Argumentos de exemplo"
             onChange={set("sampleArguments")}
             value={draft.sampleArguments}
           />
@@ -300,13 +302,13 @@ function PlaygroundPage() {
 
         <div className="space-y-4">
           <div className="rounded-lg border p-4">
-            <div className="mb-2 text-sm font-medium">Preview</div>
+            <div className="mb-2 text-sm font-medium">Prévia</div>
             {sample === null ? (
               <p className="text-sm text-destructive">
                 {validation.ok
-                  ? "The sample arguments aren't available."
+                  ? "Os argumentos de exemplo não estão disponíveis."
                   : (validation.fields.sampleArguments ??
-                    "Fix the JSON fields before previewing.")}
+                    "Corrija os campos JSON antes de visualizar.")}
               </p>
             ) : (
               <OpenGenerativeUIActivityRenderer
@@ -330,11 +332,13 @@ function PlaygroundPage() {
 
           <div className="rounded-lg border border-border bg-card">
             <div className="border-border border-b px-4 py-2 font-medium text-sm">
-              Saved here
+              
+              Salvo aqui
             </div>
             {(components ?? []).length === 0 ? (
               <p className="px-4 py-3 text-muted-foreground text-sm">
-                Nothing saved yet. Save a draft to see it here.
+                
+                Nada salvo ainda. Salve um rascunho para vê-lo aqui.
               </p>
             ) : (
               <ul className="divide-y divide-border">
@@ -348,9 +352,9 @@ function PlaygroundPage() {
                       <div className="text-xs text-muted-foreground">
                         {component.published
                           ? `published, revision ${component.revision}`
-                          : "draft only, no Bot can draw it"}
+                          : "só rascunho, nenhum Bot pode desenhá-lo"}
                         {component.hasUnpublishedChanges
-                          ? " · edited since publishing"
+                          ? " · editado desde a publicação"
                           : ""}
                       </div>
                     </div>
@@ -361,7 +365,8 @@ function PlaygroundPage() {
                         type="button"
                         variant="outline"
                       >
-                        Open
+                        
+                        Abrir
                       </Button>
                       <Button
                         onClick={() => setDeleting(component.name)}
@@ -369,7 +374,8 @@ function PlaygroundPage() {
                         type="button"
                         variant="ghost"
                       >
-                        Delete
+                        
+                        Excluir
                       </Button>
                     </div>
                   </li>
@@ -377,8 +383,8 @@ function PlaygroundPage() {
               </ul>
             )}
             <p className="border-border border-t px-4 py-2 text-muted-foreground text-xs">
-              Publishing makes it available to every Bot. Turn it off for one
-              Bot on the UI components page.
+              
+              Publicar o torna disponível para todos os Bots. Desative para um Bot na página de componentes de interface.
             </p>
           </div>
         </div>
@@ -396,15 +402,16 @@ function PlaygroundPage() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete {deleting}?</DialogTitle>
+            <DialogTitle>Excluir {deleting}?</DialogTitle>
             <DialogDescription>
-              It's removed from this deployment, and no Bot can draw it. You
-              can't undo this.
+              
+              Ele é removido desta implantação, e nenhum Bot pode desenhá-lo. Não é possível desfazer.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button onClick={() => setDeleting(null)} size="sm" variant="ghost">
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               onClick={() => {
@@ -418,7 +425,8 @@ function PlaygroundPage() {
               size="sm"
               variant="destructive"
             >
-              Delete it
+              
+              Excluir
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -131,33 +131,33 @@ function draw(agent: AgentProfile) {
 test("the owner sees Sharing, and each row opens its own page", async () => {
   serving("user");
   const view = draw(BOT);
-  const sharing = (await view.findByText("Sharing")).closest("a");
+  const sharing = (await view.findByText("Compartilhamento")).closest("a");
   expect(sharing?.getAttribute("href")).toBe("/bots/expenses/sharing");
-  expect(view.getByText("Setup").closest("a")?.getAttribute("href")).toBe(
+  expect(view.getByText("Configuração").closest("a")?.getAttribute("href")).toBe(
     "/bots/expenses/setup",
   );
   // Public and unpublished: everyone can already use it.
-  expect(await view.findByText("Everyone (public)")).toBeTruthy();
+  expect(await view.findByText("Todos (público)")).toBeTruthy();
 });
 
 test("someone who neither owns the Bot nor administers the deployment does not see Sharing", async () => {
   serving("user");
   const view = draw({ ...BOT, mine: false, canManage: false });
-  expect(await view.findByText("Setup")).toBeTruthy();
-  expect(view.queryByText("Sharing")).toBeNull();
+  expect(await view.findByText("Configuração")).toBeTruthy();
+  expect(view.queryByText("Compartilhamento")).toBeNull();
 });
 
 test("an administrator sees Sharing on somebody else's Bot", async () => {
   serving("admin");
   const view = draw({ ...BOT, mine: false });
-  expect(await view.findByText("Sharing")).toBeTruthy();
+  expect(await view.findByText("Compartilhamento")).toBeTruthy();
 });
 
 test("someone a Bot was published to sees Sharing, where its link is", async () => {
   serving("user", [{ id: "expenses", audience: "team" }]);
   const view = draw({ ...BOT, mine: false, canManage: false });
-  expect(await view.findByText("Sharing")).toBeTruthy();
-  expect(await view.findByText("Whole team")).toBeTruthy();
+  expect(await view.findByText("Compartilhamento")).toBeTruthy();
+  expect(await view.findByText("Equipe toda")).toBeTruthy();
 });
 
 test("the rows for responsibilities, reach, memory and rules say what this Bot has and open their pages", async () => {
@@ -169,8 +169,8 @@ test("the rows for responsibilities, reach, memory and rules say what this Bot h
       `/bots/expenses/${path}`,
     );
   };
-  await row("Responsibilities", "1 active", "responsibilities");
-  await row("Reaching you", "Slack", "reach");
-  await row("Memory", "1 source", "memory");
-  await row("Approval rules", "1 rule", "approvals");
+  await row("Responsabilidades", "1 active", "responsibilities");
+  await row("Como falar com você", "Slack", "reach");
+  await row("Memória", "1 source", "memory");
+  await row("Regras de aprovação", "1 rule", "approvals");
 });

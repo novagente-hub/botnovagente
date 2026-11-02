@@ -32,7 +32,7 @@ function Fragile({ args }: { args: string }) {
   return <p>drawn {args}</p>;
 }
 
-const FALLBACK = /Couldn't show/;
+const FALLBACK = /Não foi possível exibir/;
 
 test("recovers on the next chunk", () => {
   const quiet = spyOn(console, "error").mockImplementation(() => {});
@@ -124,7 +124,7 @@ test("a decision that throws on complete arguments while it waits shows its fail
   const view = render(
     <ToolRenderBoundary
       final={toolCallFinal(args, undefined)}
-      name="Choice"
+      name="Escolha"
       resetKey={args}
     >
       <Fragile args="bad" />

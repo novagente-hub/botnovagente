@@ -47,7 +47,7 @@ const COMPUTER_STATES: readonly ComputerState[] = [
 export async function readScreenshot(
   computerId: string,
 ): Promise<ScreenshotRead> {
-  const unavailable = "The screen is not available right now.";
+  const unavailable = "A tela não está disponível agora.";
   try {
     const response = await tryClient(`/api/computers/${computerId}/screenshot`);
     if (!response.ok) {
@@ -85,7 +85,7 @@ function parseScreenshot(body: unknown): {
   frame?: Screenshot;
   error?: string;
 } {
-  const unavailable = "The screen is not available right now.";
+  const unavailable = "A tela não está disponível agora.";
   if (!body || typeof body !== "object" || Array.isArray(body)) {
     return { error: unavailable };
   }

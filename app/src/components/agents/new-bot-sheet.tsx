@@ -120,11 +120,11 @@ type Runtime = { kind: "builtin" } | { kind: "managed"; harness: string };
 
 /** Framework name used in default custom-agent instructions. */
 function frameworkName(runtime: Runtime): string {
-  if (runtime.kind === "builtin") return "Assistant";
-  if (runtime.harness === "byo-url") return "AG-UI agent";
+  if (runtime.kind === "builtin") return "Assistente";
+  if (runtime.harness === "byo-url") return "Agente AG-UI";
   return (
     WEB_HARNESSES.find((harness) => harness.id === runtime.harness)?.name ??
-    "AG-UI agent"
+    "Agente AG-UI"
   );
 }
 
@@ -139,7 +139,7 @@ function defaultInstructions(name: string, runtime: Runtime): string {
   if (runtime.kind === "builtin") {
     return `You are ${name}. Help the people you work with on whatever they bring you, clearly and briefly.`;
   }
-  return `Connected from ${frameworkName(runtime)}.`;
+  return `Conectado a partir de ${frameworkName(runtime)}.`;
 }
 
 /**
@@ -226,7 +226,7 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
   const named = name.trim() !== "";
   const endpointIssue =
     endpoint.trim() === ""
-      ? "Enter your agent's address."
+      ? "Insira o endereço do seu agente."
       : agentFormSchema.shape.endpoint.safeParse(endpoint).error?.issues[0]
           ?.message;
   const busy = checking || createAgent.isPending;
@@ -314,7 +314,7 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
   if (createdId) {
     return (
       <MotionConfig reducedMotion="user">
-        <SheetTitle className="sr-only">New Bot</SheetTitle>
+        <SheetTitle className="sr-only">Novo Bot</SheetTitle>
         <CreatedView name={name.trim()} />
       </MotionConfig>
     );
@@ -364,7 +364,8 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
               />
             </motion.div>
             <SheetTitle className="text-2xl font-semibold tracking-tight">
-              New Bot
+              
+              Novo Bot
             </SheetTitle>
           </div>
 
@@ -407,8 +408,8 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
                 />
                 {!builtInAvailable && (
                   <p className="mt-3 text-sm text-muted-foreground">
-                    An admin must enable built-in hosting before you can run a
-                    Bot here.
+                    
+                    Um administrador precisa ativar a hospedagem integrada antes de você executar um Bot aqui.
                   </p>
                 )}
               </>
@@ -451,7 +452,8 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
           <SheetClose
             render={<Button className="px-4" size="lg" variant="ghost" />}
           >
-            Cancel
+            
+            Cancelar
           </SheetClose>
         ) : (
           <Button
@@ -462,7 +464,8 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
             type="button"
             variant="ghost"
           >
-            Back
+            
+            Voltar
           </Button>
         )}
         <div className="ml-auto flex flex-wrap items-center justify-end gap-2">
@@ -484,7 +487,8 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
               }}
             >
               <IconPlugConnected className="size-4" />
-              Connect a custom agent
+              
+              Conectar um agente personalizado
             </Button>
           )}
           {step !== "runtime" && (
@@ -499,8 +503,8 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
                 : createAgent.isPending
                   ? "Creating…"
                   : step === "endpoint" || (step === "about" && !custom)
-                    ? "Create Bot"
-                    : "Continue"}
+                    ? "Criar Bot"
+                    : "Continuar"}
             </Button>
           )}
         </div>
@@ -560,9 +564,9 @@ function CreatedView({ name }: { name: string }) {
         transition={{ delay: 0.3, duration: 0.35, ease: "easeOut" }}
       >
         <h2 className="break-words font-semibold text-xl tracking-tight">
-          {name} is ready
+          {name}  está pronto
         </h2>
-        <p className="mt-1 text-muted-foreground text-sm">Taking you to it…</p>
+        <p className="mt-1 text-muted-foreground text-sm">Levando você até ele…</p>
       </motion.div>
     </div>
   );
@@ -579,14 +583,14 @@ const VISIBILITY_OPTIONS: Array<{
 }> = [
   {
     value: "private",
-    title: "Private",
-    description: "Only you can see it and talk to it.",
+    title: "Privado",
+    description: "Só você pode vê-lo e conversar com ele.",
     icon: IconLock,
   },
   {
     value: "public",
-    title: "Public",
-    description: "Everyone in your company can find and use it.",
+    title: "Público",
+    description: "Todos na sua empresa podem encontrá-lo e usá-lo.",
     icon: IconUsers,
   },
 ];
@@ -625,7 +629,7 @@ function AboutStep({
   return (
     <FieldGroup>
       <Field>
-        <FieldLabel htmlFor="new-bot-name">Name</FieldLabel>
+        <FieldLabel htmlFor="new-bot-name">Nome</FieldLabel>
         <Input
           autoComplete="off"
           autoFocus
@@ -634,7 +638,7 @@ function AboutStep({
           aria-describedby={nameError ? "new-bot-name-error" : undefined}
           maxLength={80}
           onChange={(event) => onName(event.target.value)}
-          placeholder="Expense Review"
+          placeholder="Revisão de despesas"
           value={name}
         />
         {nameError && (
@@ -649,21 +653,22 @@ function AboutStep({
       </Field>
       <Field>
         <FieldLabel htmlFor="new-bot-instructions">
-          Instructions
-          <span className="font-normal text-muted-foreground">Optional</span>
+          
+          Instruções
+          <span className="font-normal text-muted-foreground">Opcional</span>
         </FieldLabel>
         <Textarea
           autoComplete="off"
           id="new-bot-instructions"
           maxLength={1000}
           onChange={(event) => onInstructions(event.target.value)}
-          placeholder="Review receipts, categorize expenses, and prepare reimbursement reports."
+          placeholder="Revisar recibos, categorizar despesas e preparar relatórios de reembolso."
           rows={5}
           value={instructions}
         />
       </Field>
       <FieldSet>
-        <FieldLegend variant="label">Who can see it</FieldLegend>
+        <FieldLegend variant="label">Quem pode ver</FieldLegend>
         <div className="grid gap-2 sm:grid-cols-2">
           {VISIBILITY_OPTIONS.map((option) => {
             const Icon = option.icon;
@@ -692,9 +697,10 @@ function AboutStep({
       <IsolatedOption isPublic={visibility === "public"} {...isolation} />
       {apps.length > 0 ? (
         <FieldSet>
-          <FieldLegend variant="label">Apps it can use</FieldLegend>
+          <FieldLegend variant="label">Apps que ele pode usar</FieldLegend>
           <FieldDescription>
-            It always uses the account of whoever is asking.
+            
+            Ele sempre usa a conta de quem está pedindo.
           </FieldDescription>
           <div className="grid gap-2 sm:grid-cols-2">
             {apps.map((app) => (
@@ -761,7 +767,7 @@ function IsolatedOption({
       : null;
   return (
     <FieldSet>
-      <FieldLegend variant="label">Its computer</FieldLegend>
+      <FieldLegend variant="label">Computador dele</FieldLegend>
       <div className="flex items-start gap-3 rounded-lg bg-muted/50 p-3">
         <Checkbox
           aria-describedby="new-bot-isolated-summary"
@@ -780,13 +786,14 @@ function IsolatedOption({
               )}
               htmlFor="new-bot-isolated"
             >
-              Isolated
+              
+              Isolado
             </label>
             <Tooltip>
               <TooltipTrigger
                 render={
                   <Button
-                    aria-label="What Isolated means"
+                    aria-label="O que significa Isolado"
                     className="text-muted-foreground"
                     size="icon-xs"
                     type="button"
@@ -805,7 +812,7 @@ function IsolatedOption({
             className="text-pretty text-muted-foreground text-xs"
             id="new-bot-isolated-summary"
           >
-            {reason ?? "A computer of its own, instead of sharing yours."}
+            {reason ?? "Um computador próprio, em vez de compartilhar o seu."}
           </p>
         </div>
       </div>
@@ -837,7 +844,8 @@ function RuntimeStep({ onChoose }: { onChoose: (runtime: Runtime) => void }) {
         ref={heading}
         tabIndex={-1}
       >
-        Connect a custom agent
+        
+        Conectar um agente personalizado
       </h2>
 
       {CONNECTION_OPTIONS.map((harness) => (
@@ -902,13 +910,14 @@ function EndpointStep({
           </span>
         ) : null}
         <h2 className="break-words font-semibold text-lg tracking-tight">
-          Where can it be reached?
+          
+          Onde ele pode ser acessado?
         </h2>
       </div>
 
       <FieldGroup>
         <Field data-invalid={endpointError ? true : undefined}>
-          <FieldLabel htmlFor="new-bot-endpoint">Agent address</FieldLabel>
+          <FieldLabel htmlFor="new-bot-endpoint">Endereço do agente</FieldLabel>
           <Input
             aria-invalid={endpointError ? true : undefined}
             autoComplete="off"
@@ -926,15 +935,16 @@ function EndpointStep({
             />
           ) : (
             <FieldDescription>
-              Any agent that speaks AG-UI works. OpenBot connects to it, so it
-              has to be reachable from OpenBot's server.
+              
+              Qualquer agente que fale AG-UI funciona. O OpenBot se conecta a ele, então ele precisa estar acessível pelo servidor do OpenBot.
             </FieldDescription>
           )}
         </Field>
         <Field>
           <FieldLabel htmlFor="new-bot-key">
-            Key
-            <span className="font-normal text-muted-foreground">Optional</span>
+            
+            Chave
+            <span className="font-normal text-muted-foreground">Opcional</span>
           </FieldLabel>
           <Input
             autoComplete="off"
@@ -945,8 +955,8 @@ function EndpointStep({
             value={secret}
           />
           <FieldDescription>
-            Sent as an <code>Authorization</code> header with every request, and
-            stored encrypted.
+            
+            Enviada como um cabeçalho <code>Authorization</code>  em cada requisição, e armazenada criptografada.
           </FieldDescription>
         </Field>
       </FieldGroup>

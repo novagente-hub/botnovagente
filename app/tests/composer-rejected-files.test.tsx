@@ -189,5 +189,5 @@ test("a single refusal is dismissed in the singular", () => {
     />,
   );
 
-  expect(getByLabelText("Dismiss this refusal")).toBeTruthy();
+  expect(getByLabelText("Dispensar esta recusa")).toBeTruthy();
 });

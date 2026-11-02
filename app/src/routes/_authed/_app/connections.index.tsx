@@ -117,47 +117,47 @@ export const Route = createFileRoute("/_authed/_app/connections/")({
 export const AUTHORIZATION_NOTICES: ReadonlyMap<string, string> = new Map([
   [
     "no-broker",
-    "Connecting apps isn't set up yet, so nothing was recorded. Ask an admin to set it up.",
+    "A conexão de apps ainda não está configurada, então nada foi registrado. Peça a um administrador para configurar.",
   ],
   [
     "not-supported",
-    "Apps here connect once, with Connect on the app's page. They aren't authorized one action at a time.",
+    "Os apps aqui se conectam uma vez, com Conectar na página do app. Eles não são autorizados uma ação por vez.",
   ],
   [
     "missing-handle",
-    "That link doesn't say which authorization it finishes, so nothing was done. Start again from the app's page.",
+    "Esse link não diz qual autorização ele conclui, então nada foi feito. Comece de novo pela página do app.",
   ],
   [
     "no-attempt",
-    "There's no authorization in progress for you to finish. It may have expired, or started in another session. Start again from the app's page.",
+    "Não há autorização em andamento para você concluir. Ela pode ter expirado ou começado em outra sessão. Comece de novo pela página do app.",
   ],
   [
     "vendor-unavailable",
-    "The app didn't answer when OpenBot tried to finish that authorization, so nothing was recorded. Try the link again in a moment.",
+    "O app não respondeu quando o OpenBot tentou concluir essa autorização, então nada foi registrado. Tente o link de novo em instantes.",
   ],
   [
     "not-your-authorization",
-    "That link doesn't match the authorization you have in progress, so nothing was recorded. Finish it in the tab you started it in, or start again from the app's page.",
+    "Esse link não corresponde à autorização em andamento, então nada foi registrado. Conclua na aba em que começou ou comece de novo pela página do app.",
   ],
   [
     "not-finished",
-    "That authorization hasn't finished yet, so nothing was recorded. Finish it at the app, then open the link again.",
+    "Essa autorização ainda não terminou, então nada foi registrado. Conclua no app e depois abra o link de novo.",
   ],
   [
     "authorization-failed",
-    "The app didn't complete that authorization, so nothing was recorded. Start again from the app's page.",
+    "O app não concluiu essa autorização, então nada foi registrado. Comece de novo pela página do app.",
   ],
   [
     "context-changed",
-    "That app's account changed while the authorization was open, so nothing was recorded. Access given to the old account was removed. Start again from the app's page.",
+    "A conta desse app mudou enquanto a autorização estava aberta, então nada foi registrado. O acesso dado à conta antiga foi removido. Comece de novo pela página do app.",
   ],
   [
     "not-permitted",
-    "You can't connect that app's account anymore, so nothing was recorded. Your access or the app's setup changed while the authorization was open. Ask an admin if you expected to finish it.",
+    "Você não pode mais conectar a conta desse app, então nada foi registrado. Seu acesso ou a configuração do app mudou enquanto a autorização estava aberta. Fale com um administrador se esperava concluir.",
   ],
   [
     "cancelled",
-    "That authorization was cancelled while it was being finished, so nothing was recorded. The access it gave was removed.",
+    "Essa autorização foi cancelada enquanto era concluída, então nada foi registrado. O acesso que ela deu foi removido.",
   ],
   [
     "cancelled-left-live",
@@ -165,7 +165,7 @@ export const AUTHORIZATION_NOTICES: ReadonlyMap<string, string> = new Map([
   ],
   [
     "not-recorded",
-    "Couldn't record that authorization, so nothing was saved. Start again from the app's page, or ask an admin if it keeps happening.",
+    "Não foi possível registrar essa autorização, então nada foi salvo. Comece de novo pela página do app ou fale com um administrador se continuar acontecendo.",
   ],
 ]);
 
@@ -316,8 +316,8 @@ function RouteComponent() {
   return (
     <PageShell
       className="@container"
-      description="Connect your accounts so Bots can use apps on your behalf."
-      title="Connections"
+      description="Conecte suas contas para que os Bots possam usar apps em seu nome."
+      title="Conexões"
     >
       {/*
        * For `?connected=` only the failure is worth saying. A success needs no sentence: the row it
@@ -326,7 +326,8 @@ function RouteComponent() {
        */}
       {arrival.outcome === "failed" ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          Couldn't connect that account. Nothing was saved. Try again.
+          
+          Não foi possível conectar essa conta. Nada foi salvo. Tente novamente.
         </p>
       ) : null}
       {notice ? (
@@ -363,12 +364,13 @@ function RouteComponent() {
          */}
         {loading ? null : plugins.error || connections.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            Couldn't load your connections. Reload the page, or ask an admin if
-            it keeps happening.
+            
+            Não foi possível carregar suas conexões. Recarregue a página ou fale com um administrador se continuar acontecendo.
           </p>
         ) : rows.length === 0 ? (
-          <PageEmpty icon={IconPlug} title="No apps yet">
-            Apps show up here once an admin turns them on.
+          <PageEmpty icon={IconPlug} title="Nenhum app ainda">
+            
+            Os apps aparecem aqui quando um administrador os ativa.
           </PageEmpty>
         ) : (
           <>
@@ -378,19 +380,20 @@ function RouteComponent() {
                   <IconSearch aria-hidden="true" className="size-4" />
                 </InputGroupAddon>
                 <InputGroupInput
-                  aria-label="Search connections"
-                  placeholder="Search connections"
+                  aria-label="Pesquisar conexões"
+                  placeholder="Pesquisar conexões"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
                 />
               </InputGroup>
               <p className="shrink-0 text-xs text-muted-foreground">
-                {inUse} in use · {rows.length} in all
+                {inUse}  em uso · {rows.length}  no total
               </p>
             </div>
             {matching.length === 0 ? (
               <p className="mt-4 text-sm text-muted-foreground" role="status">
-                Nothing matches “{search.trim()}”.
+                
+                Nada corresponde a “{search.trim()}”.
               </p>
             ) : (
               /*
@@ -408,8 +411,8 @@ function RouteComponent() {
         )}
         {links.error || providers.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            Couldn't load GitHub and Slack, so they aren't listed. Reload the
-            page.
+            
+            Não foi possível carregar o GitHub e o Slack, então eles não aparecem. Recarregue a página.
           </p>
         ) : null}
       </PageSection>
@@ -461,16 +464,17 @@ function ConnectionStateLabel({ state }: { state: ConnectionRow["state"] }) {
           aria-hidden="true"
           className="size-3.5 text-emerald-600 dark:text-emerald-400"
         />
-        Connected
+        
+        Conectado
       </span>
     );
   }
   if (state === "team") {
-    return <span className="text-xs text-muted-foreground">Team account</span>;
+    return <span className="text-xs text-muted-foreground">Conta da equipe</span>;
   }
   return (
     <span className="rounded-full bg-muted px-3 py-1 text-xs font-medium">
-      {state === "needs_reconnect" ? "Reconnect" : "Connect"}
+      {state === "needs_reconnect" ? "Reconectar" : "Conectar"}
     </span>
   );
 }

@@ -34,8 +34,8 @@ export function NativeDevices() {
   const error = reach.error ?? remove.error;
   return (
     <PageSection
-      description="Sign in to the OpenBot app on your phone and turn on notifications to add it here."
-      title="Your devices"
+      description="Entre no app OpenBot no seu celular e ative as notificações para adicioná-lo aqui."
+      title="Seus dispositivos"
     >
       {error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
@@ -44,8 +44,9 @@ export function NativeDevices() {
       ) : null}
       {reach.isPending || !reach.data ? null : reach.data.devices.length ===
         0 ? (
-        <PageEmpty icon={IconDevices} title="No devices yet">
-          Phones and computers you sign in on show up here.
+        <PageEmpty icon={IconDevices} title="Nenhum dispositivo ainda">
+          
+          Celulares e computadores em que você entrar aparecem aqui.
         </PageEmpty>
       ) : (
         <PageRows>
@@ -66,7 +67,8 @@ export function NativeDevices() {
                     size="sm"
                     variant="outline"
                   >
-                    Remove
+                    
+                    Remover
                   </Button>
                 </ItemActions>
               </Item>
@@ -82,7 +84,7 @@ export function NativeDevices() {
 export function RecentDeliveries() {
   const reach = useQuery(deliveryQueryOptions());
   return (
-    <PageSection title="Recent deliveries">
+    <PageSection title="Entregas recentes">
       {reach.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
           {reach.error.message}
@@ -90,8 +92,9 @@ export function RecentDeliveries() {
       ) : null}
       {reach.isPending || !reach.data ? null : reach.data.deliveries.length ===
         0 ? (
-        <PageEmpty icon={IconSend} title="No deliveries yet">
-          Notifications sent to your devices show up here.
+        <PageEmpty icon={IconSend} title="Nenhuma entrega ainda">
+          
+          As notificações enviadas aos seus dispositivos aparecem aqui.
         </PageEmpty>
       ) : (
         <PageRows>

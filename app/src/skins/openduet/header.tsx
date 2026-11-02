@@ -64,8 +64,8 @@ export function doingLine(busy: boolean, work: ChannelWork[]): string | null {
   const first = work[0];
   if (first?.kind === "handoff")
     return `Asking ${first.botName ?? "another Bot"}`;
-  if (first?.kind === "routine") return "Running a routine";
-  return busy ? "Thinking" : null;
+  if (first?.kind === "routine") return "Executando uma rotina";
+  return busy ? "Pensando" : null;
 }
 
 /**
@@ -130,8 +130,8 @@ export function TabHeader({
   const label = !canDictate
     ? "Chat"
     : presence.recording
-      ? "Stop and add to your message"
-      : `Talk to ${appConfig.brand.productName}`;
+      ? "Parar e adicionar à sua mensagem"
+      : `Falar com ${appConfig.brand.productName}`;
 
   return (
     <header
@@ -171,7 +171,7 @@ export function TabHeader({
         <DoingPill line={doingLine(working, conversation.work)} />
       </div>
       <Link
-        aria-label="Your settings"
+        aria-label="Suas configurações"
         to={settings?.to ?? "/settings"}
         className={cn(DISC, "pointer-events-auto mt-2")}
         style={{ width: SIDE, height: SIDE }}
@@ -269,7 +269,7 @@ export function PageHeader({ main }: { main: HTMLElement | null }) {
   return (
     <header className="relative z-20 flex h-[72px] shrink-0 items-start gap-2 px-4 pt-3">
       <button
-        aria-label={back?.label ? `Back to ${back.label}` : "Back"}
+        aria-label={back?.label ? `Voltar para ${back.label}` : "Voltar"}
         className={DISC}
         onClick={() => {
           if (back) void router.navigate({ href: back.href });

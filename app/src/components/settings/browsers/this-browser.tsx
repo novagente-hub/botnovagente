@@ -31,8 +31,8 @@ import { queryClient } from "@/query-client";
 
 /** What the store's own button says, in the browser this page is open in. */
 const ADD_TO: Record<RecorderStore, string> = {
-  chrome: "Add to Chrome",
-  edge: "Add to Edge",
+  chrome: "Adicionar ao Chrome",
+  edge: "Adicionar ao Edge",
 };
 
 /** `since`: when the awaited connect started. `cancelled` and `closed`: the person pressed Cancel on the Recorder's
@@ -164,16 +164,17 @@ export function ThisBrowser({
         message:
           error instanceof Error
             ? error.message
-            : "Couldn't connect this browser.",
+            : "Não foi possível conectar este navegador.",
       });
     }
   }
 
   return (
-    <PageSection title="This browser">
+    <PageSection title="Este navegador">
       {connections.error ? (
         <p className="text-destructive text-sm" role="alert">
-          Couldn't check whether this browser is connected. Reload the page.
+          
+          Não foi possível verificar se este navegador está conectado. Recarregue a página.
         </p>
       ) : detected === undefined ? null : (
         <PageRows>
@@ -194,7 +195,8 @@ export function ThisBrowser({
                   disabled={attempt.state === "sending" || awaiting}
                   onClick={() => void connect()}
                 >
-                  Connect this browser
+                  
+                  Conectar este navegador
                 </Button>
               </ItemActions>
             ) : detected === null ? (
@@ -237,20 +239,20 @@ function describe(
   connected: boolean,
   attempt: Attempt,
 ): string {
-  if (!detected) return "The OpenBot Recorder isn't installed in this browser.";
-  if (connected) return "Connected";
+  if (!detected) return "O OpenBot Recorder não está instalado neste navegador.";
+  if (connected) return "Conectado";
   switch (attempt.state) {
     case "awaiting":
-      return "Confirm in the OpenBot Recorder tab that opened.";
+      return "Confirme na aba do OpenBot Recorder que abriu.";
     case "expired":
-      return "The request expired. Try again.";
+      return "O pedido expirou. Tente novamente.";
     case "cancelled":
-      return "You cancelled in the OpenBot Recorder tab. Nothing was connected.";
+      return "Você cancelou na aba do OpenBot Recorder. Nada foi conectado.";
     case "closed":
-      return "The OpenBot Recorder tab closed before you confirmed. Nothing was connected.";
+      return "A aba do OpenBot Recorder fechou antes de você confirmar. Nada foi conectado.";
     case "failed":
       return attempt.message;
     default:
-      return "Installed. Connect it to record tasks for your Bots.";
+      return "Instalado. Conecte-o para gravar tarefas para seus Bots.";
   }
 }

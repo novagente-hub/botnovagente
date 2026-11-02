@@ -93,8 +93,9 @@ export function GroupChat({ channelId }: { channelId: string }) {
         <div className="mx-auto flex w-full max-w-2xl flex-col gap-5 py-6">
           {messages.length === 0 ? (
             <p className="text-sm text-muted-foreground">
-              Say something to {bots.map((bot) => bot.name).join(" and ")}.
-              Every Bot answers in turn; start with @Name to ask just one.
+              
+              Diga algo para {bots.map((bot) => bot.name).join(" e ")}.
+              Cada Bot responde na sua vez; comece com @Nome para perguntar a só um.
             </p>
           ) : null}
           {messages.map((message) => (
@@ -103,10 +104,10 @@ export function GroupChat({ channelId }: { channelId: string }) {
               message={message}
               name={
                 message.agentId
-                  ? (names.get(message.agentId) ?? "A Bot no longer here")
+                  ? (names.get(message.agentId) ?? "Um Bot que não está mais aqui")
                   : message.ownerUserId === me?.id
-                    ? "You"
-                    : "A teammate"
+                    ? "Você"
+                    : "Um colega"
               }
               answeredBy={
                 message.answeredBy
@@ -184,7 +185,7 @@ function GroupLine({
       <MessageContent>
         <MessageHeader className="text-xs font-medium text-muted-foreground">
           {name}
-          {answeredBy ? ` · answer from ${answeredBy}` : null}
+          {answeredBy ? ` · resposta de ${answeredBy}` : null}
         </MessageHeader>
         {(message.status === "running" || message.status === "queued") &&
         !message.text ? (
@@ -192,17 +193,19 @@ function GroupLine({
             className="tool-line-running text-sm text-muted-foreground"
             role="status"
           >
-            Thinking
+            
+            Pensando
           </p>
         ) : message.status === "waiting" ? (
           <p className="text-sm text-muted-foreground">
-            {message.reason ?? "Waiting for your response."}{" "}
+            {message.reason ?? "Aguardando sua resposta."}{" "}
             <Link
               className="underline"
               params={{ agentId: message.agentId }}
               to="/bots/$agentId"
             >
-              Open {name}
+              
+              Abrir {name}
             </Link>
           </p>
         ) : message.consent ? (
@@ -215,13 +218,14 @@ function GroupLine({
             />
           ) : (
             <p className="text-sm text-muted-foreground">
-              Asked a teammate for permission to use their own{" "}
+              
+              Pediu permissão a um colega para usar a própria conta{" "}
               {message.consent.serverId} account.
             </p>
           )
         ) : message.status === "failed" ? (
           <p className="text-sm text-destructive" role="alert">
-            {message.text || "This Bot couldn't answer."}
+            {message.text || "Este Bot não conseguiu responder."}
           </p>
         ) : (
           <Bubble

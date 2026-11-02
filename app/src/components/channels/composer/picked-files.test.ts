@@ -172,7 +172,7 @@ describe("screenPickedFiles", () => {
     expect(result.accepted).toEqual([]);
     expect(result.rejected).toHaveLength(1);
     expect(result.rejected[0].reason).toMatch(/SVG/);
-    expect(result.rejected[0].reason).not.toMatch(/at most/);
+    expect(result.rejected[0].reason).not.toMatch(/no máximo/);
   });
 
   /** The same, for the size ceiling: an oversized image is too large, not one file too many. */
@@ -185,7 +185,7 @@ describe("screenPickedFiles", () => {
     expect(result.accepted).toEqual([]);
     expect(result.rejected).toHaveLength(1);
     expect(result.rejected[0].reason).toMatch(/too large for an image/);
-    expect(result.rejected[0].reason).not.toMatch(/at most/);
+    expect(result.rejected[0].reason).not.toMatch(/no máximo/);
   });
 
   test("keeps accepted files in input order when good and bad are interleaved", () => {

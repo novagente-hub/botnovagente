@@ -29,19 +29,21 @@ function RouteComponent() {
 
   return (
     <PageShell
-      description="Browse components that Bots can display in conversations. An admin controls which components each Bot can use."
-      title="Components gallery"
+      description="Navegue pelos componentes que os Bots podem exibir nas conversas. Um administrador controla quais componentes cada Bot pode usar."
+      title="Galeria de componentes"
     >
       {components.isPending ? null : components.error ? (
         <p className="mt-12 text-destructive text-sm" role="alert">
-          Couldn't load components. Reload the page.
+          
+          Não foi possível carregar os componentes. Recarregue a página.
         </p>
       ) : published?.length === 0 ? (
         <Empty className="mt-12 min-h-[30dvh] border border-dashed">
           <EmptyHeader>
-            <EmptyTitle>Nothing published yet</EmptyTitle>
+            <EmptyTitle>Nada publicado ainda</EmptyTitle>
             <EmptyDescription className="text-pretty">
-              When an admin publishes a component, it will show up here.
+              
+              Quando um administrador publicar um componente, ele aparecerá aqui.
             </EmptyDescription>
           </EmptyHeader>
         </Empty>

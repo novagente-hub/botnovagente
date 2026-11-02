@@ -38,7 +38,8 @@ export function EditSkill({ slug }: { slug: string }) {
     return (
       <div className="mx-auto flex w-full max-w-xl flex-col gap-6 p-8">
         <p className="text-destructive text-sm" role="alert">
-          Couldn't load this skill. Reload the page.
+          
+          Não foi possível carregar esta habilidade. Recarregue a página.
         </p>
       </div>
     );
@@ -54,7 +55,8 @@ export function EditSkill({ slug }: { slug: string }) {
          * not own.
          */}
         <p className="text-muted-foreground text-sm">
-          This skill was deleted, or it isn't yours to edit.
+          
+          Esta habilidade foi excluída ou não é sua para editar.
         </p>
       </div>
     );
@@ -63,10 +65,11 @@ export function EditSkill({ slug }: { slug: string }) {
   return (
     <div className="mx-auto flex w-full max-w-xl flex-col gap-6 p-8">
       <header>
-        <h1 className="text-2xl font-semibold">Edit skill</h1>
+        <h1 className="text-2xl font-semibold">Editar habilidade</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Changes apply the next time someone uses <code>/{skill.slug}</code>.
-          Bots that have it keep it.
+          
+          As alterações valem na próxima vez que alguém usar <code>/{skill.slug}</code>.
+          Os Bots que já a têm continuam com ela.
         </p>
       </header>
 
@@ -92,7 +95,7 @@ export function EditSkill({ slug }: { slug: string }) {
           await navigate({ search: {}, to: "/capabilities/skills" });
         }}
         slugLocked
-        submitLabel="Save changes"
+        submitLabel="Salvar alterações"
       />
     </div>
   );

@@ -76,8 +76,8 @@ export function SidebarToggle({ className }: { className?: string }) {
 
   // The label says what the click will do, not what is on screen.
   const label = (isMobile ? openMobile : open)
-    ? "Hide sidebar"
-    : "Show sidebar";
+    ? "Ocultar barra lateral"
+    : "Mostrar barra lateral";
 
   return (
     <Tooltip>

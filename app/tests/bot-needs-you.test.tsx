@@ -146,14 +146,14 @@ test("only what this Bot waits on is shown, and it can be decided here", async (
   };
   serving();
   const view = draw(<BotNeedsYou agentId="expenses" />);
-  expect(await view.findByText("Needs you")).toBeTruthy();
+  expect(await view.findByText("Precisa de você")).toBeTruthy();
   expect(view.getByText(/Which card\?/)).toBeTruthy();
   expect(view.queryByText(/Which wiki\?/)).toBeNull();
-  expect(view.getAllByRole("button", { name: "Allow once" })).toHaveLength(1);
-  expect(view.getByRole("button", { name: "Always allow here" })).toBeTruthy();
-  expect(view.getByRole("button", { name: "Deny" })).toBeTruthy();
-  expect(view.getByRole("button", { name: "Send answer" })).toBeTruthy();
-  fireEvent.click(view.getByRole("button", { name: "Allow once" }));
+  expect(view.getAllByRole("button", { name: "Permitir uma vez" })).toHaveLength(1);
+  expect(view.getByRole("button", { name: "Sempre permitir aqui" })).toBeTruthy();
+  expect(view.getByRole("button", { name: "Negar" })).toBeTruthy();
+  expect(view.getByRole("button", { name: "Enviar resposta" })).toBeTruthy();
+  fireEvent.click(view.getByRole("button", { name: "Permitir uma vez" }));
   await waitFor(() =>
     expect(sent).toContainEqual({
       path: "/api/approvals/r1/decision",
@@ -172,8 +172,8 @@ test("a hand-off is marked done by the person, never allowed on their behalf", a
   serving();
   const view = draw(<BotNeedsYou agentId="expenses" />);
   await view.findByText(/Handed to you: Paying/);
-  expect(view.queryByRole("button", { name: "Allow once" })).toBeNull();
-  fireEvent.click(view.getByRole("button", { name: "I did it myself" }));
+  expect(view.queryByRole("button", { name: "Permitir uma vez" })).toBeNull();
+  fireEvent.click(view.getByRole("button", { name: "Eu mesmo fiz" }));
   await waitFor(() =>
     expect(sent).toContainEqual({
       path: "/api/approvals/r1/decision",
@@ -188,7 +188,7 @@ test("with nothing waiting on the person, the section is not drawn", async () =>
   serving();
   const view = draw(<BotNeedsYou agentId="expenses" />);
   await new Promise((resolve) => setTimeout(resolve, 100));
-  expect(view.queryByText("Needs you")).toBeNull();
+  expect(view.queryByText("Precisa de você")).toBeNull();
 });
 
 test("only this Bot's suggestions are shown", async () => {
@@ -241,5 +241,5 @@ test("with only a question waiting, Needs you says nothing about approvals and h
   const view = draw(<BotNeedsYou agentId="expenses" />);
   await view.findByText(/Which card\?/);
   expect(view.queryByText("No actions need your approval.")).toBeNull();
-  expect(view.queryByText("Waiting for you")).toBeNull();
+  expect(view.queryByText("Aguardando você")).toBeNull();
 });

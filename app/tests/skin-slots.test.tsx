@@ -124,12 +124,12 @@ test("the composer's form, input, attach and send carry their hooks, in both lay
 
     const attach = slot(composer, "composer-attach");
     expect(attach.tagName).toBe("BUTTON");
-    expect(attach.getAttribute("aria-label")).toBe("Attach a file");
+    expect(attach.getAttribute("aria-label")).toBe("Anexar um arquivo");
 
     const send = slot(composer, "composer-send");
     expect(send.tagName).toBe("BUTTON");
     expect(send.getAttribute("type")).toBe("submit");
-    expect(send.getAttribute("aria-label")).toBe("Send message");
+    expect(send.getAttribute("aria-label")).toBe("Enviar mensagem");
     cleanup();
   }
 });
@@ -146,7 +146,7 @@ test("the composer's stop button carries its hook while a Bot is working", () =>
   );
   const stop = slot(slot(view.container, "composer"), "composer-stop");
   expect(stop.tagName).toBe("BUTTON");
-  expect(stop.getAttribute("aria-label")).toBe("Stop the Bot");
+  expect(stop.getAttribute("aria-label")).toBe("Parar o Bot");
   expect(
     view.container.querySelector('[data-slot="composer-send"]'),
   ).toBeNull();
@@ -168,7 +168,7 @@ test("the detail pane, its header and its title carry their hooks", () => {
       detail={<p>Browser preview</p>}
       onClose={() => {}}
       open
-      title="Computer"
+      title="Computador"
     >
       <p>Chat</p>
     </DetailPanel>,
@@ -179,7 +179,7 @@ test("the detail pane, its header and its title carry their hooks", () => {
   const header = slot(pane, "detail-pane-header");
   expect(header.parentElement).toBe(pane);
   const title = slot(header, "detail-pane-title");
-  expect(title.textContent).toBe("Computer");
+  expect(title.textContent).toBe("Computador");
   expect(header.querySelector('[aria-label="Close details"]')).not.toBeNull();
 });
 
@@ -187,7 +187,7 @@ test("a page's header and title carry their hooks", async () => {
   const router = createRouter({
     routeTree: createRootRoute({
       component: () => (
-        <PageShell description="How it works for you." title="Preferences">
+        <PageShell description="How it works for you." title="Preferências">
           <p>Rows</p>
         </PageShell>
       ),
@@ -199,7 +199,7 @@ test("a page's header and title carry their hooks", async () => {
   expect(header.tagName).toBe("HEADER");
   const title = slot(header, "page-title");
   expect(title.tagName).toBe("H1");
-  expect(title.textContent).toBe("Preferences");
+  expect(title.textContent).toBe("Preferências");
   expect(header.textContent).toContain("How it works for you.");
 });
 
@@ -263,9 +263,9 @@ function conversationRoutes(path: string) {
 }
 
 test.each([
-  ["a conversation with one Bot", "/channel/c-1", "Channel"],
-  ["a group conversation", "/group/g-1", "Group"],
-  ["a new conversation", "/channel/new", "To:"],
+  ["a conversation with one Bot", "/channel/c-1", "Canal"],
+  ["a group conversation", "/group/g-1", "Grupo"],
+  ["a new conversation", "/channel/new", "Para:"],
 ])("%s has its conversation header", async (_name, path, heading) => {
   const view = conversationRoutes(path);
   const header = await waitFor(() =>

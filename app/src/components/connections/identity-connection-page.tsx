@@ -71,7 +71,7 @@ export function IdentityConnectionPage({
 
   return (
     <PageShell
-      backButton={{ label: "Connections", linkProps: { to: "/connections" } }}
+      backButton={{ label: "Conexões", linkProps: { to: "/connections" } }}
       description={IDENTITY_SUMMARIES[provider]}
       title={title}
     >
@@ -117,8 +117,8 @@ function GithubTools() {
   ).some((row) => row.serverId === app.id);
   return (
     <PageSection
-      description="Lets your Bots read and change your repositories as you. You connect this separately from your account above."
-      title="Tools"
+      description="Permite que seus Bots leiam e alterem seus repositórios em seu nome. Você conecta isto separadamente da sua conta acima."
+      title="Ferramentas"
     >
       <PageRows>
         <Item
@@ -129,9 +129,9 @@ function GithubTools() {
             <IconBrandGithub />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle>GitHub tools</ItemTitle>
+            <ItemTitle>Ferramentas do GitHub</ItemTitle>
             <ItemDescription>
-              {connected ? "Connected" : "Not connected"}
+              {connected ? "Conectado" : "Não conectado"}
             </ItemDescription>
           </ItemContent>
           <ItemActions>

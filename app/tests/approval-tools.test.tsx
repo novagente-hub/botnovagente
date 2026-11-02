@@ -268,11 +268,11 @@ test("a gate that cannot be reached, or answers with no result, is still a resul
     }),
   ).toEqual({
     ok: false,
-    reason: "The assistant's computer could not be reached.",
+    reason: "Não foi possível acessar o computador do assistente.",
   });
   expect(
     await clickAgainstGate(async () => Response.json({}, { status: 200 })),
-  ).toEqual({ ok: false, reason: "The computer action returned no result." });
+  ).toEqual({ ok: false, reason: "A ação do computador não retornou resultado." });
 });
 
 /*

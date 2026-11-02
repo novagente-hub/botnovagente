@@ -43,9 +43,9 @@ export function linkedAccountDescription(account: LinkedAccount): string {
   if (account.status === "needs_reconnect") {
     return account.handle
       ? `Needs reconnecting · @${account.handle}`
-      : "Needs reconnecting";
+      : "Precisa reconectar";
   }
-  return account.handle ? `@${account.handle}` : "Linked";
+  return account.handle ? `@${account.handle}` : "Vinculado";
 }
 
 const providerIcons = {
@@ -201,10 +201,10 @@ export function LinkedAccountSection({
   });
   if (!state) {
     return (
-      <PageSection title="Your account">
-        <PageEmpty icon={IconLink} title="Not set up yet">
-          You can't link a {linkableProviderTitle(provider)} account yet. An
-          admin has to set it up first.
+      <PageSection title="Sua conta">
+        <PageEmpty icon={IconLink} title="Ainda não configurado">
+          
+          Você ainda não pode vincular uma conta {linkableProviderTitle(provider)}  . Um administrador precisa configurar primeiro.
         </PageEmpty>
       </PageSection>
     );
@@ -224,7 +224,7 @@ export function LinkedAccountSection({
     },
   };
   return (
-    <PageSection title="Your account">
+    <PageSection title="Sua conta">
       {state.entries.length > 0 ? (
         <PageRows>
           {state.entries.map((entry, index) => (
@@ -248,23 +248,27 @@ export function LinkedAccountSection({
       ) : null}
       {state.error ? (
         <p className="mt-2 text-destructive text-sm" role="alert">
-          Couldn't load your account: {state.error}
+          
+          Não foi possível carregar sua conta: {state.error}
         </p>
       ) : null}
       {state.providersError ? (
         <p className="mt-2 text-destructive text-sm" role="alert">
-          Couldn't check whether you can link this account:{" "}
+          
+          Não foi possível verificar se você pode vincular esta conta:{" "}
           {state.providersError}
         </p>
       ) : null}
       {issueCode.error ? (
         <p className="mt-2 text-destructive text-sm" role="alert">
-          Couldn't create a Slack code: {issueCode.error.message}
+          
+          Não foi possível criar um código do Slack: {issueCode.error.message}
         </p>
       ) : null}
       {connectGithub.error ? (
         <p className="mt-2 text-destructive text-sm" role="alert">
-          Couldn't connect GitHub: {connectGithub.error.message}
+          
+          Não foi possível conectar o GitHub: {connectGithub.error.message}
         </p>
       ) : null}
       <Dialog
@@ -275,7 +279,7 @@ export function LinkedAccountSection({
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Link your Slack account</DialogTitle>
+            <DialogTitle>Vincular sua conta do Slack</DialogTitle>
           </DialogHeader>
           <DialogBody className="mt-4">
             {issued ? (
@@ -297,23 +301,26 @@ export function LinkedAccountSection({
                       setCopyFailed(!ok);
                     }}
                   >
-                    {copied ? "Copied" : "Copy"}
+                    {copied ? "Copiado" : "Copiar"}
                   </Button>
                 </div>
                 {copyFailed ? (
                   <p className="text-destructive" role="alert">
-                    Couldn't copy. Select the code and copy it yourself.
+                    
+                    Não foi possível copiar. Selecione o código e copie você mesmo.
                   </p>
                 ) : null}
                 <p className="text-muted-foreground">
-                  The code works once and expires in 10 minutes.
+                  
+                  O código funciona uma vez e expira em 10 minutos.
                 </p>
               </div>
             ) : null}
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button size="sm" onClick={closeDialog}>
-              Done
+              
+              Concluído
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -342,7 +349,7 @@ function AvailableAccountRow({
       </ItemMedia>
       <ItemContent>
         <ItemTitle>{title}</ItemTitle>
-        <ItemDescription>Not linked</ItemDescription>
+        <ItemDescription>Não vinculado</ItemDescription>
       </ItemContent>
       <ItemActions>
         <Button
@@ -352,7 +359,8 @@ function AvailableAccountRow({
           disabled={pending}
           onClick={onConnect}
         >
-          Connect
+          
+          Conectar
         </Button>
       </ItemActions>
     </Item>
@@ -384,13 +392,15 @@ function LinkedAccountRow({ account }: { account: LinkedAccount }) {
             disabled={unlink.isPending}
             onClick={() => unlink.mutate(account.id)}
           >
-            Disconnect
+            
+            Desconectar
           </Button>
         </ItemActions>
       </Item>
       {unlink.error ? (
         <p className="px-3 pb-2 text-destructive text-sm" role="alert">
-          Couldn't disconnect {account.title}: {unlink.error.message}
+          
+          Não foi possível desconectar {account.title}: {unlink.error.message}
         </p>
       ) : null}
     </>

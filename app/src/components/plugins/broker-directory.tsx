@@ -125,11 +125,11 @@ export function BrokerDirectory({ provider }: { provider: PluginsProvider }) {
   return (
     <PageShell
       backButton={{ label: "Plugins", linkProps: { to: "/admin/plugins" } }}
-      description={`${name}'s app directory. Add an app to make its tools available to Bots. Each person still connects their own account before it reads anything.`}
+      description={`Diretório de apps de ${name}. Adicione um app para disponibilizar as ferramentas dele aos Bots. Cada pessoa ainda conecta a própria conta antes que ele leia qualquer coisa.`}
       title={directoryLabel}
     >
       <PageSection
-        description="Search by name. Nobody here has reviewed these apps."
+        description="Pesquise pelo nome. Ninguém aqui revisou estes apps."
         title="Apps"
       >
         {enableError ? (
@@ -139,10 +139,10 @@ export function BrokerDirectory({ provider }: { provider: PluginsProvider }) {
         ) : null}
 
         <Input
-          aria-label={`Search ${name} apps`}
+          aria-label={`Pesquisar apps de ${name}`}
           className="mt-4"
           onChange={(event) => setSearch(event.target.value)}
-          placeholder="Search by app name"
+          placeholder="Pesquisar pelo nome do app"
           value={search}
         />
 
@@ -160,11 +160,11 @@ export function BrokerDirectory({ provider }: { provider: PluginsProvider }) {
         ) : listed.length === 0 ? (
           <PageEmpty
             icon={query ? IconSearch : IconPlug}
-            title={query ? "No matches" : "No apps"}
+            title={query ? "Nenhum resultado" : "Nenhum app"}
           >
             {query
-              ? `No ${name} app matches "${query}".`
-              : `${name} returned no apps.`}
+              ? `Nenhum app de ${name} corresponde a "${query}".`
+              : `${name} não retornou nenhum app.`}
           </PageEmpty>
         ) : (
           <PageRows>
@@ -206,7 +206,8 @@ export function BrokerDirectory({ provider }: { provider: PluginsProvider }) {
                        */}
                       {entry.enabled ? (
                         <span className="text-muted-foreground text-xs">
-                          Added
+                          
+                          Adicionado
                         </span>
                       ) : (
                         <Button
@@ -215,7 +216,7 @@ export function BrokerDirectory({ provider }: { provider: PluginsProvider }) {
                           size="sm"
                           variant="outline"
                         >
-                          {isAdding ? "Adding…" : "Add"}
+                          {isAdding ? "Adding…" : "Adicionar"}
                         </Button>
                       )}
                     </ItemActions>

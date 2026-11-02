@@ -87,7 +87,7 @@ describe("switching an app to Shared", () => {
     ).toBeTruthy();
     expect(
       view.getByText(
-        "Everyone using a Bot with this app will act as this one account.",
+        "Todos que usarem um Bot com este app vão agir como esta conta.",
       ),
     ).toBeTruthy();
     expect(view.getByText(/triage/)).toBeTruthy();

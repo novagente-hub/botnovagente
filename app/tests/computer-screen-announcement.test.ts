@@ -51,7 +51,7 @@ function serverAnswering(status: number, body: unknown) {
 
 describe("a call that happens on the screen", () => {
   test("announces itself, so the page can be watched while it loads", async () => {
-    serverAnswering(200, { url: "https://example.com", title: "Example" });
+    serverAnswering(200, { url: "https://example.com", title: "Exemplo" });
 
     await callComputer("bot-navigate", "/navigate", {
       method: "POST",
@@ -65,7 +65,7 @@ describe("a call that happens on the screen", () => {
   test("still announces when it fails, because the page may have moved", async () => {
     // Not a refusal: the action was permitted, reached the browser and did not work. What is on
     // screen after it is unknown, so the screen stays the honest place to look.
-    serverAnswering(500, { error: "That did not work." });
+    serverAnswering(500, { error: "Isso não funcionou." });
 
     await callComputer("bot-failed", "/click", { method: "POST" });
 

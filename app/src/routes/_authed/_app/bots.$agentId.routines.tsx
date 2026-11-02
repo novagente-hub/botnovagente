@@ -11,8 +11,8 @@ function RoutinesPage() {
   return (
     <BotSubpage
       agentId={agentId}
-      description="Manage this Bot’s scheduled routines. Turn a routine off, run it now, or delete it."
-      title="Routines"
+      description="Gerencie as rotinas agendadas deste Bot. Desative uma rotina, execute agora ou exclua."
+      title="Rotinas"
     >
       {(agent) => <RoutinesList agentId={agent.id} />}
     </BotSubpage>

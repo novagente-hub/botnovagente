@@ -91,7 +91,7 @@ export function landedActionFrom(action: string | undefined): string | null {
 
 /** What the landing says about the action somebody has just come back from authorizing. */
 export function landedActionNotice(action: string): string {
-  return `You just authorized ${action}.`;
+  return `Você acabou de autorizar ${action}.`;
 }
 
 /**
@@ -205,7 +205,7 @@ function AppConnectionPage() {
           : null;
       if (authorizationUrl === null) {
         setNotice(
-          "Couldn't start connecting, so nothing was connected. Try again, or ask an admin if it keeps happening.",
+          "Não foi possível começar a conectar, então nada foi conectado. Tente novamente ou fale com um administrador se continuar acontecendo.",
         );
         return;
       }
@@ -315,11 +315,11 @@ function AppConnectionPage() {
    * whole of its state defaulted to "you have never connected this".
    */
   if (plugins.isPending || connections.isPending) {
-    return <PageShell title="Account">{null}</PageShell>;
+    return <PageShell title="Conta">{null}</PageShell>;
   }
 
   const back = {
-    label: "Connections",
+    label: "Conexões",
     linkProps: { to: "/connections" as const },
   };
 
@@ -343,8 +343,8 @@ function AppConnectionPage() {
     return (
       <PageShell backButton={back} title={server?.title ?? key}>
         <p className="mt-12 text-destructive text-sm" role="alert">
-          Couldn't load this connection. Reload the page, or ask an admin if it
-          keeps happening.
+          
+          Não foi possível carregar esta conexão. Recarregue a página ou fale com um administrador se continuar acontecendo.
         </p>
       </PageShell>
     );
@@ -359,8 +359,8 @@ function AppConnectionPage() {
     return (
       <PageShell backButton={back} title={key}>
         <p className="mt-12 text-destructive text-sm" role="alert">
-          Couldn't load this app. Reload the page, or ask an admin if it keeps
-          happening.
+          
+          Não foi possível carregar este app. Recarregue a página ou fale com um administrador se continuar acontecendo.
         </p>
       </PageShell>
     );
@@ -376,8 +376,9 @@ function AppConnectionPage() {
   if (server?.provenance === "composio" && !plugins.data.composioConfigured) {
     return (
       <PageShell backButton={back} title={server.title}>
-        <PageEmpty icon={IconPlugOff} title="Not set up yet">
-          An admin has to turn on {server.title} before anyone can connect it.
+        <PageEmpty icon={IconPlugOff} title="Ainda não configurado">
+          
+          Um administrador precisa ativar {server.title}  antes que alguém possa conectá-lo.
         </PageEmpty>
       </PageShell>
     );
@@ -417,9 +418,10 @@ function AppConnectionPage() {
           <PageRows className="mt-0">
             <Item size="sm">
               <ItemContent>
-                <ItemTitle>Team account</ItemTitle>
+                <ItemTitle>Conta da equipe</ItemTitle>
                 <ItemDescription>
-                  Shared by your organisation. Bots act as the team account.
+                  
+                  Compartilhada pela sua organização. Os Bots agem como a conta da equipe.
                 </ItemDescription>
               </ItemContent>
             </Item>
@@ -451,17 +453,17 @@ function AppConnectionPage() {
   if (brokered && server) {
     /* Bound once because the row below is told it twice — once inside the whole disconnected
        sentence and once on its own — and two copies of it would drift. */
-    const reassurance = "No Bot can use this as you.";
+    const reassurance = "Nenhum Bot pode usar isto como você.";
     /* Where the next step is. A broker that approves one action at a time has no whole-app Connect,
        so the sentence points at the action list underneath instead of a button that is not there. */
     const trip = perActionGrants
-      ? "Authorize the actions you want below."
-      : `Connecting takes you to ${server.title} to approve access.`;
+      ? "Autorize as ações que quiser abaixo."
+      : `Conectar leva você ao ${server.title} para aprovar o acesso.`;
 
     return (
       <PageShell
         backButton={back}
-        description="Bots use this as you, and see only what you can see."
+        description="Os Bots usam isto como você e veem só o que você pode ver."
         title={server.title}
       >
         {notice ? (
@@ -488,7 +490,7 @@ function AppConnectionPage() {
               /* Said beside the button rather than after it: disconnecting ends the account at
                  Composio, so what it undoes is not the row here but the grant on your own mailbox,
                  and connecting again is a fresh consent. */
-              connectedDescription={`Bots you allow use your ${server.title} as you. Disconnecting removes their access everywhere.`}
+              connectedDescription={`Os Bots que você permitir usam seu ${server.title} como você. Desconectar remove o acesso deles em todos os lugares.`}
               disconnectedDescription={`${reassurance} ${trip}`}
               /* What is true either way. The trip to Composio is not — an app whose key somebody
                  types never leaves this page — but which Bots can read this person's mail is the
@@ -523,16 +525,16 @@ function AppConnectionPage() {
     return (
       <PageShell
         backButton={back}
-        description="You don't connect this app yourself."
+        description="Você não conecta este app por conta própria."
         title={entry?.title ?? key}
       >
         <PageEmpty
           icon={entry ? IconUsers : IconAppsOff}
-          title={entry ? "Shared account" : "App not found"}
+          title={entry ? "Conta compartilhada" : "App não encontrado"}
         >
           {entry
-            ? "Bots use one shared account for this app, the same for everybody."
-            : "OpenBot has no app by that name."}
+            ? "Os Bots usam uma conta compartilhada para este app, a mesma para todos."
+            : "O OpenBot não tem app com esse nome."}
         </PageEmpty>
       </PageShell>
     );
@@ -557,13 +559,13 @@ function AppConnectionPage() {
             <ItemContent>
               {/* Not "Connect your account": the row is also the connected state, and a title has to
                   read for both. */}
-              <ItemTitle>Your account</ItemTitle>
+              <ItemTitle>Sua conta</ItemTitle>
               <ItemDescription>
                 {!enabled
-                  ? "Not available yet. An admin has to turn this on first."
+                  ? "Ainda não disponível. Um administrador precisa ativar isto primeiro."
                   : connection
-                    ? "Bots you allow use this as you, and see only what you can see."
-                    : `No Bot can use this as you. Connecting takes you to ${entry.vendor} to approve access.`}
+                    ? "Os Bots que você permitir usam isto como você e veem só o que você pode ver."
+                    : `Nenhum Bot pode usar isto como você. Conectar leva você a ${entry.vendor} para aprovar o acesso.`}
               </ItemDescription>
             </ItemContent>
             <ItemActions>
@@ -582,7 +584,8 @@ function AppConnectionPage() {
                           aria-hidden="true"
                           className="size-1.5 rounded-full bg-emerald-500"
                         />
-                        Connected
+                        
+                        Conectado
                         <IconChevronDown />
                       </Button>
                     }
@@ -605,13 +608,14 @@ function AppConnectionPage() {
                          * had not, which is the one outcome worse than not offering it.
                          */
                         setNotice(
-                          `You can't disconnect here yet. To stop access now, remove OpenBot in your ${entry.vendor} account's third-party access settings.`,
+                          `Você ainda não pode desconectar aqui. Para interromper o acesso agora, remova o OpenBot nas configurações de acesso de terceiros da sua conta ${entry.vendor}.`,
                         )
                       }
                       className="whitespace-nowrap"
                       variant="destructive"
                     >
-                      Disconnect your {entry.title} account
+                      
+                      Desconectar sua conta {entry.title} account
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -630,7 +634,8 @@ function AppConnectionPage() {
                   type="button"
                   variant="outline"
                 >
-                  Connect
+                  
+                  Conectar
                   <IconArrowUpRight />
                 </Button>
               )}
@@ -641,13 +646,13 @@ function AppConnectionPage() {
 
       {connection ? (
         <PageSection
-          description={`Review the permissions recorded by ${entry.vendor}. They may include fewer permissions than OpenBot requested.`}
-          title="Access"
+          description={`Revise as permissões registradas por ${entry.vendor}. Elas podem incluir menos permissões do que o OpenBot pediu.`}
+          title="Acesso"
         >
           <PageRows>
             <Item size="sm">
               <ItemContent>
-                <ItemTitle>Allowed</ItemTitle>
+                <ItemTitle>Permitido</ItemTitle>
                 <ItemDescription className="line-clamp-none">
                   {connection.scope || `${entry.vendor} didn't say.`}
                 </ItemDescription>
@@ -656,7 +661,7 @@ function AppConnectionPage() {
             <Separator />
             <Item size="sm">
               <ItemContent>
-                <ItemTitle>Connected</ItemTitle>
+                <ItemTitle>Conectado</ItemTitle>
               </ItemContent>
               <ItemActions>
                 <span className="text-muted-foreground text-xs">

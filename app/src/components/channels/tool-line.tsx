@@ -59,7 +59,7 @@ export function ToolLine({
           : failed
             ? `${label}, didn't work`
             : notYet
-              ? `${label}, not done yet`
+              ? `${label}, ainda não concluído`
               : label}
       </span>
       {detail ? <span className="truncate opacity-70">{detail}</span> : null}

@@ -38,22 +38,23 @@ function RouteComponent() {
    */
   return (
     <PageShell
-      description="Customize OpenBot’s appearance and message display. Your skin and message settings apply to your account; the theme applies only to this browser."
-      title="Preferences"
+      description="Personalize a aparência do OpenBot e a exibição de mensagens. Seu tema visual e as configurações de mensagens valem para sua conta; o modo claro/escuro vale só para este navegador."
+      title="Preferências"
     >
       <ProfileSettings />
-      <PageSection title="General">
+      <PageSection title="Geral">
         <PageRows>
           <Item size="sm">
             <ItemContent>
-              <ItemTitle>Dark theme</ItemTitle>
+              <ItemTitle>Tema escuro</ItemTitle>
               <ItemDescription>
-                Use the dark appearance across OpenBot.
+                
+                Usar a aparência escura em todo o OpenBot.
               </ItemDescription>
             </ItemContent>
             <ItemActions>
               <Switch
-                aria-label="Dark theme"
+                aria-label="Tema escuro"
                 checked={dark}
                 onCheckedChange={setDark}
               />
@@ -74,7 +75,7 @@ function RouteComponent() {
        * actually do rather than what somebody remembered they did. Read-only on purpose: these
        * are not rebindable, and a row with nothing to click says so by having nothing to click.
        */}
-      <PageSection title="Keyboard shortcuts">
+      <PageSection title="Atalhos de teclado">
         <PageRows>
           {HOTKEYS.map((hotkey, index) => (
             <React.Fragment key={hotkey.id}>

@@ -3,13 +3,13 @@ import type { VisibleChatItem } from "./chat-messages";
 type BrowserStep = Extract<VisibleChatItem, { kind: "tool" }>;
 
 const labels: Record<string, string> = {
-  computer_navigate: "Opened page",
-  computer_read: "Read page",
-  computer_snapshot: "Inspected page",
-  computer_click: "Clicked on page",
-  computer_type: "Filled in field",
-  computer_key: "Pressed key",
-  computer_scroll: "Scrolled page",
+  computer_navigate: "Abriu a página",
+  computer_read: "Leu a página",
+  computer_snapshot: "Inspecionou a página",
+  computer_click: "Clicou na página",
+  computer_type: "Preencheu um campo",
+  computer_key: "Pressionou uma tecla",
+  computer_scroll: "Rolou a página",
 };
 
 /** Whether a tool call is one of the browser steps a tool group draws with its page link. */

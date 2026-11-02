@@ -58,7 +58,7 @@ afterAll(async () => {
   await GlobalRegistrator.unregister();
 });
 
-const banner = { name: "Self-host OpenBot" } as const;
+const banner = { name: "Hospede o OpenBot" } as const;
 
 function setup({
   enabled = true,
@@ -104,9 +104,9 @@ function setup({
 test("offers self-hosting with a link CopilotKit can tell came from the app", () => {
   const { view } = setup();
   expect(
-    view.getByText("Self-host OpenBot for your organization."),
+    view.getByText("Hospede o OpenBot na sua organização."),
   ).toBeTruthy();
-  const link = view.getByRole("link", { name: "Talk to an engineer" });
+  const link = view.getByRole("link", { name: "Fale com um engenheiro" });
   expect(link.getAttribute("href")).toBe(SELF_HOST_URL);
   expect(SELF_HOST_URL).toContain("ref=openbot_app");
   expect(link.getAttribute("target")).toBe("_blank");
@@ -125,7 +125,7 @@ test("stays hidden when the deployment turned it off", () => {
 
 test("closing it hides it at once and saves the choice to this person's preferences", async () => {
   const { client, view } = setup();
-  fireEvent.click(view.getByRole("button", { name: "Dismiss" }));
+  fireEvent.click(view.getByRole("button", { name: "Dispensar" }));
   // Hidden from the cache patch, before the save has answered.
   await waitFor(() =>
     expect(view.queryByRole("complementary", banner)).toBeNull(),
@@ -149,7 +149,7 @@ test("comes back if the save fails, so the click is not silently lost", async ()
   response = async () =>
     Response.json({ error: "Could not save" }, { status: 500 });
   const { view } = setup();
-  fireEvent.click(view.getByRole("button", { name: "Dismiss" }));
+  fireEvent.click(view.getByRole("button", { name: "Dispensar" }));
   await waitFor(() =>
     expect(view.getByRole("complementary", banner)).toBeTruthy(),
   );

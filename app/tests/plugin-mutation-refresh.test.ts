@@ -226,7 +226,7 @@ const REFUSALS: {
     name: "removing a skill",
     route: "DELETE /api/plugins/skills/:slug",
     status: 500,
-    message: "That did not work.",
+    message: "Isso não funcionou.",
     factory: removeSkillMutationOptions,
     variables: "triage",
   },
@@ -234,7 +234,7 @@ const REFUSALS: {
     name: "registering an OAuth client",
     route: "POST /api/plugins/servers/:id/oauth-client",
     status: 409,
-    message: "That OAuth client could not be registered.",
+    message: "Não foi possível registrar esse cliente OAuth.",
     factory: registerOAuthClientMutationOptions,
     variables: {
       clientId: "abc",
@@ -282,7 +282,7 @@ const REFUSALS: {
     name: "switching a server's account mode",
     route: "PUT /api/plugins/servers/:id/account-mode",
     status: 500,
-    message: "The switch did not finish, and nothing was changed.",
+    message: "A troca não terminou, e nada foi alterado.",
     factory: setAccountModeMutationOptions,
     variables: {
       serverId: "linear",

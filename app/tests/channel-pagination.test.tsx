@@ -224,7 +224,7 @@ function activeObserver() {
 test("message emphasis updates mounted rows from the account preferences cache", async () => {
   const view = renderSidebar();
   const agent = await view.findByText("Recent conversation");
-  const thread = view.getByText("New conversation");
+  const thread = view.getByText("Nova conversa");
   expect(thread.className).toContain("text-[0.9rem]");
   act(() =>
     clients[0]?.setQueryData(userPreferencesQueryOptions("user").queryKey, {
@@ -244,7 +244,7 @@ test("scrolling requests the cursor once, appends older rows, and stops at the f
   const view = renderSidebar();
   expect(await view.findByText("Recent conversation")).toBeTruthy();
   expect(
-    view.getByRole("button", { name: "Load older conversations" }),
+    view.getByRole("button", { name: "Carregar conversas mais antigas" }),
   ).toBeTruthy();
   await waitFor(() => expect(ScrollObserver.active.size).toBe(1));
   const observer = activeObserver();
@@ -257,7 +257,7 @@ test("scrolling requests the cursor once, appends older rows, and stops at the f
     observer.intersect();
     observer.intersect();
   });
-  await view.findByRole("button", { name: "Loading older conversations…" });
+  await view.findByRole("button", { name: "Carregando conversas mais antigas…" });
   expect(requests).toEqual(["/api/channels?cursor=older%2Fpage"]);
   pending.resolve(
     Response.json({
@@ -268,7 +268,7 @@ test("scrolling requests the cursor once, appends older rows, and stops at the f
   expect(await view.findByText("Older conversation")).toBeTruthy();
   expect(view.getByText("Recent conversation")).toBeTruthy();
   expect(
-    view.queryByRole("button", { name: "Load older conversations" }),
+    view.queryByRole("button", { name: "Carregar conversas mais antigas" }),
   ).toBeNull();
   expect(ScrollObserver.active.size).toBe(0);
 });
@@ -282,7 +282,7 @@ test("a failed page preserves rows and waits for an explicit retry", async () =>
   act(() => activeObserver().intersect());
   expect(await view.findByRole("alert")).toHaveProperty(
     "textContent",
-    "Couldn't load older conversations.",
+    "Não foi possível carregar conversas mais antigas.",
   );
   expect(view.getByText("Recent conversation")).toBeTruthy();
   expect(ScrollObserver.active.size).toBe(0);
@@ -292,7 +292,7 @@ test("a failed page preserves rows and waits for an explicit retry", async () =>
       channels: [channel("Recovered conversation")],
       nextCursor: "last-page",
     });
-  fireEvent.click(view.getByRole("button", { name: "Try again" }));
+  fireEvent.click(view.getByRole("button", { name: "Tentar novamente" }));
   expect(await view.findByText("Recovered conversation")).toBeTruthy();
   expect(requests).toEqual([
     "/api/channels?cursor=older%2Fpage",
@@ -330,7 +330,7 @@ test("search loads older history explicitly and includes new matches", async () 
       nextCursor: null,
     });
   fireEvent.click(
-    view.getByRole("button", { name: "Load older conversations" }),
+    view.getByRole("button", { name: "Carregar conversas mais antigas" }),
   );
   expect(await view.findByText("Archived conversation")).toBeTruthy();
   expect(

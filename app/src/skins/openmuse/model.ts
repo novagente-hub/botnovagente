@@ -100,12 +100,12 @@ export function statusLine(input: {
 }): string {
   const { attention, channels, agentId } = input;
   if (attention?.approvals) {
-    return `Ready to review · ${plural(attention.approvals, "approval")}`;
+    return `Pronto para revisar · ${`${attention.approvals} ${attention.approvals === 1 ? "aprovação" : "aprovações"}`}`;
   }
   if (attention?.questions) {
-    return `Needs your input · ${plural(attention.questions, "question")}`;
+    return `Precisa da sua resposta · ${plural(attention.questions, "pergunta")}`;
   }
-  if (attention?.handoffs) return "Waiting on a hand-off";
+  if (attention?.handoffs) return "Aguardando um repasse";
   const working = agentId
     ? channels?.find(
         (channel) =>
@@ -115,11 +115,11 @@ export function statusLine(input: {
     : undefined;
   if (working) {
     const routine = working.work?.find((work) => work.kind === "routine");
-    if (routine && !working.busy) return "Running a routine…";
-    return `Working on ${working.summary?.trim() || working.name}…`;
+    if (routine && !working.busy) return "Executando uma rotina…";
+    return `Trabalhando em ${working.summary?.trim() || working.name}…`;
   }
-  if (attention?.paused) return "Paused";
-  return "Ready when you are";
+  if (attention?.paused) return "Pausado";
+  return "Pronto quando você estiver";
 }
 
 /** Approvals and questions the person has not answered yet, across every Bot. */

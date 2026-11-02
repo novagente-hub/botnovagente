@@ -67,10 +67,10 @@ async function loadExplicitBot(agentId: string): Promise<BotDetailLookup> {
     `/api/agents/${encodeURIComponent(agentId)}`,
   );
   if (response.status === 404) return { status: "missing" };
-  if (!response.ok) throw new Error("Couldn't load this Bot.");
+  if (!response.ok) throw new Error("Não foi possível carregar este Bot.");
 
   const body: unknown = await response.json().catch(() => null);
-  if (!isAgentEnvelope(body)) throw new Error("Couldn't load this Bot.");
+  if (!isAgentEnvelope(body)) throw new Error("Não foi possível carregar este Bot.");
   return { bot: body.agent, status: "found" };
 }
 
@@ -106,7 +106,8 @@ function RouteComponent() {
     return (
       <div className="flex h-screen items-center justify-center p-6">
         <p className="text-destructive text-sm" role="alert">
-          Couldn't load your Bots. Reload the page.
+          
+          Não foi possível carregar seus Bots. Recarregue a página.
         </p>
       </div>
     );
@@ -115,7 +116,8 @@ function RouteComponent() {
     return (
       <div className="flex h-screen items-center justify-center p-6">
         <p className="text-destructive text-sm" role="alert">
-          Couldn't load this Bot. Reload the page.
+          
+          Não foi possível carregar este Bot. Recarregue a página.
         </p>
       </div>
     );
@@ -125,8 +127,8 @@ function RouteComponent() {
       <div className="flex h-screen items-center justify-center p-6">
         <p className="text-muted-foreground text-sm">
           {agent
-            ? `There's no Bot called "${agent}".`
-            : "There are no Bots yet."}
+            ? `Não existe Bot chamado "${agent}".`
+            : "Ainda não há Bots."}
         </p>
       </div>
     );
@@ -167,7 +169,7 @@ function BotChat({ agentId, name }: { agentId: string; name: string }) {
 
   return (
     <DetailPanel
-      title="Computer"
+      title="Computador"
       open={watch === true}
       onClose={() => showComputer(false)}
       detail={<ComputerViewPanel agentId={agentId} name={name} />}
@@ -197,12 +199,14 @@ function BotChat({ agentId, name }: { agentId: string; name: string }) {
               />
               <Button onClick={startNew} size="sm" variant="ghost">
                 <IconPlus />
-                New chat
+                
+                Novo chat
               </Button>
             </div>
           </div>
           <p className="text-sm text-muted-foreground">
-            Ask it to open a page and watch it work.
+            
+            Peça para ele abrir uma página e veja-o trabalhar.
           </p>
         </header>
         {/*
@@ -216,7 +220,8 @@ function BotChat({ agentId, name }: { agentId: string; name: string }) {
             data-testid="bot-chat-history-unavailable"
             role="alert"
           >
-            Couldn't load earlier messages. The Bot is answering without them.
+            
+            Não foi possível carregar mensagens anteriores. O Bot está respondendo sem elas.
           </p>
         ) : null}
         {/*

@@ -61,7 +61,7 @@ export function responsibilitiesQueryOptions() {
     queryKey: responsibilityKeys.all,
     queryFn: (): Promise<ResponsibilityRecord[]> =>
       client("/api/responsibilities", "responsibilities", {
-        fallback: "Could not load responsibilities",
+        fallback: "Não foi possível carregar as responsabilidades",
       }),
     refetchInterval: 10_000,
   });
@@ -71,7 +71,7 @@ export function responsibilityRunsQueryOptions(id: string) {
     queryKey: responsibilityKeys.runs(id),
     queryFn: (): Promise<ResponsibilityRunRecord[]> =>
       client(`/api/responsibilities/${encodeURIComponent(id)}/runs`, "runs", {
-        fallback: "Could not load responsibility runs",
+        fallback: "Não foi possível carregar as execuções da responsabilidade",
       }),
     refetchInterval: 10_000,
   });
@@ -81,7 +81,7 @@ export function githubBindingsQueryOptions() {
     queryKey: responsibilityKeys.bindings,
     queryFn: (): Promise<GithubBindingRecord[]> =>
       client("/api/responsibilities/sources/github", "bindings", {
-        fallback: "Could not load GitHub event sources",
+        fallback: "Não foi possível carregar as origens de eventos do GitHub",
       }),
   });
 }
@@ -99,7 +99,7 @@ export function createResponsibility(input: {
     {
       method: "POST",
       body: input,
-      fallback: "Could not create responsibility",
+      fallback: "Não foi possível criar a responsabilidade",
     },
   );
 }
@@ -110,7 +110,7 @@ export function updateResponsibility(
   return client(`/api/responsibilities/${encodeURIComponent(id)}`, {
     method: "PATCH",
     body: patch,
-    fallback: "Could not update responsibility",
+    fallback: "Não foi possível atualizar a responsabilidade",
   });
 }
 export function responsibilityAction(
@@ -119,7 +119,7 @@ export function responsibilityAction(
 ) {
   return client(`/api/responsibilities/${encodeURIComponent(id)}/${action}`, {
     method: "POST",
-    fallback: "Could not change responsibility",
+    fallback: "Não foi possível alterar a responsabilidade",
   });
 }
 export function createGithubBinding(repository: string, secret: string) {
@@ -129,14 +129,14 @@ export function createGithubBinding(repository: string, secret: string) {
     {
       method: "POST",
       body: { repository, secret },
-      fallback: "Could not connect GitHub events",
+      fallback: "Não foi possível conectar os eventos do GitHub",
     },
   );
 }
 export function removeGithubBinding(id: string) {
   return client(
     `/api/responsibilities/sources/github/${encodeURIComponent(id)}`,
-    { method: "DELETE", fallback: "Could not disconnect GitHub events" },
+    { method: "DELETE", fallback: "Não foi possível desconectar os eventos do GitHub" },
   );
 }
 
@@ -189,7 +189,7 @@ export function triggersQueryOptions(id: string) {
       client(
         `/api/responsibilities/${encodeURIComponent(id)}/triggers`,
         "triggers",
-        { fallback: "Could not load triggers" },
+        { fallback: "Não foi possível carregar os gatilhos" },
       ),
   });
 }
@@ -199,7 +199,7 @@ export async function createTrigger(
 ) {
   const response = await client(
     `/api/responsibilities/${encodeURIComponent(responsibilityId)}/triggers`,
-    { method: "POST", body: input, fallback: "Could not add the trigger" },
+    { method: "POST", body: input, fallback: "Não foi possível adicionar o gatilho" },
   );
   return (await response.json()) as {
     trigger: TriggerRecord;
@@ -213,7 +213,7 @@ export async function setTriggerSecret(triggerId: string, secret?: string) {
     {
       method: "POST",
       body: secret ? { secret } : {},
-      fallback: "Could not change the trigger secret",
+      fallback: "Não foi possível alterar o segredo do gatilho",
     },
   );
   return (await response.json()) as {
@@ -225,13 +225,13 @@ export function revealTriggerSecret(triggerId: string) {
   return client<string>(
     `/api/responsibilities/triggers/${encodeURIComponent(triggerId)}/secret`,
     "secret",
-    { fallback: "Could not read the trigger secret" },
+    { fallback: "Não foi possível ler o segredo do gatilho" },
   );
 }
 export function removeTrigger(triggerId: string) {
   return client(
     `/api/responsibilities/triggers/${encodeURIComponent(triggerId)}`,
-    { method: "DELETE", fallback: "Could not remove the trigger" },
+    { method: "DELETE", fallback: "Não foi possível remover o gatilho" },
   );
 }
 
@@ -241,7 +241,7 @@ export function setTriggerEnabled(triggerId: string, enabled: boolean) {
     {
       method: "PUT",
       body: { enabled },
-      fallback: "Could not change the trigger",
+      fallback: "Não foi possível alterar o gatilho",
     },
   );
 }

@@ -45,8 +45,8 @@ async function exportWith(headers: Record<string, string>) {
       <RouterProvider router={router} />
     </QueryClientProvider>,
   );
-  fireEvent.click(await view.findByText("Export CSV"));
-  await view.findByText("Export CSV");
+  fireEvent.click(await view.findByText("Exportar CSV"));
+  await view.findByText("Exportar CSV");
   return view;
 }
 

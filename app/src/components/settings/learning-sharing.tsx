@@ -43,21 +43,21 @@ export const SHARING_CHOICES: {
   {
     mode: "closed",
     icon: IconLock,
-    title: "Only my Bots",
-    description: "Only the Bots you use draw on your Skills.",
+    title: "Só os meus Bots",
+    description: "Só os Bots que você usa aproveitam suas Habilidades.",
   },
   {
     mode: "open",
     icon: IconUsersGroup,
-    title: "Everyone's Bots",
-    description: "Every Bot on OpenBot draws on all of your Skills.",
+    title: "Bots de todos",
+    description: "Todos os Bots do OpenBot aproveitam todas as suas Habilidades.",
   },
   {
     mode: "choose",
     icon: IconListCheck,
-    title: "The Skills I choose",
+    title: "As Habilidades que eu escolher",
     description:
-      "Every Bot draws on the Skills you open below; your own Bots use all of them.",
+      "Todos os Bots aproveitam as Habilidades que você abrir abaixo; seus próprios Bots usam todas.",
   },
 ];
 
@@ -67,21 +67,21 @@ export const SHARING_CHOICES: {
  */
 function choiceSentence(data: PersonalLearningSharing): string {
   if (data.sharingAllowed)
-    return "Your own Bots always use every Skill learned from your recordings.";
+    return "Seus próprios Bots sempre usam todas as Habilidades aprendidas com suas gravações.";
   const off =
-    "An admin hasn't turned on sharing Skills with every Bot, so only the Bots you use draw on yours.";
+    "Um administrador não ativou o compartilhamento de Habilidades com todos os Bots, então só os Bots que você usa aproveitam as suas.";
   return data.mode === "closed"
     ? off
-    : `${off} Your choice below applies again if an admin turns it on.`;
+    : `${off} Sua escolha abaixo volta a valer se um administrador ativar.`;
 }
 
 /** What the Skills list says when it has none to show. */
 function emptySentence(data: PersonalLearningSharing): string {
   if (data.unavailable === "off")
-    return "An admin has turned off Automatic Learning, so no Skills are learned from your recordings.";
+    return "Um administrador desativou o Aprendizado automático, então nenhuma Habilidade é aprendida com suas gravações.";
   if (data.skills === null)
-    return "Couldn't read your Skills from Intelligence just now. Your choice above still applies to them.";
-  return "No Skills learned from your recordings yet. Once there are, each one you open here reaches every Bot.";
+    return "Não foi possível ler suas Habilidades do Intelligence agora. Sua escolha acima continua valendo para elas.";
+  return "Nenhuma Habilidade aprendida com suas gravações ainda. Quando houver, cada uma que você abrir aqui chega a todos os Bots.";
 }
 
 /**
@@ -112,7 +112,7 @@ export function LearningSharing() {
   return (
     <>
       <PageSection
-        title="Who else's Bots use your Skills"
+        title="Bots de quem mais usam suas Habilidades"
         description={choiceSentence(data)}
       >
         <PageRows>
@@ -160,8 +160,8 @@ export function LearningSharing() {
       </PageSection>
       {mode === "choose" ? (
         <PageSection
-          title="Your Skills"
-          description="Open a Skill to let every Bot on OpenBot use it."
+          title="Suas Habilidades"
+          description="Abra uma Habilidade para que todos os Bots do OpenBot possam usá-la."
         >
           {data.skills === null || data.skills.length === 0 ? (
             <PageEmpty>{emptySentence(data)}</PageEmpty>
@@ -183,14 +183,14 @@ export function LearningSharing() {
                         <ItemTitle>{skill.name}</ItemTitle>
                         <ItemDescription>
                           {open
-                            ? "Every Bot may use it."
-                            : "Only your Bots use it."}
+                            ? "Todos os Bots podem usá-la."
+                            : "Só os seus Bots a usam."}
                           {skill.description ? ` ${skill.description}` : ""}
                         </ItemDescription>
                       </ItemContent>
                       <ItemActions>
                         <Switch
-                          aria-label={`Open ${skill.name} to everyone`}
+                          aria-label={`Abrir ${skill.name} para todos`}
                           checked={open}
                           // An open Skill can always be closed; opening one waits for an admin.
                           disabled={

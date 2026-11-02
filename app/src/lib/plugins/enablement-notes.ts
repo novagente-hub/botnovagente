@@ -64,8 +64,8 @@ export function consentBreadth(
   if (actionCount <= 0) return null;
   if (permissionCount === 0) {
     return actionCount === 1
-      ? "This app has a single action, and approving it approves the app."
-      : `Approving any action in this app approves all ${actionCount} of them.`;
+      ? "Este app tem uma única ação, e aprová-la aprova o app."
+      : `Aprovar qualquer ação deste app aprova todas as ${actionCount}.`;
   }
   const permissions = `${permissionCount} separate ${permissionCount === 1 ? "permission" : "permissions"}`;
   const actions = `${actionCount} ${actionCount === 1 ? "action" : "actions"}`;
@@ -73,8 +73,8 @@ export function consentBreadth(
   const unscoped = actionCount - scopedActionCount;
   if (unscoped <= 0) return base;
   return unscoped === 1
-    ? `${base} A further 1 requests no permission of its own and becomes callable with any approval here.`
-    : `${base} A further ${unscoped} request no permission of their own and become callable with any approval here.`;
+    ? `${base} Mais 1 não pede permissão própria e passa a poder ser chamada com qualquer aprovação aqui.`
+    : `${base} Mais ${unscoped} não pedem permissão própria e passam a poder ser chamadas com qualquer aprovação aqui.`;
 }
 
 /**
@@ -133,7 +133,7 @@ export function consentCopy(
   const asked = actions.find((action) => action.name === requested);
   const scopes = asked ? [...new Set(asked.scopes)].sort() : [];
   const grants =
-    "Which Bots may call an action is still set separately, and approving does not change it.";
+    "Quais Bots podem chamar uma ação continua sendo definido à parte, e aprovar não muda isso.";
   if (!actions.some((action) => action.scopes.length > 0)) {
     const all = actions.length;
     return {
@@ -141,15 +141,15 @@ export function consentCopy(
       alsoEnables: [],
       sentence:
         all === 1
-          ? `This app cannot separate permissions; approving this approves its single action. ${grants}`
-          : `This app cannot separate permissions; approving this approves all ${all}. ${grants}`,
+          ? `Este app não consegue separar permissões; aprovar isto aprova a única ação dele. ${grants}`
+          : `Este app não consegue separar permissões; aprovar isto aprova todas as ${all}. ${grants}`,
     };
   }
   if (scopes.length === 0) {
     return {
       scopes,
       alsoEnables: [],
-      sentence: `${requested} requests no permission of its own; approving connects the account. ${grants}`,
+      sentence: `${requested} não pede permissão própria; aprovar conecta a conta. ${grants}`,
     };
   }
   const alsoEnables = actions
@@ -160,14 +160,14 @@ export function consentCopy(
     )
     .map((action) => action.name)
     .sort();
-  const permission = `${scopes.length === 1 ? "the permission" : "the permissions"} ${scopes.join(", ")}`;
+  const permission = `${scopes.length === 1 ? "a permissão" : "as permissões"} ${scopes.join(", ")}`;
   const tail =
     alsoEnables.length === 0
-      ? "No other action requires it."
-      : `It also enables ${alsoEnables.length === 1 ? "this other action" : `these ${alsoEnables.length} other actions`} requiring it: ${alsoEnables.join(", ")}.`;
+      ? "Nenhuma outra ação exige isso."
+      : `Também ativa ${alsoEnables.length === 1 ? "esta outra ação" : `estas ${alsoEnables.length} outras ações`} que a exigem: ${alsoEnables.join(", ")}.`;
   return {
     scopes,
     alsoEnables,
-    sentence: `Approving ${requested} asks the provider for ${permission}. ${tail} ${grants}`,
+    sentence: `Aprovar ${requested} pede ao provedor ${permission}. ${tail} ${grants}`,
   };
 }

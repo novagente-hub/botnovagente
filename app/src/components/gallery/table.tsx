@@ -71,9 +71,10 @@ export function DataTable(props: Record<string, unknown>) {
   const parsed = DataTableProps.safeParse(table);
   if (!parsed.success) {
     return (
-      <GalleryFrame title="Table">
+      <GalleryFrame title="Tabela">
         <p className="text-sm text-muted-foreground">
-          Waiting for complete table data…
+          
+          Aguardando os dados completos da tabela…
         </p>
       </GalleryFrame>
     );
@@ -105,13 +106,13 @@ export function DataTable(props: Record<string, unknown>) {
     >
       <section
         className="overflow-x-auto rounded-lg border border-border focus-visible:outline-2 focus-visible:outline-ring"
-        aria-label={`${title} table, scroll for more columns`}
+        aria-label={`Tabela ${title}, role para ver mais colunas`}
         // biome-ignore lint/a11y/noNoninteractiveTabindex: Overflow regions need keyboard focus to scroll in Safari; the region has an accessible name.
         tabIndex={0}
       >
         <table className="w-full border-collapse text-left text-sm">
           <caption className="sr-only">
-            {title}. Select a column heading to sort.
+            {title}. Selecione o cabeçalho de uma coluna para ordenar.
           </caption>
           <thead className="bg-muted/50 text-xs text-muted-foreground">
             <tr>
@@ -174,7 +175,7 @@ export function DataTable(props: Record<string, unknown>) {
                         >
                           —
                         </span>
-                        <span className="sr-only">Empty</span>
+                        <span className="sr-only">Vazio</span>
                       </>
                     ) : (
                       row.cells[index]
@@ -200,7 +201,8 @@ export function DataTable(props: Record<string, unknown>) {
                   colSpan={columns.length}
                   className="px-3 py-8 text-center text-muted-foreground"
                 >
-                  No rows to show.
+                  
+                  Nenhuma linha para mostrar.
                 </td>
               </tr>
             )}
@@ -210,8 +212,8 @@ export function DataTable(props: Record<string, unknown>) {
       {rows.length > 1 && (
         <p className="mt-2 text-xs text-muted-foreground" aria-live="polite">
           {sort
-            ? `Sorted by ${columns[sort.column]}, ${sort.ascending ? "ascending" : "descending"}.`
-            : "Select a column heading to sort."}
+            ? `Ordenada por ${columns[sort.column]}, ${sort.ascending ? "ascending" : "descending"}.`
+            : "Selecione o cabeçalho de uma coluna para ordenar."}
         </p>
       )}
     </GalleryFrame>
@@ -221,7 +223,7 @@ export function DataTable(props: Record<string, unknown>) {
 export const GALLERY: GalleryComponent[] = [
   {
     name: "showTable",
-    title: "Data table",
+    title: "Tabela de dados",
     kind: "card",
     description:
       "Show a sortable table to compare records, plans, or other structured facts. Supply up to eight columns and 100 rows, with exactly one cell per column. Use numbers for quantities so sorting is numeric. Show only data you have; do not invent rows.",
@@ -229,13 +231,13 @@ export const GALLERY: GalleryComponent[] = [
     Component: DataTable,
     confirmation: "The sortable table is now on screen for the person.",
     preview: {
-      title: "Team capacity",
-      caption: "Three teams, one shared launch. Hours available this week.",
-      columns: ["Team", "Available hours", "Focus"],
+      title: "Capacidade da equipe",
+      caption: "Três equipes, um lançamento compartilhado. Horas disponíveis nesta semana.",
+      columns: ["Equipe", "Horas disponíveis", "Foco"],
       rows: [
-        { cells: ["Product", 24, "Customer onboarding"] },
-        { cells: ["Engineering", 72, "Release readiness"] },
-        { cells: ["Design", 18, "Workspace polish"] },
+        { cells: ["Produto", 24, "Integração de clientes"] },
+        { cells: ["Engenharia", 72, "Prontidão para lançamento"] },
+        { cells: ["Design", 18, "Acabamento do workspace"] },
       ],
     },
   },

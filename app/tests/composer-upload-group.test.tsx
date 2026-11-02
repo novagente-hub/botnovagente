@@ -63,7 +63,7 @@ beforeEach(() => {
 /** A drop, as the browser delivers one: files hanging off `dataTransfer`. */
 function drop(form: Element, files: File[]) {
   fireEvent.drop(form, {
-    dataTransfer: { files, items: [], types: ["Files"] },
+    dataTransfer: { files, items: [], types: ["Arquivos"] },
   });
 }
 

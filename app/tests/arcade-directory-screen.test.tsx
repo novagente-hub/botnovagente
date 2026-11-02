@@ -154,7 +154,7 @@ test("the Arcade directory renders the coverage warning and the breadth line on 
 
   // Not pending, not a redirect: the screen itself.
   expect(view.queryByText("the plugins index")).toBeNull();
-  expect(view.getByText("Browse Arcade")).toBeTruthy();
+  expect(view.getByText("Explorar Arcade")).toBeTruthy();
 
   await waitFor(() => {
     expect(row.textContent).toContain(

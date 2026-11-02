@@ -328,7 +328,7 @@ class LiveSocket {
 
 /** What a screen reader calls the person's browser on the Browser page. */
 const SCREEN =
-  "Your browser. Click it to type into it, and press Escape to leave it.";
+  "Seu navegador. Clique nele para digitar e pressione Esc para sair.";
 
 const originalFetch = global.fetch;
 const originalSocket = globalThis.WebSocket;
@@ -399,7 +399,7 @@ test("on OpenBot Desktop the page opens the browser once, says it is a window on
   const view = draw(<BrowserPage />);
   expect(await view.findByText("Google Chrome")).toBeTruthy();
   expect(
-    view.getByText("Open in its own window on your desktop."),
+    view.getByText("Abrir em uma janela própria na sua área de trabalho."),
   ).toBeTruthy();
   // The person's narration choice, which the next Record passes on to the Recorder in their browser.
   expect(
@@ -413,7 +413,7 @@ test("on OpenBot Desktop the page opens the browser once, says it is a window on
   expect(QuietSocket.urls).toEqual([]);
 
   const user = userEvent.setup({ document });
-  await user.click(view.getByRole("button", { name: "Bring to front" }));
+  await user.click(view.getByRole("button", { name: "Trazer para frente" }));
   await waitFor(() => expect(opens()).toBe(2));
   expect(view.getByText("Google Chrome")).toBeTruthy();
 });
@@ -421,8 +421,8 @@ test("on OpenBot Desktop the page opens the browser once, says it is a window on
 test("on OpenBot Desktop Record starts a recording named for the task, which shows its time and actions until Stop", async () => {
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
-  const name = await view.findByRole("textbox", { name: "Task name" });
-  const record = view.getByRole("button", { name: "Record" });
+  const name = await view.findByRole("textbox", { name: "Nome da tarefa" });
+  const record = view.getByRole("button", { name: "Gravar" });
   expect((record as HTMLButtonElement).disabled).toBe(true);
   await user.type(name, "Submit an expense report");
   await user.click(record);
@@ -442,7 +442,7 @@ test("on OpenBot Desktop Record starts a recording named for the task, which sho
   expect(await view.findByText("Submit an expense report")).toBeTruthy();
   expect(view.getByRole("timer").textContent).toMatch(/^0:4\d · 7 actions$/);
 
-  await user.click(view.getByRole("button", { name: "Stop" }));
+  await user.click(view.getByRole("button", { name: "Parar" }));
   await waitFor(() =>
     expect(writes.at(-1)).toEqual({
       path: "/api/browser/recording",
@@ -450,7 +450,7 @@ test("on OpenBot Desktop Record starts a recording named for the task, which sho
       body: { action: "stop" },
     }),
   );
-  expect(await view.findByRole("textbox", { name: "Task name" })).toBeTruthy();
+  expect(await view.findByRole("textbox", { name: "Nome da tarefa" })).toBeTruthy();
   // Stop says where the recording went and what it held, by its name, until the next one starts.
   const saved = await view.findByRole("status");
   expect(saved.textContent).toBe(
@@ -480,13 +480,13 @@ async function recordAndStop(
 ) {
   const user = userEvent.setup({ document });
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     title,
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   await view.findByRole("timer");
   beforeStop();
-  await user.click(view.getByRole("button", { name: "Stop" }));
+  await user.click(view.getByRole("button", { name: "Parar" }));
   await waitFor(() =>
     expect(writes.at(-1)).toEqual({
       path: "/api/browser/recording",
@@ -514,7 +514,7 @@ test("Stop on a recording that held no actions says nothing was recorded and why
         ? "Look up Ada LovelaceNothing was recorded. The Recorder records the pages you open on websites and what you do there, with what each step saves, AI assistant conversations and your narration, in every tab you use while it records, except sites you leave out."
         : "Nothing was recorded in “Look up Ada Lovelace”. The Recorder records the pages you open on websites and what you do there, with what each step saves, AI assistant conversations and your narration, in every tab you use while it records, except sites you leave out.",
     );
-    expect(view.queryByText(/Saved/)).toBeNull();
+    expect(view.queryByText(/Salvou/)).toBeNull();
   }
 });
 
@@ -537,7 +537,7 @@ test("a recording of narration alone is saved, with its phrases, never said to h
         ? "Talk it throughSaved to your Learning space: 0 actions and 3 narrated phrases."
         : "Saved “Talk it through” to your Learning space: 0 actions and 3 narrated phrases.",
     );
-    expect(view.queryByText(/Nothing was recorded/)).toBeNull();
+    expect(view.queryByText(/Nada foi gravado/)).toBeNull();
   }
 });
 
@@ -617,11 +617,11 @@ test("Record is offered while the Recorder is disconnected: the server connects 
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Refund an order",
   );
   expect(view.queryByText("The Recorder is still connecting.")).toBeNull();
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   await waitFor(() =>
     expect(writes).toContainEqual(
       expect.objectContaining({
@@ -644,27 +644,27 @@ test("on hosted OpenBot the page is the browser: its tabs, its address and its l
     expect(url).toEndWith(`/api/computers/${PERSON_BROWSER}/stream`);
   expect(opens()).toBe(1);
 
-  const tabs = within(view.getByRole("tablist", { name: "Tabs" }));
+  const tabs = within(view.getByRole("tablist", { name: "Abas" }));
   const [first, second] = tabs.getAllByRole("tab");
   expect(first?.textContent).toBe("Example Domain");
   expect(first?.getAttribute("aria-selected")).toBe("true");
-  expect(second?.textContent).toBe("New tab");
+  expect(second?.textContent).toBe("Nova aba");
   // The tab that shows controls the panel below, which it names: the address bar and the screen are in it.
   const panel = view.getByRole("tabpanel", { name: "Example Domain" });
   expect(first?.getAttribute("aria-controls")).toBe(panel.id);
-  const address = within(panel).getByRole("textbox", { name: "Address" });
+  const address = within(panel).getByRole("textbox", { name: "Endereço" });
   expect((address as HTMLInputElement).value).toBe("https://example.com/");
 
   const user = userEvent.setup({ document });
   if (second) await user.click(second);
-  await user.click(view.getByRole("button", { name: "New tab" }));
+  await user.click(view.getByRole("button", { name: "Nova aba" }));
   // Delete closes the focused tab; its close button is the mouse's way to the same thing.
   first?.focus();
   await user.keyboard("{Delete}");
-  await user.click(view.getByRole("button", { name: "Back" }));
-  await user.click(view.getByRole("button", { name: "Reload" }));
+  await user.click(view.getByRole("button", { name: "Voltar" }));
+  await user.click(view.getByRole("button", { name: "Recarregar" }));
   // The bar of the tab that shows now: switching tabs starts it again from that tab's own address.
-  const bar = view.getByRole("textbox", { name: "Address" });
+  const bar = view.getByRole("textbox", { name: "Endereço" });
   await user.clear(bar);
   await user.type(bar, "openbot.ai{Enter}");
   await user.type(bar, "how to file an expense report{Enter}");
@@ -716,10 +716,10 @@ test("on hosted OpenBot the page narrates a recording, and Stop sends the phrase
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Submit an expense report",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   // Listening starts with the recording, in the language the recording was started in.
   await waitFor(() => expect(recognitions.at(-1)?.heard).toBe(true));
   const listening = recognitions.at(-1);
@@ -728,9 +728,9 @@ test("on hosted OpenBot the page narrates a recording, and Stop sends the phrase
     continuous: true,
     interimResults: true,
   });
-  expect(view.getByRole("switch", { name: "Narration" })).toBeTruthy();
+  expect(view.getByRole("switch", { name: "Narração" })).toBeTruthy();
 
-  await user.click(view.getByRole("button", { name: "Stop" }));
+  await user.click(view.getByRole("button", { name: "Parar" }));
   await waitFor(() =>
     expect(writes.at(-1)).toEqual({
       path: "/api/browser/recording",
@@ -792,10 +792,10 @@ test("on hosted OpenBot a narration the Recorder refused says why, beside the na
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Submit an expense report",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   await waitFor(() => expect(recognitions.at(-1)?.heard).toBe(true));
   expect(
     await view.findByText(
@@ -825,31 +825,31 @@ test("on hosted OpenBot narration that cannot hear the person shows its switch o
     chrome.error = error;
     const view = draw(<BrowserPage />);
     const user = userEvent.setup({ document });
-    const toggle = await view.findByRole("switch", { name: "Narration" });
+    const toggle = await view.findByRole("switch", { name: "Narração" });
     // Before a recording narration is on, as the person chose and nothing has failed yet.
     await waitFor(() =>
       expect(toggle.getAttribute("aria-checked")).toBe("true"),
     );
     await user.type(
-      view.getByRole("textbox", { name: "Task name" }),
+      view.getByRole("textbox", { name: "Nome da tarefa" }),
       "Submit an expense report",
     );
-    await user.click(view.getByRole("button", { name: "Record" }));
+    await user.click(view.getByRole("button", { name: "Gravar" }));
     expect(await view.findByText(sentence)).toBeTruthy();
     expect(
       view
-        .getByRole("switch", { name: "Narration" })
+        .getByRole("switch", { name: "Narração" })
         .getAttribute("aria-checked"),
     ).toBe("false");
 
     // The person allows the microphone, or plugs one in, and turns narration on: it listens again.
     chrome.error = null;
     const listened = chrome.listening;
-    await user.click(view.getByRole("switch", { name: "Narration" }));
+    await user.click(view.getByRole("switch", { name: "Narração" }));
     await waitFor(() => expect(chrome.listening).toBe(listened + 1));
     expect(
       view
-        .getByRole("switch", { name: "Narration" })
+        .getByRole("switch", { name: "Narração" })
         .getAttribute("aria-checked"),
     ).toBe("true");
     expect(view.queryByText(sentence)).toBeNull();
@@ -864,18 +864,18 @@ test("on hosted OpenBot narration whose speech service cannot be reached stays o
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Submit an expense report",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   expect(
     await view.findByText(
-      "Can't reach this browser's speech service. Narration tries again in a moment.",
+      "Não é possível acessar o serviço de fala deste navegador. A narração tenta de novo em instantes.",
     ),
   ).toBeTruthy();
   expect(
     view
-      .getByRole("switch", { name: "Narration" })
+      .getByRole("switch", { name: "Narração" })
       .getAttribute("aria-checked"),
   ).toBe("true");
 });
@@ -894,10 +894,10 @@ test("Record and Stop the server refused say the server's sentence where the per
     const view = draw(<BrowserPage />);
     const user = userEvent.setup({ document });
     await user.type(
-      await view.findByRole("textbox", { name: "Task name" }),
+      await view.findByRole("textbox", { name: "Nome da tarefa" }),
       "Refund an order",
     );
-    await user.click(view.getByRole("button", { name: "Record" }));
+    await user.click(view.getByRole("button", { name: "Gravar" }));
     expect((await view.findByRole("alert")).textContent).toBe(
       "This browser is no longer connected to OpenBot. Open it from OpenBot again.",
     );
@@ -918,7 +918,7 @@ test("Record and Stop the server refused say the server's sentence where the per
       },
     };
     await queryClient.invalidateQueries();
-    await user.click(await view.findByRole("button", { name: "Stop" }));
+    await user.click(await view.findByRole("button", { name: "Parar" }));
     await waitFor(() =>
       expect(view.getByRole("alert").textContent).toBe(
         "The Recorder could not do that. Try again.",
@@ -943,10 +943,10 @@ test("on hosted OpenBot a refused Record is shown even after a tab that would no
     [browserApiPaths.recording]: "A recording is already running.",
   };
   await user.type(
-    view.getByRole("textbox", { name: "Task name" }),
+    view.getByRole("textbox", { name: "Nome da tarefa" }),
     "Refund an order",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   await waitFor(() =>
     expect(view.getByRole("alert").textContent).toBe(
       "A recording is already running.",
@@ -975,14 +975,14 @@ test("on OpenBot Desktop the narration row says what the Recorder hears, as it r
   // While nothing records, the row is the person's choice.
   expect(
     await view.findByText(
-      "On. The Recorder in your browser listens to your microphone while you record, and turns your speech into text on your computer.",
+      "Ativada. O Recorder no seu navegador ouve seu microfone enquanto você grava e transforma sua fala em texto no seu computador.",
     ),
   ).toBeTruthy();
   for (const [voice, sentence] of [
-    ["listening", "Listening. Say what you're doing as you go."],
+    ["listening", "Ouvindo. Diga o que está fazendo enquanto faz."],
     [
       "muted",
-      "Muted in the Recorder, so what you say isn't recorded. Turn it on again from the Recorder's button in your browser's toolbar.",
+      "Silenciado no Recorder, então o que você diz não é gravado. Ative de novo pelo botão do Recorder na barra de ferramentas do navegador.",
     ],
     [
       "unavailable",
@@ -1004,13 +1004,13 @@ test("on hosted OpenBot in a browser with no speech recognition, the page says n
       "Narration isn't available in this browser, so what you say isn't recorded. Recording still works.",
     ),
   ).toBeTruthy();
-  expect(view.queryByRole("switch", { name: "Narration" })).toBeNull();
+  expect(view.queryByRole("switch", { name: "Narração" })).toBeNull();
   const user = userEvent.setup({ document });
   await user.type(
-    view.getByRole("textbox", { name: "Task name" }),
+    view.getByRole("textbox", { name: "Nome da tarefa" }),
     "Refund an order",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   await waitFor(() =>
     expect(writes).toContainEqual(
       expect.objectContaining({
@@ -1039,23 +1039,23 @@ test("Record asks whether to narrate before the first recording, keeps the answe
   const user = userEvent.setup({ document });
   expect(
     await view.findByText(
-      "Not chosen yet. Record asks before your first recording, and the microphone stays closed until you say yes.",
+      "Ainda não escolhido. Gravar pergunta antes da sua primeira gravação, e o microfone fica fechado até você dizer sim.",
     ),
   ).toBeTruthy();
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Submit an expense report",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   const question = await view.findByRole("dialog", {
-    name: "Narrate while you record?",
+    name: "Narrar enquanto grava?",
   });
   expect(starts()).toEqual([]);
   expect(question.textContent).toContain(
-    "Your browser turns your speech into text on your own computer.",
+    "Seu navegador transforma sua fala em texto no seu próprio computador.",
   );
   await user.click(
-    within(question).getByRole("button", { name: "Record without narration" }),
+    within(question).getByRole("button", { name: "Gravar sem narração" }),
   );
   await waitFor(() => expect(starts()).toHaveLength(1));
   // The answer is kept, and the Recorder opens no microphone for this recording.
@@ -1081,20 +1081,20 @@ test("a choice still being read when Record is pressed is read, not asked again"
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Submit an expense report",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   await settleReactWork();
   expect(
-    view.queryByRole("dialog", { name: "Narrate while you record?" }),
+    view.queryByRole("dialog", { name: "Narrar enquanto grava?" }),
   ).toBeNull();
   expect(starts()).toEqual([]);
   arrive();
   await waitFor(() => expect(starts()).toHaveLength(1));
   expect(starts()[0]?.body).toMatchObject({ narrate: true });
   expect(
-    view.queryByRole("dialog", { name: "Narrate while you record?" }),
+    view.queryByRole("dialog", { name: "Narrar enquanto grava?" }),
   ).toBeNull();
   expect(preferenceWrites()).toEqual([]);
 });
@@ -1105,15 +1105,15 @@ test("a choice that cannot be read records without narration and asks nothing", 
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Submit an expense report",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   await waitFor(() => expect(starts()).toHaveLength(1));
   // The microphone stays closed, and the choice is left as the person made it.
   expect(starts()[0]?.body).toMatchObject({ narrate: false });
   expect(
-    view.queryByRole("dialog", { name: "Narrate while you record?" }),
+    view.queryByRole("dialog", { name: "Narrar enquanto grava?" }),
   ).toBeNull();
   expect(preferenceWrites()).toEqual([]);
 });
@@ -1126,19 +1126,19 @@ test("on hosted OpenBot a yes to the narration question listens, on the person's
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   // Nobody chose yet: the switch is off, and nothing listens.
-  const toggle = await view.findByRole("switch", { name: "Narration" });
+  const toggle = await view.findByRole("switch", { name: "Narração" });
   expect(toggle.getAttribute("aria-checked")).toBe("false");
   await user.type(
-    view.getByRole("textbox", { name: "Task name" }),
+    view.getByRole("textbox", { name: "Nome da tarefa" }),
     "Submit an expense report",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   const question = await view.findByRole("dialog", {
-    name: "Narrate while you record?",
+    name: "Narrar enquanto grava?",
   });
   expect(recognitions).toHaveLength(0);
   await user.click(
-    within(question).getByRole("button", { name: "Record with narration" }),
+    within(question).getByRole("button", { name: "Gravar com narração" }),
   );
   await waitFor(() => expect(recognitions.at(-1)?.heard).toBe(true));
   expect(recognitions.at(-1)?.processLocally).toBe(true);
@@ -1147,7 +1147,7 @@ test("on hosted OpenBot a yes to the narration question listens, on the person's
   ]);
   expect(starts()[0]?.body).toMatchObject({ narrate: true });
   // An open microphone is said in so many words beside the switch.
-  expect((await view.findByText("Listening")).getAttribute("role")).toBe(
+  expect((await view.findByText("Ouvindo")).getAttribute("role")).toBe(
     "status",
   );
 });
@@ -1160,19 +1160,19 @@ test("on hosted OpenBot a person who chose not to narrate is never listened to, 
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Submit an expense report",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   await waitFor(() => expect(starts()).toHaveLength(1));
   // No question: they answered it before. No microphone either.
   expect(view.queryByRole("dialog")).toBeNull();
   expect(starts()[0]?.body).toMatchObject({ narrate: false });
   await settleReactWork();
   expect(recognitions).toHaveLength(0);
-  expect(view.queryByText("Listening")).toBeNull();
+  expect(view.queryByText("Ouvindo")).toBeNull();
 
-  await user.click(view.getByRole("switch", { name: "Narration" }));
+  await user.click(view.getByRole("switch", { name: "Narração" }));
   await waitFor(() => expect(recognitions.at(-1)?.heard).toBe(true));
   expect(preferenceWrites().map((write) => write.body)).toEqual([
     { narration: "on" },
@@ -1188,17 +1188,17 @@ test("on hosted OpenBot a language still to be downloaded is asked for on the sw
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Submit an expense report",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   expect(
     await view.findByText(
       /^Your browser has to download its .+ speech recognition to your computer first\. Turn narration on to download it\./,
     ),
   ).toBeTruthy();
   expect(recognitions).toHaveLength(0);
-  const toggle = view.getByRole("switch", { name: "Narration" });
+  const toggle = view.getByRole("switch", { name: "Narração" });
   expect(toggle.getAttribute("aria-checked")).toBe("false");
   document.addEventListener(
     "click",
@@ -1228,10 +1228,10 @@ test("on hosted OpenBot a browser that cannot keep speech on the computer never 
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   await user.type(
-    await view.findByRole("textbox", { name: "Task name" }),
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
     "Submit an expense report",
   );
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
   expect(
     await view.findByText(
       "This browser can't turn speech into text on your computer, and OpenBot sends your voice nowhere else, so narration is off. Recording still works.",
@@ -1268,7 +1268,7 @@ test("the tab strip is WAI-ARIA tabs: one stop in the Tab order, arrows, Home an
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   const [first, second, third] = within(
-    await view.findByRole("tablist", { name: "Tabs" }),
+    await view.findByRole("tablist", { name: "Abas" }),
   ).getAllByRole("tab");
   // Only the tab that shows is in the Tab order.
   expect(
@@ -1342,7 +1342,7 @@ test("with the live screen connected, the page's controls keep their keys, and t
     expect(screen.getAttribute("data-connected")).toBe("true"),
   );
   const [first, second, third] = within(
-    view.getByRole("tablist", { name: "Tabs" }),
+    view.getByRole("tablist", { name: "Abas" }),
   ).getAllByRole("tab");
 
   first?.focus();
@@ -1364,7 +1364,7 @@ test("with the live screen connected, the page's controls keep their keys, and t
   // Tab leaves the strip for the next control, which Space presses.
   await user.tab();
   expect(document.activeElement).toBe(
-    view.getByRole("button", { name: "New tab" }),
+    view.getByRole("button", { name: "Nova aba" }),
   );
   await user.keyboard(" ");
   await waitFor(() =>
@@ -1405,7 +1405,7 @@ test("with the live screen connected, the page's controls keep their keys, and t
   expect(socket.sent).toHaveLength(4);
 
   // An address typed into the bar goes to the page that opens, as Chrome's address bar does: the screen has the keys.
-  const address = view.getByRole("textbox", { name: "Address" });
+  const address = view.getByRole("textbox", { name: "Endereço" });
   await user.clear(address);
   await user.type(address, "openbot.ai{Enter}");
   expect(document.activeElement).toBe(screen);
@@ -1445,13 +1445,13 @@ test("Delete on the tab that shows puts the focus on the tab the browser shows n
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
   const [first] = within(
-    await view.findByRole("tablist", { name: "Tabs" }),
+    await view.findByRole("tablist", { name: "Abas" }),
   ).getAllByRole("tab");
   first?.focus();
   await user.keyboard("{Delete}");
   await waitFor(() =>
     expect(
-      within(view.getByRole("tablist", { name: "Tabs" }))
+      within(view.getByRole("tablist", { name: "Abas" }))
         .getAllByRole("tab")
         .map((tab) => tab.textContent),
     ).toEqual(["Docs", "Mail"]),
@@ -1483,8 +1483,8 @@ test("a browser that stops answering is said to, where it would be shown, and co
   await act(() => queryClient.invalidateQueries());
   expect(await view.findByText(NOT_ANSWERING)).toBeTruthy();
   // Not "closed", and nothing to open: opening it again would wait on the same browser.
-  expect(view.queryByText("Your browser is closed.")).toBeNull();
-  expect(view.queryByRole("button", { name: "Open it again" })).toBeNull();
+  expect(view.queryByText("Seu navegador está fechado.")).toBeNull();
+  expect(view.queryByRole("button", { name: "Abrir de novo" })).toBeNull();
   state = screenState();
   await act(() => queryClient.invalidateQueries());
   expect(await view.findByLabelText(SCREEN)).toBeTruthy();
@@ -1498,7 +1498,7 @@ test("arriving while the browser is not answering, the page says so rather than 
   const view = draw(<BrowserPage />);
   expect(await view.findByText(NOT_ANSWERING)).toBeTruthy();
   expect(view.getAllByText(NOT_ANSWERING)).toHaveLength(1);
-  expect(view.getByRole("button", { name: "Try again" })).toBeTruthy();
+  expect(view.getByRole("button", { name: "Tentar novamente" })).toBeTruthy();
 });
 
 test("on OpenBot Desktop a window that is not answering says so in its row", async () => {
@@ -1507,7 +1507,7 @@ test("on OpenBot Desktop a window that is not answering says so in its row", asy
   expect(await view.findByText("Google Chrome")).toBeTruthy();
   expect(view.getByText(NOT_ANSWERING)).toBeTruthy();
   expect(
-    view.queryByText("Open in its own window on your desktop."),
+    view.queryByText("Abrir em uma janela própria na sua área de trabalho."),
   ).toBeNull();
 });
 
@@ -1518,10 +1518,10 @@ test("while the browser opens, the page shows no loading placeholder, then the b
     launched = resolve;
   });
   const view = draw(<BrowserPage />);
-  expect(await view.findByRole("heading", { name: "Browser" })).toBeTruthy();
+  expect(await view.findByRole("heading", { name: "Navegador" })).toBeTruthy();
   await waitFor(() => expect(opens()).toBe(1));
   await settleReactWork();
-  expect(view.queryByText(/Opening/)).toBeNull();
+  expect(view.queryByText(/Abrindo/)).toBeNull();
   expect(view.queryByRole("status")).toBeNull();
   expect(view.queryByText("Google Chrome")).toBeNull();
   launched();
@@ -1533,7 +1533,7 @@ test("where OpenBot cannot run a browser for the person, the page says so and op
   const view = draw(<BrowserPage />);
   expect(
     await view.findByText(
-      "OpenBot isn't set up to run a browser for you. Ask an admin.",
+      "O OpenBot não está configurado para executar um navegador para você. Fale com um administrador.",
     ),
   ).toBeTruthy();
   expect(opens()).toBe(0);
@@ -1545,7 +1545,7 @@ test("on hosted OpenBot a new tab takes the focus into its address bar, as Chrom
   tabsOpen = true;
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
-  await user.click(await view.findByRole("button", { name: "New tab" }));
+  await user.click(await view.findByRole("button", { name: "Nova aba" }));
   await waitFor(() =>
     expect(
       view.getAllByRole("tab").map((tab) => tab.getAttribute("aria-selected")),
@@ -1553,7 +1553,7 @@ test("on hosted OpenBot a new tab takes the focus into its address bar, as Chrom
   );
   await waitFor(() =>
     expect(document.activeElement).toBe(
-      view.getByRole("textbox", { name: "Address" }),
+      view.getByRole("textbox", { name: "Endereço" }),
     ),
   );
 });
@@ -1564,7 +1564,7 @@ test("on hosted OpenBot narration the person turned off stays off after a reload
   installChrome();
   const view = draw(<BrowserPage />);
   const user = userEvent.setup({ document });
-  const toggle = await view.findByRole("switch", { name: "Narration" });
+  const toggle = await view.findByRole("switch", { name: "Narração" });
   await waitFor(() => expect(toggle.getAttribute("aria-checked")).toBe("true"));
   await user.click(toggle);
   expect(toggle.getAttribute("aria-checked")).toBe("false");
@@ -1579,7 +1579,7 @@ test("on hosted OpenBot narration the person turned off stays off after a reload
   cleanup();
   queryClient.clear();
   const reloaded = draw(<BrowserPage />);
-  const again = await reloaded.findByRole("switch", { name: "Narration" });
+  const again = await reloaded.findByRole("switch", { name: "Narração" });
   await settleReactWork();
   expect(again.getAttribute("aria-checked")).toBe("false");
   // On again is kept the same way.
@@ -1593,7 +1593,7 @@ test("on hosted OpenBot narration the person turned off stays off after a reload
   cleanup();
   queryClient.clear();
   const view3 = draw(<BrowserPage />);
-  const third = await view3.findByRole("switch", { name: "Narration" });
+  const third = await view3.findByRole("switch", { name: "Narração" });
   await waitFor(() => expect(third.getAttribute("aria-checked")).toBe("true"));
 });
 
@@ -1675,51 +1675,51 @@ test("on hosted OpenBot Clear browser data asks first in one sentence, Cancel do
   const clears = () =>
     writes.filter((write) => write.path === browserApiPaths.clear);
   const tabNames = () =>
-    within(view.getByRole("tablist", { name: "Tabs" }))
+    within(view.getByRole("tablist", { name: "Abas" }))
       .getAllByRole("tab")
       .map((tab) => tab.textContent);
 
-  await user.click(view.getByRole("button", { name: "Clear browser data" }));
+  await user.click(view.getByRole("button", { name: "Limpar dados do navegador" }));
   const confirm = within(
-    await view.findByRole("dialog", { name: "Clear this browser?" }),
+    await view.findByRole("dialog", { name: "Limpar este navegador?" }),
   );
   expect(
     confirm.getByText(
-      "Cookies, saved passwords and history are wiped. You'll have to sign in everywhere again.",
+      "Cookies, senhas salvas e histórico são apagados. Você terá que entrar em tudo de novo.",
     ),
   ).toBeTruthy();
-  await user.click(confirm.getByRole("button", { name: "Cancel" }));
+  await user.click(confirm.getByRole("button", { name: "Cancelar" }));
   await waitFor(() =>
     expect(
-      view.queryByRole("dialog", { name: "Clear this browser?" }),
+      view.queryByRole("dialog", { name: "Limpar este navegador?" }),
     ).toBeNull(),
   );
   expect(clears()).toEqual([]);
-  expect(tabNames()).toEqual(["Example Domain", "New tab"]);
+  expect(tabNames()).toEqual(["Example Domain", "Nova aba"]);
 
-  await user.click(view.getByRole("button", { name: "Clear browser data" }));
+  await user.click(view.getByRole("button", { name: "Limpar dados do navegador" }));
   await user.click(
     within(
-      await view.findByRole("dialog", { name: "Clear this browser?" }),
-    ).getByRole("button", { name: "Clear" }),
+      await view.findByRole("dialog", { name: "Limpar este navegador?" }),
+    ).getByRole("button", { name: "Limpar" }),
   );
-  await waitFor(() => expect(tabNames()).toEqual(["New tab"]));
+  await waitFor(() => expect(tabNames()).toEqual(["Nova aba"]));
   // One POST, with no body: the route takes none.
   expect(
     clears().map((write) => [write.method, write.body !== undefined]),
   ).toEqual([["POST", false]]);
   expect(
-    view.queryByRole("dialog", { name: "Clear this browser?" }),
+    view.queryByRole("dialog", { name: "Limpar este navegador?" }),
   ).toBeNull();
   expect(
-    (view.getByRole("textbox", { name: "Address" }) as HTMLInputElement).value,
+    (view.getByRole("textbox", { name: "Endereço" }) as HTMLInputElement).value,
   ).toBe("");
   await waitFor(() =>
     expect(
       [...document.querySelectorAll("[data-slot=toast]")].map(
         (each) => each.textContent,
       ),
-    ).toEqual(["Browser cleared"]),
+    ).toEqual(["Navegador limpo"]),
   );
   toast.close();
 });

@@ -68,7 +68,7 @@ import { queryClient } from "@/query-client";
  */
 /** The same way back from every state this route can be in. */
 const BACK = {
-  label: "UI components",
+  label: "Componentes de interface",
   linkProps: { to: "/admin/components" },
 } as const;
 
@@ -105,9 +105,10 @@ function RouteComponent() {
 
   if (components.error) {
     return (
-      <PageShell backButton={BACK} title="Components">
+      <PageShell backButton={BACK} title="Componentes">
         <p className="mt-8 text-destructive text-sm" role="alert">
-          Couldn't load components. Reload the page.
+          
+          Não foi possível carregar os componentes. Recarregue a página.
         </p>
       </PageShell>
     );
@@ -121,14 +122,15 @@ function RouteComponent() {
     return (
       <PageShell
         backButton={BACK}
-        description="There is no component with that name."
-        title="No such component"
+        description="Não existe componente com esse nome."
+        title="Componente inexistente"
       >
         <Empty className="mt-12 min-h-[30dvh] border border-dashed">
           <EmptyHeader>
             <EmptyTitle>{name}</EmptyTitle>
             <EmptyDescription className="text-pretty">
-              It may have been renamed, or this deployment no longer ships it.
+              
+              Ele pode ter sido renomeado, ou esta implantação não o inclui mais.
             </EmptyDescription>
           </EmptyHeader>
           <Button
@@ -136,7 +138,8 @@ function RouteComponent() {
             size="sm"
             variant="outline"
           >
-            Back to components
+            
+            Voltar aos componentes
           </Button>
         </Empty>
       </PageShell>
@@ -273,25 +276,25 @@ function ComponentDetail({
 
   const grantSummary =
     bots.length === 0
-      ? "No Bots yet"
+      ? "Nenhum Bot ainda"
       : granted.length === bots.length
-        ? `All ${bots.length} Bots`
+        ? `Todos os ${bots.length} Bots`
         : granted.length === 0
-          ? "No Bots"
-          : `${granted.length} of ${bots.length} Bots`;
+          ? "Nenhum Bot"
+          : `${granted.length} de ${bots.length} Bots`;
 
   const functionSummary =
     dataFunctions.length === 0
-      ? "This deployment has no data functions"
+      ? "Esta implantação não tem funções de dados"
       : held.length === 0
-        ? "Nothing. It shows only what the Bot passes it."
+        ? "Nada. Mostra só o que o Bot passar."
         : held.map((fn) => fn.name).join(", ");
 
   return (
     <PageShell
       backButton={BACK}
       description={
-        component.publishedDescription ?? "Not published. No Bot can see it."
+        component.publishedDescription ?? "Não publicado. Nenhum Bot pode vê-lo."
       }
       title={component.title}
     >
@@ -309,8 +312,8 @@ function ComponentDetail({
       </div>
 
       <PageSection
-        description="Describe this component and choose which Bots can display it."
-        title="Configuration"
+        description="Descreva este componente e escolha quais Bots podem exibi-lo."
+        title="Configuração"
       >
         <PageRows>
           {/*
@@ -324,9 +327,10 @@ function ComponentDetail({
                   <IconAlertTriangle className="text-amber-600 dark:text-amber-400" />
                 </ItemMedia>
                 <ItemContent>
-                  <ItemTitle>Not in this build</ItemTitle>
+                  <ItemTitle>Não está nesta versão</ItemTitle>
                   <ItemDescription>
-                    OpenBot can't draw it. The settings below have no effect.
+                    
+                    O OpenBot não consegue desenhá-lo. As configurações abaixo não têm efeito.
                   </ItemDescription>
                 </ItemContent>
               </Item>
@@ -339,19 +343,19 @@ function ComponentDetail({
               <IconWorld />
             </ItemMedia>
             <ItemContent>
-              <ItemTitle>Published</ItemTitle>
+              <ItemTitle>Publicado</ItemTitle>
               <ItemDescription>
                 {component.published
-                  ? "Bots can answer with it."
-                  : "No Bot can use it."}
+                  ? "Os Bots podem responder com ele."
+                  : "Nenhum Bot pode usá-lo."}
                 {component.hasUnpublishedChanges
-                  ? " The description has unpublished changes."
+                  ? " A descrição tem alterações não publicadas."
                   : null}
               </ItemDescription>
             </ItemContent>
             <ItemActions>
               <Switch
-                aria-label="Published"
+                aria-label="Publicado"
                 checked={component.published}
                 data-testid={`publish-${component.name}`}
                 onCheckedChange={onPublish}
@@ -363,9 +367,9 @@ function ComponentDetail({
 
           <SheetRow
             icon={<IconFileText />}
-            label="Description"
+            label="Descrição"
             onOpen={() => setSheet("description")}
-            summary={component.draftDescription || "Nothing yet"}
+            summary={component.draftDescription || "Nada ainda"}
             testId={`description-${component.name}`}
           />
 
@@ -373,7 +377,7 @@ function ComponentDetail({
 
           <SheetRow
             icon={<IconUsers />}
-            label="Available to"
+            label="Disponível para"
             onOpen={() => setSheet("grants")}
             summary={grantSummary}
             testId={`grants-${component.name}`}
@@ -383,7 +387,7 @@ function ComponentDetail({
 
           <SheetRow
             icon={<IconDatabase />}
-            label="Can read"
+            label="Pode ler"
             onOpen={() => setSheet("functions")}
             summary={functionSummary}
             testId={`functions-${component.name}`}
@@ -391,19 +395,19 @@ function ComponentDetail({
         </PageRows>
       </PageSection>
 
-      <PageSection title="Details">
+      <PageSection title="Detalhes">
         <PageRows>
-          <FactRow icon={<IconTag />} label="Kind">
+          <FactRow icon={<IconTag />} label="Tipo">
             {component.kind}
           </FactRow>
           <Separator />
-          <FactRow icon={<IconCode />} label="Called as">
+          <FactRow icon={<IconCode />} label="Chamado como">
             <code className="rounded bg-foreground/5 px-1.5 py-0.5 text-xs">
               {component.name}
             </code>
           </FactRow>
           <Separator />
-          <FactRow icon={<IconClock />} label="Last changed">
+          <FactRow icon={<IconClock />} label="Última alteração">
             {new Date(component.updatedAt).toLocaleString()}
             {component.updatedBy ? ` by ${component.updatedBy}` : null}
           </FactRow>
@@ -426,15 +430,15 @@ function ComponentDetail({
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Description</DialogTitle>
+            <DialogTitle>Descrição</DialogTitle>
             <DialogDescription>
-              What the model reads when it decides to use this. It has no effect
-              until the component is published.
+              
+              O que o modelo lê ao decidir usar isto. Não tem efeito até o componente ser publicado.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4">
             <Textarea
-              aria-label="Description"
+              aria-label="Descrição"
               onChange={(event) => setDraft(event.target.value)}
               rows={6}
               value={draft}
@@ -449,7 +453,8 @@ function ComponentDetail({
               size="sm"
               variant="ghost"
             >
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               onClick={() => {
@@ -458,7 +463,8 @@ function ComponentDetail({
               }}
               size="sm"
             >
-              Save
+              
+              Salvar
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -471,15 +477,15 @@ function ComponentDetail({
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Available to</DialogTitle>
+            <DialogTitle>Disponível para</DialogTitle>
             <DialogDescription>
-              Turn a Bot off and it never learns this component exists. Changes
-              apply right away.
+              
+              Desative um Bot e ele nunca saberá que este componente existe. As alterações valem na hora.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4">
             {bots.length === 0 ? (
-              <p className="text-muted-foreground text-sm">No Bots yet.</p>
+              <p className="text-muted-foreground text-sm">Nenhum Bot ainda.</p>
             ) : (
               <div className="flex flex-col">
                 {bots.map((bot, index) => {
@@ -508,7 +514,8 @@ function ComponentDetail({
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button onClick={() => setSheet(null)} size="sm">
-              Done
+              
+              Concluído
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -520,18 +527,17 @@ function ComponentDetail({
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Can read</DialogTitle>
+            <DialogTitle>Pode ler</DialogTitle>
             <DialogDescription>
-              The data this component can fetch to draw itself. This is separate
-              from Available to. With all of these off, it shows only what the
-              Bot passes it. Every read shows in Audit. Changes apply right
-              away.
+              
+              Os dados que este componente pode buscar para se desenhar. Isso é separado de Disponível para. Com tudo isto desativado, ele mostra só o que o Bot passar. Cada leitura aparece em Auditoria. As alterações valem na hora.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4">
             {dataFunctions.length === 0 ? (
               <p className="text-muted-foreground text-sm">
-                This deployment has no data functions.
+                
+                Esta implantação não tem funções de dados.
               </p>
             ) : (
               <div className="flex flex-col">
@@ -564,7 +570,8 @@ function ComponentDetail({
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button onClick={() => setSheet(null)} size="sm">
-              Done
+              
+              Concluído
             </Button>
           </DialogFooter>
         </DialogContent>

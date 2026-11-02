@@ -24,13 +24,13 @@ export async function startRecording(
 ): Promise<Recording> {
   if (!recordingSupported())
     throw new Error(
-      "Dictation requires a supported browser and HTTPS (or localhost).",
+      "O ditado exige um navegador compatível e HTTPS (ou localhost).",
     );
   const mimeType = ["audio/webm;codecs=opus", "audio/mp4", "audio/webm"].find(
     (type) => MediaRecorder.isTypeSupported(type),
   );
   if (!mimeType)
-    throw new Error("This browser cannot record a supported audio format.");
+    throw new Error("Este navegador não consegue gravar em um formato de áudio compatível.");
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const release = () => {
     for (const track of stream.getTracks()) track.stop();
@@ -52,25 +52,25 @@ export async function startRecording(
     if (recorder.state !== "inactive") recorder.stop();
     release();
     chunks = [];
-    done?.reject(new DOMException("Recording cancelled", "AbortError"));
+    done?.reject(new DOMException("Gravação cancelada", "AbortError"));
   };
   recorder.ondataavailable = (event) => {
     size += event.data.size;
     if (size > MAX_DICTATION_BYTES) {
       cancel();
-      onError(new Error("Recording is too large. Try a shorter message."));
+      onError(new Error("A gravação é grande demais. Tente uma mensagem mais curta."));
       return;
     }
     if (event.data.size) chunks.push(event.data);
   };
   recorder.onerror = () => {
     cancel();
-    onError(new Error("The microphone stopped recording. Please try again."));
+    onError(new Error("O microfone parou de gravar. Tente novamente."));
   };
   recorder.onstop = () => {
     release();
     if (!done) {
-      onError(new Error("Recording was interrupted. Please try again."));
+      onError(new Error("A gravação foi interrompida. Tente novamente."));
       return;
     }
     done.resolve(
@@ -93,7 +93,7 @@ export async function startRecording(
       if (recorder.state === "inactive") {
         release();
         done.reject(
-          new Error("Recording stopped before audio could be collected."),
+          new Error("A gravação parou antes de capturar o áudio."),
         );
       } else {
         recorder.stop();
@@ -112,7 +112,7 @@ export async function transcribeRecording(
   const extension = dictationExtension(type);
   if (!extension || !audio.size || audio.size > MAX_DICTATION_BYTES) {
     throw new Error(
-      "The recording is empty or unsupported. Please record again.",
+      "A gravação está vazia ou não é compatível. Grave novamente.",
     );
   }
   const body = new FormData();
@@ -135,7 +135,7 @@ export async function transcribeRecording(
         "error" in result &&
         typeof result.error === "string"
         ? result.error
-        : "Transcription failed. Please retry.",
+        : "A transcrição falhou. Tente novamente.",
     );
   }
   if (
@@ -145,7 +145,7 @@ export async function transcribeRecording(
     typeof result.text !== "string" ||
     !result.text.trim()
   ) {
-    throw new Error("No speech was detected. Try recording again.");
+    throw new Error("Nenhuma fala foi detectada. Tente gravar novamente.");
   }
   return result.text.trim();
 }

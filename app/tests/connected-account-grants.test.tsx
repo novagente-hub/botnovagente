@@ -253,7 +253,7 @@ const GMAIL: GrantState[] = [
     state: "needs-operator",
     missing: ["GOOGLE_CLIENT_SECRET"],
   },
-  { action: "Gmail.Flaky", state: "unknown", reason: "Try again in a moment." },
+  { action: "Gmail.Flaky", state: "unknown", reason: "Tente novamente em instantes." },
 ];
 
 function row(view: ReturnType<typeof render>, action: string): HTMLElement {
@@ -275,8 +275,8 @@ test("with no search term, Authorize for an unauthorized action is already on sc
     [...row(view, "Gmail.SendEmail").querySelectorAll("button")].map(
       (b) => b.textContent,
     ),
-  ).toEqual(["Authorize"]);
-  expect(view.getByLabelText("Search actions")).toHaveProperty("value", "");
+  ).toEqual(["Autorizar"]);
+  expect(view.getByLabelText("Pesquisar ações")).toHaveProperty("value", "");
 });
 
 // ---- 1: each action renders by its GrantState ----
@@ -287,10 +287,10 @@ test("Authorize appears for needs-consent and for nothing else", async () => {
   await waitFor(() => row(view, "Gmail.SendEmail"));
   const buttons = (action: string) =>
     [...row(view, action).querySelectorAll("button")].map((b) => b.textContent);
-  expect(buttons("Gmail.SendEmail")).toEqual(["Authorize"]);
+  expect(buttons("Gmail.SendEmail")).toEqual(["Autorizar"]);
   expect(buttons("Gmail.ListEmails")).toEqual([]);
   expect(buttons("Gmail.Setup")).toEqual([]);
-  expect(buttons("Gmail.Flaky")).not.toContain("Authorize");
+  expect(buttons("Gmail.Flaky")).not.toContain("Autorizar");
 });
 
 test("needs-operator names the missing secret, says an admin has to set it, and offers no Authorize", async () => {
@@ -309,9 +309,9 @@ test("needs-operator names the missing secret, says an admin has to set it, and 
   await waitFor(() => row(view, "Gmail.Setup"));
   const text = row(view, "Gmail.Setup").textContent ?? "";
   expect(text).toContain("GOOGLE_CLIENT_SECRET");
-  expect(text).toContain("An admin has to set it");
+  expect(text).toContain("Um administrador precisa definir");
   expect(row(view, "Gmail.Setup").querySelector("button")).toBeNull();
-  expect(view.queryByText("Authorize")).toBeNull();
+  expect(view.queryByText("Autorizar")).toBeNull();
 });
 
 test("unknown offers Retry and never a speculative Authorize", async () => {
@@ -322,7 +322,7 @@ test("unknown offers Retry and never a speculative Authorize", async () => {
       {
         action: "Gmail.Flaky",
         state: "unknown",
-        reason: "Try again in a moment.",
+        reason: "Tente novamente em instantes.",
       },
       {
         action: "Gmail.ListEmails",
@@ -337,8 +337,8 @@ test("unknown offers Retry and never a speculative Authorize", async () => {
   const labels = [...row(view, "Gmail.Flaky").querySelectorAll("button")].map(
     (b) => b.textContent,
   );
-  expect(labels).toEqual(["Retry"]);
-  expect(view.queryByText("Authorize")).toBeNull();
+  expect(labels).toEqual(["Tentar de novo"]);
+  expect(view.queryByText("Autorizar")).toBeNull();
 });
 
 test("the route's synthetic toolkit-named unknown reads as could not read and never as an action", async () => {
@@ -361,7 +361,7 @@ test("the route's synthetic toolkit-named unknown reads as could not read and ne
   expect(view.container.querySelector('[data-action="Gmail"]')).toBeNull();
   expect(
     [...view.container.querySelectorAll("button")].map((b) => b.textContent),
-  ).toContain("Retry");
+  ).toContain("Tentar de novo");
 });
 
 // ---- 2: grouped by permission ----
@@ -433,7 +433,7 @@ test("authorized actions are listed first, and the unauthorized ones follow with
         scopes: [],
         authorization: "held",
       },
-      { action: "Github.D", state: "unknown", reason: "Try again." },
+      { action: "Github.D", state: "unknown", reason: "Tente novamente." },
     ],
   });
   const view = renderScreen();
@@ -481,7 +481,7 @@ test("past the first ten unauthorized actions the rest wait behind the search", 
     "2 more actions not yet authorized",
   );
   // The search still narrows to exactly what matches, and reaches the tail.
-  await userEvent.type(view.getByLabelText("Search actions"), "sendk");
+  await userEvent.type(view.getByLabelText("Pesquisar ações"), "sendk");
   await waitFor(() => row(view, "Gmail.Sendk"));
   expect(
     view.container.querySelector('[data-action="Gmail.ListEmails"]'),
@@ -500,7 +500,7 @@ test("with mixed unauthorized states past ten, the ten drawn are in state order:
       (_, index): GrantState => ({
         action: `Gmail.A${index}`,
         state: "unknown",
-        reason: "Try again.",
+        reason: "Tente novamente.",
       }),
     ),
     ...Array.from(
@@ -556,7 +556,7 @@ test("a Shared app shows state to a member but Authorize only to an administrato
   const member = renderScreen();
   await waitFor(() => row(member, "Gmail.SendEmail"));
   expect(row(member, "Gmail.ListEmails").textContent).toContain("Authorized");
-  expect(member.queryByText("Authorize")).toBeNull();
+  expect(member.queryByText("Autorizar")).toBeNull();
   cleanup();
 
   install({
@@ -568,7 +568,7 @@ test("a Shared app shows state to a member but Authorize only to an administrato
   });
   const admin = renderScreen();
   await waitFor(() => row(admin, "Gmail.SendEmail"));
-  await waitFor(() => expect(admin.queryByText("Authorize")).not.toBeNull());
+  await waitFor(() => expect(admin.queryByText("Autorizar")).not.toBeNull());
 });
 
 /*
@@ -590,7 +590,7 @@ test("a Shared app landing from a consent names the action and marks its row", a
   const view = renderScreen("?action=Gmail.ListEmails");
 
   const notice = await view.findByRole("status");
-  expect(notice.textContent).toBe("You just authorized Gmail.ListEmails.");
+  expect(notice.textContent).toBe("Você acabou de autorizar Gmail.ListEmails.");
   expect(notice.getAttribute("data-landed-action")).toBe("Gmail.ListEmails");
 
   // And the row itself is the marked one, with no search typed to find it by.
@@ -598,7 +598,7 @@ test("a Shared app landing from a consent names the action and marks its row", a
   expect(row(view, "Gmail.ListEmails").hasAttribute("data-landed")).toBe(true);
   expect(row(view, "Gmail.SendEmail").hasAttribute("data-landed")).toBe(false);
   // The Shared branch is the one drawing this, not the personal-account branch.
-  expect(view.container.textContent).toContain("Team account");
+  expect(view.container.textContent).toContain("Conta da equipe");
 });
 
 test("a Shared app reached without an action says nothing about authorizing", async () => {
@@ -621,14 +621,14 @@ test("pressing Authorize renders consentCopy's sentence and redirects nowhere ye
   install({ provider: "arcade", connected: true, grants: GMAIL });
   const view = renderScreen();
   await waitFor(() => row(view, "Gmail.SendEmail"));
-  fireEvent.click(view.getByText("Authorize"));
+  fireEvent.click(view.getByText("Autorizar"));
   const expected = consentCopy("Gmail.SendEmail", [
     { name: "Gmail.ListEmails", scopes: ["gmail.readonly"] },
     { name: "Gmail.ListThreads", scopes: ["gmail.readonly"] },
     { name: "Gmail.SendEmail", scopes: ["gmail.send"] },
   ]).sentence;
   const panel = await view.findByRole("group", {
-    name: /Before you authorize/,
+    name: /Antes de autorizar/,
   });
   expect(panel.textContent).toContain(expected);
   expect(panel.textContent).toContain(
@@ -636,7 +636,7 @@ test("pressing Authorize renders consentCopy's sentence and redirects nowhere ye
   );
   // Nothing was minted by merely looking at the copy.
   expect(authorizeCalls).toEqual([]);
-  fireEvent.click(view.getByText("Continue to consent"));
+  fireEvent.click(view.getByText("Continuar para o consentimento"));
   await waitFor(() =>
     expect(authorizeCalls).toEqual([
       JSON.stringify({ action: "Gmail.SendEmail" }),
@@ -671,12 +671,12 @@ test("on screen, the N an approval approves leaves out every action that needs n
   await waitFor(() => row(view, "Tk.A"));
   fireEvent.click(row(view, "Tk.A").querySelector("button") as HTMLElement);
   const panel = await view.findByRole("group", {
-    name: /Before you authorize/,
+    name: /Antes de autorizar/,
   });
   expect(panel.textContent).toContain(
     `approving this approves all ${covered}.`,
   );
-  expect(row(view, "Tk.X").textContent).toContain("Needs no authorization.");
+  expect(row(view, "Tk.X").textContent).toContain("Não precisa de autorização.");
   const together = view.container.querySelector(
     '[data-grant-group="whole-app"]',
   );
@@ -701,13 +701,13 @@ test("the consent copy never promises that only the named action becomes usable"
     ],
   });
   const view = renderScreen();
-  await userEvent.type(await view.findByLabelText("Search actions"), "Github.");
+  await userEvent.type(await view.findByLabelText("Pesquisar ações"), "Github.");
   await waitFor(() => row(view, "Github.CountStargazers"));
   fireEvent.click(
     row(view, "Github.CountStargazers").querySelector("button") as HTMLElement,
   );
   const panel = await view.findByRole("group", {
-    name: /Before you authorize/,
+    name: /Antes de autorizar/,
   });
   expect(panel.textContent).toContain(
     "It also enables this other action requiring it: Github.CreateIssue.",
@@ -728,18 +728,18 @@ test("on Arcade the grant list says nothing of Composio, in text or attributes",
   });
   const view = renderScreen("?action=Gmail.ListEmails");
   await waitFor(() => row(view, "Gmail.SendEmail"));
-  fireEvent.click(view.getByText("Authorize"));
-  await view.findByRole("group", { name: /Before you authorize/ });
+  fireEvent.click(view.getByText("Autorizar"));
+  await view.findByRole("group", { name: /Antes de autorizar/ });
   expect(everythingRendered(view)).not.toMatch(/composio/i);
 });
 
 test("a Composio deployment draws no grant list and never reads the grants", async () => {
   install({ provider: "composio", connected: true, grants: GMAIL });
   const view = renderScreen();
-  await view.findByText("Disconnect");
+  await view.findByText("Desconectar");
   await new Promise((resolve) => setTimeout(resolve, 50));
   expect(view.container.querySelector("[data-action]")).toBeNull();
-  expect(view.queryByLabelText("Search actions")).toBeNull();
+  expect(view.queryByLabelText("Pesquisar ações")).toBeNull();
 });
 
 /*
@@ -759,10 +759,10 @@ test("a broker named arcade that authorizes no action draws no grant list", asyn
     grants: GMAIL,
   });
   const view = renderScreen();
-  await view.findByText("Disconnect");
+  await view.findByText("Desconectar");
   await new Promise((resolve) => setTimeout(resolve, 50));
   expect(view.container.querySelector("[data-action]")).toBeNull();
-  expect(view.queryByLabelText("Search actions")).toBeNull();
+  expect(view.queryByLabelText("Pesquisar ações")).toBeNull();
 });
 
 /* And the mirror: the capability alone is enough, with no name read anywhere on the way. */
@@ -775,5 +775,5 @@ test("a broker that authorizes per action draws the grant list", async () => {
   });
   const view = renderScreen();
   await waitFor(() => row(view, "Gmail.SendEmail"));
-  expect(view.getByLabelText("Search actions")).toBeTruthy();
+  expect(view.getByLabelText("Pesquisar ações")).toBeTruthy();
 });

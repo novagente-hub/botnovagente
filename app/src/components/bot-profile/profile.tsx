@@ -45,9 +45,9 @@ import { BotActivityGlance } from "./activity";
 import { BotPausedBanner } from "./pause-banner";
 
 const NOTIFY_LABEL: Record<BotNotify, string> = {
-  all: "Everything",
-  needs_input: "Only when it needs me",
-  none: "Nothing (badges only)",
+  all: "Tudo",
+  needs_input: "Só quando precisar de mim",
+  none: "Nada (só indicadores)",
 };
 
 /** A Bot's own page: its state for you, what it is doing, its settings, and what can be done to it. */
@@ -93,7 +93,7 @@ export function BotProfile({
       <BotNeedsYou agentId={agent.id} />
       <SuggestionsInbox agentId={agent.id} />
 
-      <PageSection title="For you">
+      <PageSection title="Para você">
         {/* Whether this Bot's Shared-app calls are being refused right now, with the button that
             asks an administrator. About its present reach, so it lives here, not only where
             publishing happens. */}
@@ -102,7 +102,8 @@ export function BotProfile({
         ) : null}
         {lifecycle.isPending ? null : lifecycle.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            Couldn't load this Bot's settings. Reload the page.
+            
+            Não foi possível carregar as configurações deste Bot. Recarregue a página.
           </p>
         ) : (
           <PageRows>
@@ -113,16 +114,16 @@ export function BotProfile({
               <ItemContent>
                 {/* On means working, the way a responsibility's Active switch reads: titled "Paused",
                     the row showed the word "Paused" beside a switch that was off for a running Bot. */}
-                <ItemTitle>Active</ItemTitle>
+                <ItemTitle>Ativo</ItemTitle>
                 <ItemDescription>
                   {lifecycle.data.paused
-                    ? "Paused. Nothing runs for you until you turn it back on."
-                    : "Runs its routines, responsibilities, hand-offs and follow-ups for you."}
+                    ? "Pausado. Nada é executado para você até reativá-lo."
+                    : "Executa as rotinas, responsabilidades, repasses e acompanhamentos dele para você."}
                 </ItemDescription>
               </ItemContent>
               <ItemActions>
                 <Switch
-                  aria-label="Active"
+                  aria-label="Ativo"
                   checked={!lifecycle.data.paused}
                   disabled={pause.isPending}
                   onCheckedChange={(active) =>
@@ -137,7 +138,7 @@ export function BotProfile({
                 <IconBell />
               </ItemMedia>
               <ItemContent>
-                <ItemTitle>Notifications</ItemTitle>
+                <ItemTitle>Notificações</ItemTitle>
                 <ItemDescription>
                   {NOTIFY_LABEL[lifecycle.data.notify]}. Sidebar badges always
                   show.
@@ -157,7 +158,7 @@ export function BotProfile({
                   }}
                   value={lifecycle.data.notify}
                 >
-                  <SelectTrigger aria-label="Notifications">
+                  <SelectTrigger aria-label="Notificações">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -178,10 +179,10 @@ export function BotProfile({
                     <IconBell />
                   </ItemMedia>
                   <ItemContent>
-                    <ItemTitle>Browser notifications</ItemTitle>
+                    <ItemTitle>Notificações do navegador</ItemTitle>
                     <ItemDescription>
-                      Off in this browser. Turn them on to hear when a Bot needs
-                      you.
+                      
+                      Desativadas neste navegador. Ative-as para saber quando um Bot precisar de você.
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions>
@@ -196,7 +197,8 @@ export function BotProfile({
                       size="sm"
                       variant="outline"
                     >
-                      Turn on
+                      
+                      Ativar
                     </Button>
                   </ItemActions>
                 </Item>
@@ -211,8 +213,8 @@ export function BotProfile({
                 <IconMessage />
               </ItemMedia>
               <ItemContent>
-                <ItemTitle>Message {agent.name}</ItemTitle>
-                <ItemDescription>Start a conversation.</ItemDescription>
+                <ItemTitle>Mensagem {agent.name}</ItemTitle>
+                <ItemDescription>Comece uma conversa.</ItemDescription>
               </ItemContent>
               <ItemActions>
                 <IconChevronRight className="size-4 text-muted-foreground" />

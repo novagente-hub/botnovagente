@@ -56,7 +56,7 @@ test("a registered phone is listed and can be removed", async () => {
   serving();
   const view = draw(<NativeDevices />);
   expect(await view.findByText("iOS")).toBeTruthy();
-  fireEvent.click(view.getByRole("button", { name: "Remove" }));
+  fireEvent.click(view.getByRole("button", { name: "Remover" }));
   await waitFor(() =>
     expect(requests).toContain("DELETE /api/delivery/devices/d1"),
   );

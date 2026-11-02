@@ -110,9 +110,9 @@ function toggled(
  * case that gets a number.
  */
 function grantSummary(held: number, total: number): string {
-  if (held === 0) return "No Bots";
-  if (held === total) return total === 1 ? "1 Bot" : "All Bots";
-  return `${held} of ${total} Bots`;
+  if (held === 0) return "Nenhum Bot";
+  if (held === total) return total === 1 ? "1 Bot" : "Todos os Bots";
+  return `${held} de ${total} Bots`;
 }
 
 /**
@@ -123,9 +123,9 @@ function grantSummary(held: number, total: number): string {
  * score, and the two answers worth recognising without reading are none of it and all of it.
  */
 function heldSummary(held: number, total: number): string {
-  if (held === 0) return "No tools";
-  if (held === total) return total === 1 ? "1 tool" : "Every tool";
-  return `${held} of ${total} tools`;
+  if (held === 0) return "Nenhuma ferramenta";
+  if (held === total) return total === 1 ? "1 tool" : "Todas as ferramentas";
+  return `${held} de ${total} ferramentas`;
 }
 
 /**
@@ -149,7 +149,7 @@ function BotApprovalText({
   if (!app) return null;
   return (
     <span className="text-muted-foreground text-xs">
-      {app.approval ? describeApproval(app.approval) : "Not approved"}
+      {app.approval ? describeApproval(app.approval) : "Não aprovado"}
     </span>
   );
 }
@@ -199,10 +199,10 @@ function ConnectionStateUnreadable() {
   return (
     <Item size="sm">
       <ItemContent>
-        <ItemTitle>Your account</ItemTitle>
+        <ItemTitle>Sua conta</ItemTitle>
         <ItemDescription role="alert">
-          Couldn't load whether you've connected an account here. Reload the
-          page, or check this deployment's logs if it keeps happening.
+          
+          Não foi possível verificar se você conectou uma conta aqui. Recarregue a página ou confira os logs desta implantação se continuar acontecendo.
         </ItemDescription>
       </ItemContent>
     </Item>
@@ -335,7 +335,7 @@ function RouteComponent() {
           : null;
       if (authorizationUrl === null) {
         setError(
-          "OpenBot got no consent link back, so nothing was connected. Try again, or check this connector's setup if it keeps happening.",
+          "O OpenBot não recebeu um link de consentimento, então nada foi conectado. Tente novamente ou confira a configuração deste conector se continuar acontecendo.",
         );
         return;
       }
@@ -380,7 +380,7 @@ function RouteComponent() {
   /* Bound once because the brokered row below is told it twice — once inside the whole
      disconnected sentence and once on its own — and two copies of it would drift. */
   const reassurance =
-    "Setup is complete without it, and it reaches your documents only.";
+    "A configuração está completa sem isso, e só acessa os seus documentos.";
 
   /*
    * A SHARED APP'S ROW IS THE TEAM ACCOUNT, NOT THIS ADMINISTRATOR'S.
@@ -526,7 +526,8 @@ function RouteComponent() {
         title="Plugins"
       >
         <p className="mt-12 text-destructive text-sm" role="alert">
-          Couldn't load plugins. Reload the page.
+          
+          Não foi possível carregar os plugins. Recarregue a página.
         </p>
       </PageShell>
     );
@@ -535,11 +536,12 @@ function RouteComponent() {
     return (
       <PageShell
         backButton={{ label: "Plugins", linkProps: { to: "/admin/plugins" } }}
-        description="There is no plugin with that name, here or in the catalogue."
-        title="Not a plugin"
+        description="Não existe plugin com esse nome, nem aqui nem no catálogo."
+        title="Não é um plugin"
       >
-        <PageEmpty icon={IconPuzzle} title="Plugin not found">
-          Nothing to configure.
+        <PageEmpty icon={IconPuzzle} title="Plugin não encontrado">
+          
+          Nada para configurar.
         </PageEmpty>
       </PageShell>
     );
@@ -585,16 +587,16 @@ function RouteComponent() {
            */}
           <Item size="sm">
             <ItemContent>
-              <ItemTitle>Enable for this deployment</ItemTitle>
+              <ItemTitle>Ativar para esta implantação</ItemTitle>
               <ItemDescription>
                 {server
-                  ? "Bots can be given its tools. Turning this off removes it and every Bot's access to its tools."
-                  : "No Bot can reach this vendor. Turn it on to set it up and give Bots its tools."}
+                  ? "Os Bots podem receber as ferramentas dele. Desativar o remove e tira o acesso de todos os Bots às ferramentas dele."
+                  : "Nenhum Bot pode acessar este fornecedor. Ative-o para configurar e dar as ferramentas dele aos Bots."}
               </ItemDescription>
             </ItemContent>
             <ItemActions>
               <Switch
-                aria-label={`Enable ${title} for this deployment`}
+                aria-label={`Ativar ${title} para esta implantação`}
                 checked={server !== undefined}
                 onCheckedChange={(next) => {
                   setError(null);
@@ -617,11 +619,11 @@ function RouteComponent() {
               <Separator />
               <Item size="sm">
                 <ItemContent>
-                  <ItemTitle>Whose account</ItemTitle>
+                  <ItemTitle>Conta de quem</ItemTitle>
                   <ItemDescription>
                     {server.accountMode === "shared"
-                      ? "One shared account for everyone."
-                      : "Each person connects their own."}
+                      ? "Uma conta compartilhada para todos."
+                      : "Cada pessoa conecta a sua."}
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
@@ -636,8 +638,8 @@ function RouteComponent() {
                     variant="outline"
                   >
                     {server.accountMode === "shared"
-                      ? "Make personal"
-                      : "Make shared"}
+                      ? "Tornar pessoal"
+                      : "Tornar compartilhada"}
                   </Button>
                 </ItemActions>
               </Item>
@@ -656,18 +658,18 @@ function RouteComponent() {
               <Separator />
               <Item size="sm">
                 <ItemContent>
-                  <ItemTitle>Bot owners can give it to their Bots</ItemTitle>
+                  <ItemTitle>Donos de Bots podem dá-lo aos seus Bots</ItemTitle>
                   <ItemDescription>
                     {server.ownerGrants !== "any"
-                      ? "Only an admin can give it to a Bot."
+                      ? "Só um administrador pode dá-lo a um Bot."
                       : shared
-                        ? "Bot owners who give it to their Bots let those Bots use the team account."
-                        : "People can let Bots they own use it, on the account of whoever is asking."}
+                        ? "Donos de Bots que o dão aos seus Bots permitem que esses Bots usem a conta da equipe."
+                        : "As pessoas podem permitir que os Bots delas o usem, com a conta de quem está pedindo."}
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
                   <Switch
-                    aria-label={`Let Bot owners give ${title} to their Bots`}
+                    aria-label={`Permitir que donos de Bots deem ${title} aos seus Bots`}
                     checked={server.ownerGrants === "any"}
                     disabled={ownerGrants.isPending}
                     onCheckedChange={(next) => {
@@ -707,13 +709,13 @@ function RouteComponent() {
             auth === "user-oauth"
               ? "This vendor answers as whoever is asking. The deployment registers an OAuth client, and each person connects their own account. A Bot only sees what that person can see."
               : auth === "builtin"
-                ? "Built into this deployment. There is no vendor to reach and no credential to keep. A call runs as whoever asked."
+                ? "Integrado a esta implantação. Não há fornecedor para acessar nem credencial para guardar. Uma chamada roda como quem pediu."
                 : auth === "brokered"
                   ? /* The row below says how, at length. This says whose account it is, which is the part that decides what an admin has to do here — which is nothing. */
                     brokeredConnectionDescription(provider)
-                  : "What this deployment sends to the vendor. One credential for everybody."
+                  : "O que esta implantação envia ao fornecedor. Uma credencial para todos."
           }
-          title="Connection"
+          title="Conexão"
         >
           {/*
            * Rows that DO something, and nothing else — with two admitted exceptions. The layout
@@ -746,15 +748,16 @@ function RouteComponent() {
                */
               <Item size="sm">
                 <ItemContent>
-                  <ItemTitle>Connection</ItemTitle>
+                  <ItemTitle>Conexão</ItemTitle>
                   <ItemDescription>
-                    Nothing to set up. These tools run inside this deployment,
-                    on its own data.
+                    
+                    Nada para configurar. Estas ferramentas rodam dentro desta implantação, com os dados dela.
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
                   <span className="text-muted-foreground text-xs">
-                    Built in
+                    
+                    Integrado
                   </span>
                 </ItemActions>
               </Item>
@@ -768,7 +771,7 @@ function RouteComponent() {
                */
               <Item size="sm">
                 <ItemContent>
-                  <ItemTitle>How this is reached</ItemTitle>
+                  <ItemTitle>Como é acessado</ItemTitle>
                   <ItemDescription>
                     {brokeredReach(provider).description}
                   </ItemDescription>
@@ -789,14 +792,15 @@ function RouteComponent() {
                 size="sm"
               >
                 <ItemContent>
-                  <ItemTitle>Access token</ItemTitle>
+                  <ItemTitle>Token de acesso</ItemTitle>
                   <ItemDescription>
-                    Sent with every call to this vendor.
+                    
+                    Enviado em cada chamada a este fornecedor.
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
                   <span className="text-muted-foreground text-xs">
-                    {server?.hasCredential ? "Saved" : "Not set"}
+                    {server?.hasCredential ? "Salvou" : "Não definido"}
                   </span>
                   <IconChevronRight className="size-4 shrink-0 text-muted-foreground" />
                 </ItemActions>
@@ -811,15 +815,16 @@ function RouteComponent() {
                */
               <Item size="sm">
                 <ItemContent>
-                  <ItemTitle>OAuth client</ItemTitle>
+                  <ItemTitle>Cliente OAuth</ItemTitle>
                   <ItemDescription>
-                    This deployment registers itself with the vendor on first
-                    connect. There is nothing to paste.
+                    
+                    Esta implantação se registra no fornecedor na primeira conexão. Não há nada para colar.
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
                   <span className="text-muted-foreground text-xs">
-                    Self-registered
+                    
+                    Autorregistrado
                   </span>
                 </ItemActions>
               </Item>
@@ -833,15 +838,15 @@ function RouteComponent() {
                 size="sm"
               >
                 <ItemContent>
-                  <ItemTitle>OAuth client</ItemTitle>
+                  <ItemTitle>Cliente OAuth</ItemTitle>
                   <ItemDescription>
-                    Identifies this deployment to the vendor. On its own, it
-                    can't reach anyone's documents.
+                    
+                    Identifica esta implantação para o fornecedor. Sozinho, não acessa os documentos de ninguém.
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
                   <span className="text-muted-foreground text-xs">
-                    {server?.hasCredential ? "Registered" : "Not registered"}
+                    {server?.hasCredential ? "Registrado" : "Não registrado"}
                   </span>
                   <IconChevronRight className="size-4 shrink-0 text-muted-foreground" />
                 </ItemActions>
@@ -884,10 +889,10 @@ function RouteComponent() {
                 ) : shared ? (
                   <BrokeredAccountRow
                     account={brokeredAccount}
-                    connectedDescription={`Connected${sharedConnection?.displayName ? ` as ${sharedConnection.displayName}` : ""}${sharedConnection?.connectedBy ? ` by ${sharedConnection.connectedBy}` : ""}. Every Bot with these tools acts as this account.`}
-                    disconnectedDescription={`No team account is connected. Bots with these tools are refused.${perActionGrants ? ` ${brokeredPerActionTrip(provider, "settings")}` : ""}`}
-                    heading="Team account"
-                    notice="Sign in as the team account, not your own."
+                    connectedDescription={`Conectado${sharedConnection?.displayName ? ` como ${sharedConnection.displayName}` : ""}${sharedConnection?.connectedBy ? ` por ${sharedConnection.connectedBy}` : ""}. Todo Bot com estas ferramentas age como esta conta.`}
+                    disconnectedDescription={`Nenhuma conta da equipe está conectada. Bots com estas ferramentas são recusados.${perActionGrants ? ` ${brokeredPerActionTrip(provider, "settings")}` : ""}`}
+                    heading="Conta da equipe"
+                    notice="Entre com a conta da equipe, não com a sua."
                     provider={provider}
                     title={title}
                   />
@@ -897,11 +902,11 @@ function RouteComponent() {
                     /* Said beside the button rather than after it: disconnecting ends the account
                        at Composio, so what it undoes is not the row here but the grant on this
                        person's mailbox, and connecting again is a fresh consent. */
-                    connectedDescription={`Connected. A Bot with these tools uses your ${title} as you. ${brokeredDisconnectNote(provider)}`}
+                    connectedDescription={`Conectado. Um Bot com estas ferramentas usa seu ${title} como você. ${brokeredDisconnectNote(provider)}`}
                     disconnectedDescription={
                       perActionGrants
                         ? `${brokeredPerActionTrip(provider, "settings")} ${reassurance}`
-                        : `Connect your own account to try this connector. ${reassurance}`
+                        : `Conecte sua própria conta para testar este conector. ${reassurance}`
                     }
                     /* The half of the line above that is true whichever way this app connects.
                        An app whose key somebody types gets a different first sentence from the
@@ -925,11 +930,11 @@ function RouteComponent() {
                 ) : (
                   <Item size="sm">
                     <ItemContent>
-                      <ItemTitle>Your account</ItemTitle>
+                      <ItemTitle>Sua conta</ItemTitle>
                       <ItemDescription>
                         {youConnected
-                          ? `Connected. A Bot with these tools uses your ${title} as you. Everybody else connects their own.`
-                          : "Connect your own account to try this connector. Setup is complete without it, and it reaches your documents only."}
+                          ? `Conectado. Um Bot com estas ferramentas usa seu ${title} como você. Todos os outros conectam a própria conta.`
+                          : "Conecte sua própria conta para testar este conector. A configuração está completa sem isso, e só acessa os seus documentos."}
                       </ItemDescription>
                     </ItemContent>
                     <ItemActions>
@@ -941,7 +946,8 @@ function RouteComponent() {
                             className="size-1.5 rounded-full bg-emerald-500"
                           />
                           <span className="text-muted-foreground text-xs">
-                            Connected
+                            
+                            Conectado
                           </span>
                         </>
                       ) : (
@@ -956,7 +962,8 @@ function RouteComponent() {
                           type="button"
                           variant="outline"
                         >
-                          Connect
+                          
+                          Conectar
                           <IconArrowUpRight />
                         </Button>
                       )}
@@ -979,15 +986,15 @@ function RouteComponent() {
                   size="sm"
                 >
                   <ItemContent>
-                    <ItemTitle>Instance host</ItemTitle>
+                    <ItemTitle>Host da instância</ItemTitle>
                     <ItemDescription>
-                      This vendor gives every customer their own hostname. It is
-                      checked against the vendor's pattern before it is saved.
+                      
+                      Este fornecedor dá a cada cliente um hostname próprio. Ele é verificado contra o padrão do fornecedor antes de ser salvo.
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions>
                     <span className="text-muted-foreground text-xs">
-                      {server?.url ?? "Not set"}
+                      {server?.url ?? "Não definido"}
                     </span>
                     <IconChevronRight className="size-4 shrink-0 text-muted-foreground" />
                   </ItemActions>
@@ -1007,13 +1014,13 @@ function RouteComponent() {
                   <ItemContent>
                     <ItemTitle>
                       {auth === "builtin"
-                        ? "Documentation"
-                        : "Vendor documentation"}
+                        ? "Documentação"
+                        : "Documentação do fornecedor"}
                     </ItemTitle>
                     <ItemDescription>
                       {auth === "builtin"
-                        ? "What these tools offer, from the people who maintain them."
-                        : "What this server offers, from the people who maintain it."}
+                        ? "O que estas ferramentas oferecem, segundo quem as mantém."
+                        : "O que este servidor oferece, segundo quem o mantém."}
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions>
@@ -1028,20 +1035,19 @@ function RouteComponent() {
             <div className="mt-3 p-3">
               {server?.dynamicClient ? (
                 <p className="text-muted-foreground text-sm">
-                  The deployment registers its redirect URI itself. There is
-                  nothing to add at the vendor.
+                  
+                  A implantação registra a própria URI de redirecionamento. Não há nada a adicionar no fornecedor.
                 </p>
               ) : (
                 <p className="text-muted-foreground text-sm">
-                  Add this to the client's authorised redirect URIs at the
-                  vendor, exactly as written. One wrong character fails there,
-                  with an error that doesn't mention OpenBot.
+                  
+                  Adicione isto às URIs de redirecionamento autorizadas do cliente no fornecedor, exatamente como está escrito. Um caractere errado falha lá, com um erro que não menciona o OpenBot.
                 </p>
               )}
               {!plugins.data?.redirectUri ? (
                 <p className="mt-3 text-destructive text-sm" role="alert">
-                  This deployment has no public URL, so nobody can finish
-                  connecting. Set OPENBOT_PUBLIC_URL.
+                  
+                  Esta implantação não tem URL pública, então ninguém consegue concluir a conexão. Defina OPENBOT_PUBLIC_URL.
                 </p>
               ) : server?.dynamicClient ? null : (
                 /* Selectable and monospaced: it is copied by hand into somebody else's console. */
@@ -1070,7 +1076,8 @@ function RouteComponent() {
                 type="button"
                 variant="ghost"
               >
-                Refresh tools
+                
+                Atualizar ferramentas
               </Button>
               {/*
                * Outline where refresh is ghost: granting is the thing an administrator came to
@@ -1088,18 +1095,19 @@ function RouteComponent() {
                   type="button"
                   variant="outline"
                 >
-                  Grant tools…
+                  
+                  Conceder ferramentas…
                 </Button>
               ) : null}
             </div>
           }
-          description="A Bot only sees the tools it has been given. Each call is checked when it happens, so removing access applies from the next call."
-          title="Tools"
+          description="Um Bot só vê as ferramentas que recebeu. Cada chamada é verificada no momento, então remover o acesso vale a partir da próxima chamada."
+          title="Ferramentas"
         >
           <SkippedToolsNotice names={server.skippedTools ?? []} />
           {server.tools.length === 0 ? (
-            <PageEmpty icon={IconTool} title="No tools listed">
-              {server.lastError ?? "Refresh tools to check again."}
+            <PageEmpty icon={IconTool} title="Nenhuma ferramenta listada">
+              {server.lastError ?? "Atualize as ferramentas para verificar de novo."}
             </PageEmpty>
           ) : (
             <PageRows>
@@ -1166,7 +1174,7 @@ function RouteComponent() {
            */}
           {server.tools.length > 0 && bots.length > 0 ? (
             <>
-              <p className="mt-8 font-medium text-sm">By Bot</p>
+              <p className="mt-8 font-medium text-sm">Por Bot</p>
               <PageRows>
                 {bots.map((bot, index) => (
                   <React.Fragment key={bot.id}>
@@ -1184,8 +1192,8 @@ function RouteComponent() {
                         <ItemTitle>{bot.name}</ItemTitle>
                         <ItemDescription>
                           {bot.hidden
-                            ? "Hidden from your roster. Turn this app's actions on or off one at a time."
-                            : "Turn this app's actions on or off one at a time."}
+                            ? "Oculto da sua lista. Ative ou desative as ações deste app uma por vez."
+                            : "Ative ou desative as ações deste app uma por vez."}
                         </ItemDescription>
                       </ItemContent>
                       <ItemActions>
@@ -1226,8 +1234,8 @@ function RouteComponent() {
        */}
       {server && server.withdrawn.length > 0 ? (
         <PageSection
-          description="This vendor no longer lists these. No Bot sees them, and none can call them. The access is still saved, and comes back if the vendor lists the tool again. To remove it, use the Bot's own page."
-          title="Given but no longer listed"
+          description="Este fornecedor não lista mais estas ferramentas. Nenhum Bot as vê, e nenhum pode chamá-las. O acesso continua salvo e volta se o fornecedor listar a ferramenta de novo. Para removê-lo, use a página do próprio Bot."
+          title="Concedidas, mas não listadas mais"
         >
           <PageRows>
             {server.withdrawn.map((held, index) => (
@@ -1238,8 +1246,9 @@ function RouteComponent() {
                       {held.name}
                     </ItemTitle>
                     <ItemDescription>
-                      Not listed by {title}
-                      {server.toolsRefreshedAt ? ` as of the last refresh` : ""}
+                      
+                      Não listado por {title}
+                      {server.toolsRefreshedAt ? ` desde a última atualização` : ""}
                       .
                     </ItemDescription>
                   </ItemContent>
@@ -1264,17 +1273,17 @@ function RouteComponent() {
           <DialogHeader>
             <DialogTitle>
               {dialog === "client"
-                ? `OAuth client for ${title}`
+                ? `Cliente OAuth de ${title}`
                 : dialog === "instance"
-                  ? `Instance host for ${title}`
-                  : `Access token for ${title}`}
+                  ? `Host da instância de ${title}`
+                  : `Token de acesso de ${title}`}
             </DialogTitle>
             <DialogDescription>
               {dialog === "client"
-                ? "From the vendor's console. The secret is saved in this deployment's vault and never shown again."
+                ? "Do console do fornecedor. O segredo é salvo no cofre desta implantação e nunca mais é mostrado."
                 : dialog === "instance"
-                  ? "Your own hostname with this vendor. It is checked against the vendor's pattern before it is saved."
-                  : "Saved in this deployment's vault and never shown again."}
+                  ? "Seu próprio hostname neste fornecedor. Ele é verificado contra o padrão do fornecedor antes de ser salvo."
+                  : "Salvo no cofre desta implantação e nunca mais mostrado."}
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4">
@@ -1282,7 +1291,7 @@ function RouteComponent() {
               {dialog === "client" ? (
                 <>
                   <Field>
-                    <FieldLabel htmlFor="client-id">Client ID</FieldLabel>
+                    <FieldLabel htmlFor="client-id">ID do cliente</FieldLabel>
                     <Input
                       id="client-id"
                       onChange={(event) =>
@@ -1296,7 +1305,8 @@ function RouteComponent() {
                   </Field>
                   <Field>
                     <FieldLabel htmlFor="client-secret">
-                      Client secret
+                      
+                      Segredo do cliente
                     </FieldLabel>
                     <Input
                       id="client-secret"
@@ -1313,7 +1323,7 @@ function RouteComponent() {
                 </>
               ) : dialog === "instance" ? (
                 <Field>
-                  <FieldLabel htmlFor="instance-host">Instance host</FieldLabel>
+                  <FieldLabel htmlFor="instance-host">Host da instância</FieldLabel>
                   <Input
                     id="instance-host"
                     onChange={(event) => setInstanceHost(event.target.value)}
@@ -1323,7 +1333,7 @@ function RouteComponent() {
                 </Field>
               ) : (
                 <Field>
-                  <FieldLabel htmlFor="access-token">Access token</FieldLabel>
+                  <FieldLabel htmlFor="access-token">Token de acesso</FieldLabel>
                   <Input
                     id="access-token"
                     onChange={(event) => setToken(event.target.value)}
@@ -1336,7 +1346,8 @@ function RouteComponent() {
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button onClick={() => setDialog(null)} size="sm" variant="ghost">
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               onClick={() => {
@@ -1351,7 +1362,8 @@ function RouteComponent() {
               }}
               size="sm"
             >
-              Save
+              
+              Salvar
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1369,10 +1381,10 @@ function RouteComponent() {
         >
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Grant tools</DialogTitle>
+              <DialogTitle>Conceder ferramentas</DialogTitle>
               <DialogDescription>
-                Each grant is its own row in Audit. Tools that change things are
-                still checked against the boundaries on every call.
+                
+                Cada concessão é uma linha própria em Auditoria. Ferramentas que alteram coisas ainda são verificadas contra os limites em cada chamada.
               </DialogDescription>
             </DialogHeader>
             <DialogBody className="mt-4 space-y-5">
@@ -1389,7 +1401,8 @@ function RouteComponent() {
                */}
               <fieldset aria-labelledby="grant-to-heading" className="min-w-0">
                 <p className="mb-2 font-medium text-sm" id="grant-to-heading">
-                  To
+                  
+                  Para
                 </p>
                 <div className="space-y-2">
                   {bots.map((bot) => (
@@ -1424,7 +1437,8 @@ function RouteComponent() {
                         className="font-medium text-sm"
                         id="grant-reads-heading"
                       >
-                        Reads
+                        
+                        Leituras
                       </p>
                       <Button
                         onClick={() =>
@@ -1438,7 +1452,8 @@ function RouteComponent() {
                         type="button"
                         variant="ghost"
                       >
-                        Select all
+                        
+                        Selecionar tudo
                       </Button>
                     </div>
                     <div className="space-y-2">
@@ -1474,7 +1489,8 @@ function RouteComponent() {
                         className="font-medium text-amber-600 text-sm dark:text-amber-500"
                         id="grant-writes-heading"
                       >
-                        Changes things
+                        
+                        Altera coisas
                       </p>
                       <Button
                         onClick={() =>
@@ -1488,7 +1504,8 @@ function RouteComponent() {
                         type="button"
                         variant="ghost"
                       >
-                        Select all
+                        
+                        Selecionar tudo
                       </Button>
                     </div>
                     <div className="space-y-2">
@@ -1532,7 +1549,8 @@ function RouteComponent() {
                 </p>
               ) : null}
               <Button onClick={() => setDialog(null)} size="sm" variant="ghost">
-                Cancel
+                
+                Cancelar
               </Button>
               <Button
                 disabled={
@@ -1545,8 +1563,8 @@ function RouteComponent() {
               >
                 {/* The one in flight, not the ones finished: a count that starts at zero of twelve reads as nothing happening. */}
                 {granting
-                  ? `Granting ${Math.min(granting.done + 1, granting.total)} of ${granting.total}…`
-                  : "Grant"}
+                  ? `Concedendo ${Math.min(granting.done + 1, granting.total)} de ${granting.total}…`
+                  : "Conceder"}
               </Button>
             </DialogFooter>
           </DialogContent>

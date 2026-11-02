@@ -87,7 +87,7 @@ function serverSniffs(mimeType: string) {
 /** A drop, as the browser delivers one: files hanging off `dataTransfer`. */
 function drop(form: Element, files: File[]) {
   fireEvent.drop(form, {
-    dataTransfer: { files, items: [], types: ["Files"] },
+    dataTransfer: { files, items: [], types: ["Arquivos"] },
   });
 }
 
@@ -115,7 +115,7 @@ async function uploaded(
 ) {
   await waitFor(() => {
     expect(queryByLabelText(`Remove ${name}`)).not.toBeNull();
-    expect((getByLabelText("Send message") as HTMLButtonElement).disabled).toBe(
+    expect((getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled).toBe(
       false,
     );
   });
@@ -126,7 +126,7 @@ test("a composer with a channel offers a file picker behind the plus button", ()
     <Composer channelId="channel-1" compact onSubmit={() => {}} />,
   );
 
-  const attach = getByLabelText("Attach a file") as HTMLButtonElement;
+  const attach = getByLabelText("Anexar um arquivo") as HTMLButtonElement;
   expect(attach.disabled).toBe(false);
 
   // The button is only worth anything if it has an input to open. Clicking it must reach a real
@@ -162,10 +162,10 @@ test("a composer with no channel keeps the button that says so, and takes no fil
   // The old affordance, untouched: nothing to offer and it says so, rather than a live button
   // that would open a picker with nowhere to upload to.
   const placeholder = getByLabelText(
-    "More message options unavailable",
+    "Mais opções de mensagem indisponíveis",
   ) as HTMLButtonElement;
   expect(placeholder.disabled).toBe(true);
-  expect(queryByLabelText("Attach a file")).toBeNull();
+  expect(queryByLabelText("Anexar um arquivo")).toBeNull();
   expect(container.querySelector('input[type="file"]')).toBeNull();
 
   /*
@@ -279,7 +279,7 @@ test("a disabled composer takes no dropped file, and offers no way to pick one",
 
   // Visibly shut rather than merely ignored: a button that opens a picker whose file will be
   // dropped on the floor is worse than one that says it cannot.
-  expect((getByLabelText("Attach a file") as HTMLButtonElement).disabled).toBe(
+  expect((getByLabelText("Anexar um arquivo") as HTMLButtonElement).disabled).toBe(
     true,
   );
   expect(

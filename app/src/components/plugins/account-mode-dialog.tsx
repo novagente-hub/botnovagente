@@ -58,11 +58,11 @@ export function AccountModeDialog({
   const goes =
     preview.data?.wouldRevoke.holder === "deployment"
       ? count > 0
-        ? "The shared account will be disconnected."
-        : "No shared account is connected."
-      : `${count} personal ${count === 1 ? "account" : "accounts"} will be disconnected.`;
+        ? "A conta compartilhada será desconectada."
+        : "Nenhuma conta compartilhada está conectada."
+      : `${count} ${count === 1 ? "account" : "accounts"} pessoal será desconectado.`;
   const action =
-    target === "shared" ? `Make ${title} shared` : `Make ${title} personal`;
+    target === "shared" ? `Tornar ${title} compartilhado` : `Tornar ${title} pessoal`;
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
@@ -70,17 +70,18 @@ export function AccountModeDialog({
         <DialogHeader>
           <DialogTitle>
             {target === "shared"
-              ? `Share one ${title} account?`
-              : `Give everyone their own ${title} account?`}
+              ? `Compartilhar uma conta ${title}?`
+              : `Dar a cada pessoa a própria conta ${title}?`}
           </DialogTitle>
           <DialogDescription>
-            {preview.data ? goes : "Checking what this would change…"}
+            {preview.data ? goes : "Verificando o que isso mudaria…"}
           </DialogDescription>
         </DialogHeader>
         {target === "shared" ? (
           <div className="mt-4 space-y-3 text-sm">
             <p>
-              Everyone using a Bot with this app will act as this one account.
+              
+              Todos que usarem um Bot com este app vão agir como esta conta.
             </p>
             {preview.data?.bots.length ? (
               <ul className="space-y-1">
@@ -107,7 +108,8 @@ export function AccountModeDialog({
             size="sm"
             variant="outline"
           >
-            Cancel
+            
+            Cancelar
           </Button>
           <Button
             disabled={!preview.data || change.isPending}

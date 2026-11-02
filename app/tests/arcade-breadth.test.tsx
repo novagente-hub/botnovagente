@@ -58,7 +58,7 @@ test("Apollo (no permissions, one action) says the app is the action", () => {
   const apollo = fromFixture("Apollo");
   expect([apollo.permissionCount, apollo.actionCount]).toEqual([0, 1]);
   expect(consentBreadth(apollo)).toBe(
-    "This app has a single action, and approving it approves the app.",
+    "Este app tem uma única ação, e aprová-la aprova o app.",
   );
 });
 
@@ -67,7 +67,7 @@ test("the plural wholly-unscoped case says all N of them", () => {
     consentBreadth(
       app({ actionCount: 43, permissionCount: 0, scopedActionCount: 0 }),
     ),
-  ).toBe("Approving any action in this app approves all 43 of them.");
+  ).toBe("Aprovar qualquer ação deste app aprova todas as 43.");
 });
 
 test("Asana and Attio are fully scoped: one permission across one action", () => {
@@ -100,7 +100,7 @@ test("AirtableApi is the mixed shape: names the further K that need no permissio
     airtable.actionCount,
   ]).toEqual([1, 1, 2]);
   expect(consentBreadth(airtable)).toBe(
-    "This app uses 1 separate permission across 2 actions. A further 1 requests no permission of its own and becomes callable with any approval here.",
+    "This app uses 1 separate permission across 2 actions. Mais 1 não pede permissão própria e passa a poder ser chamada com qualquer aprovação aqui.",
   );
 });
 
@@ -110,7 +110,7 @@ test("the mixed shape with several further actions", () => {
       app({ actionCount: 10, permissionCount: 2, scopedActionCount: 6 }),
     ),
   ).toBe(
-    "This app uses 2 separate permissions across 10 actions. A further 4 request no permission of their own and become callable with any approval here.",
+    "This app uses 2 separate permissions across 10 actions. Mais 4 não pedem permissão própria e passam a poder ser chamadas com qualquer aprovação aqui.",
   );
 });
 

@@ -20,10 +20,10 @@ export type ApprovalRuleInput = {
 };
 export type ApprovalRuleRow = ApprovalRuleInput & { id: string };
 export const BEHAVIOUR_LABELS: Record<RuleBehaviour, string> = {
-  allow: "Take action without asking",
-  pre_approved: "Take action if pre-approved",
-  ask: "Ask before taking action",
-  hand_off: "Hand off to you",
+  allow: "Agir sem perguntar",
+  pre_approved: "Agir se pré-aprovado",
+  ask: "Perguntar antes de agir",
+  hand_off: "Passar para você",
 };
 export type ApprovalInboxData = {
   enabled: boolean;
@@ -77,7 +77,7 @@ export const approvalInboxOptions = () =>
     queryKey: ["approvals"],
     queryFn: async (): Promise<ApprovalInboxData> => {
       const response = await client("/api/approvals", {
-        fallback: "Your approvals could not be loaded.",
+        fallback: "Não foi possível carregar suas aprovações.",
       });
       return response.json();
     },
@@ -87,12 +87,12 @@ export const decideApproval = (id: string, decision: ApprovalDecision) =>
   client(`/api/approvals/${encodeURIComponent(id)}/decision`, {
     method: "POST",
     body: { decision },
-    fallback: "Your decision could not be saved.",
+    fallback: "Não foi possível salvar sua decisão.",
   });
 export const revokeApprovalRule = (id: string) =>
   client(`/api/approvals/rules/${encodeURIComponent(id)}`, {
     method: "DELETE",
-    fallback: "The permission could not be revoked.",
+    fallback: "Não foi possível revogar a permissão.",
   });
 export const setApprovalEnabled = (enabled: boolean) =>
   setApprovalPreferences({ enabled });
@@ -104,13 +104,13 @@ export const setApprovalPreferences = (input: {
   client("/api/approvals/preferences", {
     method: "PATCH",
     body: input,
-    fallback: "Your approval preference could not be saved.",
+    fallback: "Não foi possível salvar sua preferência de aprovação.",
   });
 export const createApprovalRule = (input: ApprovalRuleInput) =>
   client("/api/approvals/rules", {
     method: "POST",
     body: input,
-    fallback: "The rule could not be saved.",
+    fallback: "Não foi possível salvar a regra.",
   });
 export const setTeamApprovalSettings = (input: {
   enforceAutoReview?: boolean;
@@ -120,24 +120,24 @@ export const setTeamApprovalSettings = (input: {
   client("/api/approvals/team", {
     method: "PATCH",
     body: input,
-    fallback: "The team setting could not be saved.",
+    fallback: "Não foi possível salvar a configuração da equipe.",
   });
 export const createTeamApprovalRule = (input: ApprovalRuleInput) =>
   client("/api/approvals/team/rules", {
     method: "POST",
     body: input,
-    fallback: "The team rule could not be saved.",
+    fallback: "Não foi possível salvar a regra da equipe.",
   });
 export const revokeTeamApprovalRule = (id: string) =>
   client(`/api/approvals/team/rules/${encodeURIComponent(id)}`, {
     method: "DELETE",
-    fallback: "The team rule could not be removed.",
+    fallback: "Não foi possível remover a regra da equipe.",
   });
 export const answerPersonQuestion = (id: string, response: string) =>
   client(`/api/approvals/questions/${encodeURIComponent(id)}/respond`, {
     method: "POST",
     body: { response },
-    fallback: "Your answer could not be saved.",
+    fallback: "Não foi possível salvar sua resposta.",
   });
 export const updateApprovalRule = (
   id: string,
@@ -146,7 +146,7 @@ export const updateApprovalRule = (
   client(`/api/approvals/rules/${encodeURIComponent(id)}`, {
     method: "PATCH",
     body: input,
-    fallback: "The rule could not be changed.",
+    fallback: "Não foi possível alterar a regra.",
   });
 export const updateTeamApprovalRule = (
   id: string,
@@ -155,7 +155,7 @@ export const updateTeamApprovalRule = (
   client(`/api/approvals/team/rules/${encodeURIComponent(id)}`, {
     method: "PATCH",
     body: input,
-    fallback: "The team rule could not be changed.",
+    fallback: "Não foi possível alterar a regra da equipe.",
   });
 
 const approvalsKey = ["approvals"] as const;

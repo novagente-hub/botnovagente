@@ -158,27 +158,27 @@ export async function askConnectWait(id: string): Promise<ConnectWait> {
 }
 
 const CONNECT_REFUSALS: Record<string, string> = {
-  "not-https": "The Recorder only connects to OpenBot over HTTPS.",
-  "pinned-elsewhere": "Your organization set the Recorder to another OpenBot.",
+  "not-https": "O Recorder só se conecta ao OpenBot por HTTPS.",
+  "pinned-elsewhere": "Sua organização configurou o Recorder para outro OpenBot.",
   "policy-invalid":
-    "Your organization's Recorder policy names an OpenBot address the Recorder can't use. Ask your IT team.",
-  busy: "The Recorder is finishing another connect request. Try again in a moment.",
+    "A política do Recorder da sua organização indica um endereço do OpenBot que o Recorder não pode usar. Fale com sua equipe de TI.",
+  busy: "O Recorder está concluindo outro pedido de conexão. Tente de novo em instantes.",
   // A trusted OpenBot's connect, which the Recorder completes itself with OpenBot, with no Connect page.
   "exchange-refused":
-    "OpenBot didn't accept the Recorder's connect request. Try again.",
+    "O OpenBot não aceitou o pedido de conexão do Recorder. Tente novamente.",
   "openbot-unreachable":
-    "The Recorder couldn't reach OpenBot to connect. Check your connection and try again.",
+    "O Recorder não conseguiu acessar o OpenBot para conectar. Verifique sua conexão e tente novamente.",
 };
 /** The Recorder can also answer `unreachable` or `invalid`, which have no sentence of their own. */
 const CONNECT_REFUSAL_FALLBACK =
-  "The Recorder didn't accept the request. Try again.";
+  "O Recorder não aceitou o pedido. Tente novamente.";
 
 /** The Recorder takes only so many connects from one OpenBot in ten minutes; its refusal says how long is left. */
 function throttledSentence(retryAfterMs: number | undefined): string {
-  const lead = "Too many connect requests in a short time.";
-  if (retryAfterMs === undefined) return `${lead} Try again in a few minutes.`;
+  const lead = "Muitos pedidos de conexão em pouco tempo.";
+  if (retryAfterMs === undefined) return `${lead} Tente de novo em alguns minutos.`;
   const minutes = Math.max(1, Math.ceil(retryAfterMs / 60_000));
-  return `${lead} Try again in ${minutes} ${minutes === 1 ? "minute" : "minutes"}.`;
+  return `${lead} Tente de novo em ${minutes} ${minutes === 1 ? "minuto" : "minutos"}.`;
 }
 
 /** What a refused `openbot.connect` says to the person, wherever they asked to connect this browser. */

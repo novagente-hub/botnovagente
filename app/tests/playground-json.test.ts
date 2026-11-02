@@ -30,7 +30,7 @@ describe("playground JSON editors", () => {
   test.each(["[]", "null", '"text"'])(
     "rejects %p because the editors must contain objects",
     (raw) => {
-      const result = parseJsonObject(raw, "Sample arguments");
+      const result = parseJsonObject(raw, "Argumentos de exemplo");
 
       expect(result.ok).toBe(false);
       if (!result.ok) {

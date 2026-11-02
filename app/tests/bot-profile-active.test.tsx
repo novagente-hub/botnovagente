@@ -111,15 +111,15 @@ const checked = (element: HTMLElement) =>
 test("a running Bot's row says Active and its switch is on", async () => {
   serving(false);
   const view = draw(BOT);
-  const control = await view.findByRole("switch", { name: "Active" });
+  const control = await view.findByRole("switch", { name: "Ativo" });
   expect(checked(control)).toBe(true);
-  expect(view.queryByText("Paused")).toBeNull();
+  expect(view.queryByText("Pausado")).toBeNull();
 });
 
 test("a paused Bot's Active switch is off, and the row says it is paused", async () => {
   serving(true);
   const view = draw(BOT);
-  const control = await view.findByRole("switch", { name: "Active" });
+  const control = await view.findByRole("switch", { name: "Ativo" });
   expect(checked(control)).toBe(false);
   expect(
     await view.findByText(
@@ -132,7 +132,7 @@ test("switching a running Bot off pauses it", async () => {
   const writes: string[] = [];
   serving(false, writes);
   const view = draw(BOT);
-  fireEvent.click(await view.findByRole("switch", { name: "Active" }));
+  fireEvent.click(await view.findByRole("switch", { name: "Ativo" }));
   await new Promise((resolve) => setTimeout(resolve, 50));
   expect(writes).toEqual(["pause"]);
 });

@@ -93,55 +93,61 @@ export function ConnectAppCard({
       data-connect-app={serverId}
     >
       <div className="flex flex-col gap-1">
-        <p className="font-medium text-sm">Connect {title}</p>
+        <p className="font-medium text-sm">Conectar {title}</p>
         <p className="text-muted-foreground text-sm">{message}</p>
       </div>
       {connected ? (
         <div className="flex flex-wrap items-center gap-3">
           <p className="text-sm" role="status">
             {carried || offer
-              ? `${title} is connected.`
-              : `${title} is connected. Ask again and the Bot can use it.`}
+              ? `${title} está conectado.`
+              : `${title} está conectado. Peça de novo e o Bot poderá usá-lo.`}
           </p>
           {offer ? (
             <Button onClick={offer} size="sm">
-              Continue
+              
+              Continuar
             </Button>
           ) : null}
         </div>
       ) : needsKey ? (
         <p className="text-sm" role="status">
-          {title} needs a key from you.{" "}
+          {title}  precisa de uma chave sua.{" "}
           <Link
             className="underline underline-offset-2"
             params={{ key: serverId }}
             to="/connections/$key"
           >
-            Enter it on {title}'s page
+            
+            Insira-a na {title}página de
           </Link>
-          , then ask again.
+          
+          e peça de novo.
         </p>
       ) : (
         <div className="flex flex-wrap items-center gap-3">
           {/* The heading above already names the app; the button says what pressing it does. */}
           <Button disabled={pending} onClick={open} size="sm">
-            {waiting ? `Waiting for ${title}…` : "Connect"}
+            {waiting ? `Aguardando ${title}…` : "Conectar"}
           </Button>
           {waiting ? (
             <p className="text-muted-foreground text-sm" role="status">
-              Finish in the tab that opened, then come back here.
+              
+              Termine na aba que abriu e depois volte aqui.
             </p>
           ) : null}
           {blockedUrl ? (
             <p className="text-sm" role="status">
-              This browser blocked the tab.{" "}
+              
+              Este navegador bloqueou a aba.{" "}
               <a
                 className="underline underline-offset-2"
                 href={blockedUrl}
                 rel="noreferrer"
                 target="_blank"
               >
-                Open {title}'s sign-in
+                
+                Abrir {title}: login
               </a>
               .
             </p>

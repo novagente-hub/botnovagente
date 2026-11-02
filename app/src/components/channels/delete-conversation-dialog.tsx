@@ -59,9 +59,10 @@ export function DeleteConversationDialog({
     <Dialog onOpenChange={onOpenChange} open={open}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete {name}?</DialogTitle>
+          <DialogTitle>Excluir {name}?</DialogTitle>
           <DialogDescription>
-            It disappears for everyone in the conversation.
+            
+            Ela some para todos na conversa.
           </DialogDescription>
         </DialogHeader>
         {deleteChannel.error ? (
@@ -71,7 +72,8 @@ export function DeleteConversationDialog({
         ) : null}
         <DialogFooter>
           <Button onClick={() => onOpenChange(false)} size="sm" variant="ghost">
-            Cancel
+            
+            Cancelar
           </Button>
           <Button
             disabled={deleteChannel.isPending}
@@ -81,7 +83,7 @@ export function DeleteConversationDialog({
             size="sm"
             variant="destructive"
           >
-            {deleteChannel.isPending ? "Deleting…" : "Delete"}
+            {deleteChannel.isPending ? "Deleting…" : "Excluir"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -10,8 +10,8 @@ export const Route = createFileRoute("/_authed/settings/approvals")({
 function ApprovalsSettingsPage() {
   return (
     <PageShell
-      description="Choose when your Bots ask before they change things. Rules here apply to all of them."
-      title="Approvals"
+      description="Escolha quando seus Bots perguntam antes de alterar algo. As regras aqui valem para todos eles."
+      title="Aprovações"
     >
       <ApprovalSettings />
       <TeamBotConsents />

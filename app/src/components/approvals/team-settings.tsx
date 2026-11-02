@@ -63,7 +63,7 @@ export function TeamApprovalSettings() {
         </p>
       ) : null}
       {settings ? (
-        <PageSection title="Team settings">
+        <PageSection title="Configurações da equipe">
           <PageRows>
             <Item size="sm">
               <ItemMedia variant="icon">
@@ -71,7 +71,8 @@ export function TeamApprovalSettings() {
               </ItemMedia>
               <ItemContent>
                 <ItemTitle id="enforce-auto-review-title">
-                  Require auto-review for everyone
+                  
+                  Exigir revisão automática para todos
                 </ItemTitle>
               </ItemContent>
               <ItemActions>
@@ -92,7 +93,8 @@ export function TeamApprovalSettings() {
               </ItemMedia>
               <ItemContent>
                 <ItemTitle id="custom-rules-title">
-                  Let members set personal rules
+                  
+                  Permitir que membros definam regras pessoais
                 </ItemTitle>
               </ItemContent>
               <ItemActions>
@@ -112,15 +114,16 @@ export function TeamApprovalSettings() {
                 <IconTerminal2 />
               </ItemMedia>
               <ItemContent>
-                <ItemTitle>Commands on members' computers, at most</ItemTitle>
+                <ItemTitle>Comandos nos computadores dos membros, no máximo</ItemTitle>
                 <ItemDescription>
-                  A member's own stricter setting still applies.
+                  
+                  Uma configuração mais rígida do próprio membro continua valendo.
                 </ItemDescription>
               </ItemContent>
               <ItemActions>
                 <LabelSelect
                   disabled={team.isPending}
-                  label="Commands on members' computers, at most"
+                  label="Comandos nos computadores dos membros, no máximo"
                   labels={HOST_LABELS}
                   onChange={(hostCommandsCap) =>
                     team.mutate({ hostCommandsCap })
@@ -133,11 +136,11 @@ export function TeamApprovalSettings() {
         </PageSection>
       ) : null}
       <PageSection
-        description="These apply to every member's Bots. Members can't change them."
-        title="Team rules"
+        description="Estas valem para os Bots de todos os membros. Os membros não podem alterá-las."
+        title="Regras da equipe"
       >
         {teamRules.length === 0 ? (
-          <PageEmpty icon={IconChecklist} title="No team rules" />
+          <PageEmpty icon={IconChecklist} title="Nenhuma regra da equipe" />
         ) : null}
         <PageRows>
           {teamRules.map((rule) => (
@@ -154,7 +157,7 @@ export function TeamApprovalSettings() {
               <Separator />
             </Fragment>
           ))}
-          <RuleForm label="Add a team rule" save={addTeamRule} />
+          <RuleForm label="Adicionar regra da equipe" save={addTeamRule} />
         </PageRows>
       </PageSection>
       <SharedUseRequests />

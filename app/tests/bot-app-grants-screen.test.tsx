@@ -263,26 +263,26 @@ test("a failed plugin read reports the failure instead of claiming the app is no
   const view = renderScreen(failingQueryClient());
 
   expect(
-    await view.findByText("Couldn't load plugins. Reload the page."),
+    await view.findByText("Não foi possível carregar os plugins. Recarregue a página."),
   ).toBeTruthy();
 
   // The whole point: an app that may be enabled, with grants on it right now, must never be
   // reported as absent on the evidence of a request that never came back.
-  expect(view.queryByText("No app with that name is turned on.")).toBeNull();
-  expect(view.queryByText("Nothing to give a Bot here.")).toBeNull();
+  expect(view.queryByText("Nenhum app com esse nome está ativado.")).toBeNull();
+  expect(view.queryByText("Nada para dar a um Bot aqui.")).toBeNull();
 });
 
 test("a failed plugin read draws no switches, so nothing reads as a Bot holding nothing", async () => {
   const view = renderScreen(failingQueryClient());
 
-  await view.findByText("Couldn't load plugins. Reload the page.");
+  await view.findByText("Não foi possível carregar os plugins. Recarregue a página.");
 
   expect(view.container.querySelectorAll('[role="switch"]').length).toBe(0);
-  expect(view.queryByText("Turn on every read-only action")).toBeNull();
+  expect(view.queryByText("Ativar todas as ações somente leitura")).toBeNull();
   // The two section headings the grant list is drawn under: neither belongs on a page built from
   // an answer that never arrived.
-  expect(view.queryByText("Reads")).toBeNull();
-  expect(view.queryByText("Changes things")).toBeNull();
+  expect(view.queryByText("Leituras")).toBeNull();
+  expect(view.queryByText("Altera coisas")).toBeNull();
 });
 
 test("an answer that genuinely lacks the app still says the app is not enabled", async () => {
@@ -294,10 +294,10 @@ test("an answer that genuinely lacks the app still says the app is not enabled",
   await waitForFailedRefetch(queryClient);
 
   expect(
-    await view.findByText("No app with that name is turned on."),
+    await view.findByText("Nenhum app com esse nome está ativado."),
   ).toBeTruthy();
   expect(
-    view.queryByText("Couldn't load plugins. Reload the page."),
+    view.queryByText("Não foi possível carregar os plugins. Recarregue a página."),
   ).toBeNull();
 });
 
@@ -318,9 +318,9 @@ test("a failed REFETCH keeps the grant list it already had, not the error", asyn
 
   expect(await view.findByText("list_channels")).toBeTruthy();
   expect(
-    view.queryByText("Couldn't load plugins. Reload the page."),
+    view.queryByText("Não foi possível carregar os plugins. Recarregue a página."),
   ).toBeNull();
-  expect(view.queryByText("No app with that name is turned on.")).toBeNull();
+  expect(view.queryByText("Nenhum app com esse nome está ativado.")).toBeNull();
 });
 
 /*
@@ -363,7 +363,7 @@ test("a hidden Bot's own page draws its grants instead of saying there is no suc
 
   const held = await view.findByLabelText("Let Tucked Bot call list_channels");
   expect(held.getAttribute("aria-checked")).toBe("true");
-  expect(view.queryByText("Not a Bot")).toBeNull();
+  expect(view.queryByText("Não é um Bot")).toBeNull();
 });
 
 /**
@@ -407,7 +407,7 @@ test("an action the vendor calls destructive is marked, and a write it says noth
   // The mark itself, on the row that earned it: the heading already says these rows change things,
   // and this is the one saying what this row changes does not come back.
   expect(rowActions(view, "delete_channel").textContent).toContain(
-    "destroys things",
+    "destrói coisas",
   );
 
   // The other half, which matters as much. `destructive: false` is the vendor having made no claim,

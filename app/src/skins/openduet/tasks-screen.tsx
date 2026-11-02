@@ -86,15 +86,17 @@ function TasksSwitch({
       )}
     >
       <div
-        aria-label="Tasks"
+        aria-label="Tarefas"
         className="flex min-h-11 min-w-0 flex-wrap items-center gap-x-4"
         role="tablist"
       >
         <SwitchTab id="active" onView={onView} view={view}>
-          Active
+          
+          Ativo
         </SwitchTab>
         <SwitchTab id="up_next" onView={onView} view={view}>
-          Up next
+          
+          A seguir
         </SwitchTab>
       </div>
     </div>
@@ -146,12 +148,12 @@ function ActiveView() {
   return (
     <div className="flex flex-col gap-9">
       {waiting > 0 ? (
-        <Section count={waiting} label="Needs input">
+        <Section count={waiting} label="Precisa de resposta">
           <WaitingForYou />
         </Section>
       ) : null}
       <BotResponsibilities />
-      <Section count={routines.data?.routines.length} label="Routines">
+      <Section count={routines.data?.routines.length} label="Rotinas">
         <RoutinesList embedded />
       </Section>
     </div>

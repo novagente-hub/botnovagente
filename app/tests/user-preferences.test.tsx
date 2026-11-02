@@ -89,7 +89,7 @@ test("shows loading and read errors without enabling a save", async () => {
   expect((await view.findByRole("alert")).textContent).toBe(
     "Storage unavailable",
   );
-  expect(view.getByRole("button", { name: "Try again" })).toBeTruthy();
+  expect(view.getByRole("button", { name: "Tentar novamente" })).toBeTruthy();
 });
 
 test("successful writes update only the current account cache; failures preserve saved values", async () => {
@@ -116,7 +116,7 @@ test("successful writes update only the current account cache; failures preserve
     });
   await mutation.execute({ messageListEmphasis: "thread" });
   await waitFor(() =>
-    expect(view.getByText("Plan next week").className).toContain(
+    expect(view.getByText("Planejar a próxima semana").className).toContain(
       "text-[0.9rem]",
     ),
   );

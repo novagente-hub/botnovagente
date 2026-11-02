@@ -57,7 +57,7 @@ export function elapsed(seconds: number): string {
 }
 
 export const actionCount = (actions: number) =>
-  `${actions} ${actions === 1 ? "action" : "actions"}`;
+  `${actions} ${actions === 1 ? "ação" : "ações"}`;
 const phraseCount = (phrases: number) =>
   `${phrases} narrated ${phrases === 1 ? "phrase" : "phrases"}`;
 
@@ -87,7 +87,7 @@ export function useRecording(
      * A Recorder that reports itself disconnected does not hold Record back: the server connects the person's own
      * browser again before it starts (a Disconnect in Settings, Browsers leaves it signed out until then).
      */
-    waiting: !state.open ? "Your browser is closed. Open it to record." : null,
+    waiting: !state.open ? "Seu navegador está fechado. Abra-o para gravar." : null,
     start: startBrowserRecordingMutationOptions(queryClient),
     stop: stopBrowserRecordingMutationOptions(queryClient),
     choice,
@@ -251,8 +251,8 @@ function heldIn(stopped: Stopped): string {
 /** What the page says once Stop ended a recording, naming it. The sidebar's Browser button says the same. */
 export function stoppedSentence(stopped: Stopped): string {
   return stopped.empty
-    ? `Nothing was recorded in “${stopped.title}”. ${WHAT_IT_RECORDS}`
-    : `Saved “${stopped.title}” to your Learning space: ${heldIn(stopped)}.`;
+    ? `Nada foi gravado em “${stopped.title}”. ${WHAT_IT_RECORDS}`
+    : `“${stopped.title}” salvo no seu espaço de Aprendizado: ${heldIn(stopped)}.`;
 }
 
 export function StoppedIcon({
@@ -288,8 +288,8 @@ export function StoppedRow({
   ended?: string;
 }) {
   const held = stopped.empty
-    ? `Nothing was recorded. ${WHAT_IT_RECORDS}`
-    : `Saved to your Learning space: ${heldIn(stopped)}.`;
+    ? `Nada foi gravado. ${WHAT_IT_RECORDS}`
+    : `Salvo no seu espaço de Aprendizado: ${heldIn(stopped)}.`;
   return (
     <Item size="sm" role="status">
       <ItemMedia variant="icon">
@@ -352,7 +352,7 @@ function progressLine(recording: Recording): string {
  */
 export function RecordingRow({
   recording,
-  placeholder = "Name the task, like Submit an expense report",
+  placeholder = "Dê um nome à tarefa, como Enviar um relatório de despesas",
 }: {
   recording: Recording;
   placeholder?: string;
@@ -375,7 +375,8 @@ export function RecordingRow({
             disabled={recording.stopping || recording.phase !== "recording"}
             onClick={() => void recording.stop()}
           >
-            Stop
+            
+            Parar
           </Button>
         </ItemActions>
       </Item>
@@ -386,7 +387,7 @@ export function RecordingRow({
       size="sm"
       render={
         <form
-          aria-label="Record a task"
+          aria-label="Gravar uma tarefa"
           onSubmit={(event) => {
             event.preventDefault();
             void recording.record();
@@ -399,7 +400,7 @@ export function RecordingRow({
       </ItemMedia>
       <ItemContent>
         <Input
-          aria-label="Task name"
+          aria-label="Nome da tarefa"
           maxLength={200}
           onChange={(event) => recording.setTitle(event.target.value)}
           placeholder={placeholder}
@@ -412,7 +413,7 @@ export function RecordingRow({
       <ItemActions>
         {/* Base UI's Button defaults to type="button", which never submits the form. */}
         <Button disabled={!recording.canRecord} size="sm" type="submit">
-          {recording.starting ? "Starting…" : "Record"}
+          {recording.starting ? "Starting…" : "Gravar"}
         </Button>
       </ItemActions>
     </Item>
@@ -451,14 +452,15 @@ export function RecordingBar({
           disabled={recording.stopping || recording.phase !== "recording"}
           onClick={() => void recording.stop()}
         >
-          Stop
+          
+          Parar
         </Button>
       </div>
     );
   }
   return (
     <form
-      aria-label="Record a task"
+      aria-label="Gravar uma tarefa"
       className="flex min-w-0 items-center gap-2"
       onSubmit={(event) => {
         event.preventDefault();
@@ -466,18 +468,18 @@ export function RecordingBar({
       }}
     >
       <Input
-        aria-label="Task name"
+        aria-label="Nome da tarefa"
         className="h-7 w-64 min-w-0"
         maxLength={200}
         onChange={(event) => recording.setTitle(event.target.value)}
-        placeholder="Name the task to record"
+        placeholder="Dê um nome à tarefa para gravar"
         title={recording.waiting ?? undefined}
         value={recording.title}
       />
       {children}
       <Button disabled={!recording.canRecord} size="sm" type="submit">
         <IconPlayerRecordFilled data-icon="inline-start" />
-        {recording.starting ? "Starting…" : "Record"}
+        {recording.starting ? "Starting…" : "Gravar"}
       </Button>
     </form>
   );

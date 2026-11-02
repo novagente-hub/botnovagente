@@ -3,7 +3,7 @@ import { client } from "@/lib/client";
 import { pluginKeys } from "@/lib/plugins/queries";
 import type { AppAccessRequest } from "./queries";
 
-const FALLBACK = "That request could not be sent.";
+const FALLBACK = "Não foi possível enviar esse pedido.";
 
 /*
  * EVERY PLUGIN SCREEN, AND ON `onSettled`, for the reason `invalidatePlugins` in
@@ -47,7 +47,7 @@ export function cancelAppAccessRequestMutationOptions(
         "request",
         {
           method: "DELETE",
-          fallback: "That request could not be withdrawn.",
+          fallback: "Não foi possível retirar esse pedido.",
         },
       ),
     onSettled: () => refresh(queryClient),
@@ -76,7 +76,7 @@ export function approveAppAccessRequestMutationOptions(
         {
           method: "POST",
           ...(variables.refs ? { body: { refs: variables.refs } } : {}),
-          fallback: "That request could not be approved.",
+          fallback: "Não foi possível aprovar esse pedido.",
         },
       );
       return response.json();
@@ -103,7 +103,7 @@ export function approveBotAppMutationOptions(queryClient: QueryClient) {
     }> => {
       const response = await client(
         `/api/plugins/for/${encodeURIComponent(variables.agentId)}/apps/${encodeURIComponent(variables.app)}/approve`,
-        { method: "POST", fallback: "Couldn't turn that app on. Try again." },
+        { method: "POST", fallback: "Não foi possível ativar esse app. Tente novamente." },
       );
       return response.json();
     },
@@ -122,7 +122,7 @@ export async function giveBotApp(variables: {
 }): Promise<{ granted: string[] }> {
   const response = await client(
     `/api/plugins/for/${encodeURIComponent(variables.agentId)}/apps/${encodeURIComponent(variables.app)}/give`,
-    { method: "POST", fallback: "Couldn't give that app to this Bot." },
+    { method: "POST", fallback: "Não foi possível dar esse app a este Bot." },
   );
   return response.json();
 }
@@ -144,7 +144,7 @@ export function takeBackBotAppMutationOptions(queryClient: QueryClient) {
     }): Promise<{ revoked: string[] }> => {
       const response = await client(
         `/api/plugins/for/${encodeURIComponent(variables.agentId)}/apps/${encodeURIComponent(variables.app)}/give`,
-        { method: "DELETE", fallback: "Couldn't take that app back." },
+        { method: "DELETE", fallback: "Não foi possível retirar esse app." },
       );
       return response.json();
     },
@@ -161,7 +161,7 @@ export function dismissAppAccessRequestMutationOptions(
       client(
         `/api/plugins/access-requests/${encodeURIComponent(id)}/dismiss`,
         "request",
-        { method: "POST", fallback: "That request could not be dismissed." },
+        { method: "POST", fallback: "Não foi possível dispensar esse pedido." },
       ),
     onSettled: () => refresh(queryClient),
   });

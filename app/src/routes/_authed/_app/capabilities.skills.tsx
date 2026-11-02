@@ -124,16 +124,17 @@ function SkillsPage() {
               variant="ghost"
             >
               <IconPlus />
-              New skill
+              
+              Nova habilidade
             </Button>
           }
           description={
             <>
-              Type <code>/</code> and a skill's name to give a Bot that
-              instruction. Only you see yours, and they work on Bots you own.
+              
+              Digite <code>/</code>  e o nome de uma habilidade para dar essa instrução a um Bot. Só você vê as suas, e elas funcionam nos Bots que são seus.
             </>
           }
-          title="Your skills"
+          title="Suas habilidades"
         >
           {/*
            * Nothing while the two queries are still in flight. The alternative is the empty state
@@ -146,13 +147,15 @@ function SkillsPage() {
            */}
           {loading ? null : !data ? (
             <p className="mt-4 text-destructive text-sm" role="alert">
-              Couldn't load your skills. Reload the page.
+              
+              Não foi possível carregar suas habilidades. Recarregue a página.
             </p>
           ) : mine.length === 0 ? (
             <Empty className="mt-4 h-[180px] border border-dashed">
               <EmptyHeader>
                 <EmptyTitle className="text-muted-foreground">
-                  No skills yet. Write one with New skill.
+                  
+                  Nenhuma habilidade ainda. Escreva uma com Nova habilidade.
                 </EmptyTitle>
               </EmptyHeader>
             </Empty>
@@ -194,7 +197,8 @@ function SkillsPage() {
                                 navigate({ search: { edit: skill.slug } })
                               }
                             >
-                              Edit
+                              
+                              Editar
                             </DropdownMenuItem>
                             {/*
                              * Deleting is immediate and there is no undo. It is behind a menu rather
@@ -209,7 +213,8 @@ function SkillsPage() {
                               }}
                               variant="destructive"
                             >
-                              Delete /{skill.slug}
+                              
+                              Excluir /{skill.slug}
                             </DropdownMenuItem>
                           </DropdownMenuGroup>
                         </DropdownMenuContent>
@@ -235,8 +240,8 @@ function SkillsPage() {
          */}
         {deployment.length > 0 ? (
           <PageSection
-            description="An admin writes these for everyone and picks which Bots use them."
-            title="Workspace skills"
+            description="Um administrador as escreve para todos e escolhe quais Bots as usam."
+            title="Habilidades do workspace"
           >
             <PageRows>
               {deployment.map((skill, index) => (

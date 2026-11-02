@@ -86,7 +86,7 @@ function agent(
     name: "Agent",
     roleDescription: "Role",
     systemOwned: false,
-    title: "Title",
+    title: "Título",
     visibility: "private",
     ...overrides,
   };
@@ -192,7 +192,7 @@ async function expectMessageComposerDisabled(
 ) {
   const editor = await view.findByRole("textbox", {
     hidden: true,
-    name: "Message",
+    name: "Mensagem",
   });
   await waitFor(() =>
     expect(editor.getAttribute("aria-disabled") === "true").toBe(disabled),
@@ -209,7 +209,7 @@ test("/channel/new reports a failed initial roster load", async () => {
   const view = renderChannelNew(queryClientWithFailingAgents());
 
   expect((await view.findByRole("alert")).textContent).toBe(
-    "Couldn't load your Bots. Reload the page.",
+    "Não foi possível carregar seus Bots. Recarregue a página.",
   );
   expect(view.queryByText("No agents found.")).toBeNull();
   await expectMessageComposerDisabled(view, true);
@@ -224,7 +224,7 @@ test("/channel/new reports a failed URL-selected hidden detail load", async () =
   );
 
   expect((await view.findByRole("alert")).textContent).toBe(
-    "Couldn't load that Bot. Reload the page.",
+    "Não foi possível carregar esse Bot. Recarregue a página.",
   );
   expect(view.queryByText("No agents found.")).toBeNull();
   await expectMessageComposerDisabled(view, true);
@@ -324,12 +324,12 @@ test("New Bot is a fixed action outside the auto-highlighted recipient options",
   expect(create.hasAttribute("data-highlighted")).toBe(false);
   const input = view.getByRole("combobox");
   await userEvent.setup({ document }).type(input, "no matching recipient");
-  await view.findByText("No Bots found.");
+  await view.findByText("Nenhum Bot encontrado.");
   expect(
     view.getByRole("button", { name: "New Bot Create a new Bot" }),
   ).toBeTruthy();
   fireEvent.click(create);
-  expect(await view.findByRole("dialog", { name: "New Bot" })).toBeTruthy();
+  expect(await view.findByRole("dialog", { name: "Novo Bot" })).toBeTruthy();
 });
 
 test("creating a Bot preserves existing recipients and selects the created Bot", async () => {

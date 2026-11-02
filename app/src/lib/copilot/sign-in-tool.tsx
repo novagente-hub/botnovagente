@@ -178,10 +178,10 @@ function SignInCard({
       <ToolLine
         label={
           running
-            ? "Waiting for you to sign in"
+            ? "Aguardando você entrar"
             : outcome.signedIn
-              ? "Signed in"
-              : "Sign-in did not complete"
+              ? "Login feito"
+              : "O login não foi concluído"
         }
         detail={site}
         running={running}
@@ -198,14 +198,16 @@ function SignInCard({
         <div>
           <Button size="sm" onClick={() => setOpen(true)}>
             <IconLock />
-            Open private sign-in
+            
+            Abrir login privado
           </Button>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Sign in to {site}</DialogTitle>
+                <DialogTitle>Entrar em {site}</DialogTitle>
                 <DialogDescription>
-                  Goes to your Bot's browser, not into this conversation.
+                  
+                  Vai para o navegador do seu Bot, não para esta conversa.
                 </DialogDescription>
               </DialogHeader>
               <DialogBody className="mt-4 overflow-y-auto">

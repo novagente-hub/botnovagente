@@ -57,7 +57,7 @@ test("replayed navigation after reload rejoins stored identity without navigatin
 test("replayed help call does not create another request", async () => {
   rememberHandoff("bot-1", "request-1", "tool-1");
   serve(() => state("request-1", "expired"));
-  expect(await runHelpRequest("bot-1", "Sign in", "tool-1")).toMatchObject({
+  expect(await runHelpRequest("bot-1", "Entrar", "tool-1")).toMatchObject({
     ok: false,
     handoffStatus: "expired",
   });
@@ -168,7 +168,7 @@ test.each(["navigate", "read"] as const)(
       if (path.endsWith("/snapshot"))
         return Response.json({
           url: "https://site.test/account",
-          title: "Account",
+          title: "Conta",
           snapshotId: 8,
           elements: [
             { ref: "e1", role: "heading", name: "Welcome AFTER clearance" },
@@ -183,7 +183,7 @@ test.each(["navigate", "read"] as const)(
     expect(result).toMatchObject({
       ok: true,
       url: "https://site.test/account",
-      title: "Account",
+      title: "Conta",
       snapshotId: 8,
       elements: [
         { ref: "e1", role: "heading", name: "Welcome AFTER clearance" },

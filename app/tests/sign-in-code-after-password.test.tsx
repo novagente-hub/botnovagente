@@ -89,37 +89,37 @@ test("asks for the login first, and for the code only once the site has sent one
       <SignInForm requestId={ID} />
     </QueryClientProvider>,
   );
-  const password = await tree.findByLabelText("Password");
-  expect(tree.getByLabelText("Username or email")).toBeDefined();
+  const password = await tree.findByLabelText("Senha");
+  expect(tree.getByLabelText("Usuário ou e-mail")).toBeDefined();
   // Nothing about a code before the site has asked for one.
   expect(tree.queryByLabelText(/code/i)).toBeNull();
   expect(tree.queryByText(/verification code/i)).toBeNull();
 
   await user.type(
-    tree.getByLabelText("Username or email"),
+    tree.getByLabelText("Usuário ou e-mail"),
     "alice@portal.example",
   );
   await user.type(password, PASSWORD);
-  await user.click(tree.getByRole("button", { name: /^Sign in$/ }));
+  await user.click(tree.getByRole("button", { name: /^Entrar$/ }));
 
   await tree.findByText(
-    "The site sent a verification code. Enter it to finish signing in.",
+    "O site enviou um código de verificação. Insira-o para concluir o login.",
   );
   // The login form is gone, and its password with it; one field is left: the code.
-  expect(tree.queryByLabelText("Password")).toBeNull();
-  const code = tree.getByLabelText("Verification code");
+  expect(tree.queryByLabelText("Senha")).toBeNull();
+  const code = tree.getByLabelText("Código de verificação");
   expect(server.posted[0]?.path).toBe(`/api/sign-in-requests/${ID}/submit`);
   expect(server.posted[0]?.body).not.toHaveProperty("code");
 
   // A wrong code says so and keeps asking.
   await user.type(code, "000000");
-  await user.click(tree.getByRole("button", { name: /Finish signing in/ }));
+  await user.click(tree.getByRole("button", { name: /Concluir login/ }));
   await tree.findAllByText(/did not accept that code/);
-  expect(tree.getByLabelText("Verification code")).toBeDefined();
+  expect(tree.getByLabelText("Código de verificação")).toBeDefined();
 
-  await user.type(tree.getByLabelText("Verification code"), CODE);
-  await user.click(tree.getByRole("button", { name: /Finish signing in/ }));
-  await tree.findByText("Signed in");
+  await user.type(tree.getByLabelText("Código de verificação"), CODE);
+  await user.click(tree.getByRole("button", { name: /Concluir login/ }));
+  await tree.findByText("Login feito");
   await waitFor(() => expect(server.posted).toHaveLength(3));
   expect(server.posted.slice(1).map((post) => post.path)).toEqual([
     `/api/sign-in-requests/${ID}/code`,

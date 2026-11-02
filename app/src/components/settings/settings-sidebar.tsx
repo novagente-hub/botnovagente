@@ -36,7 +36,7 @@ export const SETTINGS_SIDEBAR_ITEMS: {
   title: string;
 }[] = [
   {
-    title: "General",
+    title: "Geral",
     icon: IconSettings,
     /* `/settings` prefixes every other route here, and would otherwise light up on all of them. */
     exact: true,
@@ -44,37 +44,37 @@ export const SETTINGS_SIDEBAR_ITEMS: {
   },
   {
     /* Where updates go for every Bot at once; how much each Bot sends is on that Bot's page. */
-    title: "Notifications",
+    title: "Notificações",
     icon: IconBell,
     linkOptions: { to: "/settings/notifications" },
   },
   {
     /* Whether Bots ask first, and rules for every Bot. Team settings are an administrator's. */
-    title: "Approvals",
+    title: "Aprovações",
     icon: IconChecks,
     linkOptions: { to: "/settings/approvals" },
   },
   {
     /* The browsers signed in to the Recorder extension as you; each can be disconnected here. */
-    title: "Browsers",
+    title: "Navegadores",
     icon: IconBrowser,
     linkOptions: { to: "/settings/browsers" },
   },
   {
     /* Who else's Bots use the Skills learned from your recordings: none, all, or the ones you open. */
-    title: "Learning",
+    title: "Aprendizado",
     icon: IconSchool,
     linkOptions: { to: "/settings/learning" },
   },
   {
     /* Logins saved from a Bot's private sign-in form. */
-    title: "Passwords",
+    title: "Senhas",
     icon: IconKey,
     linkOptions: { to: "/settings/passwords" },
   },
   {
     /* The same mark Admin gives UI Components. It is the same subject seen from the other side. */
-    title: "Components gallery",
+    title: "Galeria de componentes",
     icon: IconLayoutGrid,
     linkOptions: { to: "/settings/components-gallery" },
   },
@@ -93,7 +93,8 @@ export function SettingsSidebar({
               render={(props) => (
                 <Link {...appLinkOptions} {...props}>
                   <IconArrowLeft className="mr-2 h-4 w-4" />
-                  Back to app
+                  
+                  Voltar ao app
                 </Link>
               )}
             />

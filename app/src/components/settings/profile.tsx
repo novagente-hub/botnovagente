@@ -25,7 +25,7 @@ export function ProfileNameForm({
       client("/api/me/profile", "profile", {
         method: "PATCH",
         body: { name },
-        fallback: "Your name could not be saved",
+        fallback: "Não foi possível salvar seu nome",
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
@@ -43,7 +43,7 @@ export function ProfileNameForm({
         if (name.trim() && !save.isPending) save.mutate(name.trim());
       }}
     >
-      <label htmlFor={id}>Name</label>
+      <label htmlFor={id}>Nome</label>
       <Input
         id={id}
         autoComplete="name"
@@ -63,7 +63,8 @@ export function ProfileNameForm({
       )}
       {save.isSuccess && !firstRun && (
         <p role="status" className="text-sm text-muted-foreground">
-          Your name has been saved.
+          
+          Seu nome foi salvo.
         </p>
       )}
       <Button
@@ -72,7 +73,7 @@ export function ProfileNameForm({
         size={firstRun ? "lg" : "default"}
         disabled={!name.trim() || save.isPending}
       >
-        {save.isPending ? "Saving…" : firstRun ? "Get started" : "Save name"}
+        {save.isPending ? "Saving…" : firstRun ? "Começar" : "Salvar nome"}
       </Button>
     </form>
   );
@@ -82,8 +83,8 @@ export function ProfileSettings() {
   const { data: user } = useQuery(currentUserQueryOptions());
   return (
     <PageSection
-      title="Profile"
-      description="Choose the name OpenBot displays for you."
+      title="Perfil"
+      description="Escolha o nome que o OpenBot mostra para você."
     >
       {user && (
         <ProfileNameForm
@@ -105,10 +106,12 @@ export function OnboardingNameStep({
     <div className="mx-auto flex w-full max-w-md flex-col items-center gap-6">
       <AgentOrb size="64px" state="listening" />
       <h1 className="text-center text-3xl font-semibold tracking-tight">
-        Let's get to it.
+        
+        Vamos começar.
       </h1>
       <p className="text-center text-muted-foreground">
-        What should we call you? You can change your name later in Settings.
+        
+        Como devemos chamar você? Você pode mudar seu nome depois em Configurações.
       </p>
       <ProfileNameForm
         initialName={user?.needsName ? "" : (user?.name ?? "")}

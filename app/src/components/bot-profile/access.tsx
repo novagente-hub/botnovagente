@@ -144,8 +144,8 @@ function YourApps({ agent }: { agent: AgentProfile }) {
   ];
   return (
     <PageSection
-      description={`Turn on an app to let ${agent.name} use it. It always uses the account of whoever is asking.`}
-      title="Your apps"
+      description={`Ative um app para que ${agent.name} possa usá-lo. Ele sempre usa a conta de quem está pedindo.`}
+      title="Seus apps"
     >
       {error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
@@ -154,7 +154,8 @@ function YourApps({ agent }: { agent: AgentProfile }) {
       ) : null}
       {giveable.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          Couldn't load your apps. Reload the page.
+          
+          Não foi possível carregar seus apps. Recarregue a página.
         </p>
       ) : rows.length === 0 ? (
         <PageEmpty
@@ -165,13 +166,15 @@ function YourApps({ agent }: { agent: AgentProfile }) {
               variant="outline"
             >
               <IconPlug />
-              Connections
+              
+              Conexões
             </Button>
           }
           icon={IconApps}
-          title="No apps to give yet"
+          title="Ainda não há apps para dar"
         >
-          Connect an app to let your Bots use it.
+          
+          Conecte um app para que seus Bots possam usá-lo.
         </PageEmpty>
       ) : (
         <PageRows>
@@ -180,7 +183,7 @@ function YourApps({ agent }: { agent: AgentProfile }) {
             const locked = granted && !app.access?.givenByOwner;
             const yours =
               app.account === "personal"
-                ? `your ${app.displayName}`
+                ? `seu ${app.displayName}`
                 : app.displayName;
             return (
               <Fragment key={app.key}>
@@ -193,10 +196,10 @@ function YourApps({ agent }: { agent: AgentProfile }) {
                     <ItemTitle>{app.displayName}</ItemTitle>
                     <ItemDescription>
                       {locked
-                        ? "An admin gave it to this Bot."
+                        ? "Um administrador deu isto a este Bot."
                         : granted
-                          ? `${agent.name} can use ${yours}.`
-                          : `${agent.name} can't use ${yours}.`}
+                          ? `${agent.name} pode usar ${yours}.`
+                          : `${agent.name} não pode usar ${yours}.`}
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions>
@@ -236,8 +239,8 @@ function YourSkills({ agentId }: { agentId: string }) {
   );
   return (
     <PageSection
-      description="Turn on a skill to use it with this Bot. Type / in a conversation to run it."
-      title="Your skills"
+      description="Ative uma habilidade para usá-la com este Bot. Digite / em uma conversa para executá-la."
+      title="Suas habilidades"
     >
       {grant.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
@@ -246,7 +249,8 @@ function YourSkills({ agentId }: { agentId: string }) {
       ) : null}
       {page.isPending ? null : page.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          Couldn't load your skills. Reload the page.
+          
+          Não foi possível carregar suas habilidades. Recarregue a página.
         </p>
       ) : skills.length === 0 ? (
         <PageEmpty
@@ -257,13 +261,15 @@ function YourSkills({ agentId }: { agentId: string }) {
               variant="outline"
             >
               <IconPlus />
-              Write a skill
+              
+              Escrever uma habilidade
             </Button>
           }
           icon={IconBox}
-          title="No skills yet"
+          title="Nenhuma habilidade ainda"
         >
-          Skills you write show up here.
+          
+          As habilidades que você escrever aparecem aqui.
         </PageEmpty>
       ) : (
         <PageRows>
@@ -326,7 +332,8 @@ function Granted({ agentId, mine }: { agentId: string; mine: boolean }) {
   if (!plugins.data) {
     return (
       <p className="mt-6 text-destructive text-sm" role="alert">
-        Couldn't load what this Bot can use. Reload the page.
+        
+        Não foi possível carregar o que este Bot pode usar. Recarregue a página.
       </p>
     );
   }
@@ -344,19 +351,20 @@ function Granted({ agentId, mine }: { agentId: string; mine: boolean }) {
   const count = states.length + rest.length + skills.length;
   return (
     <PageSection
-      description="Review this Bot’s available apps and skills, and check which apps are ready to use. The Bot cannot use apps or skills outside this list."
-      title="What it can use"
+      description="Revise os apps e habilidades disponíveis para este Bot e veja quais apps estão prontos para uso. O Bot não pode usar apps ou habilidades fora desta lista."
+      title="O que ele pode usar"
     >
       {apps.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          Couldn't check whether each app is ready for you. Reload the page.
+          
+          Não foi possível verificar se cada app está pronto para você. Recarregue a página.
         </p>
       ) : null}
       {count === 0 ? (
-        <PageEmpty icon={IconApps} title="No apps yet">
+        <PageEmpty icon={IconApps} title="Nenhum app ainda">
           {mine
-            ? "Turn one on under Your apps, or ask an admin. Until then this Bot can only talk with you."
-            : "An admin has to add them. Until then this Bot can only talk with you."}
+            ? "Ative um em Seus apps ou peça a um administrador. Até lá, este Bot só pode conversar com você."
+            : "Um administrador precisa adicioná-los. Até lá, este Bot só pode conversar com você."}
         </PageEmpty>
       ) : (
         <PageRows>
@@ -437,7 +445,7 @@ function Granted({ agentId, mine }: { agentId: string; mine: boolean }) {
                   <ItemDescription>{skill.summary}</ItemDescription>
                 </ItemContent>
                 <ItemActions>
-                  <span className="text-muted-foreground text-sm">Skill</span>
+                  <span className="text-muted-foreground text-sm">Habilidade</span>
                 </ItemActions>
               </Item>
             </Fragment>
@@ -450,7 +458,7 @@ function Granted({ agentId, mine }: { agentId: string; mine: boolean }) {
 
 /** The first few tool labels, and how many more. */
 function toolList(labels: string[]): string {
-  return `${labels.slice(0, 4).join(", ")}${labels.length > 4 ? ` and ${labels.length - 4} more` : ""}`;
+  return `${labels.slice(0, 4).join(", ")}${labels.length > 4 ? ` e mais ${labels.length - 4}` : ""}`;
 }
 
 function ToolCount({ count }: { count: number }) {
@@ -479,7 +487,7 @@ function ManageLink({
 }) {
   return (
     <Button
-      aria-label={`Manage ${title} on this Bot`}
+      aria-label={`Gerenciar ${title} neste Bot`}
       render={
         <Link
           params={{ agentId, key: appKey }}

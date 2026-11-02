@@ -56,7 +56,7 @@ function CountedDecision(props: {
 const spec = (Component: GalleryComponent["Component"]) =>
   ({
     name: "chart",
-    title: "Bar chart",
+    title: "Gráfico de barras",
     kind: "chart",
     description: "A chart.",
     parameters: {},
@@ -76,10 +76,10 @@ afterEach(() => {
 test("waits without refusing while grants are unknown", () => {
   const Render = makeGalleryRender(spec(Counted), createGrantStore());
   const view = render(
-    <Render args={{ title: "Revenue" }} status="inProgress" toolCallId="c1" />,
+    <Render args={{ title: "Receita" }} status="inProgress" toolCallId="c1" />,
   );
 
-  expect(view.getByText("Revenue")).toBeTruthy();
+  expect(view.getByText("Receita")).toBeTruthy();
   expect(view.queryByText(/not available/)).toBeNull();
 });
 
@@ -92,10 +92,10 @@ test("mounts once while grants load and args stream", () => {
 
   act(() => store.set({ grants: heldGrants }));
   view.rerender(
-    <Render args={{ title: "Revenue" }} status="complete" toolCallId="c1" />,
+    <Render args={{ title: "Receita" }} status="complete" toolCallId="c1" />,
   );
 
-  expect(view.getByText("Revenue")).toBeTruthy();
+  expect(view.getByText("Receita")).toBeTruthy();
   expect(mounts).toBe(1);
 });
 
@@ -104,7 +104,7 @@ test("refuses once grants say not held", () => {
   store.set({ grants: { status: "known", held: new Map() } });
   const Render = makeGalleryRender(spec(Counted), store);
   const view = render(
-    <Render args={{ title: "Revenue" }} status="complete" toolCallId="c1" />,
+    <Render args={{ title: "Receita" }} status="complete" toolCallId="c1" />,
   );
 
   expect(view.getByText(/not available to this Bot/)).toBeTruthy();
@@ -115,7 +115,7 @@ test("refuses with the couldn't-check reason when grants failed", () => {
   store.set({ grants: { status: "failed" } });
   const Render = makeGalleryRender(spec(Counted), store);
   const view = render(
-    <Render args={{ title: "Revenue" }} status="complete" toolCallId="c1" />,
+    <Render args={{ title: "Receita" }} status="complete" toolCallId="c1" />,
   );
 
   expect(
@@ -151,13 +151,13 @@ test("a decision waits disabled, then enables in place", () => {
   const respond = async () => {};
   const Render = makeDecisionRender(spec(CountedDecision), store, respond);
   const view = render(
-    <Render args={{ title: "Approve" }} respond={respond} status="executing" />,
+    <Render args={{ title: "Aprovar" }} respond={respond} status="executing" />,
   );
 
   expect(lastRespond).toBeUndefined();
   act(() => store.set({ grants: heldGrants }));
   view.rerender(
-    <Render args={{ title: "Approve" }} respond={respond} status="executing" />,
+    <Render args={{ title: "Aprovar" }} respond={respond} status="executing" />,
   );
 
   expect(lastRespond).toBe(respond);
@@ -177,12 +177,12 @@ test("a half-arrived number is held back until the call completes", () => {
   store.set({ grants: heldGrants });
   const Render = makeGalleryRender(spec(ShowsValue), store);
   const view = render(
-    <Render args={{ title: "Sales", value: 12 }} status="inProgress" />,
+    <Render args={{ title: "Vendas", value: 12 }} status="inProgress" />,
   );
   expect(view.getByText("Sales: pending")).toBeTruthy();
 
   view.rerender(
-    <Render args={{ title: "Sales", value: 125 }} status="complete" />,
+    <Render args={{ title: "Vendas", value: 125 }} status="complete" />,
   );
   expect(view.getByText("Sales: 125")).toBeTruthy();
 });
@@ -197,8 +197,8 @@ test("a streaming table draws its complete rows through the gallery render", () 
   const view = render(
     <Render
       args={{
-        title: "Sales",
-        columns: ["Quarter", "Revenue"],
+        title: "Vendas",
+        columns: ["Quarter", "Receita"],
         rows: [{ cells: ["Q1", 8] }, { cells: ["Q2", 9] }],
       }}
       status="inProgress"
@@ -219,7 +219,7 @@ test("a call whose arguments are final draws its last number", () => {
   store.set({ grants: heldGrants });
   const Render = makeGalleryRender(spec(ShowsValue), store);
   const view = render(
-    <Render args={{ title: "Sales", value: 125 }} status="executing" />,
+    <Render args={{ title: "Vendas", value: 125 }} status="executing" />,
   );
   expect(view.getByText("Sales: 125")).toBeTruthy();
 });
@@ -230,7 +230,7 @@ test("a call left without a result outside the running turn draws its last numbe
   const Render = makeGalleryRender(spec(ShowsValue), store);
   const view = render(
     <ArgumentsArrivingContext.Provider value={false}>
-      <Render args={{ title: "Sales", value: 125 }} status="inProgress" />
+      <Render args={{ title: "Vendas", value: 125 }} status="inProgress" />
     </ArgumentsArrivingContext.Provider>,
   );
   expect(view.getByText("Sales: 125")).toBeTruthy();

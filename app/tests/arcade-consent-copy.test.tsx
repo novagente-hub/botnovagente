@@ -66,7 +66,7 @@ test("scoped, from the fixture: a lone scope set lists no sibling", () => {
   const copy = consentCopy(asana[0]!.name, asana);
   expect(copy.scopes).toEqual(["default"]);
   expect(copy.alsoEnables).toEqual([]);
-  expect(copy.sentence).toContain("No other action requires it.");
+  expect(copy.sentence).toContain("Nenhuma outra ação exige isso.");
 });
 
 test("unscoped: all-or-nothing, with the count derived", () => {
@@ -104,7 +104,7 @@ test("no copy promises confinement", () => {
       "G.A",
       Array.from({ length: 43 }, (_, i) => ({ name: `G.A${i}`, scopes: [] })),
     ),
-    consentCopy("Missing", gmail),
+    consentCopy("Falta", gmail),
   ];
   for (const shape of shapes) {
     expect(shape.sentence).not.toMatch(

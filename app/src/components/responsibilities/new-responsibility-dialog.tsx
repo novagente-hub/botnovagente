@@ -39,11 +39,11 @@ type Source = "none" | ResponsibilityRecord["subscriptions"][number]["source"];
 
 /** The event sources a new responsibility can subscribe to, in the order they are offered. */
 const SOURCES = {
-  none: "Run when asked",
+  none: "Executar quando pedido",
   github: "GitHub",
   slack: "Slack",
-  connector: "Connected app",
-  schedule: "Schedule",
+  connector: "App conectado",
+  schedule: "Agenda",
 } as const satisfies Partial<Record<Source, string>>;
 
 /**
@@ -85,9 +85,10 @@ export function NewResponsibilityDialog({
     <Dialog onOpenChange={(next) => !next && onClose()} open>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New responsibility</DialogTitle>
+          <DialogTitle>Nova responsabilidade</DialogTitle>
           <DialogDescription>
-            An ongoing goal. The Bot works on it in the conversation you pick.
+            
+            Um objetivo contínuo. O Bot trabalha nele na conversa que você escolher.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 overflow-y-auto">
@@ -115,7 +116,8 @@ export function NewResponsibilityDialog({
               <FieldGroup className="sm:grid sm:grid-cols-2">
                 <Field>
                   <FieldLabel htmlFor={`${formId}-conversation`}>
-                    Conversation
+                    
+                    Conversa
                   </FieldLabel>
                   <Select
                     items={Object.fromEntries(
@@ -135,7 +137,7 @@ export function NewResponsibilityDialog({
                       className="w-full"
                       id={`${formId}-conversation`}
                     >
-                      <SelectValue placeholder="Choose a conversation" />
+                      <SelectValue placeholder="Escolha uma conversa" />
                     </SelectTrigger>
                     <SelectContent>
                       {offered.map((channel) => (
@@ -158,7 +160,7 @@ export function NewResponsibilityDialog({
                       value={agentId || null}
                     >
                       <SelectTrigger className="w-full" id={`${formId}-bot`}>
-                        <SelectValue placeholder="Choose a Bot" />
+                        <SelectValue placeholder="Escolha um Bot" />
                       </SelectTrigger>
                       <SelectContent>
                         {availableBots.map((bot) => (
@@ -179,7 +181,8 @@ export function NewResponsibilityDialog({
                   type="button"
                   variant="outline"
                 >
-                  Load more conversations
+                  
+                  Carregar mais conversas
                 </Button>
               )}
               {(channels.error || bots.error) && (
@@ -188,19 +191,20 @@ export function NewResponsibilityDialog({
                 </p>
               )}
               <Field>
-                <FieldLabel htmlFor={`${formId}-title`}>Title</FieldLabel>
+                <FieldLabel htmlFor={`${formId}-title`}>Título</FieldLabel>
                 <Input
                   id={`${formId}-title`}
                   required
                   maxLength={160}
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
-                  placeholder="Keep the customer report up to date"
+                  placeholder="Manter o relatório do cliente atualizado"
                 />
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${formId}-instruction`}>
-                  Instruction
+                  
+                  Instrução
                 </FieldLabel>
                 <Textarea
                   id={`${formId}-instruction`}
@@ -212,7 +216,8 @@ export function NewResponsibilityDialog({
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${formId}-criteria`}>
-                  Success criteria
+                  
+                  Critérios de sucesso
                 </FieldLabel>
                 <Textarea
                   id={`${formId}-criteria`}
@@ -220,13 +225,14 @@ export function NewResponsibilityDialog({
                   maxLength={3000}
                   value={successCriteria}
                   onChange={(event) => setSuccessCriteria(event.target.value)}
-                  placeholder="The report contains the current quarter's graph and a source link."
+                  placeholder="O relatório contém o gráfico do trimestre atual e um link para a fonte."
                 />
               </Field>
               <FieldGroup className="sm:grid sm:grid-cols-2">
                 <Field>
                   <FieldLabel htmlFor={`${formId}-source`}>
-                    Event source
+                    
+                    Origem dos eventos
                   </FieldLabel>
                   <Select
                     items={SOURCES}
@@ -250,15 +256,17 @@ export function NewResponsibilityDialog({
                   </Select>
                   {source === "github" && (
                     <FieldDescription>
-                      Events come from the repositories you connected in{" "}
-                      <Link to="/connections">Connections</Link>.
+                      
+                      Os eventos vêm dos repositórios que você conectou em{" "}
+                      <Link to="/connections">Conexões</Link>.
                     </FieldDescription>
                   )}
                 </Field>
                 {source !== "none" && (
                   <Field>
                     <FieldLabel htmlFor={`${formId}-event`}>
-                      Event type
+                      
+                      Tipo de evento
                     </FieldLabel>
                     <Input
                       id={`${formId}-event`}
@@ -267,7 +275,7 @@ export function NewResponsibilityDialog({
                       value={eventType}
                       onChange={(event) => setEventType(event.target.value)}
                       placeholder={
-                        source === "github" ? "issues.opened" : "Event type"
+                        source === "github" ? "issues.opened" : "Tipo de evento"
                       }
                     />
                   </Field>
@@ -283,7 +291,8 @@ export function NewResponsibilityDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            Cancel
+            
+            Cancelar
           </Button>
           <Button
             disabled={create.isPending}
@@ -291,7 +300,7 @@ export function NewResponsibilityDialog({
             size="sm"
             type="submit"
           >
-            {create.isPending ? "Creating…" : "Create responsibility"}
+            {create.isPending ? "Creating…" : "Criar responsabilidade"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -28,7 +28,7 @@ const row = (id: string, lastReadAt: string | null) => ({
   agentIds: ["expenses", "general"],
   active: true,
   summary: null,
-  lastMessage: "Done.",
+  lastMessage: "Pronto.",
   lastMessageAgentId: "expenses",
   lastMessageAt: "2026-10-09T10:00:00.000Z",
   createdAt: "2026-10-09T09:00:00.000Z",

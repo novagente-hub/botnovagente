@@ -68,15 +68,15 @@ for (const variant of ["compact", "default"] as const) {
           />,
         );
         fireEvent.click(
-          view.getByRole("button", { name: "Dictate a message" }),
+          view.getByRole("button", { name: "Ditar uma mensagem" }),
         );
-        await waitFor(() => expect(view.getByText("Listening")).toBeDefined());
-        expect(view.queryByRole("textbox", { name: "Message" })).toBeNull();
+        await waitFor(() => expect(view.getByText("Ouvindo")).toBeDefined());
+        expect(view.queryByRole("textbox", { name: "Mensagem" })).toBeNull();
         expect(
-          view.queryByRole("button", { name: "Dictate a message" }),
+          view.queryByRole("button", { name: "Ditar uma mensagem" }),
         ).toBeNull();
         expect(
-          view.getByRole("img", { name: "Live audio waveform" }),
+          view.getByRole("img", { name: "Forma de onda do áudio ao vivo" }),
         ).toBeDefined();
         const form = view.container.querySelector("form");
         if (!form) throw new Error("Missing composer form");
@@ -84,11 +84,11 @@ for (const variant of ["compact", "default"] as const) {
         expect(sent).toEqual([]);
         if (action === "cancel") {
           fireEvent.click(
-            view.getByRole("button", { name: "Cancel dictation" }),
+            view.getByRole("button", { name: "Cancelar ditado" }),
           );
           await waitFor(() =>
             expect(
-              view.getByRole("textbox", { name: "Message" }).textContent,
+              view.getByRole("textbox", { name: "Mensagem" }).textContent,
             ).toBe("Existing draft"),
           );
           expect(transcribe).not.toHaveBeenCalled();
@@ -98,7 +98,7 @@ for (const variant of ["compact", "default"] as const) {
         fireEvent.click(
           view.getByRole("button", {
             name:
-              action === "stop" ? "Stop and transcribe" : "Transcribe and send",
+              action === "stop" ? "Parar e transcrever" : "Transcrever e enviar",
           }),
         );
         await waitFor(() => expect(transcribe).toHaveBeenCalledTimes(1));
@@ -109,7 +109,7 @@ for (const variant of ["compact", "default"] as const) {
             ),
           );
           expect(sent).toEqual([]);
-          fireEvent.click(view.getByRole("button", { name: "Retry" }));
+          fireEvent.click(view.getByRole("button", { name: "Tentar de novo" }));
           await waitFor(() => expect(transcribe).toHaveBeenCalledTimes(2));
         }
         fireEvent.submit(form);
@@ -121,7 +121,7 @@ for (const variant of ["compact", "default"] as const) {
         if (action === "stop" || action === "failed-send") {
           await waitFor(() =>
             expect(
-              view.getByRole("textbox", { name: "Message" }).textContent,
+              view.getByRole("textbox", { name: "Mensagem" }).textContent,
             ).toContain("Existing draft dictated words"),
           );
         }

@@ -50,7 +50,7 @@ export const connectWebSocket: ConnectVoice = async ({
     if (closed) return;
     closed = true;
     signal.removeEventListener("abort", close);
-    ready.reject(new DOMException("Call ended", "AbortError"));
+    ready.reject(new DOMException("Chamada encerrada", "AbortError"));
     if (socket) {
       socket.onclose = socket.onerror = socket.onmessage = socket.onopen = null;
       socket.close();
@@ -75,7 +75,7 @@ export const connectWebSocket: ConnectVoice = async ({
   };
   const send = (event: VoiceEvent) => {
     if (closed || socket?.readyState !== WebSocket.OPEN)
-      throw new Error("The voice call is no longer connected.");
+      throw new Error("A chamada de voz não está mais conectada.");
     socket.send(JSON.stringify(event));
   };
   signal.addEventListener("abort", close, { once: true });
@@ -91,7 +91,7 @@ export const connectWebSocket: ConnectVoice = async ({
     });
     if (closed || signal.aborted) {
       for (const track of stream.getTracks()) track.stop();
-      throw new DOMException("Call ended", "AbortError");
+      throw new DOMException("Chamada encerrada", "AbortError");
     }
     context = new AudioContext({ sampleRate: RATE });
     await context.resume();
@@ -101,7 +101,7 @@ export const connectWebSocket: ConnectVoice = async ({
       context.state !== "running"
     ) {
       throw new Error(
-        "This browser could not start call audio. Allow sound and try again.",
+        "Este navegador não conseguiu iniciar o áudio da chamada. Permita o som e tente novamente.",
       );
     }
     await context.audioWorklet.addModule(
@@ -132,7 +132,7 @@ export const connectWebSocket: ConnectVoice = async ({
           "error" in body &&
           typeof body.error === "string"
           ? body.error
-          : "Could not start the voice call.",
+          : "Não foi possível iniciar a chamada de voz.",
       );
     if (
       !body ||
@@ -147,13 +147,13 @@ export const connectWebSocket: ConnectVoice = async ({
       !body.session ||
       typeof body.session !== "object"
     )
-      throw new Error("Invalid voice connection configuration.");
+      throw new Error("Configuração de conexão de voz inválida.");
     const address = new URL(body.url);
     if (
       address.origin !== "wss://api.x.ai" ||
       address.pathname !== "/v1/realtime"
     )
-      throw new Error("Unsupported voice service address.");
+      throw new Error("Endereço do serviço de voz não suportado.");
     signal.throwIfAborted();
     socket = new WebSocket(body.url, [
       `xai-client-secret.${body.clientSecret}`,
@@ -164,10 +164,10 @@ export const connectWebSocket: ConnectVoice = async ({
     ws.onopen = () => send({ type: "session.update", session: body.session });
     ws.onerror = () =>
       fail(
-        "Could not connect to Grok Voice. Check your connection and try again.",
+        "Não foi possível conectar ao Grok Voice. Verifique sua conexão e tente novamente.",
       );
     ws.onclose = () =>
-      fail("The voice connection closed. Your chat is still available.");
+      fail("A conexão de voz foi fechada. Seu chat continua disponível.");
     ws.onmessage = ({ data }) => {
       if (closed) return;
       try {
@@ -178,7 +178,7 @@ export const connectWebSocket: ConnectVoice = async ({
           !("type" in raw) ||
           typeof raw.type !== "string"
         )
-          throw new Error("Invalid voice event.");
+          throw new Error("Evento de voz inválido.");
         const event = raw as VoiceEvent;
         if (event.type === "session.updated") {
           configured = true;
@@ -222,12 +222,12 @@ export const connectWebSocket: ConnectVoice = async ({
             typeof event.delta !== "string" ||
             typeof event.item_id !== "string"
           )
-            throw new Error("Invalid audio event.");
+            throw new Error("Evento de áudio inválido.");
           const samples = decodePcm(event.delta);
           if (!samples.length) return;
           if (nextPlayback - audio.currentTime > 30)
             throw new Error(
-              "Voice playback could not keep up. Please call again.",
+              "A reprodução de voz não conseguiu acompanhar. Ligue novamente.",
             );
           const buffer = audio.createBuffer(1, samples.length, RATE);
           buffer.copyToChannel(samples, 0);
@@ -269,21 +269,21 @@ export const connectWebSocket: ConnectVoice = async ({
         onEvent(event);
       } catch {
         fail(
-          "The voice service sent invalid audio or controls. Please call again.",
+          "O serviço de voz enviou áudio ou controles inválidos. Ligue novamente.",
         );
       }
     };
     capture.port.onmessage = ({ data }: MessageEvent<ArrayBuffer>) => {
       if (closed || !configured || ws.readyState !== WebSocket.OPEN) return;
       if (ws.bufferedAmount > 1024 * 1024) {
-        fail("Your connection is too slow for live audio. Please call again.");
+        fail("Sua conexão está lenta demais para áudio ao vivo. Ligue novamente.");
         return;
       }
       send({ type: "input_audio_buffer.append", audio: encodePcm(data) });
     };
     for (const track of stream.getAudioTracks())
       track.onended = () =>
-        fail("The microphone disconnected. Check it and call again.");
+        fail("O microfone foi desconectado. Verifique-o e ligue novamente.");
     await ready.promise;
     signal.throwIfAborted();
     const microphone = stream;

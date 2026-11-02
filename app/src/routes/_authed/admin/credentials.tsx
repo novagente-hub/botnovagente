@@ -41,16 +41,18 @@ function CredentialsPage() {
           variant="ghost"
         >
           <IconPlus />
-          Add credential
+          
+          Adicionar credencial
         </Button>
       }
-      description="Manage this deployment’s keys and tokens. Saved secrets cannot be viewed again."
-      title="Credentials"
+      description="Gerencie as chaves e tokens desta implantação. Segredos salvos não podem ser vistos de novo."
+      title="Credenciais"
     >
-      <PageSection title="Saved credentials">
+      <PageSection title="Credenciais salvas">
         {credentials.isPending ? null : credentials.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            Couldn't load credentials. Reload the page.
+            
+            Não foi possível carregar as credenciais. Recarregue a página.
           </p>
         ) : credentials.data?.length === 0 ? (
           <PageEmpty
@@ -63,13 +65,15 @@ function CredentialsPage() {
                 variant="outline"
               >
                 <IconPlus />
-                Add credential
+                
+                Adicionar credencial
               </Button>
             }
             icon={IconKey}
-            title="No credentials yet"
+            title="Nenhuma credencial ainda"
           >
-            Keys and tokens for models and connectors are kept here.
+            
+            Chaves e tokens de modelos e conectores ficam aqui.
           </PageEmpty>
         ) : (
           <PageRows>
@@ -93,7 +97,8 @@ function CredentialsPage() {
                       size="sm"
                       variant="outline"
                     >
-                      Revoke
+                      
+                      Revogar
                     </Button>
                   </ItemActions>
                 </Item>

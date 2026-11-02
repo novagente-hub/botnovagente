@@ -143,7 +143,7 @@ export function MenuSheet({
             >
               <IconStack2 size={24} stroke={1.9} />
             </span>
-            <RowText line="Start a conversation with any Bot" name="Chat" />
+            <RowText line="Comece uma conversa com qualquer Bot" name="Chat" />
           </Link>
           <div className="mt-1 flex min-h-0 flex-1 flex-col">
             <div
@@ -155,7 +155,8 @@ export function MenuSheet({
                   className="openduet-type-sub px-3 py-2 text-openduet-problem"
                   role="alert"
                 >
-                  Couldn't load your conversations. Reload the page.
+                  
+                  Não foi possível carregar suas conversas. Recarregue a página.
                 </p>
               ) : conversations.length > 0 ? (
                 /*
@@ -163,7 +164,7 @@ export function MenuSheet({
                  * these are the conversations Chat has held, not places beside it.
                  */
                 <ul
-                  aria-label="Conversations"
+                  aria-label="Conversas"
                   className="ml-[21px] flex flex-col border-openduet-ink-3/40 border-l pl-1.5"
                 >
                   {conversations.map((channel) => (
@@ -186,7 +187,8 @@ export function MenuSheet({
               to="/channel/new"
             >
               <IconPlus size={22} stroke={1.8} />
-              New conversation
+              
+              Nova conversa
             </Link>
           </div>
           <div className="mt-2 flex shrink-0 flex-col border-openduet-hair border-t pt-2">
@@ -209,7 +211,8 @@ export function MenuSheet({
                   size={22}
                   stroke={1.8}
                 />
-                Manage
+                
+                Gerenciar
                 {/* Closed, the group would hide what waits on the person, so Manage carries it. */}
                 {manageOpen ? null : <AccentBadge />}
               </button>
@@ -255,7 +258,7 @@ export function MenuSheet({
               type="button"
             >
               <IconLogout size={22} stroke={1.8} />
-              {signOut.isPending ? "Signing out…" : "Sign out"}
+              {signOut.isPending ? "Saindo…" : "Sair"}
             </button>
           </div>
         </nav>
@@ -286,7 +289,7 @@ function AccentBadge() {
   if (bots.some((bot) => bot.unread > 0))
     return (
       <span
-        aria-label="Unread messages"
+        aria-label="Mensagens não lidas"
         className="ml-auto size-2 rounded-full bg-openduet-accent"
         role="img"
       />
@@ -352,7 +355,7 @@ function ConversationRow({
   const setPinned = useMutation(setChannelPinnedMutationOptions(queryClient));
   const [confirming, setConfirming] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
-  const title = channel.summary || channel.lastMessage || "New conversation";
+  const title = channel.summary || channel.lastMessage || "Nova conversa";
   const when = channel.lastMessageAt
     ? relativeTime(channel.lastMessageAt)
     : null;
@@ -380,14 +383,14 @@ function ConversationRow({
             <RowText line={line} name={name} strong={unread} />
             {channel.pinned ? (
               <IconPinFilled
-                aria-label="Pinned"
+                aria-label="Fixados"
                 className="shrink-0 text-openduet-ink-3"
                 size={14}
               />
             ) : null}
             {unread ? (
               <span
-                aria-label="Unread"
+                aria-label="Não lidos"
                 className="size-2 shrink-0 rounded-full bg-openduet-accent"
                 role="img"
               />
@@ -405,14 +408,15 @@ function ConversationRow({
             }}
           >
             {channel.pinned ? <IconPinnedOff /> : <IconPin />}
-            {channel.pinned ? "Unpin conversation" : "Pin conversation"}
+            {channel.pinned ? "Desafixar conversa" : "Fixar conversa"}
           </ContextMenuItem>
           <ContextMenuItem
             onClick={() => setConfirming(true)}
             variant="destructive"
           >
             <IconTrash />
-            Delete conversation…
+            
+            Excluir conversa…
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>

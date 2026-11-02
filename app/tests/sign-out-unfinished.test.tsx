@@ -30,7 +30,7 @@ import { settleReactWork } from "./settle-react-work";
  * the organization's sign-in in `error`; either way the person reads one plain sentence.
  */
 
-const UNFINISHED = "Signing out did not finish. Try again.";
+const UNFINISHED = "A saída não foi concluída. Tente novamente.";
 
 beforeAll(() => GlobalRegistrator.register());
 afterEach(cleanup);
@@ -110,7 +110,7 @@ for (const [who, body] of [
   test(`a sign-out ${who} could not finish leaves the person here, told so, and Sign out works again`, async () => {
     answer = () => Response.json(body, { status: 503 });
     const { view, router } = draw();
-    const button = await view.findByRole("button", { name: "Sign out" });
+    const button = await view.findByRole("button", { name: "Sair" });
     await userEvent.click(button);
     await waitFor(() => expect(toasts()).toEqual([UNFINISHED]));
     expect(router.state.location.pathname).toBe("/");

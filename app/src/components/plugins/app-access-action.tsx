@@ -46,28 +46,28 @@ export function appAccessSentence(access: AppAccess, bot?: string): string {
   switch (access.state) {
     case "ready":
       if (owners)
-        return `Ready to use. This Bot uses its owner's ${name} account.`;
+        return `Pronto para usar. Este Bot usa a conta ${name} do dono.`;
       if (access.asksFirst)
-        return `Ready to use with your own ${name} account. You'll be asked to allow it the first time.`;
-      return "Ready to use.";
+        return `Pronto para usar com sua própria conta ${name}. Você terá que permitir na primeira vez.`;
+      return "Pronto para usar.";
     case "not_connected":
-      return `You haven't connected your ${name} account yet.`;
+      return `Você ainda não conectou sua conta ${name}.`;
     case "reconnect":
       return owners
-        ? `This Bot uses its owner's ${name} account, which needs reconnecting. Only the Bot's owner can reconnect it.`
-        : `Your ${name} connection needs reconnecting.`;
+        ? `Este Bot usa a conta ${name} do dono, que precisa ser reconectada. Só o dono do Bot pode reconectá-la.`
+        : `Sua conexão ${name} precisa ser reconectada.`;
     case "shared_not_connected":
-      return `Your organisation's ${name} account isn't connected yet. Only an admin can connect it.`;
+      return `A conta ${name} da sua organização ainda não está conectada. Só um administrador pode conectá-la.`;
     case "shared_not_approved":
-      return `This Bot reaches more people than an admin approved for your organisation's ${name} account. Only an admin can approve it.`;
+      return `Este Bot alcança mais pessoas do que um administrador aprovou para a conta ${name} da sua organização. Só um administrador pode aprovar.`;
     case "disabled":
       return disabledSentence(access);
     case "not_granted":
-      return `This Bot hasn't been given ${name}. Only an admin can give it.`;
+      return `Este Bot não recebeu ${name}. Só um administrador pode dar.`;
     case "owner_grantable": {
-      const yours = access.account === "personal" ? `your ${name}` : name;
-      const ask = `Let ${bot ?? "this Bot"} use ${yours}?`;
-      return access.needsConnect ? `${ask} Connect it first.` : ask;
+      const yours = access.account === "personal" ? `seu ${name}` : name;
+      const ask = `Permitir que ${bot ?? "este Bot"} use ${yours}?`;
+      return access.needsConnect ? `${ask} Conecte primeiro.` : ask;
     }
   }
 }
@@ -82,13 +82,13 @@ function disabledSentence(access: AppAccess): string {
   const name = access.displayName;
   switch (access.unavailable) {
     case "composio_unconfigured":
-      return `${name} isn't set up yet. An admin has to turn it on.`;
+      return `${name} ainda não está configurado. Um administrador precisa ativá-lo.`;
     case "scheme_unreadable":
     case "oauth_client_missing":
     case "token_missing":
-      return `${name} isn't fully set up yet. Only an admin can finish setting it up.`;
+      return `${name} ainda não está totalmente configurado. Só um administrador pode concluir a configuração.`;
     default:
-      return `${name} isn't turned on yet. Only an admin can turn it on.`;
+      return `${name} ainda não está ativado. Só um administrador pode ativá-lo.`;
   }
 }
 
@@ -154,7 +154,7 @@ function AdminAction({
   agentId: string;
   access: AppAccess;
 }) {
-  const bot = useQuery(agentQueryOptions(agentId)).data?.name ?? "this Bot";
+  const bot = useQuery(agentQueryOptions(agentId)).data?.name ?? "este Bot";
   const approve = useMutation(approveBotAppMutationOptions(queryClient));
   const name = access.displayName;
 
@@ -165,12 +165,12 @@ function AdminAction({
   if (oneClick) {
     const disabled = access.state === "disabled";
     const label = disabled
-      ? `Turn on and give it to ${bot}`
-      : `Give it to ${bot}`;
+      ? `Ativar e dar para ${bot}`
+      : `Dar para ${bot}`;
     // The card names the app beside the button; on its own, the button has to.
     const spoken = disabled
-      ? `Turn on ${name} and give it to ${bot}`
-      : `Give ${name} to ${bot}`;
+      ? `Ativar ${name} e dar para ${bot}`
+      : `Dar ${name} para ${bot}`;
     return (
       <div className="flex flex-wrap items-center justify-end gap-2">
         {approve.error ? (
@@ -193,7 +193,7 @@ function AdminAction({
           }
           size="sm"
         >
-          {approve.isPending ? (disabled ? "Turning on…" : "Giving…") : label}
+          {approve.isPending ? (disabled ? "Ativando…" : "Giving…") : label}
         </Button>
       </div>
     );
@@ -208,10 +208,10 @@ function AdminAction({
       : access.key;
   const [label, spoken] =
     access.state !== "shared_not_connected"
-      ? ["Set it up", `Set up ${name}`]
+      ? ["Configurar", `Set up ${name}`]
       : access.requestKind
-        ? ["Connect the team account", `Connect the team ${name} account`]
-        : ["Reconnect the team account", `Reconnect the team ${name} account`];
+        ? ["Conectar a conta da equipe", `Conectar a conta ${name} da equipe`]
+        : ["Reconectar a conta da equipe", `Reconectar a conta ${name} da equipe`];
   return (
     <Button
       render={
@@ -253,7 +253,7 @@ function OwnerGiveAction({
   agentId: string;
   access: AppAccess;
 }) {
-  const bot = useQuery(agentQueryOptions(agentId)).data?.name ?? "this Bot";
+  const bot = useQuery(agentQueryOptions(agentId)).data?.name ?? "este Bot";
   const give = useMutation(giveBotAppMutationOptions(queryClient));
   const tab = useConnectInNewTab();
   const { waiting, stopWaiting } = tab;
@@ -294,7 +294,8 @@ function OwnerGiveAction({
         size="sm"
         variant="outline"
       >
-        Connect
+        
+        Conectar
       </Button>
     );
 
@@ -308,27 +309,30 @@ function OwnerGiveAction({
       ) : null}
       {tab.blockedUrl ? (
         <p className="text-xs" role="status">
-          This browser blocked the tab.{" "}
+          
+          Este navegador bloqueou a aba.{" "}
           <a
             className="underline underline-offset-2"
             href={tab.blockedUrl}
             rel="noreferrer"
             target="_blank"
           >
-            Open {name}'s sign-in
+            
+            Abrir {name}: login
           </a>
           .
         </p>
       ) : waiting ? (
         <p className="text-muted-foreground text-xs" role="status">
-          Finish in the tab that opened.
+          
+          Termine na aba que abriu.
         </p>
       ) : null}
       <Button
         aria-label={
           give.isPending || waiting
             ? undefined
-            : `Let ${bot} use ${name}${access.needsConnect ? " after you connect it" : ""}`
+            : `Let ${bot} use ${name}${access.needsConnect ? " depois de conectá-la" : ""}`
         }
         disabled={give.isPending || tab.pending}
         onClick={() => {
@@ -346,10 +350,10 @@ function OwnerGiveAction({
         {give.isPending
           ? "Allowing…"
           : waiting
-            ? `Waiting for ${name}…`
+            ? `Aguardando ${name}…`
             : access.needsConnect
-              ? "Connect and allow"
-              : "Allow"}
+              ? "Conectar e permitir"
+              : "Permitir"}
       </Button>
     </div>
   );
@@ -357,7 +361,7 @@ function OwnerGiveAction({
 
 /** The person's own account: connect it, or reconnect it. */
 function ConnectAction({ access }: { access: AppAccess }) {
-  const label = access.state === "reconnect" ? "Reconnect" : "Connect";
+  const label = access.state === "reconnect" ? "Reconectar" : "Conectar";
   const tab = useConnectInNewTab();
   const { waiting, stopWaiting } = tab;
 
@@ -415,20 +419,23 @@ function ConnectAction({ access }: { access: AppAccess }) {
       ) : null}
       {tab.blockedUrl ? (
         <p className="text-xs" role="status">
-          This browser blocked the tab.{" "}
+          
+          Este navegador bloqueou a aba.{" "}
           <a
             className="underline underline-offset-2"
             href={tab.blockedUrl}
             rel="noreferrer"
             target="_blank"
           >
-            Open {access.displayName}'s sign-in
+            
+            Abrir {access.displayName}: login
           </a>
           .
         </p>
       ) : waiting ? (
         <p className="text-muted-foreground text-xs" role="status">
-          Finish in the tab that opened.
+          
+          Termine na aba que abriu.
         </p>
       ) : null}
       <Button
@@ -442,7 +449,7 @@ function ConnectAction({ access }: { access: AppAccess }) {
         size="sm"
         variant="outline"
       >
-        {waiting ? `Waiting for ${access.displayName}…` : label}
+        {waiting ? `Aguardando ${access.displayName}…` : label}
       </Button>
     </div>
   );
@@ -502,13 +509,14 @@ function RequestAction({
       {access.request ? (
         <>
           <span className="text-muted-foreground text-xs" role="status">
-            Requested
+            
+            Solicitado
           </span>
           <Button
             aria-label={
               cancel.isPending
                 ? undefined
-                : `Withdraw request for ${access.displayName}`
+                : `Retirar pedido de ${access.displayName}`
             }
             disabled={cancel.isPending}
             onClick={() => {
@@ -520,7 +528,7 @@ function RequestAction({
             size="sm"
             variant="ghost"
           >
-            {cancel.isPending ? "Withdrawing…" : "Withdraw"}
+            {cancel.isPending ? "Withdrawing…" : "Retirar"}
           </Button>
         </>
       ) : (
@@ -528,7 +536,7 @@ function RequestAction({
           aria-label={
             request.isPending
               ? undefined
-              : `Request access to ${access.displayName}`
+              : `Pedir acesso a ${access.displayName}`
           }
           disabled={request.isPending}
           onClick={() => {
@@ -540,7 +548,7 @@ function RequestAction({
           size="sm"
           variant="outline"
         >
-          {request.isPending ? "Requesting…" : "Request access"}
+          {request.isPending ? "Requesting…" : "Pedir acesso"}
         </Button>
       )}
     </div>

@@ -56,7 +56,7 @@ async function signInOptions(): Promise<SignInOptions> {
   // returns without a key quietly yields undefined: the screen would say no provider is configured
   // while the server was saying it has one.
   const body = (await (
-    await client("/api/capabilities", { fallback: "Could not load sign-in" })
+    await client("/api/capabilities", { fallback: "Não foi possível carregar o login" })
   ).json()) as {
     authProviders?: AuthProviderId[];
     ssoConfigured?: boolean;
@@ -95,7 +95,7 @@ async function currentUser(): Promise<AuthenticatedUser | null> {
     return null;
   }
   if (!response.ok) {
-    throw new Error(`Could not load the current user (${response.status})`);
+    throw new Error(`Não foi possível carregar o usuário atual (${response.status})`);
   }
 
   const body = (await response.json()) as { user: AuthenticatedUser };

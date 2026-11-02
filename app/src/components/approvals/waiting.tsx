@@ -71,14 +71,14 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                 </ItemContent>
                 <ItemFooter className="flex-col items-start">
                   <Textarea
-                    aria-label="Your answer"
+                    aria-label="Sua resposta"
                     onChange={(event) =>
                       setAnswers((prior) => ({
                         ...prior,
                         [question.id]: event.target.value,
                       }))
                     }
-                    placeholder="Your answer"
+                    placeholder="Sua resposta"
                     value={answers[question.id] ?? ""}
                   />
                   <Button
@@ -91,7 +91,8 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                     }
                     size="sm"
                   >
-                    Send answer
+                    
+                    Enviar resposta
                   </Button>
                 </ItemFooter>
               </Item>
@@ -106,7 +107,7 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                 </ItemMedia>
                 <ItemContent className="min-w-0">
                   <ItemTitle className="line-clamp-none">
-                    {botName(request.action.botId)} wants to{" "}
+                    {botName(request.action.botId)}  quer{" "}
                     {request.action.toolRef
                       .replace(/^computer_|^host\//, "")
                       .replaceAll("_", " ")}
@@ -117,7 +118,7 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                   {request.action.policy ? (
                     <p className="text-sm">
                       {request.action.policy.behaviour === "hand_off"
-                        ? "Handed to you: "
+                        ? "Passado para você: "
                         : ""}
                       {request.action.policy.reason}
                     </p>
@@ -135,7 +136,8 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                       }
                       size="sm"
                     >
-                      I did it myself
+                      
+                      Eu mesmo fiz
                     </Button>
                     <Button
                       disabled={decision.isPending}
@@ -145,7 +147,8 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                       size="sm"
                       variant="outline"
                     >
-                      Don't do it
+                      
+                      Não faça
                     </Button>
                   </ItemFooter>
                 ) : (
@@ -160,7 +163,8 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                       }
                       size="sm"
                     >
-                      Allow once
+                      
+                      Permitir uma vez
                     </Button>
                     <Button
                       disabled={decision.isPending}
@@ -173,7 +177,8 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                       size="sm"
                       variant="outline"
                     >
-                      Always allow here
+                      
+                      Sempre permitir aqui
                     </Button>
                     <Button
                       disabled={decision.isPending}
@@ -183,7 +188,8 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                       size="sm"
                       variant="outline"
                     >
-                      Deny
+                      
+                      Negar
                     </Button>
                   </ItemFooter>
                 )}
@@ -212,7 +218,7 @@ export function BotNeedsYou({ agentId }: { agentId: string }) {
     );
   if (!waiting) return null;
   return (
-    <PageSection title="Needs you">
+    <PageSection title="Precisa de você">
       <WaitingForYou agentId={agentId} />
     </PageSection>
   );

@@ -51,7 +51,8 @@ export function BotRoster() {
   if (agents.data === undefined) {
     return (
       <p className="mt-6 text-destructive text-sm" role="alert">
-        Couldn't load your Bots. Reload the page.
+        
+        Não foi possível carregar seus Bots. Recarregue a página.
       </p>
     );
   }
@@ -68,16 +69,16 @@ export function BotRoster() {
   return (
     <>
       {needsYou.length ? (
-        <PageSection title="Needs you">
+        <PageSection title="Precisa de você">
           <RosterRows agents={needsYou} byId={byId} />
         </PageSection>
       ) : null}
       {pinned.length ? (
-        <PageSection title="Pinned">
+        <PageSection title="Fixados">
           <RosterRows agents={pinned} byId={byId} />
         </PageSection>
       ) : null}
-      <PageSection title="Yours">
+      <PageSection title="Seus">
         {yours.length ? (
           <RosterRows agents={yours} byId={byId} />
         ) : (
@@ -92,33 +93,35 @@ export function BotRoster() {
                   variant="outline"
                 >
                   <IconPlus />
-                  New Bot
+                  
+                  Novo Bot
                 </Button>
               )
             }
             icon={IconRobot}
             title={
               yoursPinned
-                ? "All pinned"
+                ? "Todos fixados"
                 : yoursWaiting
-                  ? "All waiting on you"
-                  : "No Bots yet"
+                  ? "Todos esperando por você"
+                  : "Nenhum Bot ainda"
             }
           >
             {yoursPinned
-              ? "Your Bots are all pinned above."
+              ? "Seus Bots estão todos fixados acima."
               : yoursWaiting
-                ? "Your Bots are all under Needs you."
-                : "Bots you create show up here."}
+                ? "Seus Bots estão todos em Precisa de você."
+                : "Os Bots que você criar aparecem aqui."}
           </PageEmpty>
         )}
       </PageSection>
-      <PageSection title="Shared with you">
+      <PageSection title="Compartilhados com você">
         {shared.length ? (
           <RosterRows agents={shared} byId={byId} />
         ) : (
-          <PageEmpty icon={IconShare} title="Nothing shared yet">
-            Bots somebody shares with you show up here.
+          <PageEmpty icon={IconShare} title="Nada compartilhado ainda">
+            
+            Bots que alguém compartilhar com você aparecem aqui.
           </PageEmpty>
         )}
       </PageSection>
@@ -145,11 +148,11 @@ function HiddenSection({
     <PageSection
       action={
         <Button onClick={() => setOpen(!open)} size="sm" variant="ghost">
-          {open ? "Hide" : "Show"}
+          {open ? "Ocultar" : "Mostrar"}
         </Button>
       }
-      description={`${agents.length} ${agents.length === 1 ? "Bot" : "Bots"} you hid. Only your list changes.`}
-      title="Hidden"
+      description={`${agents.length} ${agents.length === 1 ? "Bot" : "Bots"} que você ocultou. Só a sua lista muda.`}
+      title="Ocultos"
     >
       {open ? <RosterRows agents={agents} byId={byId} /> : null}
     </PageSection>
@@ -168,7 +171,7 @@ function RosterRows({
       {agents.map((agent, index) => {
         const state = byId.get(agent.id);
         const summary = state
-          ? [state.paused ? "Paused" : "", attentionSummary(state)]
+          ? [state.paused ? "Pausado" : "", attentionSummary(state)]
               .filter(Boolean)
               .join(" · ")
           : "";

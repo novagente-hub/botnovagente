@@ -22,10 +22,10 @@ import {
 
 const WHY: Record<SharedUseRequestReason, string> = {
   refused_call:
-    "An action was blocked. This Bot reaches more people than approved.",
-  publish: "Its owner widened who can reach it.",
-  trigger: "Its owner added a trigger that lets outside messages steer it.",
-  grant: "It was given the app's actions.",
+    "Uma ação foi bloqueada. Este Bot alcança mais pessoas do que o aprovado.",
+  publish: "O dono ampliou quem pode acessá-lo.",
+  trigger: "O dono adicionou um gatilho que permite que mensagens de fora o direcionem.",
+  grant: "Ele recebeu as ações do app.",
 };
 
 /**
@@ -42,7 +42,7 @@ export function SharedUseRequests() {
   if (!isAdmin || !requests.data?.length) return null;
 
   return (
-    <PageSection title="Shared account requests">
+    <PageSection title="Pedidos de contas compartilhadas">
       {decide.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
           {decide.error.message}
@@ -58,20 +58,22 @@ export function SharedUseRequests() {
               </ItemMedia>
               <ItemContent>
                 <ItemTitle className="line-clamp-none">
-                  {request.botName} wants the shared {request.title} account
+                  {request.botName}  quer a conta compartilhada {request.title} account
                 </ItemTitle>
                 <ItemDescription className="line-clamp-none">
                   {WHY[request.reason as SharedUseRequestReason] ??
                     request.reason}
                 </ItemDescription>
                 <p className="text-sm">
-                  Now:{" "}
+                  
+                  Agora:{" "}
                   {request.current
                     ? describeApproval(request.current)
-                    : "Not approved"}
+                    : "Não aprovado"}
                 </p>
                 <p className="text-sm">
-                  Asked: {describeApproval(request.proposed)}
+                  
+                  Pedido: {describeApproval(request.proposed)}
                 </p>
               </ItemContent>
               <ItemFooter className="justify-start">
@@ -82,7 +84,8 @@ export function SharedUseRequests() {
                   }
                   size="sm"
                 >
-                  Approve
+                  
+                  Aprovar
                 </Button>
                 <Button
                   disabled={decide.isPending}
@@ -92,7 +95,8 @@ export function SharedUseRequests() {
                   size="sm"
                   variant="outline"
                 >
-                  Decline
+                  
+                  Recusar
                 </Button>
               </ItemFooter>
             </Item>

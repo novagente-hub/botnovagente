@@ -11,8 +11,8 @@ import { Button } from "@/components/ui/button";
  * do my Bots know how to do, and what do they know about me?
  */
 const TABS = [
-  { label: "Skills", linkOptions: { to: "/capabilities/skills" } },
-  { label: "Memory", linkOptions: { to: "/capabilities/memory" } },
+  { label: "Habilidades", linkOptions: { to: "/capabilities/skills" } },
+  { label: "Memória", linkOptions: { to: "/capabilities/memory" } },
 ] as const satisfies readonly { label: string; linkOptions: LinkOptions }[];
 
 /**
@@ -23,7 +23,7 @@ const TABS = [
 export function CapabilitiesTabs() {
   const matchRoute = useMatchRoute();
   return (
-    <nav aria-label="Capabilities" className="mt-6 flex items-center gap-1">
+    <nav aria-label="Capacidades" className="mt-6 flex items-center gap-1">
       {TABS.map((tab) => (
         <Button
           key={tab.label}
@@ -52,7 +52,7 @@ export function CapabilitiesTabs() {
  */
 export function CapabilitiesShell({ children }: { children: React.ReactNode }) {
   return (
-    <PageShell className="@container" title="Capabilities">
+    <PageShell className="@container" title="Capacidades">
       <CapabilitiesTabs />
       {children}
     </PageShell>

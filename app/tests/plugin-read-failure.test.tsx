@@ -227,10 +227,10 @@ test("a connector's admin page says the plugin list failed, not that there is no
   await waitForFailedRead(client);
 
   expect(
-    await view.findByText("Couldn't load plugins. Reload the page."),
+    await view.findByText("Não foi possível carregar os plugins. Recarregue a página."),
   ).toBeTruthy();
-  expect(view.queryByText("Not a plugin")).toBeNull();
-  expect(view.queryByText("Nothing to configure.")).toBeNull();
+  expect(view.queryByText("Não é um plugin")).toBeNull();
+  expect(view.queryByText("Nada para configurar.")).toBeNull();
 });
 
 test("a list that genuinely lacks the connector still says it is not a plugin", async () => {
@@ -238,9 +238,9 @@ test("a list that genuinely lacks the connector still says it is not a plugin", 
   const view = renderAdmin(client, `/admin/plugins/${APP_KEY}`);
   await waitForFailedRead(client);
 
-  expect(await view.findByText("Not a plugin")).toBeTruthy();
+  expect(await view.findByText("Não é um plugin")).toBeTruthy();
   expect(
-    view.queryByText("Couldn't load plugins. Reload the page."),
+    view.queryByText("Não foi possível carregar os plugins. Recarregue a página."),
   ).toBeNull();
 });
 
@@ -253,11 +253,11 @@ test("a tool's admin page says the plugin list failed, not that the connector is
   await waitForFailedRead(client);
 
   expect(
-    await view.findByText("Couldn't load plugins. Reload the page."),
+    await view.findByText("Não foi possível carregar os plugins. Recarregue a página."),
   ).toBeTruthy();
   expect(view.queryByText("This connector isn't turned on.")).toBeNull();
   expect(
-    view.queryByText("This connector has no tool with that name."),
+    view.queryByText("Este conector não tem ferramenta com esse nome."),
   ).toBeNull();
 });
 
@@ -269,9 +269,9 @@ test("a list that genuinely lacks the connector still says it is not enabled, on
   );
   await waitForFailedRead(client);
 
-  expect(await view.findByText("This connector is off")).toBeTruthy();
+  expect(await view.findByText("Este conector está desativado")).toBeTruthy();
   expect(
-    view.queryByText("Couldn't load plugins. Reload the page."),
+    view.queryByText("Não foi possível carregar os plugins. Recarregue a página."),
   ).toBeNull();
 });
 
@@ -281,5 +281,5 @@ test("a connected account's page says the plugin list failed, not that it is not
   await waitForFailedRead(client);
 
   expect(await view.findByRole("alert")).toBeTruthy();
-  expect(view.queryByText("You don't connect this app yourself.")).toBeNull();
+  expect(view.queryByText("Você não conecta este app por conta própria.")).toBeNull();
 });

@@ -24,16 +24,17 @@ type QuoteArgs = z.infer<typeof QuoteCardProps>;
 export function QuoteCard({ quote, attribution, context }: Partial<QuoteArgs>) {
   if (!quote) {
     return (
-      <GalleryFrame title="Quotation">
+      <GalleryFrame title="Citação">
         <p className="text-sm text-muted-foreground">
-          There is nothing to quote.
+          
+          Não há nada para citar.
         </p>
       </GalleryFrame>
     );
   }
 
   return (
-    <GalleryFrame caption={context} title="Quotation">
+    <GalleryFrame caption={context} title="Citação">
       <blockquote className="border-l-2 border-border pl-4">
         <p className="text-sm leading-relaxed">{quote}</p>
         {attribution ? (
@@ -49,7 +50,7 @@ export function QuoteCard({ quote, attribution, context }: Partial<QuoteArgs>) {
 export const GALLERY: GalleryComponent[] = [
   {
     name: "showQuote",
-    title: "Quotation",
+    title: "Citação",
     kind: "card",
     description:
       "Show a quotation with its attribution. Use when the exact words matter, something a person said, or a line from a document you were given.",
@@ -57,9 +58,9 @@ export const GALLERY: GalleryComponent[] = [
     Component: QuoteCard as GalleryComponent["Component"],
     preview: {
       quote:
-        "Meals under $75 need no receipt. Anything above needs one, and anything above $500 needs your manager before you spend it.",
-      attribution: "the expense policy",
-      context: "Last changed in March.",
+        "Refeições abaixo de US$ 75 não precisam de recibo. Acima disso, é preciso um, e acima de US$ 500 é preciso aprovação do seu gestor antes de gastar.",
+      attribution: "a política de despesas",
+      context: "Alterada pela última vez em março.",
     },
     confirmation: "The quotation is now on screen for the person.",
   },

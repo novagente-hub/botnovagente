@@ -34,12 +34,12 @@ export const Route = createFileRoute("/_authed/admin/credentials_/new")({
 });
 
 const BACK = {
-  label: "Credentials",
+  label: "Credenciais",
   linkProps: { to: "/admin/credentials" as const },
 };
 
 /** Without `items` the trigger draws the raw value, so the type read "model" in lower case. */
-const KIND_LABEL = { model: "Model", connector: "Connector" } as const;
+const KIND_LABEL = { model: "Modelo", connector: "Conector" } as const;
 
 /**
  * Adding a credential, on a screen of its own rather than in a dialog over the list.
@@ -74,8 +74,8 @@ function NewCredentialPage() {
   return (
     <PageShell
       backButton={BACK}
-      description="Save a credential for this deployment. You won’t be able to view the secret after saving it."
-      title="Add credential"
+      description="Salve uma credencial para esta implantação. Você não poderá ver o segredo depois de salvar."
+      title="Adicionar credencial"
     >
       <form
         noValidate
@@ -91,7 +91,8 @@ function NewCredentialPage() {
                 render={(props) => <Link {...props} to="/admin/credentials" />}
                 variant="outline"
               >
-                Cancel
+                
+                Cancelar
               </Button>
               <form.Subscribe
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
@@ -105,7 +106,7 @@ function NewCredentialPage() {
                   >
                     {isSubmitting || createCredential.isPending
                       ? "Saving…"
-                      : "Save credential"}
+                      : "Salvar credencial"}
                   </Button>
                 )}
               </form.Subscribe>
@@ -119,9 +120,10 @@ function NewCredentialPage() {
                   field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>Type</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>Digite</FieldLabel>
                     <FieldDescription>
-                      A model provider's key, or one a connector signs in with.
+                      
+                      A chave de um provedor de modelos, ou uma com que um conector faz login.
                     </FieldDescription>
                     <Select
                       items={KIND_LABEL}
@@ -139,8 +141,8 @@ function NewCredentialPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="model">Model</SelectItem>
-                          <SelectItem value="connector">Connector</SelectItem>
+                          <SelectItem value="model">Modelo</SelectItem>
+                          <SelectItem value="connector">Conector</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -157,7 +159,7 @@ function NewCredentialPage() {
                   field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>Provider</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>Provedor</FieldLabel>
                     <Input
                       aria-invalid={isInvalid}
                       id={field.name}
@@ -182,9 +184,10 @@ function NewCredentialPage() {
                   field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>Key ID</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>ID da chave</FieldLabel>
                     <FieldDescription>
-                      Tells this key apart from others for the same provider.
+                      
+                      Diferencia esta chave de outras do mesmo provedor.
                     </FieldDescription>
                     <Input
                       aria-invalid={isInvalid}
@@ -210,7 +213,7 @@ function NewCredentialPage() {
                   field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>Secret</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>Segredo</FieldLabel>
                     <Input
                       aria-invalid={isInvalid}
                       autoComplete="off"
@@ -250,15 +253,16 @@ function NewCredentialPage() {
             {([kind, provider, keyId]) =>
               liveCredentialFor(credentials.data, kind, provider, keyId) ? (
                 <p className="mt-5 text-amber-600 text-sm dark:text-amber-500">
-                  This key already has an active credential. Saving replaces it
-                  and revokes the old one.
+                  
+                  Esta chave já tem uma credencial ativa. Salvar a substitui e revoga a antiga.
                 </p>
               ) : null
             }
           </form.Subscribe>
           {createCredential.error ? (
             <p className="mt-5 text-destructive text-sm" role="alert">
-              Couldn't save the credential. Try again.
+              
+              Não foi possível salvar a credencial. Tente novamente.
             </p>
           ) : null}
         </PageCard>

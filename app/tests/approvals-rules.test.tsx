@@ -160,15 +160,15 @@ test("team rules are locked for members, enforced auto-review is shown as requir
   const mine = view.getByRole("combobox", {
     name: "Behaviour for mcp/gmail/*",
   });
-  expect(mine.textContent).toContain("Take action without asking");
-  expect(view.getByText("Locked")).toBeTruthy();
-  const review = view.getByRole("switch", { name: "Auto-review" });
+  expect(mine.textContent).toContain("Agir sem perguntar");
+  expect(view.getByText("Bloqueada")).toBeTruthy();
+  const review = view.getByRole("switch", { name: "Revisão automática" });
   expect(review.getAttribute("aria-checked")).toBe("true");
-  expect(view.getByText(/An admin requires this/)).toBeTruthy();
+  expect(view.getByText(/Um administrador exige isto/)).toBeTruthy();
   expect(
     view.getByText(/An admin limits this to "Ask every time"/),
   ).toBeTruthy();
-  expect(view.queryByText("Team settings")).toBeNull();
+  expect(view.queryByText("Configurações da equipe")).toBeNull();
 });
 
 test("a member changes a saved rule in place", async () => {
@@ -179,7 +179,7 @@ test("a member changes a saved rule in place", async () => {
   const user = userEvent.setup({ document });
   await user.click(mine);
   await user.click(
-    await view.findByRole("option", { name: "Hand off to you" }),
+    await view.findByRole("option", { name: "Passar para você" }),
   );
   await waitFor(() =>
     expect(sent).toContainEqual({
@@ -195,20 +195,20 @@ test("a member changes a saved rule in place", async () => {
 
 test("a member adds a rule with one of the four behaviours", async () => {
   const view = draw(<ApprovalSettings />);
-  await view.findByText("Add a rule");
+  await view.findByText("Adicionar regra");
   const user = userEvent.setup({ document });
-  await user.click(view.getByRole("button", { name: /Add a rule/ }));
+  await user.click(view.getByRole("button", { name: /Adicionar regra/ }));
   await user.type(
-    await view.findByRole("textbox", { name: "Tool or app" }),
+    await view.findByRole("textbox", { name: "Ferramenta ou app" }),
     "mcp/slack/*",
   );
   // Rules here apply to every Bot, so there is no Bot to name.
   expect(view.queryByRole("textbox", { name: "Bot" })).toBeNull();
-  await user.click(view.getByRole("combobox", { name: "Behaviour" }));
+  await user.click(view.getByRole("combobox", { name: "Comportamento" }));
   await user.click(
-    await view.findByRole("option", { name: "Take action if pre-approved" }),
+    await view.findByRole("option", { name: "Agir se pré-aprovado" }),
   );
-  await user.click(view.getByRole("button", { name: "Save rule" }));
+  await user.click(view.getByRole("button", { name: "Salvar regra" }));
   await waitFor(() =>
     expect(sent).toContainEqual({
       path: "/api/approvals/rules",
@@ -227,14 +227,14 @@ test("a member adds a rule with one of the four behaviours", async () => {
 test("a rule that is not saved keeps the dialog open, with what was typed and why", async () => {
   refuseRule = "That tool is not one a Bot can use.";
   const view = draw(<ApprovalSettings />);
-  await view.findByText("Add a rule");
+  await view.findByText("Adicionar regra");
   const user = userEvent.setup({ document });
-  await user.click(view.getByRole("button", { name: /Add a rule/ }));
+  await user.click(view.getByRole("button", { name: /Adicionar regra/ }));
   await user.type(
-    await view.findByRole("textbox", { name: "Tool or app" }),
+    await view.findByRole("textbox", { name: "Ferramenta ou app" }),
     "mcp/nowhere/*",
   );
-  await user.click(view.getByRole("button", { name: "Save rule" }));
+  await user.click(view.getByRole("button", { name: "Salvar regra" }));
   const dialog = await view.findByRole("dialog");
   expect((await within(dialog).findByRole("alert")).textContent).toContain(
     "That tool is not one a Bot can use.",
@@ -242,12 +242,12 @@ test("a rule that is not saved keeps the dialog open, with what was typed and wh
   expect(
     (
       within(dialog).getByRole("textbox", {
-        name: "Tool or app",
+        name: "Ferramenta ou app",
       }) as HTMLInputElement
     ).value,
   ).toBe("mcp/nowhere/*");
   // Saved the second time, the dialog closes.
-  await user.click(within(dialog).getByRole("button", { name: "Save rule" }));
+  await user.click(within(dialog).getByRole("button", { name: "Salvar regra" }));
   await waitFor(() => expect(view.queryByRole("dialog")).toBeNull());
   expect(
     sent.filter((request) => request.path === "/api/approvals/rules"),
@@ -291,23 +291,23 @@ test("with personal rules switched off by the team, they are shown as not applyi
   const view = draw(<ApprovalSettings />);
   expect(
     await view.findByText(
-      /An admin has turned off personal rules\. Yours are kept but don't apply\./,
+      /Um administrador desativou as regras pessoais\. As suas ficam guardadas, mas não valem\./,
     ),
   ).toBeTruthy();
-  expect(view.queryByText("Add a rule")).toBeNull();
+  expect(view.queryByText("Adicionar regra")).toBeNull();
 });
 
 test("an administrator is told where team settings are", async () => {
   role = "admin";
   const view = draw(<ApprovalSettings />);
-  const link = await view.findByRole("link", { name: "Admin → Approvals" });
+  const link = await view.findByRole("link", { name: "Admin → Aprovações" });
   expect(link.getAttribute("href")).toBe("/admin/approvals");
 });
 
 test("a member is not pointed at Admin", async () => {
   const view = draw(<ApprovalSettings />);
-  await view.findByText("Rules for every Bot");
-  expect(view.queryByRole("link", { name: "Admin → Approvals" })).toBeNull();
+  await view.findByText("Regras para todos os Bots");
+  expect(view.queryByRole("link", { name: "Admin → Aprovações" })).toBeNull();
 });
 
 test("rules for every Bot point to where rules for a single Bot are", async () => {
@@ -325,7 +325,7 @@ test("rules for every Bot point to where rules for a single Bot are", async () =
     ],
   };
   const view = draw(<ApprovalSettings />);
-  const link = await view.findByRole("link", { name: "that Bot's page" });
+  const link = await view.findByRole("link", { name: "página desse Bot" });
   expect(link.getAttribute("href")).toBe("/bots");
   // A rule naming one Bot lives on that Bot's page, not here.
   expect(
@@ -348,7 +348,7 @@ test("a rule naming no Bot this person can open is listed so it can be removed",
     ],
   };
   const view = draw(<ApprovalSettings />);
-  expect(await view.findByText("Rules for other Bots")).toBeTruthy();
+  expect(await view.findByText("Regras para outros Bots")).toBeTruthy();
   expect(
     view.getByRole("combobox", { name: "Behaviour for computer_click" }),
   ).toBeTruthy();
@@ -368,12 +368,12 @@ test("a pending change is drawn in the conversation where the action was, and de
       />
     </QueryClientProvider>,
   );
-  await view.findByRole("region", { name: "Waiting for your approval" });
+  await view.findByRole("region", { name: "Aguardando sua aprovação" });
   expect(view.getByText(/This needs you: click on shop.example/)).toBeTruthy();
   // Another call's line is left to its own renderer.
-  expect(view.getByText("Filled in field")).toBeTruthy();
-  expect(view.queryByText("Clicked on page")).toBeNull();
-  fireEvent.click(view.getByRole("button", { name: "I did it myself" }));
+  expect(view.getByText("Preencheu um campo")).toBeTruthy();
+  expect(view.queryByText("Clicou na página")).toBeNull();
+  fireEvent.click(view.getByRole("button", { name: "Eu mesmo fiz" }));
   await waitFor(() =>
     expect(sent).toContainEqual({
       path: "/api/approvals/request-1/decision",
@@ -434,10 +434,10 @@ test("in the real transcript shape a waiting click is folded into browser activi
       <ToolActivity group={group} active={false} />
     </QueryClientProvider>,
   );
-  await view.findByRole("region", { name: "Waiting for your approval" });
+  await view.findByRole("region", { name: "Aguardando sua aprovação" });
   // Only the waiting call gets a card; the finished navigate does not.
   expect(
-    view.getAllByRole("region", { name: "Waiting for your approval" }),
+    view.getAllByRole("region", { name: "Aguardando sua aprovação" }),
   ).toHaveLength(1);
-  expect(view.getByRole("button", { name: "I did it myself" })).toBeTruthy();
+  expect(view.getByRole("button", { name: "Eu mesmo fiz" })).toBeTruthy();
 });

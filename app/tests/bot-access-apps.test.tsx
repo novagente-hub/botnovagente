@@ -127,7 +127,7 @@ function draw() {
 }
 
 const row = async (view: ReturnType<typeof draw>, key: string) => {
-  await view.findByText("What it can use");
+  await view.findByText("O que ele pode usar");
   const found = await view.findByText((_, element) =>
     Boolean(element?.getAttribute("data-app") === key),
   );
@@ -151,7 +151,7 @@ test("each app is named by its own name and says it is ready, with its tools", a
   const view = draw();
   const gmail = await row(view, "composio-gmail");
   expect(gmail.getByText("Gmail")).toBeTruthy();
-  expect(gmail.getByText(/^Ready to use\./)).toBeTruthy();
+  expect(gmail.getByText(/^Pronto para usar\./)).toBeTruthy();
   expect(gmail.getByText("2 tools")).toBeTruthy();
   expect(view.queryByText(/Composio Gmail/)).toBeNull();
   expect(gmail.queryByRole("button")).toBeNull();
@@ -207,7 +207,7 @@ test("an app only an admin can fix offers Request access, and a pending one read
       "Notion isn't turned on yet. Only an admin can turn it on.",
     ),
   ).toBeTruthy();
-  expect(notion.getByText("Requested")).toBeTruthy();
+  expect(notion.getByText("Solicitado")).toBeTruthy();
   expect(
     notion.getByRole("button", { name: "Withdraw request for Notion" }),
   ).toBeTruthy();
@@ -276,7 +276,7 @@ test("on somebody else's Team Bot, an app on its owner's account says so, and an
 test("a person who is not an admin gets no way to the grants", async () => {
   serving({ apps: [appAccess()] });
   const gmail = await row(draw(), "composio-gmail");
-  expect(gmail.queryByRole("button", { name: /Manage/ })).toBeNull();
+  expect(gmail.queryByRole("button", { name: /Gerenciar/ })).toBeNull();
 });
 
 test("when the states cannot be read, the apps are still listed and the failure is said", async () => {
@@ -288,7 +288,7 @@ test("when the states cannot be read, the apps are still listed and the failure 
   });
   const view = draw();
   expect((await view.findByRole("alert")).textContent).toContain(
-    "Couldn't check whether each app is ready for you. Reload the page.",
+    "Não foi possível verificar se cada app está pronto para você. Recarregue a página.",
   );
   expect(await view.findByText("Google Drive")).toBeTruthy();
 });

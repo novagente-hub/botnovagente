@@ -36,21 +36,24 @@ function PasswordsPage() {
   const remove = useMutation(deleteSavedLoginMutationOptions(queryClient));
   return (
     <PageShell
-      title="Passwords"
-      description="Manage saved website logins. Bots cannot see your passwords, and you approve each use."
+      title="Senhas"
+      description="Gerencie logins de sites salvos. Os Bots não veem suas senhas, e você aprova cada uso."
     >
-      <PageSection title="Saved logins">
+      <PageSection title="Logins salvos">
         {logins.isPending ? null : logins.error ? (
           <p className="text-destructive text-sm" role="alert">
-            Couldn't load your passwords. Reload the page.
+            
+            Não foi possível carregar suas senhas. Recarregue a página.
           </p>
         ) : !logins.data.passwordManager ? (
-          <PageEmpty icon={IconLockOff} title="Saved passwords are off">
-            An admin turned them off. Your logins are kept but won't be offered.
+          <PageEmpty icon={IconLockOff} title="Senhas salvas desativadas">
+            
+            Um administrador as desativou. Seus logins ficam guardados, mas não serão oferecidos.
           </PageEmpty>
         ) : logins.data.logins.length === 0 ? (
-          <PageEmpty icon={IconKey} title="No saved logins yet">
-            Choose Save to Passwords when you sign a Bot in to a website.
+          <PageEmpty icon={IconKey} title="Nenhum login salvo ainda">
+            
+            Escolha Salvar em Senhas quando fizer login de um Bot em um site.
           </PageEmpty>
         ) : (
           <PageRows>
@@ -67,12 +70,12 @@ function PasswordsPage() {
                       {login.username}
                       {login.lastUsedAt
                         ? ` · last used ${new Date(login.lastUsedAt).toLocaleDateString()}`
-                        : " · never used"}
+                        : " · nunca usado"}
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions>
                     <Button
-                      aria-label={`Delete login for ${login.origin}`}
+                      aria-label={`Excluir login de ${login.origin}`}
                       size="sm"
                       variant="ghost"
                       disabled={remove.isPending}

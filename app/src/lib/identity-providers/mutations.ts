@@ -2,7 +2,7 @@ import { mutationOptions, type QueryClient } from "@tanstack/react-query";
 import { client } from "@/lib/client";
 import { identityProviderKeys } from "./queries";
 
-const FALLBACK = "Could not change that identity provider";
+const FALLBACK = "Não foi possível alterar esse provedor de identidade";
 
 function invalidateProviders(queryClient: QueryClient) {
   return queryClient.invalidateQueries({ queryKey: identityProviderKeys.all });

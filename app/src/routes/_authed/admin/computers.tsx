@@ -87,7 +87,7 @@ function ComputersPage() {
    * instead, because the top of this page is a long scroll away from them.
    */
   const problem = fleet.error
-    ? "Couldn't load the computers. Reload the page."
+    ? "Não foi possível carregar os computadores. Recarregue a página."
     : null;
   const hostProblem = hostAccess.error
     ? hostAccess.error.message
@@ -137,18 +137,18 @@ function ComputersPage() {
   const scopeOf = (computer: ComputerProfile): string => {
     if (computer.kind === "person") {
       return computer.botId
-        ? "This person's profile and folder for this Bot"
-        : "Runs every Bot this person uses";
+        ? "O perfil e a pasta desta pessoa para este Bot"
+        : "Executa todos os Bots que esta pessoa usa";
     }
     return isolation === "shared"
-      ? "This Bot's profile from before each person had their own"
-      : "Isolated: a computer of its own, shared by everyone who uses it";
+      ? "O perfil deste Bot de antes de cada pessoa ter o seu"
+      : "Isolado: um computador próprio, compartilhado por todos que o usam";
   };
 
   return (
     <PageShell
-      description="Each person's computer, and each isolated Bot's. Every Bot keeps its own browser profile on it, which keeps that Bot signed in. Resetting a computer signs every Bot on it out of everything."
-      title="Computers"
+      description="O computador de cada pessoa, e o de cada Bot isolado. Cada Bot mantém nele o próprio perfil de navegador, o que mantém o login desse Bot. Redefinir um computador desconecta todos os Bots dele de tudo."
+      title="Computadores"
     >
       {problem ? (
         <p
@@ -162,20 +162,16 @@ function ComputersPage() {
       {isolation === "shared" ? (
         <p className="mt-4 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm">
           <span className="font-medium">
-            Every person's Bots run on one computer.
+            
+            Os Bots de cada pessoa rodam em um computador.
           </span>{" "}
-          Each person keeps their own browser profile and folder for each Bot,
-          so logins aren't shared. A command one Bot runs can still read
-          another's files. Set <code>COMPUTER_SUPERVISOR_URL</code> to give each
-          person a computer of their own.
+          
+          Cada pessoa mantém o próprio perfil de navegador e pasta para cada Bot, então os logins não são compartilhados. Um comando executado por um Bot ainda pode ler os arquivos de outro. Defina <code>COMPUTER_SUPERVISOR_URL</code>  para dar a cada pessoa um computador próprio.
         </p>
       ) : isolation === "per-person" ? (
         <p className="mt-4 rounded-md border border-border bg-muted/40 px-3 py-2 text-muted-foreground text-sm">
-          Each person has their own computer, and every Bot they use runs on it,
-          public Bots made by other people included. Each Bot keeps its own
-          browser profile and folder there, but a command one Bot runs can reach
-          anything else on that person's computer. An isolated Bot has a
-          computer of its own.
+          
+          Cada pessoa tem o próprio computador, e todos os Bots que ela usa rodam nele, incluindo Bots públicos feitos por outras pessoas. Cada Bot mantém ali o próprio perfil de navegador e pasta, mas um comando executado por um Bot pode acessar qualquer outra coisa no computador dessa pessoa. Um Bot isolado tem um computador próprio.
         </p>
       ) : null}
 
@@ -203,7 +199,7 @@ function ComputersPage() {
         stopping={stopHostAccess.isPending}
       />
 
-      <PageSection title="Computers in this deployment">
+      <PageSection title="Computadores nesta implantação">
         {setState.error ? (
           <p
             className="mb-3 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm"
@@ -213,10 +209,11 @@ function ComputersPage() {
           </p>
         ) : null}
         {computers === null && problem ? (
-          <PageEmpty icon={IconAlertTriangle} title="Couldn't load the list" />
+          <PageEmpty icon={IconAlertTriangle} title="Não foi possível carregar a lista" />
         ) : computers === null ? null : computers.length === 0 ? (
-          <PageEmpty icon={IconDeviceDesktop} title="No computers yet">
-            One shows up the first time a Bot opens a page.
+          <PageEmpty icon={IconDeviceDesktop} title="Nenhum computador ainda">
+            
+            Um aparece na primeira vez que um Bot abre uma página.
           </PageEmpty>
         ) : (
           <PageRows>
@@ -232,14 +229,14 @@ function ComputersPage() {
                       {" · "}
                       {computer.running
                         ? `Browser running since ${new Date(computer.startedAt ?? "").toLocaleTimeString()}`
-                        : "No browser running. It starts when the Bot next needs it."}
+                        : "Nenhum navegador em execução. Ele liga quando o Bot precisar."}
                       {" · "}
                       {computer.egress === undefined
-                        ? "Egress not reported"
+                        ? "Saída de rede não informada"
                         : computer.egress === null
-                          ? "Leaves directly"
+                          ? "Sai diretamente"
                           : `Leaves through ${computer.egress}`}
-                      {computer.updateAvailable ? " · Update available" : ""}
+                      {computer.updateAvailable ? " · Atualização disponível" : ""}
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions>
@@ -250,7 +247,8 @@ function ComputersPage() {
                         size="sm"
                         variant="outline"
                       >
-                        Update computer
+                        
+                        Atualizar computador
                       </Button>
                     ) : null}
                     <Button
@@ -259,7 +257,7 @@ function ComputersPage() {
                       size="sm"
                       variant="outline"
                     >
-                      {busy === rowId(computer) ? "Working…" : "Stop browser"}
+                      {busy === rowId(computer) ? "Working…" : "Parar navegador"}
                     </Button>
                     <Button
                       disabled={busy === rowId(computer)}
@@ -267,7 +265,8 @@ function ComputersPage() {
                       size="sm"
                       variant="outline"
                     >
-                      Reset
+                      
+                      Redefinir
                     </Button>
                   </ItemActions>
                 </Item>
@@ -293,13 +292,15 @@ function ComputersPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              Reset {confirming ? titleOf(confirming) : ""}?
+              
+              Redefinir {confirming ? titleOf(confirming) : ""}?
             </DialogTitle>
             <DialogDescription>
               {confirming?.kind === "person" && !confirming.botId
-                ? "Every Bot's profile on this person's computer is deleted. Each is signed out of every service and starts clean."
-                : "Its profile is deleted. The Bot is signed out of every service and starts clean."}{" "}
-              You can't undo this.
+                ? "O perfil de todos os Bots no computador desta pessoa é excluído. Cada um é desconectado de todos os serviços e começa do zero."
+                : "O perfil é excluído. O Bot é desconectado de todos os serviços e começa do zero."}{" "}
+              
+              Não é possível desfazer.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -308,7 +309,8 @@ function ComputersPage() {
               size="sm"
               variant="ghost"
             >
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               disabled={confirming !== null && busy === rowId(confirming)}
@@ -320,7 +322,7 @@ function ComputersPage() {
             >
               {confirming !== null && busy === rowId(confirming)
                 ? "Resetting…"
-                : "Reset it"}
+                : "Redefinir"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -335,12 +337,12 @@ function ComputersPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              Update {confirmingUpdate ? titleOf(confirmingUpdate) : ""}?
+              
+              Atualizar {confirmingUpdate ? titleOf(confirmingUpdate) : ""}?
             </DialogTitle>
             <DialogDescription>
-              It moves to the computer image this deployment now runs. Its files
-              and sign-ins are kept. If it's running, it restarts and stops what
-              it's doing.
+              
+              Ele passa para a imagem de computador que esta implantação usa agora. Os arquivos e logins são mantidos. Se estiver em execução, ele reinicia e para o que estiver fazendo.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -349,7 +351,8 @@ function ComputersPage() {
               size="sm"
               variant="ghost"
             >
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               disabled={
@@ -362,21 +365,18 @@ function ComputersPage() {
             >
               {confirmingUpdate !== null && busy === rowId(confirmingUpdate)
                 ? "Updating…"
-                : "Update it"}
+                : "Atualizar"}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
       <p className="mt-4 text-muted-foreground text-sm">
-        <strong>Stop</strong> closes the computer's browsers and keeps their
-        logins. It starts again the next time a Bot needs it.{" "}
-        <strong>Reset</strong> deletes the profiles and signs every Bot on it
-        out of everything. <strong>Update computer</strong> shows when a
-        computer runs an older image. It moves the computer to the new one and
-        keeps its files and sign-ins. All three show in{" "}
+        <strong>Parar</strong>  fecha os navegadores do computador e mantém os logins. Ele liga de novo na próxima vez que um Bot precisar.{" "}
+        <strong>Redefinir</strong>  exclui os perfis e desconecta todos os Bots dele de tudo. <strong>Atualizar computador</strong>  aparece quando um computador usa uma imagem antiga. Ele passa o computador para a nova e mantém os arquivos e logins. Os três aparecem em{" "}
         <Link className="underline" to="/admin/audit">
-          Audit
+          
+          Auditoria
         </Link>
         .
       </p>
@@ -425,8 +425,8 @@ function HostFoldersSection({
 
   return (
     <PageSection
-      description="Choose folders a Bot can read on this computer. The desktop app asks before each edit or command. Access ends when you stop OpenBot."
-      title="Folders on this computer"
+      description="Escolha pastas que um Bot pode ler neste computador. O app de desktop pergunta antes de cada edição ou comando. O acesso termina quando você fecha o OpenBot."
+      title="Pastas neste computador"
     >
       {problem ? (
         <p
@@ -439,14 +439,15 @@ function HostFoldersSection({
 
       {!connected && !loading ? (
         <p className="mb-3 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm">
-          The desktop app is offline. Open it to approve folders or run
-          commands.
+          
+          O app de desktop está offline. Abra-o para aprovar pastas ou executar comandos.
         </p>
       ) : null}
 
       {loading ? null : botIds.length === 0 ? (
-        <PageEmpty icon={IconRobot} title="No Bots yet">
-          Create one, then choose its folders.
+        <PageEmpty icon={IconRobot} title="Nenhum Bot ainda">
+          
+          Crie um e depois escolha as pastas dele.
         </PageEmpty>
       ) : (
         <PageRows>
@@ -473,7 +474,7 @@ function HostFoldersSection({
                     size="sm"
                     variant="outline"
                   >
-                    {requestingBotId === botId ? "Waiting…" : "Choose folder"}
+                    {requestingBotId === botId ? "Waiting…" : "Escolher pasta"}
                   </Button>
                 </ItemActions>
               </Item>
@@ -485,8 +486,8 @@ function HostFoldersSection({
 
       <div className="mt-3 flex flex-wrap items-center justify-between gap-3 text-muted-foreground text-sm">
         <p>
-          Folders are read-only. When a Bot needs to write, the desktop app asks
-          you first.
+          
+          As pastas são somente leitura. Quando um Bot precisa gravar, o app de desktop pergunta a você antes.
         </p>
         <div className="flex items-center gap-3">
           <Button
@@ -495,10 +496,11 @@ function HostFoldersSection({
             size="sm"
             variant="outline"
           >
-            {stopping ? "Stopping…" : "Stop folder access"}
+            {stopping ? "Stopping…" : "Interromper acesso à pasta"}
           </Button>
           <Link className="underline" to="/admin/audit">
-            View audit
+            
+            Ver auditoria
           </Link>
         </div>
       </div>
@@ -536,7 +538,7 @@ function FolderGrantList({
           <div className="min-w-0">
             <p className="truncate font-medium text-sm">{grant.displayName}</p>
             <p className="text-muted-foreground text-xs">
-              {ownerLabel(grant)} · Read-only
+              {ownerLabel(grant)}  · Somente leitura
             </p>
           </div>
           <Button
@@ -545,7 +547,7 @@ function FolderGrantList({
             size="sm"
             variant="ghost"
           >
-            {revokingGrantId === grant.id ? "Revoking…" : "Revoke"}
+            {revokingGrantId === grant.id ? "Revoking…" : "Revogar"}
           </Button>
         </div>
       ))}
@@ -573,30 +575,30 @@ function summaryFor(
   const waiting = pending.filter((request) => request.botId === botId).length;
   const parts = [];
   if (active > 0)
-    parts.push(`${active} read-only ${active === 1 ? "folder" : "folders"}`);
+    parts.push(`${active} ${active === 1 ? "pasta somente leitura" : "pastas somente leitura"}`);
   if (waiting > 0)
     parts.push(`${waiting} pending ${waiting === 1 ? "request" : "requests"}`);
-  return parts.length > 0 ? parts.join(" · ") : "No folders approved.";
+  return parts.length > 0 ? parts.join(" · ") : "Nenhuma pasta aprovada.";
 }
 
 function ownerLabel(grant: { ownerName?: string; ownerEmail?: string }) {
-  return grant.ownerName ?? grant.ownerEmail ?? "the desktop owner";
+  return grant.ownerName ?? grant.ownerEmail ?? "o dono do desktop";
 }
 
 function pendingLabel(request: HostAccessPendingOperation) {
   switch (request.kind) {
     case "write_file":
-      return "File change waiting for approval or to finish";
+      return "Alteração de arquivo aguardando aprovação ou conclusão";
     case "run_command":
-      return "Command waiting for approval or to finish";
+      return "Comando aguardando aprovação ou conclusão";
     case "list_files":
-      return "Listing files";
+      return "Listando arquivos";
     case "read_file":
-      return "Reading a file";
+      return "Lendo um arquivo";
     case "cancel":
     case "stop":
-      return "Stopping folder work";
+      return "Parando o trabalho na pasta";
     default:
-      return "Folder access waiting for approval";
+      return "Acesso à pasta aguardando aprovação";
   }
 }

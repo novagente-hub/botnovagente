@@ -110,15 +110,15 @@ test("only this Bot's own rules can be changed, and the team rules that reach it
 test("a rule added here is for this Bot, with no Bot to type", async () => {
   serving();
   const view = draw();
-  await view.findByText("Add a rule");
+  await view.findByText("Adicionar regra");
   const user = userEvent.setup({ document });
-  await user.click(view.getByRole("button", { name: /Add a rule/ }));
+  await user.click(view.getByRole("button", { name: /Adicionar regra/ }));
   await user.type(
-    await view.findByRole("textbox", { name: "Tool or app" }),
+    await view.findByRole("textbox", { name: "Ferramenta ou app" }),
     "mcp/notion/*",
   );
   expect(view.queryByRole("textbox", { name: "Bot" })).toBeNull();
-  await user.click(view.getByRole("button", { name: "Save rule" }));
+  await user.click(view.getByRole("button", { name: "Salvar regra" }));
   await waitFor(() =>
     expect(sent).toContainEqual({
       path: "/api/approvals/rules",

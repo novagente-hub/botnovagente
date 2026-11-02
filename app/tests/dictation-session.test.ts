@@ -113,6 +113,6 @@ test("permission errors have an actionable recovery", async () => {
     phase: "error",
     canRetry: false,
     error:
-      "Microphone access was denied. Allow it in your browser and try again.",
+      "O acesso ao microfone foi negado. Permita no navegador e tente novamente.",
   });
 });

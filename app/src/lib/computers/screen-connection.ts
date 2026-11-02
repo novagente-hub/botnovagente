@@ -52,7 +52,7 @@ export function connectScreen(options: Options) {
       if (delay === undefined) {
         options.onReconnecting?.(false);
         options.onProblem(
-          "The live screen is disconnected. Retry to reconnect.",
+          "A tela ao vivo está desconectada. Tente de novo para reconectar.",
         );
         return;
       }
@@ -90,7 +90,7 @@ export function connectScreen(options: Options) {
           options.onReady(false);
           options.onProblem(
             message.error ??
-              "This screen is open in another tab. Retry to take it here.",
+              "Esta tela está aberta em outra aba. Tente de novo para trazê-la para cá.",
           );
           current.close();
           return;

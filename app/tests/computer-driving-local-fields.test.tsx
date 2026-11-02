@@ -119,7 +119,7 @@ function Field() {
   const [value, setValue] = useState("");
   return (
     <input
-      aria-label="Task name"
+      aria-label="Nome da tarefa"
       value={value}
       onChange={(event) => setValue(event.target.value)}
     />
@@ -145,7 +145,7 @@ async function driving(extra?: React.ReactNode) {
 
 test("typing into a field on this page while driving fills it and sends nothing", async () => {
   const { socket, view, user } = await driving(<Field />);
-  const field = view.getByLabelText("Task name") as HTMLInputElement;
+  const field = view.getByLabelText("Nome da tarefa") as HTMLInputElement;
 
   await user.click(field);
   await user.keyboard("Find an invoice");
@@ -156,7 +156,7 @@ test("typing into a field on this page while driving fills it and sends nothing"
 
 test("a paste into a field on this page stays in the field", async () => {
   const { socket, view } = await driving(<Field />);
-  const field = view.getByLabelText("Task name");
+  const field = view.getByLabelText("Nome da tarefa");
   const paste = new Event("paste", { bubbles: true, cancelable: true });
   Object.defineProperty(paste, "clipboardData", {
     value: { getData: () => "invoice" },
@@ -226,9 +226,9 @@ test("naming a task and pressing Record starts a recording", async () => {
       requests.some((request) => request.url === "/api/settings/preferences"),
     ).toBe(true),
   );
-  await user.click(view.getByLabelText("Task name"));
+  await user.click(view.getByLabelText("Nome da tarefa"));
   await user.keyboard("Find an invoice");
-  await user.click(view.getByRole("button", { name: "Record" }));
+  await user.click(view.getByRole("button", { name: "Gravar" }));
 
   await waitFor(() =>
     expect(

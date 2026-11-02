@@ -39,19 +39,19 @@ afterAll(async () => {
   GlobalRegistrator.unregister();
 });
 const TABLE = {
-  title: "Team capacity",
-  columns: ["Team", "Hours"],
+  title: "Capacidade da equipe",
+  columns: ["Equipe", "Hours"],
   rows: [
     { cells: ["Design", 18] },
-    { cells: ["Product", 4] },
-    { cells: ["Engineering", 72] },
+    { cells: ["Produto", 4] },
+    { cells: ["Engenharia", 72] },
   ],
 };
 const FORM = {
   title: "Project brief",
   fields: [
-    { id: "team", label: "Team", type: "text", required: true },
-    { id: "email", label: "Work email", type: "email", required: true },
+    { id: "team", label: "Equipe", type: "text", required: true },
+    { id: "email", label: "E-mail de trabalho", type: "email", required: true },
     {
       id: "seats",
       label: "Seats",
@@ -62,24 +62,24 @@ const FORM = {
     },
     {
       id: "priority",
-      label: "Priority",
+      label: "Prioridade",
       type: "select",
-      options: ["This week", "This month"],
+      options: ["Esta semana", "Este mês"],
       required: true,
     },
     { id: "notes", label: "Notes", type: "textarea" },
   ],
 };
 async function fillForm(view: ReturnType<typeof render>) {
-  await user.type(view.getByRole("textbox", { name: "Team" }), "  Design  ");
+  await user.type(view.getByRole("textbox", { name: "Equipe" }), "  Design  ");
   await user.type(
-    view.getByRole("textbox", { name: "Work email" }),
+    view.getByRole("textbox", { name: "E-mail de trabalho" }),
     "designer@example.test",
   );
   await user.type(view.getByRole("spinbutton", { name: "Seats" }), "3");
   await user.selectOptions(
-    view.getByRole("combobox", { name: "Priority" }),
-    "This month",
+    view.getByRole("combobox", { name: "Prioridade" }),
+    "Este mês",
   );
 }
 test("table sorts numeric cells in both directions with accessible headers", async () => {
@@ -89,19 +89,19 @@ test("table sorts numeric cells in both directions with accessible headers", asy
       .getAllByRole("row")
       .slice(1)
       .map((row) => within(row).getAllByRole("cell")[0].textContent);
-  expect(order()).toEqual(["Design", "Product", "Engineering"]);
+  expect(order()).toEqual(["Design", "Produto", "Engenharia"]);
   const header = view.getByRole("columnheader", { name: "Hours" });
   await user.click(view.getByRole("button", { name: "Hours" }));
-  expect(order()).toEqual(["Product", "Design", "Engineering"]);
+  expect(order()).toEqual(["Produto", "Design", "Engenharia"]);
   expect(header.getAttribute("aria-sort")).toBe("ascending");
   await user.keyboard("{Enter}");
-  expect(order()).toEqual(["Engineering", "Design", "Product"]);
+  expect(order()).toEqual(["Engenharia", "Design", "Produto"]);
   expect(header.getAttribute("aria-sort")).toBe("descending");
   expect(view.getByRole("region").getAttribute("tabindex")).toBe("0");
 });
 test("empty tables stay explicit and mismatched cells are refused", () => {
   const view = render(<DataTable {...TABLE} rows={[]} />);
-  expect(view.getByText("No rows to show.")).toBeTruthy();
+  expect(view.getByText("Nenhuma linha para mostrar.")).toBeTruthy();
   expect(view.getAllByRole("columnheader")).toHaveLength(2);
   expect(
     DataTableProps.safeParse({ ...TABLE, rows: [{ cells: ["Only one"] }] })
@@ -124,32 +124,32 @@ test("required and typed fields keep the form pending until corrected", async ()
       }}
     />,
   );
-  await user.click(view.getByRole("button", { name: "Submit answers" }));
+  await user.click(view.getByRole("button", { name: "Enviar respostas" }));
   expect(view.getAllByRole("alert")).toHaveLength(4);
   expect(document.activeElement).toBe(
-    view.getByRole("textbox", { name: "Team" }),
+    view.getByRole("textbox", { name: "Equipe" }),
   );
   expect(
-    view.getByRole("textbox", { name: "Team" }).getAttribute("aria-invalid"),
+    view.getByRole("textbox", { name: "Equipe" }).getAttribute("aria-invalid"),
   ).toBe("true");
   await fillForm(view);
-  await user.clear(view.getByRole("textbox", { name: "Work email" }));
-  await user.type(view.getByRole("textbox", { name: "Work email" }), "invalid");
+  await user.clear(view.getByRole("textbox", { name: "E-mail de trabalho" }));
+  await user.type(view.getByRole("textbox", { name: "E-mail de trabalho" }), "invalid");
   await user.clear(view.getByRole("spinbutton", { name: "Seats" }));
   await user.type(view.getByRole("spinbutton", { name: "Seats" }), "21");
-  await user.click(view.getByRole("button", { name: "Submit answers" }));
-  expect(view.getByText("Enter a valid email address.")).toBeTruthy();
+  await user.click(view.getByRole("button", { name: "Enviar respostas" }));
+  expect(view.getByText("Insira um endereço de e-mail válido.")).toBeTruthy();
   expect(view.getByText("Enter 20 or less.")).toBeTruthy();
   expect(answers).toEqual([]);
-  await user.clear(view.getByRole("textbox", { name: "Work email" }));
+  await user.clear(view.getByRole("textbox", { name: "E-mail de trabalho" }));
   await user.type(
-    view.getByRole("textbox", { name: "Work email" }),
+    view.getByRole("textbox", { name: "E-mail de trabalho" }),
     "designer@example.test",
   );
   await user.clear(view.getByRole("spinbutton", { name: "Seats" }));
   await user.type(view.getByRole("spinbutton", { name: "Seats" }), "3");
-  await user.click(view.getByRole("button", { name: "Submit answers" }));
-  await waitFor(() => expect(view.getByText("Submitted")).toBeTruthy());
+  await user.click(view.getByRole("button", { name: "Enviar respostas" }));
+  await waitFor(() => expect(view.getByText("Enviado")).toBeTruthy());
   expect(answers).toEqual([
     {
       status: "submitted",
@@ -157,12 +157,12 @@ test("required and typed fields keep the form pending until corrected", async ()
         team: "Design",
         email: "designer@example.test",
         seats: 3,
-        priority: "This month",
+        priority: "Este mês",
       },
     },
   ]);
   expect(view.queryByRole("form")).toBeNull();
-  expect(view.getByText("Not provided")).toBeTruthy();
+  expect(view.getByText("Não informado")).toBeTruthy();
 });
 test("a failed answer preserves values and retries without duplicate submissions", async () => {
   let attempts = 0;
@@ -181,16 +181,16 @@ test("a failed answer preserves values and retries without duplicate submissions
     />,
   );
   await fillForm(view);
-  await user.click(view.getByRole("button", { name: "Submit answers" }));
+  await user.click(view.getByRole("button", { name: "Enviar respostas" }));
   await waitFor(() =>
     expect(view.getByRole("alert").textContent).toContain(
-      "Couldn't send your answers",
+      "Não foi possível enviar suas respostas",
     ),
   );
-  const team = view.getByRole("textbox", { name: "Team" });
+  const team = view.getByRole("textbox", { name: "Equipe" });
   expect(team instanceof HTMLInputElement).toBe(true);
   if (team instanceof HTMLInputElement) expect(team.value).toBe("  Design  ");
-  await user.click(view.getByRole("button", { name: "Submit answers" }));
+  await user.click(view.getByRole("button", { name: "Enviar respostas" }));
   fireEvent.submit(view.getByRole("form"));
   expect(attempts).toBe(2);
   expect(
@@ -199,7 +199,7 @@ test("a failed answer preserves values and retries without duplicate submissions
   await act(async () => {
     release?.();
   });
-  await waitFor(() => expect(view.getByText("Submitted")).toBeTruthy());
+  await waitFor(() => expect(view.getByText("Enviado")).toBeTruthy());
   expect(view.queryByRole("button")).toBeNull();
 });
 test("completed SDK results show saved values and never offer another submission", () => {
@@ -213,7 +213,7 @@ test("completed SDK results show saved values and never offer another submission
           team: "Saved team",
           email: "saved@example.test",
           seats: 7,
-          priority: "This week",
+          priority: "Esta semana",
           notes: "First line\nSecond line",
         },
       })}
@@ -237,7 +237,7 @@ test("streaming or malformed form specifications expose no active fields", () =>
   expect(
     FormCardArgs.safeParse({
       title: "Bad",
-      fields: [{ id: "team", label: "Team", type: "select" }],
+      fields: [{ id: "team", label: "Equipe", type: "select" }],
     }).success,
   ).toBe(false);
   expect(
@@ -249,7 +249,7 @@ test("streaming or malformed form specifications expose no active fields", () =>
   view.rerender(<FormCard status="executing" args={FORM} />);
   expect(
     view
-      .getByRole("button", { name: "Submit answers" })
+      .getByRole("button", { name: "Enviar respostas" })
       .hasAttribute("disabled"),
   ).toBe(true);
 });
@@ -278,7 +278,7 @@ test("invalid form arguments release the suspended run once so the Bot can repai
   expect(answers[0]).toEqual({
     status: "invalid",
     message:
-      "The form could not be displayed because its questions were invalid. Send a corrected form with unique field IDs, valid types, and options for each select field.",
+      "Não foi possível exibir o formulário porque as perguntas eram inválidas.",
   });
   expect(view.queryByRole("form")).toBeNull();
   view.rerender(card);

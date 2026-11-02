@@ -35,7 +35,7 @@ export function grantsQueryOptions(serverId: string, enabled: boolean) {
     queryFn: async (): Promise<GrantState[]> => {
       const response = await client(
         `/api/plugins/servers/${encodeURIComponent(serverId)}/grants`,
-        { fallback: "Couldn't read what this account allows." },
+        { fallback: "Não foi possível ler o que esta conta permite." },
       );
       const body: { actions?: unknown } = await response.json();
       return Array.isArray(body.actions) ? (body.actions as GrantState[]) : [];
@@ -62,7 +62,7 @@ export function authorizeActionMutationOptions(
         {
           method: "POST",
           body: { action: variables.action },
-          fallback: "Couldn't authorize that action.",
+          fallback: "Não foi possível autorizar essa ação.",
         },
       );
       return authorizationUrl ?? null;

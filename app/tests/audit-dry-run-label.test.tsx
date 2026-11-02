@@ -18,7 +18,7 @@ afterEach(() => cleanup());
 
 afterAll(() => GlobalRegistrator.unregister());
 
-const DRY_RUN_LINE = "dry-run: recorded, not enforced";
+const DRY_RUN_LINE = "simulação: registrado, não aplicado";
 
 function event(
   eventType: string,
@@ -31,7 +31,7 @@ function event(
     initiatorKind: "person",
     initiatorId: null,
     eventType,
-    targetType: tool ? "mcp_tool" : "computer",
+    targetType: tool ? "mcp_tool" : "computador",
     targetId: tool ? "google-drive/search_files" : "bot-a",
     payload: { bot: "bot-a", actor: "person@example.test", ...payload },
     createdAt: new Date(0).toISOString(),
@@ -58,7 +58,7 @@ async function renderAuditRow(row: Record<string, unknown>) {
       <RouterProvider router={router} />
     </QueryClientProvider>,
   );
-  await view.findByText("Decision");
+  await view.findByText("Decisão");
   return within(view.container.querySelector("tbody") as HTMLElement);
 }
 
@@ -91,7 +91,7 @@ test("an action a dry-run policy allowed has nothing to not enforce", async () =
       },
     }),
   );
-  expect(row.queryByText("Allowed")).not.toBeNull();
+  expect(row.queryByText("Permitido")).not.toBeNull();
   expect(row.queryByText(DRY_RUN_LINE)).toBeNull();
 });
 
@@ -114,7 +114,7 @@ test("a tool call content inspection stopped is not described as not enforced", 
       },
     }),
   );
-  expect(row.queryByText("Blocked")).not.toBeNull();
+  expect(row.queryByText("Bloqueado")).not.toBeNull();
   expect(row.queryByText(DRY_RUN_LINE)).toBeNull();
 });
 

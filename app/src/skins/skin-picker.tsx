@@ -39,10 +39,10 @@ export function SkinPicker() {
     <>
       <Item size="sm">
         <ItemContent>
-          <ItemTitle>Skin</ItemTitle>
+          <ItemTitle>Tema visual</ItemTitle>
           <ItemDescription>
-            Change how {appConfig.brand.productName} looks for you, on every
-            device. Every skin keeps everything {appConfig.brand.productName}{" "}
+            
+            Mude como o {appConfig.brand.productName}  aparece para você, em todos os dispositivos. Todo tema visual mantém tudo {appConfig.brand.productName}{" "}
             does.
           </ItemDescription>
         </ItemContent>
@@ -55,7 +55,7 @@ export function SkinPicker() {
               if (id && id !== skin) save.mutate(id);
             }}
           >
-            <SelectTrigger aria-label="Skin">
+            <SelectTrigger aria-label="Tema visual">
               <SelectValue>{SKINS[skin].name}</SelectValue>
             </SelectTrigger>
             {/* Wider than the trigger, so each skin's description has room to wrap. */}
@@ -80,8 +80,8 @@ export function SkinPicker() {
       </Item>
       {save.isError ? (
         <p className="px-3 pb-3 text-sm text-destructive" role="alert">
-          Couldn't save that skin to your account, so {SKINS[skin].name} is
-          back. Try again.
+          
+          Não foi possível salvar esse tema visual na sua conta, então o {SKINS[skin].name}  voltou. Tente novamente.
         </p>
       ) : null}
     </>

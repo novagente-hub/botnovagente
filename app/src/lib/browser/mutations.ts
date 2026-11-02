@@ -31,7 +31,7 @@ export function openBrowserMutationOptions(queryClient: QueryClient) {
       (
         await client(browserApiPaths.open, {
           method: "POST",
-          fallback: "Couldn't open your browser. Try again.",
+          fallback: "Não foi possível abrir seu navegador. Tente novamente.",
         })
       ).json(),
     onSuccess: () => invalidateBrowser(queryClient),
@@ -58,7 +58,7 @@ export function startBrowserRecordingMutationOptions(queryClient: QueryClient) {
               ? { narrate: variables.narrate }
               : {}),
           },
-          fallback: "Couldn't start recording. Try again.",
+          fallback: "Não foi possível iniciar a gravação. Tente novamente.",
         })
       ).json(),
     onSuccess: () => invalidateBrowser(queryClient),
@@ -72,7 +72,7 @@ export function stopBrowserRecordingMutationOptions(queryClient: QueryClient) {
         await client(browserApiPaths.recording, {
           method: "POST",
           body: { action: "stop" },
-          fallback: "Couldn't stop recording. Try again.",
+          fallback: "Não foi possível parar a gravação. Tente novamente.",
         })
       ).json(),
     onSuccess: () => invalidateBrowser(queryClient),
@@ -87,7 +87,7 @@ export function browserTabsMutationOptions(queryClient: QueryClient) {
         await client(browserApiPaths.tabs, {
           method: "POST",
           body: request,
-          fallback: "Couldn't change the tabs. Try again.",
+          fallback: "Não foi possível alterar as abas. Tente novamente.",
         })
       ).json(),
     onSuccess: () => invalidateBrowser(queryClient),
@@ -104,7 +104,7 @@ export function navigateBrowserMutationOptions(queryClient: QueryClient) {
         await client(browserApiPaths.navigate, {
           method: "POST",
           body: request,
-          fallback: "Couldn't open that page. Try again.",
+          fallback: "Não foi possível abrir essa página. Tente novamente.",
         })
       ).json(),
     onSuccess: () => invalidateBrowser(queryClient),
@@ -121,7 +121,7 @@ export function clearBrowserMutationOptions(queryClient: QueryClient) {
       (
         await client(browserApiPaths.clear, {
           method: "POST",
-          fallback: "Couldn't clear your browser. Try again.",
+          fallback: "Não foi possível limpar seu navegador. Tente novamente.",
         })
       ).json(),
     onSettled: () => invalidateBrowser(queryClient),

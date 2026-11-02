@@ -52,8 +52,8 @@ export function isBrokeredGithub(
 
 export const IDENTITY_SUMMARIES = {
   github:
-    "Lets OpenBot recognise you on GitHub, so a repository's events can start your Bots' work.",
-  slack: "Lets OpenBot recognise you when you message it from Slack.",
+    "Permite que o OpenBot reconheça você no GitHub, para que eventos de um repositório possam iniciar o trabalho dos seus Bots.",
+  slack: "Permite que o OpenBot reconheça você quando você envia mensagens pelo Slack.",
 } as const;
 
 const IDENTITY_TITLES = { github: "GitHub", slack: "Slack" } as const;
@@ -112,7 +112,7 @@ export function connectionRows(input: {
         (server): ConnectionRow => ({
           key: server.id,
           title: server.title,
-          summary: server.summary || `Connect your ${server.title} account.`,
+          summary: server.summary || `Conecte sua conta ${server.title}.`,
           state: input.connected.has(server.id) ? "connected" : "available",
           mark: { kind: "logo", logo: server.logo },
         }),
@@ -121,7 +121,7 @@ export function connectionRows(input: {
       (server): ConnectionRow => ({
         key: server.id,
         title: server.title,
-        summary: "Your organisation's account. Bots act as the team here.",
+        summary: "A conta da sua organização. Aqui os Bots agem como a equipe.",
         state: "team",
         mark: { kind: "logo", logo: server.logo },
       }),

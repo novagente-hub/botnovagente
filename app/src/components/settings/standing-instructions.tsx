@@ -57,8 +57,8 @@ export function StandingInstructions() {
 
   return (
     <PageSection
-      description="Applies to every Bot in every conversation. A Bot's role says what it does. This says how you want it done, like your writing style."
-      title="Standing instructions"
+      description="Vale para todos os Bots em todas as conversas. A função de um Bot diz o que ele faz. Isto diz como você quer que seja feito, como seu estilo de escrita."
+      title="Instruções permanentes"
     >
       {stored.isPending ? null : stored.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
@@ -67,14 +67,14 @@ export function StandingInstructions() {
       ) : (
         <div className="mt-4 flex flex-col gap-2">
           <Textarea
-            aria-label="Standing instructions"
+            aria-label="Instruções permanentes"
             className="min-h-40"
             disabled={save.isPending}
             onChange={(event) => {
               setDraft(event.target.value);
               setSaved(false);
             }}
-            placeholder="We are two people, not a team. Write in British English, and never call our product a platform."
+            placeholder="Somos duas pessoas, não uma equipe. Escreva em português do Brasil e nunca chame nosso produto de plataforma."
             value={text}
           />
           <div className="flex flex-row items-center justify-between gap-4">
@@ -97,14 +97,15 @@ export function StandingInstructions() {
                   {problem}
                 </span>
               ) : saved ? (
-                <span className="text-muted-foreground text-xs">Saved</span>
+                <span className="text-muted-foreground text-xs">Salvo</span>
               ) : null}
               <Button
                 disabled={save.isPending || over || unchanged}
                 onClick={submit}
                 size="sm"
               >
-                Save
+                
+                Salvar
               </Button>
             </div>
           </div>

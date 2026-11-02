@@ -44,7 +44,7 @@ function agent(
     name: "Agent",
     roleDescription: "Role",
     systemOwned: false,
-    title: "Title",
+    title: "Título",
     visibility: "private",
     ...overrides,
   };
@@ -81,8 +81,8 @@ async function submitHomeMessage(
   text: string,
 ) {
   const user = userEvent.setup({ document: view.container.ownerDocument });
-  await user.type(await view.findByRole("textbox", { name: "Message" }), text);
-  await user.click(await view.findByRole("button", { name: "Send message" }));
+  await user.type(await view.findByRole("textbox", { name: "Mensagem" }), text);
+  await user.click(await view.findByRole("button", { name: "Enviar mensagem" }));
 }
 
 function installHomeRoutingFetch(options: {
@@ -177,7 +177,7 @@ for (const refusal of [
     status: 409,
     body: {
       error: "More than one coworker matches that name.",
-      names: ["Data Analyst", "Risk Analyst"],
+      names: ["Analista de dados", "Risk Analyst"],
     },
     message: "Data Analyst, Risk Analyst",
   },
@@ -190,7 +190,7 @@ for (const refusal of [
     });
     const view = renderHome(
       queryClientWithAgents([
-        agent({ id: "default", name: "Default", visibility: "public" }),
+        agent({ id: "default", name: "Padrão", visibility: "public" }),
       ]),
     );
     await submitHomeMessage(view, "ask analyst");
@@ -198,7 +198,7 @@ for (const refusal of [
       expect(view.getByRole("alert").textContent).toContain(refusal.message),
     );
     expect(starts).toEqual([]);
-    expect(view.getByRole("textbox", { name: "Message" }).textContent).toBe(
+    expect(view.getByRole("textbox", { name: "Mensagem" }).textContent).toBe(
       "ask analyst",
     );
   });

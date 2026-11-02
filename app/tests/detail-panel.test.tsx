@@ -73,7 +73,7 @@ test("narrow container overlays details without remounting the chat draft", asyn
   const view = render(
     <DetailPanel
       open
-      title="Computer"
+      title="Computador"
       onClose={() => {}}
       detail={<p>Browser preview</p>}
     >
@@ -81,21 +81,21 @@ test("narrow container overlays details without remounting the chat draft", asyn
     </DetailPanel>,
   );
   await resize(view.container, 560);
-  expect(await view.findByRole("dialog", { name: "Computer" })).toBeTruthy();
+  expect(await view.findByRole("dialog", { name: "Computador" })).toBeTruthy();
   const draft = view.getByDisplayValue("Keep this draft");
   await resize(view.container, 1000);
   await waitFor(() => expect(view.queryByRole("dialog")).toBeNull());
   expect(view.getByText("Browser preview")).toBeTruthy();
   expect(view.getByDisplayValue("Keep this draft")).toBe(draft);
   await resize(view.container, 560);
-  expect(await view.findByRole("dialog", { name: "Computer" })).toBeTruthy();
+  expect(await view.findByRole("dialog", { name: "Computador" })).toBeTruthy();
   expect(mounts).toBe(1);
 });
 
 test("closing narrow details invokes the owner and unmounts detail work", async () => {
   let closed = 0;
   const props = {
-    title: "Computer",
+    title: "Computador",
     onClose: () => {
       closed += 1;
     },
@@ -104,8 +104,8 @@ test("closing narrow details invokes the owner and unmounts detail work", async 
   };
   const view = render(<DetailPanel {...props} open />);
   await resize(view.container, 380);
-  expect(await view.findByRole("dialog", { name: "Computer" })).toBeTruthy();
-  fireEvent.click(view.getByRole("button", { name: "Close" }));
+  expect(await view.findByRole("dialog", { name: "Computador" })).toBeTruthy();
+  fireEvent.click(view.getByRole("button", { name: "Fechar" }));
   expect(closed).toBe(1);
   view.rerender(<DetailPanel {...props} open={false} />);
   await waitFor(() => expect(view.queryByText("Browser preview")).toBeNull());

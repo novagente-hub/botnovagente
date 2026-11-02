@@ -14,8 +14,8 @@ export function SkippedToolsNotice({ names }: { names: readonly string[] }) {
       role="status"
     >
       {names.length === 1
-        ? "One action this app lists was left out, because a tool name may only use letters, digits, underscores and hyphens: "
-        : `${names.length} actions this app lists were left out, because a tool name may only use letters, digits, underscores and hyphens: `}
+        ? "Uma ação listada por este app ficou de fora, porque o nome de uma ferramenta só pode usar letras, dígitos, sublinhados e hifens: "
+        : `${names.length} ações listadas por este app ficaram de fora, porque o nome de uma ferramenta só pode usar letras, dígitos, sublinhados e hifens: `}
       {names.map((name, index) => (
         <span key={name}>
           {index > 0 ? ", " : null}

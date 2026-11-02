@@ -259,8 +259,8 @@ function overCap(draft: ComposerDraft): boolean {
 /** What the person is told when Send is held shut by the cap, and what to do about it. */
 function tooManyStagedReason(count: number): string {
   return (
-    `A message can take at most ${MAX_ATTACHMENTS_PER_MESSAGE} attachments. ` +
-    `Remove ${count - MAX_ATTACHMENTS_PER_MESSAGE} to send.`
+    `Uma mensagem pode ter no máximo ${MAX_ATTACHMENTS_PER_MESSAGE} anexos. ` +
+    `Remova ${count - MAX_ATTACHMENTS_PER_MESSAGE} para enviar.`
   );
 }
 
@@ -273,9 +273,9 @@ function tooManyStagedReason(count: number): string {
  */
 const DROPPED_REASON: Record<DroppedAttachmentCause, string> = {
   "merged-over-cap":
-    "dropped when your queued messages were merged. A message can take " +
-    `at most ${MAX_ATTACHMENTS_PER_MESSAGE} attachments.`,
-  "queued-message-removed": "removed with its queued message.",
+    "descartado quando suas mensagens na fila foram juntadas. Uma mensagem pode ter " +
+    `no máximo ${MAX_ATTACHMENTS_PER_MESSAGE} anexos.`,
+  "queued-message-removed": "removido junto com a mensagem na fila.",
 };
 
 /**
@@ -303,10 +303,10 @@ const DROPPED_REASON: Record<DroppedAttachmentCause, string> = {
  * second time.
  */
 const UNACCEPTED_DROP_REASON = {
-  "cannot-send": "not attached. This conversation can no longer take messages.",
+  "cannot-send": "não anexado. Esta conversa não aceita mais mensagens.",
   "no-conversation":
-    "not attached. There is no conversation here yet. Send your message " +
-    "first, then attach files in the conversation it starts.",
+    "não anexado. Ainda não há conversa aqui. Envie sua mensagem " +
+    "antes e depois anexe arquivos na conversa que ela iniciar.",
 } as const;
 
 export function Composer({
@@ -490,7 +490,7 @@ export function Composer({
         // `http://` a queue drop would answer by tearing down the tree that was about to explain
         // it — a blank conversation instead of a list of the files it just lost.
         id: newId(),
-        name: attachment.filename ?? "Attachment",
+        name: attachment.filename ?? "Anexo",
         reason,
       })),
     ]);
@@ -1013,7 +1013,7 @@ export function Composer({
         .filter((attachment) => stagedModality(attachment) !== "image")
         .map((attachment) => ({
           id: attachment.id,
-          name: attachment.filename ?? "Attachment",
+          name: attachment.filename ?? "Anexo",
           size: attachment.size,
           loading: attachment.status === "uploading",
           /*
@@ -1334,7 +1334,7 @@ export function Composer({
    * the two it is about to do. "Send" on a button that will not send for another minute is a small
    * lie told to exactly the people who cannot see the queue it lands in.
    */
-  const sendLabel = parking ? "Queue message" : "Send message";
+  const sendLabel = parking ? "Colocar mensagem na fila" : "Enviar mensagem";
   const callAction =
     draft.isEmpty && draft.attachments.length === 0 ? voiceCall : undefined;
   const actionClassName = cn(
@@ -1343,7 +1343,7 @@ export function Composer({
   );
   const primaryAction = canStop ? (
     <Button
-      aria-label="Stop the Bot"
+      aria-label="Parar o Bot"
       className={actionClassName}
       data-slot="composer-stop"
       data-testid="composer-stop"
@@ -1355,13 +1355,13 @@ export function Composer({
     </Button>
   ) : callAction ? (
     <Button
-      aria-label={callAction.active ? "Show voice call" : "Start voice call"}
+      aria-label={callAction.active ? "Mostrar chamada de voz" : "Iniciar chamada de voz"}
       title={
         callAction.supported
           ? callAction.active
-            ? "Show voice call"
-            : "Call this Bot"
-          : "Voice calls need a microphone and a secure (HTTPS) connection"
+            ? "Mostrar chamada de voz"
+            : "Ligar para este Bot"
+          : "Chamadas de voz precisam de um microfone e de uma conexão segura (HTTPS)"
       }
       className={actionClassName}
       disabled={disabled || dictation.busy || !callAction.supported}
@@ -1521,7 +1521,7 @@ export function Composer({
             <div className="flex items-center gap-3">
               {attachmentsEnabled ? (
                 <Button
-                  aria-label="Attach a file"
+                  aria-label="Anexar um arquivo"
                   className="self-end"
                   data-slot="composer-attach"
                   // The button stays, and stays labelled: a conversation that cannot take another
@@ -1537,7 +1537,7 @@ export function Composer({
                 </Button>
               ) : (
                 <Button
-                  aria-label="More message options unavailable"
+                  aria-label="Mais opções de mensagem indisponíveis"
                   className="self-end disabled:opacity-100"
                   disabled
                   size="icon"
@@ -1550,7 +1550,7 @@ export function Composer({
               {/* The slot is ours: `PromptArea` passes no attribute through to its own box. */}
               <div className="min-w-0 flex-1" data-slot="composer-input">
                 <PromptArea
-                  aria-label="Message"
+                  aria-label="Mensagem"
                   className={cn(
                     "w-full border-0 bg-transparent p-0 text-sm shadow-none",
                     editorClassName,
@@ -1561,7 +1561,7 @@ export function Composer({
                   onChange={handleChange}
                   onImagePaste={canAttach ? stagePastedImage : undefined}
                   onSubmit={submitDraft}
-                  placeholder="Ask anything"
+                  placeholder="Pergunte qualquer coisa"
                   ref={promptAreaRef}
                   triggers={triggers}
                   value={value}
@@ -1610,7 +1610,7 @@ export function Composer({
             />
             <div data-slot="composer-input">
               <PromptArea
-                aria-label="Message"
+                aria-label="Mensagem"
                 autoGrow
                 className={cn(
                   "w-full border-0 bg-transparent p-0 text-sm shadow-none",
@@ -1621,7 +1621,7 @@ export function Composer({
                 onChange={handleChange}
                 onImagePaste={canAttach ? stagePastedImage : undefined}
                 onSubmit={submitDraft}
-                placeholder="Ask anything"
+                placeholder="Pergunte qualquer coisa"
                 ref={promptAreaRef}
                 triggers={triggers}
                 value={value}
@@ -1632,7 +1632,7 @@ export function Composer({
           <div className="flex items-center justify-between">
             {attachmentsEnabled ? (
               <Button
-                aria-label="Attach a file"
+                aria-label="Anexar um arquivo"
                 className="size-7 rounded-full p-0"
                 data-slot="composer-attach"
                 disabled={disabled}

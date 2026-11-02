@@ -118,7 +118,7 @@ export class VoiceSession {
     this.deadline = setTimeout(() => {
       if (current())
         this.fail(
-          "The call took too long to connect. Check microphone permission and try again.",
+          "A chamada demorou demais para conectar. Verifique a permissão do microfone e tente novamente.",
         );
     }, 30_000);
     try {
@@ -175,7 +175,7 @@ export class VoiceSession {
         const seconds = Math.floor((Date.now() - started) / 1000);
         if (seconds >= 15 * 60) {
           this.fail(
-            "This call reached its 15-minute limit. You can start a new call.",
+            "Esta chamada atingiu o limite de 15 minutos. Você pode iniciar uma nova chamada.",
           );
           return;
         }
@@ -186,7 +186,7 @@ export class VoiceSession {
         this.fail(
           error instanceof Error
             ? error.message
-            : "Could not start the voice call.",
+            : "Não foi possível iniciar a chamada de voz.",
         );
     }
   };
@@ -198,7 +198,7 @@ export class VoiceSession {
       this.connection.mute(muted);
       this.update({ muted, listening: muted ? false : this.state.listening });
     } catch {
-      this.fail("The microphone could not be changed. Please call again.");
+      this.fail("Não foi possível trocar o microfone. Ligue novamente.");
     }
   };
 
@@ -211,7 +211,7 @@ export class VoiceSession {
       this.fail(
         error instanceof Error
           ? error.message
-          : "The voice connection was lost.",
+          : "A conexão de voz caiu.",
       );
       return false;
     }
@@ -233,7 +233,7 @@ export class VoiceSession {
     this.transcript.receive(event);
     if (this.transcript.full) {
       this.fail(
-        "This call reached its transcript limit. Start a new call to continue.",
+        "Esta chamada atingiu o limite de transcrição. Inicie uma nova chamada para continuar.",
       );
       return;
     }
@@ -277,7 +277,7 @@ export class VoiceSession {
         const response = object(event.response);
         if (response?.status === "failed") {
           this.fail(
-            "The voice service could not complete its response. Please call again.",
+            "O serviço de voz não conseguiu concluir a resposta. Ligue novamente.",
           );
           return;
         }
@@ -300,7 +300,7 @@ export class VoiceSession {
           return;
         }
         this.fail(
-          "The voice service reported an error. Please end the call and try again.",
+          "O serviço de voz informou um erro. Encerre a chamada e tente novamente.",
         );
         break;
       }
@@ -314,7 +314,7 @@ export class VoiceSession {
     let result: { answer: string } | { error: string };
     try {
       if (call.name !== "ask_agent")
-        throw new Error("This call can only ask the current agent for help.");
+        throw new Error("Esta chamada só pode pedir ajuda ao agente atual.");
       const args = object(
         typeof call.arguments === "string"
           ? JSON.parse(call.arguments)
@@ -325,11 +325,11 @@ export class VoiceSession {
         !args.request.trim() ||
         args.request.length > 4000
       ) {
-        throw new Error("Please ask a shorter, clear request.");
+        throw new Error("Faça um pedido mais curto e claro.");
       }
       if (this.state.working)
         throw new Error(
-          "The agent is still working on your previous request. Wait for its result, or use the stop button in chat before giving a correction.",
+          "O agente ainda está trabalhando no seu pedido anterior. Aguarde o resultado ou use o botão de parar no chat antes de dar uma correção.",
         );
       this.update({ working: true });
       try {
@@ -349,7 +349,7 @@ export class VoiceSession {
         error:
           error instanceof Error
             ? error.message
-            : "The agent could not complete the request.",
+            : "O agente não conseguiu concluir o pedido.",
       };
     }
     if (generation !== this.generation) return;

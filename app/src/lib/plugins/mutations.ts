@@ -52,7 +52,7 @@ export type CustomServerInput = {
 /** Which kinds of plugin a grant can be about. */
 export type PluginKind = "mcp" | "skill";
 
-const FALLBACK = "That didn't work. Try again.";
+const FALLBACK = "Isso não funcionou. Tente novamente.";
 
 /**
  * Refetch everything the plugin screens read.
@@ -123,7 +123,7 @@ export function grantPlugin(variables: {
       agentId: variables.agentId,
       ...(variables.approval ? { approval: variables.approval } : {}),
     },
-    fallback: "Couldn't change that Bot.",
+    fallback: "Não foi possível alterar esse Bot.",
   });
 }
 
@@ -158,7 +158,7 @@ export async function accountModePreview(
     {
       method: "PUT",
       body: { mode, confirm: false },
-      fallback: "What the switch would change could not be read.",
+      fallback: "Não foi possível ler o que a chave mudaria.",
     },
   );
   return ((await response.json()) as { preview: AccountModePreview }).preview;
@@ -186,7 +186,7 @@ export function setAccountModeMutationOptions(queryClient: QueryClient) {
             confirm: true,
             ...(variables.approvals ? { approvals: variables.approvals } : {}),
           },
-          fallback: "The switch did not finish, and nothing was changed.",
+          fallback: "A troca não terminou, e nada foi alterado.",
         },
       );
     },
@@ -209,7 +209,7 @@ export function setOwnerGrantsMutationOptions(queryClient: QueryClient) {
         {
           method: "PUT",
           body: { ownerGrants: variables.ownerGrants },
-          fallback: "Couldn't change who can give this app.",
+          fallback: "Não foi possível alterar quem pode dar este app.",
         },
       );
     },
@@ -237,7 +237,7 @@ export function setPluginGrantMutationOptions(queryClient: QueryClient) {
       }
       await client(
         `/api/plugins/grants?kind=${variables.kind}&ref=${encodeURIComponent(variables.ref)}&agentId=${encodeURIComponent(variables.agentId)}`,
-        { method: "DELETE", fallback: "Couldn't change that Bot." },
+        { method: "DELETE", fallback: "Não foi possível alterar esse Bot." },
       );
     },
     onSettled: () => invalidatePlugins(queryClient),
@@ -282,7 +282,7 @@ export function enableComposioAppMutationOptions(queryClient: QueryClient) {
       await client("/api/plugins/composio/apps", {
         method: "POST",
         body: input,
-        fallback: "That app could not be added.",
+        fallback: "Não foi possível adicionar esse app.",
       });
     },
     onSettled: () => invalidatePlugins(queryClient),
@@ -341,7 +341,7 @@ export function saveSkillMutationOptions(queryClient: QueryClient) {
          * The server refuses for reasons a form cannot check — a slug somebody else already owns is
          * the common one — and paraphrasing that would throw away the only part worth reading.
          */
-        fallback: "Couldn't save the skill.",
+        fallback: "Não foi possível salvar a habilidade.",
       }),
     onSettled: () => invalidatePlugins(queryClient),
   });
@@ -373,7 +373,7 @@ export function registerOAuthClientMutationOptions(queryClient: QueryClient) {
         {
           method: "POST",
           body: { clientId: input.clientId, clientSecret: input.clientSecret },
-          fallback: "That OAuth client could not be registered.",
+          fallback: "Não foi possível registrar esse cliente OAuth.",
         },
       );
     },
@@ -434,7 +434,7 @@ export function connectAccountMutationOptions(
 ) {
   return mutationOptions({
     mutationFn: async (serverId: string): Promise<ConnectStart> => {
-      const fallback = "Couldn't connect that account.";
+      const fallback = "Não foi possível conectar essa conta.";
       const response = await client(
         `/api/plugins/servers/${encodeURIComponent(serverId)}/connect?returnTo=${returnTo}`,
         { method: "POST", fallback },
@@ -502,7 +502,7 @@ export function confirmBrokeredConnectionMutationOptions(
     ): Promise<BrokeredConnectionConfirmation> => {
       const response = await client(
         `/api/plugins/servers/${encodeURIComponent(serverId)}/connection/confirm`,
-        { method: "POST", fallback: "Couldn't confirm that connection." },
+        { method: "POST", fallback: "Não foi possível confirmar essa conexão." },
       );
       return response.json();
     },
@@ -524,7 +524,7 @@ export function disconnectBrokeredMutationOptions(queryClient: QueryClient) {
         `/api/plugins/servers/${encodeURIComponent(serverId)}/connection`,
         {
           method: "DELETE",
-          fallback: "Couldn't disconnect that account.",
+          fallback: "Não foi possível desconectar essa conta.",
         },
       );
     },
@@ -586,7 +586,7 @@ export function brokeredConnectionFieldsMutationOptions() {
         "fields",
         {
           method: "POST",
-          fallback: "Couldn't find out what this app needs.",
+          fallback: "Não foi possível descobrir o que este app precisa.",
         },
       );
       return fields ?? null;
@@ -649,7 +649,7 @@ export function connectBrokeredWithFieldsMutationOptions(
           {
             method: "POST",
             body: { values: variables.values },
-            fallback: "Couldn't connect that account.",
+            fallback: "Não foi possível conectar essa conta.",
           },
         );
         return response.json();
@@ -701,7 +701,7 @@ export function recheckBrokeredConnectionMutationOptions(
     mutationFn: async (serverId: string): Promise<BrokeredKeyCheck> => {
       const response = await client(
         `/api/plugins/servers/${encodeURIComponent(serverId)}/connection/recheck`,
-        { method: "POST", fallback: "Couldn't check that connection." },
+        { method: "POST", fallback: "Não foi possível verificar essa conexão." },
       );
       return response.json();
     },

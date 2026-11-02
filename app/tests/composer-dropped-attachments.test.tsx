@@ -111,7 +111,7 @@ test("the dropped reason is distinguishable from a pick-time refusal reason", as
     dataTransfer: {
       files: [new File(["<svg />"], "logo.svg", { type: "image/svg+xml" })],
       items: [],
-      types: ["Files"],
+      types: ["Arquivos"],
     },
   });
 
@@ -165,7 +165,7 @@ test("attachments dropped by a removal say that, not that a cap was hit", async 
   expect(reason).toContain("invoice.pdf");
   expect(reason).toContain("removed");
   expect(reason).not.toContain("merged");
-  expect(reason).not.toContain("at most");
+  expect(reason).not.toContain("no máximo");
 });
 
 test("the two causes do not share a sentence", async () => {

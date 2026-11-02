@@ -63,7 +63,7 @@ export const TranscriptRail = memo(function TranscriptRail({
 
   return (
     <nav
-      aria-label="Turns"
+      aria-label="Turnos"
       className="pointer-events-none absolute inset-y-0 left-2 z-10 hidden items-center @3xl:flex"
     >
       <ol

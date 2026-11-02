@@ -273,10 +273,10 @@ const reads = () =>
 
 test("on OpenBot Desktop the Browser button opens the person's own window in one click and leaves them where they are", async () => {
   const { view, router, visited } = draw();
-  const button = await view.findByRole("button", { name: "Browser" });
+  const button = await view.findByRole("button", { name: "Navegador" });
   // A button, not a link: it goes nowhere.
   expect(button.tagName).toBe("BUTTON");
-  expect(view.queryByRole("link", { name: "Browser" })).toBeNull();
+  expect(view.queryByRole("link", { name: "Navegador" })).toBeNull();
   const user = userEvent.setup({ document });
   await user.click(button);
   await waitFor(() => expect(opens()).toBe(1));
@@ -289,14 +289,14 @@ test("on OpenBot Desktop the Browser button opens the person's own window in one
   await waitFor(() => expect(opens()).toBe(2));
   expect(router.state.location.pathname).toBe("/");
   expect(visited).not.toContain("/browser");
-  expect(view.getByText("Home")).toBeTruthy();
+  expect(view.getByText("Início")).toBeTruthy();
 });
 
 test("on OpenBot Desktop, a click that opened a browser in the page takes the person to it", async () => {
   // The end-to-end run: "Opening…" for seconds, then the person left on Home while their browser opened on the Browser
   // page they could not see.
   const { view, router } = draw();
-  const button = await view.findByRole("button", { name: "Browser" });
+  const button = await view.findByRole("button", { name: "Navegador" });
   nextOpen = { shownAs: "screen" };
   const user = userEvent.setup({ document });
   await user.click(button);
@@ -308,7 +308,7 @@ test("on OpenBot Desktop, a click that opened a browser in the page takes the pe
 
 test("on OpenBot Desktop the keyboard opens the window as a button does: Tab to it, then Enter or Space", async () => {
   const { view, visited } = draw();
-  const button = await view.findByRole("button", { name: "Browser" });
+  const button = await view.findByRole("button", { name: "Navegador" });
   const user = userEvent.setup({ document });
   await user.tab();
   expect(document.activeElement).toBe(button);
@@ -335,11 +335,11 @@ test("while the window is opening the button says so, at full contrast, and take
     }),
   };
   const { view } = draw();
-  const button = await view.findByRole("button", { name: "Browser" });
+  const button = await view.findByRole("button", { name: "Navegador" });
   const user = userEvent.setup({ document });
   await user.click(button);
   await waitFor(() => expect(button.getAttribute("aria-busy")).toBe("true"));
-  expect(button.textContent).toBe("BrowserOpening…");
+  expect(button.textContent).toBe("NavegadorAbrindo…");
   // Busy, not disabled: run 7 found "Opening…" too faint to read at the half opacity the sidebar gives a disabled row.
   expect(drawnDisabled(button)).toBe(false);
   // Clicked again, and pressed from the keyboard, while it opens: still the one open.
@@ -353,14 +353,14 @@ test("while the window is opening the button says so, at full contrast, and take
   release();
   await waitFor(() => expect(button.getAttribute("aria-busy")).toBeNull());
   expect(drawnDisabled(button)).toBe(false);
-  expect(button.textContent).toBe("Browser");
+  expect(button.textContent).toBe("Navegador");
   expect(opens()).toBe(1);
 });
 
 test("a refused open shows the server's own sentence in a toast that stays until the person closes it, and the button can be pressed again", async () => {
   nextOpen = { refuse: NOT_SET_UP };
   const { view, router } = draw();
-  const button = await view.findByRole("button", { name: "Browser" });
+  const button = await view.findByRole("button", { name: "Navegador" });
   const user = userEvent.setup({ document });
   await user.click(button);
   await waitFor(() => expect(toasts()).toEqual([NOT_SET_UP]));
@@ -395,7 +395,7 @@ test("a refused open shows the server's own sentence in a toast that stays until
   await user.click(button);
   await waitFor(() => expect(toasts()).toEqual([NOT_SET_UP]));
   const close = document.querySelector("[data-slot=toast-close]");
-  expect(close?.getAttribute("aria-label")).toBe("Close");
+  expect(close?.getAttribute("aria-label")).toBe("Fechar");
   await user.click(close as HTMLElement);
   await waitFor(() => expect(toasts()).toEqual([]));
   expect(opens()).toBe(4);
@@ -404,9 +404,9 @@ test("a refused open shows the server's own sentence in a toast that stays until
 test("on hosted OpenBot the Browser button is a link to the browser in the page, and the click opens nothing itself", async () => {
   state = closedState("screen");
   const { view, router } = draw();
-  const link = await view.findByRole("link", { name: "Browser" });
+  const link = await view.findByRole("link", { name: "Navegador" });
   expect(link.getAttribute("href")).toBe("/browser");
-  expect(view.queryByRole("button", { name: "Browser" })).toBeNull();
+  expect(view.queryByRole("button", { name: "Navegador" })).toBeNull();
   const user = userEvent.setup({ document });
   await user.click(link);
   await waitFor(() => expect(router.state.location.pathname).toBe("/browser"));
@@ -427,7 +427,7 @@ test("a server from before shows was said keeps the Browser button a link to the
   const { shows: _unsaid, ...older } = closedState("native");
   state = older;
   const { view } = draw();
-  const link = await view.findByRole("link", { name: "Browser" });
+  const link = await view.findByRole("link", { name: "Navegador" });
   expect(link.getAttribute("href")).toBe("/browser");
 });
 
@@ -444,8 +444,8 @@ test("the sidebar has no Browser button where OpenBot cannot run one, or cannot 
       "success",
     ),
   );
-  expect(view.queryByRole("button", { name: "Browser" })).toBeNull();
-  expect(view.queryByRole("link", { name: "Browser" })).toBeNull();
+  expect(view.queryByRole("button", { name: "Navegador" })).toBeNull();
+  expect(view.queryByRole("link", { name: "Navegador" })).toBeNull();
   cleanup();
 
   queryClient.clear();
@@ -458,8 +458,8 @@ test("the sidebar has no Browser button where OpenBot cannot run one, or cannot 
       ),
     { timeout: 4000 },
   );
-  expect(failed.view.queryByRole("button", { name: "Browser" })).toBeNull();
-  expect(failed.view.queryByRole("link", { name: "Browser" })).toBeNull();
+  expect(failed.view.queryByRole("button", { name: "Navegador" })).toBeNull();
+  expect(failed.view.queryByRole("link", { name: "Navegador" })).toBeNull();
 });
 
 for (const shows of ["native", "screen"] as const) {
@@ -467,7 +467,7 @@ for (const shows of ["native", "screen"] as const) {
     state = openState(shows);
     const { view } = draw();
     await view.findByRole(shows === "native" ? "button" : "link", {
-      name: "Browser",
+      name: "Navegador",
     });
     expect(dots(view)).toEqual([]);
 
@@ -534,7 +534,7 @@ test("the red dot shows while a recording starts as well, and its tooltip names 
 
 test("the sidebar asks often while the browser is open and rarely while it is closed, and opening it never waits for the next ask", async () => {
   const { view } = draw();
-  const button = await view.findByRole("button", { name: "Browser" });
+  const button = await view.findByRole("button", { name: "Navegador" });
   await waitFor(() => expect(reads()).toBe(1));
   // Closed: nothing more for well over the second it waits while the browser is open.
   await act(() => Bun.sleep(2200));
@@ -592,7 +592,7 @@ test("the dot is the server's activity, not the OpenBot browser's own report: on
   const { activity: _folded, ...unfolded } = recording("recording");
   state = unfolded;
   const { view } = draw();
-  await view.findByRole("button", { name: "Browser" });
+  await view.findByRole("button", { name: "Navegador" });
   await waitFor(() => expect(reads()).toBe(1));
   expect(dots(view)).toEqual([]);
 });
@@ -603,7 +603,7 @@ test("on OpenBot Desktop, while a Recorder in the person's own browser is connec
     real: { connected: true, browsers: ["chrome", "msedge"] },
   };
   const { view } = draw();
-  await view.findByRole("button", { name: "Browser" });
+  await view.findByRole("button", { name: "Navegador" });
   await waitFor(() => expect(reads()).toBe(1));
   // Record, pressed in the Recorder's toolbar button in their everyday Chrome: OpenBot hears of it only from the state.
   state = { ...state, activity: receipt("starting") };
@@ -619,11 +619,11 @@ test("on OpenBot Desktop, while a Recorder in the person's own browser is connec
 test("on OpenBot Desktop a click that opened the Recorder's store page in the person's own browser says so in a short note, and they stay where they are", async () => {
   nextOpen = { real: { ok: true, opened: "store", browser: "chrome" } };
   const { view, router, visited } = draw();
-  const button = await view.findByRole("button", { name: "Browser" });
+  const button = await view.findByRole("button", { name: "Navegador" });
   const user = userEvent.setup({ document });
   await user.click(button);
   const chrome =
-    "The OpenBot Recorder's page is open in Google Chrome. Add it there to record in your own browser.";
+    "A página do OpenBot Recorder está aberta no Google Chrome. Adicione-o lá para gravar no seu próprio navegador.";
   expect(storeOpenedSentence("chrome")).toBe(chrome);
   await waitFor(() => expect(toasts()).toEqual([chrome]));
   // A note, not an alarm: nothing went wrong.
@@ -662,7 +662,7 @@ test("on OpenBot Desktop a click that opened the Recorder's store page in the pe
 test("a store page opened after a refusal takes the refusal away and says where the page is instead", async () => {
   nextOpen = { refuse: NOT_SET_UP };
   const { view } = draw();
-  const button = await view.findByRole("button", { name: "Browser" });
+  const button = await view.findByRole("button", { name: "Navegador" });
   const user = userEvent.setup({ document });
   await user.click(button);
   await waitFor(() => expect(toasts()).toEqual([NOT_SET_UP]));

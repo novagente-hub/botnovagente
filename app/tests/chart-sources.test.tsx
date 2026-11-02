@@ -53,7 +53,7 @@ test("figures from the Bot's own knowledge are marked as unchecked", () => {
       title="GDP"
     />,
   );
-  expect(view.getByText(/Not checked against a source/)).toBeTruthy();
+  expect(view.getByText(/Não verificado em uma fonte/)).toBeTruthy();
 });
 
 test("the unchecked note and the sources read as separate parts", () => {

@@ -262,7 +262,7 @@ test("Command+A on a Mac reaches the Bot's Linux browser as Control+A", async ()
     {
       type: "key",
       event: "down",
-      key: "Control",
+      key: "Controle",
       code: "ControlLeft",
       windowsVirtualKeyCode: 17,
       modifiers: 2,
@@ -302,7 +302,7 @@ test("a key aimed at one of the page's own controls is that control's, and nothi
   const button = document.createElement("button");
   document.body.append(button);
   button.focus();
-  for (const key of ["ArrowLeft", "Tab", "Enter", " ", "Delete"]) {
+  for (const key of ["ArrowLeft", "Tab", "Enter", " ", "Excluir"]) {
     const press = new KeyboardEvent("keydown", {
       key,
       bubbles: true,

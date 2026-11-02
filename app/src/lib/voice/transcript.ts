@@ -102,7 +102,7 @@ export class VoiceTranscript {
     this.set(
       id,
       "assistant",
-      "[Response interrupted; the exact words heard are unavailable.]",
+      "[Resposta interrompida; as palavras exatas ouvidas não estão disponíveis.]",
     );
     this.interrupted.add(id);
   }

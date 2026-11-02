@@ -78,16 +78,17 @@ export function SkillTools({
 
   return (
     <Field>
-      <FieldLabel>Tools it needs</FieldLabel>
+      <FieldLabel>Ferramentas de que precisa</FieldLabel>
 
       {plugins.isPending ? null : plugins.error ? (
         <p className="text-destructive text-xs" role="alert">
-          Couldn't load the tools. Reload the page.
+          
+          Não foi possível carregar as ferramentas. Recarregue a página.
         </p>
       ) : servers.length === 0 ? (
         <p className="text-muted-foreground text-xs">
-          No app offers tools yet. You can still write the skill. Most skills
-          are only instructions.
+          
+          Nenhum app oferece ferramentas ainda. Você ainda pode escrever a habilidade. A maioria das habilidades são só instruções.
         </p>
       ) : (
         <div className="flex flex-col gap-3">
@@ -118,7 +119,7 @@ export function SkillTools({
                        */}
                       {tool.effect === "write" ? (
                         <span
-                          aria-label="changes something"
+                          aria-label="altera algo"
                           className="ml-1 opacity-60"
                           role="img"
                         >
@@ -136,14 +137,14 @@ export function SkillTools({
 
       {plugins.data ? (
         <div className="flex flex-col gap-1.5">
-          <p className="text-muted-foreground text-xs">Public-web research</p>
+          <p className="text-muted-foreground text-xs">Pesquisa na web pública</p>
           <div className="flex flex-wrap gap-2">
             {RESEARCH_ROLES.map((role) => (
               <Button
                 key={role.ref}
                 onClick={() => toggle(role.ref)}
                 size="sm"
-                title={`${role.ref}: uses whichever research app the Bot has`}
+                title={`${role.ref}: usa o app de pesquisa que o Bot tiver`}
                 type="button"
                 variant={held.has(role.ref) ? "default" : "outline"}
               >
@@ -156,7 +157,7 @@ export function SkillTools({
 
       {elsewhere.length > 0 ? (
         <div className="flex flex-col gap-1.5">
-          <p className="text-muted-foreground text-xs">Not available here</p>
+          <p className="text-muted-foreground text-xs">Não disponível aqui</p>
           <div className="flex flex-wrap gap-2">
             {elsewhere.map((ref) => (
               <Button
@@ -167,7 +168,7 @@ export function SkillTools({
                  * The whole ref, not a tool name. There is no server here to put it under, and the
                  * server id is the part that says which connector is missing.
                  */
-                title={`${ref}: no app here offers this`}
+                title={`${ref}: nenhum app aqui oferece isto`}
                 type="button"
                 variant="secondary"
               >
@@ -176,15 +177,15 @@ export function SkillTools({
             ))}
           </div>
           <p className="text-muted-foreground text-xs">
-            This skill asks for these, but no app here offers them. They do
-            nothing until an admin adds the app. Click one to remove it.
+            
+            Esta habilidade pede estas ferramentas, mas nenhum app aqui as oferece. Elas não fazem nada até um administrador adicionar o app. Clique em uma para removê-la.
           </p>
         </div>
       ) : null}
 
       <p className="text-muted-foreground text-xs">
-        Using this skill loads these tools for that reply. It doesn't give
-        access. A Bot can only use tools it already has.
+        
+        Usar esta habilidade carrega estas ferramentas para aquela resposta. Não dá acesso. Um Bot só pode usar ferramentas que já tem.
       </p>
     </Field>
   );

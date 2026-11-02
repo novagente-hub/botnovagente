@@ -29,10 +29,11 @@ function BotsPage() {
           variant="ghost"
         >
           <IconPlus />
-          New Bot
+          
+          Novo Bot
         </Button>
       }
-      description="Manage your Bots and access those shared with you."
+      description="Gerencie seus Bots e acesse os compartilhados com você."
       title="Bots"
     >
       <BotRoster />

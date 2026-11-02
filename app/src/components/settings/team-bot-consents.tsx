@@ -21,8 +21,8 @@ export function TeamBotConsents() {
   const clear = useMutation(clearTeamBotConsentsMutationOptions());
   return (
     <PageSection
-      description="A Bot shared with you uses its owner's apps. It uses yours only where you said yes in a conversation."
-      title="Shared Bots"
+      description="Um Bot compartilhado com você usa os apps do dono. Ele só usa os seus onde você disse sim em uma conversa."
+      title="Bots compartilhados"
     >
       {clear.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
@@ -32,11 +32,11 @@ export function TeamBotConsents() {
       <PageRows>
         <Item size="sm">
           <ItemContent>
-            <ItemTitle>Apps you let shared Bots use</ItemTitle>
+            <ItemTitle>Apps que você permite aos Bots compartilhados</ItemTitle>
             <ItemDescription>
               {clear.isSuccess
-                ? "Reset. Each shared Bot will ask again."
-                : "Forget every answer, so each shared Bot asks again."}
+                ? "Redefinido. Cada Bot compartilhado vai perguntar de novo."
+                : "Esquecer todas as respostas, para que cada Bot compartilhado pergunte de novo."}
             </ItemDescription>
           </ItemContent>
           <ItemActions>
@@ -46,7 +46,8 @@ export function TeamBotConsents() {
               size="sm"
               variant="outline"
             >
-              Reset
+              
+              Redefinir
             </Button>
           </ItemActions>
         </Item>

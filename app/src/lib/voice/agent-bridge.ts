@@ -43,7 +43,7 @@ export async function askChannelAgent(
   signal.throwIfAborted();
   if (channel.busy())
     throw new Error(
-      "The agent is still working. Wait for its result or use the stop button in chat before asking it to do something else.",
+      "O agente ainda está trabalhando. Aguarde o resultado ou use o botão de parar no chat antes de pedir outra coisa.",
     );
   const answer = await channel.send(request);
   signal.throwIfAborted();

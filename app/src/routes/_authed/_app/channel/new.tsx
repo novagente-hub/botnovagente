@@ -41,7 +41,7 @@ import { newId } from "../../../../lib/new-id";
  * profile links and reloads preserve the pending recipient without creating an empty channel.
  */
 /** What `GET /api/agents/:id` answers for a Bot this person cannot see. */
-const AGENT_NOT_FOUND = "Couldn't find that Bot.";
+const AGENT_NOT_FOUND = "Não foi possível encontrar esse Bot.";
 
 export const Route = createFileRoute("/_authed/_app/channel/new")({
   /*
@@ -95,7 +95,7 @@ function RouteComponent() {
   const urlAgentDetailFailed = needsUrlAgentDetail && detailError && !fetched;
   const loadError =
     rosterError && profiles === undefined
-      ? "Couldn't load your Bots. Reload the page."
+      ? "Não foi possível carregar seus Bots. Recarregue a página."
       : urlAgentDetailFailed
         ? /*
            * The server's 404 sentence (agents/routes.ts `mapStoreError`) means this person cannot see
@@ -103,8 +103,8 @@ function RouteComponent() {
            * other failure is a load that can be retried, and says so.
            */
           detailFailure?.message === AGENT_NOT_FOUND
-          ? "This Bot isn't available to you. It may be unpublished or not shared with you."
-          : "Couldn't load that Bot. Reload the page."
+          ? "Este Bot não está disponível para você. Ele pode estar despublicado ou não compartilhado com você."
+          : "Não foi possível carregar esse Bot. Recarregue a página."
         : null;
   /** Bots picked in the To: field, in the order they will answer; the URL's Bot until one is picked. */
   const [picked, setPicked] = useState<AgentProfile[] | null>(null);
@@ -129,7 +129,7 @@ function RouteComponent() {
         data-slot="conversation-header"
       >
         <SidebarToggle className="mr-1" />
-        <span className="text-sm text-muted-foreground">To:</span>
+        <span className="text-sm text-muted-foreground">Para:</span>
         <Combobox
           // Do not auto-open when the recipient came from the URL; the field is already answered.
           open={pickerOpen ?? (!chosen && !loadError && !waitingForUrlAgent)}
@@ -175,8 +175,8 @@ function RouteComponent() {
               autoFocus={!chosen}
               placeholder={
                 selected.length
-                  ? "Add another Bot for a group…"
-                  : "Choose a Bot…"
+                  ? "Adicionar outro Bot para formar um grupo…"
+                  : "Escolha um Bot…"
               }
             />
           </ComboboxChips>
@@ -196,11 +196,11 @@ function RouteComponent() {
                 }}
               >
                 <AgentOrb size="24px" state="idle" />
-                <span className="font-medium">New Bot</span>
-                <span className="text-muted-foreground">Create a new Bot</span>
+                <span className="font-medium">Novo Bot</span>
+                <span className="text-muted-foreground">Criar um novo Bot</span>
               </button>
             </div>
-            <ComboboxEmpty>No Bots found.</ComboboxEmpty>
+            <ComboboxEmpty>Nenhum Bot encontrado.</ComboboxEmpty>
             <ComboboxList className="min-h-0">
               {(item: AgentProfile) => (
                 <ComboboxItem key={item.id} value={item} className="h-10">
@@ -234,7 +234,7 @@ function RouteComponent() {
             })
             .catch(() => {
               setError(
-                "Your Bot was created, but could not be selected. Choose it from the recipient list.",
+                "Seu Bot foi criado, mas não pôde ser selecionado. Escolha-o na lista de destinatários.",
               );
             });
         }}
@@ -270,7 +270,7 @@ function RouteComponent() {
               setError(
                 caught instanceof Error
                   ? caught.message
-                  : "Couldn't start the group. Try again.",
+                  : "Não foi possível iniciar o grupo. Tente novamente.",
               );
               throw caught;
             }
@@ -290,7 +290,7 @@ function RouteComponent() {
             setError(
               caught instanceof Error
                 ? caught.message
-                : "Couldn't start the conversation. Try again.",
+                : "Não foi possível iniciar a conversa. Tente novamente.",
             );
             throw caught;
           }

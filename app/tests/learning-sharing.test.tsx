@@ -106,37 +106,37 @@ const choices = (view: ReturnType<typeof draw>) =>
 
 test("three choices, each with one plain line saying who sees what", async () => {
   const view = draw();
-  await view.findByText("Who else's Bots use your Skills");
+  await view.findByText("Bots de quem mais usam suas Habilidades");
   expect(choices(view)).toHaveLength(3);
   for (const choice of SHARING_CHOICES) {
     expect(view.getByText(choice.title)).toBeTruthy();
     expect(view.getByText(choice.description)).toBeTruthy();
   }
   expect(
-    view.getByText("Only the Bots you use draw on your Skills."),
+    view.getByText("Só os Bots que você usa aproveitam suas Habilidades."),
   ).toBeTruthy();
   expect(
-    view.getByText("Every Bot on OpenBot draws on all of your Skills."),
+    view.getByText("Todos os Bots do OpenBot aproveitam todas as suas Habilidades."),
   ).toBeTruthy();
 });
 
 test("closed is the default: Only my Bots is checked and no Skill list shows", async () => {
   const view = draw();
-  await view.findByText("Only my Bots");
-  expect(choice(view, "Only my Bots").getAttribute("aria-pressed")).toBe(
+  await view.findByText("Só os meus Bots");
+  expect(choice(view, "Só os meus Bots").getAttribute("aria-pressed")).toBe(
     "true",
   );
-  expect(choice(view, "Everyone's Bots").getAttribute("aria-pressed")).toBe(
+  expect(choice(view, "Bots de todos").getAttribute("aria-pressed")).toBe(
     "false",
   );
-  expect(view.queryByText("Your Skills")).toBeNull();
+  expect(view.queryByText("Suas Habilidades")).toBeNull();
   expect(view.queryByRole("switch")).toBeNull();
 });
 
 test("choosing Everyone's Bots saves open at once", async () => {
   const view = draw();
-  await view.findByText("Only my Bots");
-  fireEvent.click(choice(view, "Everyone's Bots"));
+  await view.findByText("Só os meus Bots");
+  fireEvent.click(choice(view, "Bots de todos"));
   await waitFor(() =>
     expect(sent).toContainEqual({
       path: "/api/settings/learning/mode",
@@ -145,7 +145,7 @@ test("choosing Everyone's Bots saves open at once", async () => {
     }),
   );
   await waitFor(() =>
-    expect(choice(view, "Everyone's Bots").getAttribute("aria-pressed")).toBe(
+    expect(choice(view, "Bots de todos").getAttribute("aria-pressed")).toBe(
       "true",
     ),
   );
@@ -153,8 +153,8 @@ test("choosing Everyone's Bots saves open at once", async () => {
 
 test("pressing the choice already made saves nothing", async () => {
   const view = draw();
-  await view.findByText("Only my Bots");
-  fireEvent.click(choice(view, "Only my Bots"));
+  await view.findByText("Só os meus Bots");
+  fireEvent.click(choice(view, "Só os meus Bots"));
   await new Promise((resolve) => setTimeout(resolve, 20));
   expect(sent).toEqual([]);
 });
@@ -162,7 +162,7 @@ test("pressing the choice already made saves nothing", async () => {
 test("under The Skills I choose, each Skill in your space has a switch that opens it to everyone", async () => {
   answer = { ...answer, mode: "choose" };
   const view = draw();
-  await view.findByText("Your Skills");
+  await view.findByText("Suas Habilidades");
   const refund = view.getByRole("switch", {
     name: "Open refund-order to everyone",
   });
@@ -198,7 +198,7 @@ test("a space with no Skills yet says so plainly", async () => {
   answer = { mode: "choose", sharingAllowed: true, skills: [] };
   const view = draw();
   await view.findByText(
-    "No Skills learned from your recordings yet. Once there are, each one you open here reaches every Bot.",
+    "Nenhuma Habilidade aprendida com suas gravações ainda. Quando houver, cada uma que você abrir aqui chega a todos os Bots.",
   );
   expect(view.queryByRole("switch")).toBeNull();
 });
@@ -212,9 +212,9 @@ test("Skills Intelligence did not deliver show a plain unavailable line, and the
   };
   const view = draw();
   await view.findByText(
-    "Couldn't read your Skills from Intelligence just now. Your choice above still applies to them.",
+    "Não foi possível ler suas Habilidades do Intelligence agora. Sua escolha acima continua valendo para elas.",
   );
-  fireEvent.click(choice(view, "Only my Bots"));
+  fireEvent.click(choice(view, "Só os meus Bots"));
   await waitFor(() =>
     expect(sent).toContainEqual({
       path: "/api/settings/learning/mode",
@@ -233,7 +233,7 @@ test("Automatic Learning off says no Skills are learned", async () => {
   };
   const view = draw();
   await view.findByText(
-    "An admin has turned off Automatic Learning, so no Skills are learned from your recordings.",
+    "Um administrador desativou o Aprendizado automático, então nenhuma Habilidade é aprendida com suas gravações.",
   );
 });
 
@@ -241,10 +241,10 @@ test("until an admin turns on Skill sharing, it says so plainly and only Only my
   answer = { ...answer, sharingAllowed: false };
   const view = draw();
   await view.findByText(
-    "An admin hasn't turned on sharing Skills with every Bot, so only the Bots you use draw on yours.",
+    "Um administrador não ativou o compartilhamento de Habilidades com todos os Bots, então só os Bots que você usa aproveitam as suas.",
   );
-  expect(choice(view, "Only my Bots").hasAttribute("disabled")).toBe(false);
-  for (const title of ["Everyone's Bots", "The Skills I choose"]) {
+  expect(choice(view, "Só os meus Bots").hasAttribute("disabled")).toBe(false);
+  for (const title of ["Bots de todos", "As Habilidades que eu escolher"]) {
     expect(choice(view, title).hasAttribute("disabled")).toBe(true);
     fireEvent.click(choice(view, title));
   }
@@ -283,14 +283,14 @@ test("a read that fails says so, and a save that fails says why", async () => {
   failRead = true;
   const failed = draw();
   await failed.findByText(
-    "Couldn't load your Learning settings. Reload the page.",
+    "Não foi possível carregar suas configurações de Aprendizado. Recarregue a página.",
   );
   cleanup();
   queryClient.clear();
   failRead = false;
   failWrite = true;
   const view = draw();
-  await view.findByText("Only my Bots");
-  fireEvent.click(choice(view, "Everyone's Bots"));
+  await view.findByText("Só os meus Bots");
+  fireEvent.click(choice(view, "Bots de todos"));
   await view.findByText("Your Learning settings could not be saved.");
 });

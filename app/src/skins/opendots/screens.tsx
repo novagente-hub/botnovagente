@@ -8,7 +8,7 @@ import { RoutinesList } from "@/components/routines/routines-list";
  * switch, Run now, history and delete OpenBot offers is still there.
  */
 function OpenDotsPage({
-  eyebrow = "YOUR WORKSPACE",
+  eyebrow = "SEU WORKSPACE",
   title,
   description,
   action,
@@ -47,8 +47,8 @@ function OpenDotsPage({
 export function RoutinesScreen() {
   return (
     <OpenDotsPage
-      description="What your Bots do on a schedule. Ask a Bot to set one up. Pause, run or delete one here."
-      title="Routines"
+      description="O que seus Bots fazem em horários agendados. Peça a um Bot para configurar. Pause, execute ou exclua aqui."
+      title="Rotinas"
     >
       <RoutinesList embedded />
     </OpenDotsPage>
@@ -60,8 +60,8 @@ export function MemoriesScreen() {
   return (
     <OpenDotsPage
       action={<RememberFact />}
-      description="What your Bots know about you."
-      title="Memories"
+      description="O que seus Bots sabem sobre você."
+      title="Memórias"
     >
       <MemoryList />
     </OpenDotsPage>

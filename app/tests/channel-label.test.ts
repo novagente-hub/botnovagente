@@ -12,13 +12,13 @@ function hasLoneSurrogate(text: string): boolean {
 describe("a conversation label", () => {
   test("keeps a short title whole", () => {
     expect(
-      conversationLabel({ name: "General", summary: "What is in the PRD?" }),
-    ).toBe("General: What is in the PRD?");
+      conversationLabel({ name: "Geral", summary: "What is in the PRD?" }),
+    ).toBe("Geral: What is in the PRD?");
   });
 
   test("cuts a long title to the limit", () => {
     expect(
-      conversationLabel({ name: "General", summary: "a".repeat(80) }),
+      conversationLabel({ name: "Geral", summary: "a".repeat(80) }),
     ).toBe(`General: ${"a".repeat(60)}`);
   });
 
@@ -29,7 +29,7 @@ describe("a conversation label", () => {
      * draw, so it showed a replacement character where the emoji should have been.
      */
     const label = conversationLabel({
-      name: "General",
+      name: "Geral",
       summary: `${"a".repeat(59)}\u{1F600}tail`,
     });
 
@@ -38,9 +38,9 @@ describe("a conversation label", () => {
   });
 
   test("falls back to the name when there is no title", () => {
-    expect(conversationLabel({ name: "General" })).toBe("General");
-    expect(conversationLabel({ name: "General", summary: "   " })).toBe(
-      "General",
+    expect(conversationLabel({ name: "Geral" })).toBe("Geral");
+    expect(conversationLabel({ name: "Geral", summary: "   " })).toBe(
+      "Geral",
     );
   });
 });

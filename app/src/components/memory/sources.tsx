@@ -111,11 +111,12 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
           variant="ghost"
         >
           <IconPlus />
-          Add source
+          
+          Adicionar fonte
         </Button>
       }
-      description="Apps you connected that this Bot can read show up here, and you can add more. Sources refresh every 15 minutes. Only this Bot sees what they hold."
-      title="App sources"
+      description="Os apps conectados que este Bot pode ler aparecem aqui, e você pode adicionar mais. As fontes são atualizadas a cada 15 minutos. Só este Bot vê o conteúdo delas."
+      title="Fontes de apps"
     >
       {sources.isPending ? null : sources.error ? (
         <p role="alert" className="mt-4 text-destructive text-sm">
@@ -135,13 +136,15 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
               variant="outline"
             >
               <IconPlus />
-              Add source
+              
+              Adicionar fonte
             </Button>
           }
           icon={IconPlugConnected}
-          title="No sources yet"
+          title="Nenhuma fonte ainda"
         >
-          Apps this Bot can read from show up here.
+          
+          Os apps de onde este Bot pode ler aparecem aqui.
         </PageEmpty>
       ) : (
         <PageRows>
@@ -157,9 +160,9 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                   <ItemDescription>
                     {source.enabled
                       ? source.syncStatus === "succeeded"
-                        ? "Up to date"
+                        ? "Atualizado"
                         : source.syncStatus
-                      : "Turned off"}
+                      : "Desativado"}
                     {source.lastSyncAt
                       ? ` · Last read ${new Date(source.lastSyncAt).toLocaleString()}`
                       : ""}
@@ -180,7 +183,8 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                           action.mutate({ sourceId: source.id, name: "sync" })
                         }
                       >
-                        Sync now
+                        
+                        Sincronizar agora
                       </Button>
                       <Button
                         size="sm"
@@ -189,7 +193,8 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                           action.mutate({ sourceId: source.id, name: "remove" })
                         }
                       >
-                        Remove
+                        
+                        Remover
                       </Button>
                     </div>
                   </ItemFooter>
@@ -221,9 +226,10 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
       <Dialog onOpenChange={setAdding} open={adding}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add a source</DialogTitle>
+            <DialogTitle>Adicionar uma fonte</DialogTitle>
             <DialogDescription>
-              OpenBot reads it now, then every 15 minutes while it's on.
+              
+              O OpenBot lê agora e depois a cada 15 minutos enquanto estiver ativa.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4 overflow-y-auto">
@@ -244,7 +250,7 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                     ) {
                       const number = Number(value);
                       if (!Number.isFinite(number))
-                        throw new Error(`Enter a number for ${setting.name}.`);
+                        throw new Error(`Insira um número para ${setting.name}.`);
                       values[setting.name] = number;
                     } else if (setting.schema.type === "boolean")
                       values[setting.name] = value === "true";
@@ -255,7 +261,7 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                         .filter(Boolean);
                     else if (setting.schema.type === "object")
                       throw new Error(
-                        "This one has settings OpenBot can't show. Choose another.",
+                        "Esta tem configurações que o OpenBot não consegue mostrar. Escolha outra.",
                       );
                     else values[setting.name] = value;
                   }
@@ -278,7 +284,7 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                   setError(
                     cause instanceof Error
                       ? cause.message
-                      : "Check the source settings.",
+                      : "Verifique as configurações da fonte.",
                   );
                 }
               }}
@@ -300,7 +306,7 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                       value={agentId || null}
                     >
                       <SelectTrigger className="w-full" id={`${id}-bot`}>
-                        <SelectValue placeholder="Choose a Bot" />
+                        <SelectValue placeholder="Escolha um Bot" />
                       </SelectTrigger>
                       <SelectContent>
                         {bots.data?.map((bot) => (
@@ -313,7 +319,7 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                   </Field>
                 ) : null}
                 <Field>
-                  <FieldLabel htmlFor={`${id}-action`}>What to read</FieldLabel>
+                  <FieldLabel htmlFor={`${id}-action`}>O que ler</FieldLabel>
                   <Select
                     items={tools.data?.map((tool) => ({
                       value: tool.ref,
@@ -327,7 +333,7 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                     value={toolRef || null}
                   >
                     <SelectTrigger className="w-full" id={`${id}-action`}>
-                      <SelectValue placeholder="Choose what to read" />
+                      <SelectValue placeholder="Escolha o que ler" />
                     </SelectTrigger>
                     <SelectContent>
                       {tools.data?.map((tool) => (
@@ -342,14 +348,14 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                   ) : null}
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor={`${id}-name`}>Source name</FieldLabel>
+                  <FieldLabel htmlFor={`${id}-name`}>Nome da fonte</FieldLabel>
                   <Input
                     id={`${id}-name`}
                     required
                     maxLength={160}
                     value={title}
                     onChange={(event) => setTitle(event.target.value)}
-                    placeholder="My project documents"
+                    placeholder="Meus documentos do projeto"
                   />
                 </Field>
                 {settings.map(({ name, schema }) => (
@@ -371,7 +377,7 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                           className="w-full"
                           id={`${id}-arg-${name}`}
                         >
-                          <SelectValue placeholder="Choose a value" />
+                          <SelectValue placeholder="Escolha um valor" />
                         </SelectTrigger>
                         <SelectContent>
                           {(schema.enum ?? ["true", "false"]).map((value) => (
@@ -418,7 +424,8 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
               size="sm"
               variant="outline"
             >
-              Cancel
+              
+              Cancelar
             </Button>
             <Button
               disabled={add.isPending || !toolRef}
@@ -426,7 +433,7 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
               size="sm"
               type="submit"
             >
-              {add.isPending ? "Reading source…" : "Add and sync source"}
+              {add.isPending ? "Lendo a fonte…" : "Adicionar e sincronizar fonte"}
             </Button>
           </DialogFooter>
         </DialogContent>

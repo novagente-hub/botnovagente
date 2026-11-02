@@ -50,14 +50,14 @@ export function BotsSheet({ onClose }: { onClose: () => void }) {
   return (
     <MuseSheet
       onClose={onClose}
-      subtitle={`Choose who is at the centre of ${appConfig.brand.productName}.`}
-      title="Your Bots"
+      subtitle={`Escolha quem fica no centro do ${appConfig.brand.productName}.`}
+      title="Seus Bots"
     >
       <div className="flex flex-col gap-3.5">
         {agents.isPending ? null : agents.error ? (
-          <ErrorNotice error="Couldn't load your Bots. Reload the page." />
+          <ErrorNotice error="Não foi possível carregar seus Bots. Recarregue a página." />
         ) : agents.data.length === 0 ? (
-          <p className={museText.muted}>You don't have a Bot yet.</p>
+          <p className={museText.muted}>Você ainda não tem um Bot.</p>
         ) : (
           <div className="flex flex-col">
             {agents.data.map((agent) => {
@@ -91,7 +91,7 @@ export function BotsSheet({ onClose }: { onClose: () => void }) {
                     </ItemTitle>
                     <span className={cn(museText.small, "line-clamp-1")}>
                       {asks
-                        ? `Needs you · ${summary}`
+                        ? `Precisa de você · ${summary}`
                         : summary || agent.title || agent.roleDescription}
                     </span>
                   </ItemContent>
@@ -115,7 +115,7 @@ export function BotsSheet({ onClose }: { onClose: () => void }) {
         <div>
           {centre ? (
             <LinkRow
-              detail="Setup, access, sharing and activity"
+              detail="Configuração, acesso, compartilhamento e atividade"
               icon={IconUserCircle}
               render={
                 <Link
@@ -128,20 +128,20 @@ export function BotsSheet({ onClose }: { onClose: () => void }) {
             />
           ) : null}
           <LinkRow
-            detail="Yours, shared with you, and your team's"
+            detail="Seus, compartilhados com você e da sua equipe"
             icon={IconBolt}
             render={<Link onClick={onClose} to="/bots" />}
             tint="plain"
-            title="All Bots"
+            title="Todos os Bots"
           />
           <LinkRow
-            detail="Describe what it should do"
+            detail="Descreva o que ele deve fazer"
             icon={IconPlus}
             render={
               <Link onClick={onClose} search={{ new: true }} to="/bots" />
             }
             tint="plain"
-            title="New Bot"
+            title="Novo Bot"
           />
         </div>
       </div>

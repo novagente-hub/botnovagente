@@ -25,12 +25,12 @@ export function DictationButton({
   if (!dictation.available) return null;
   return (
     <Button
-      aria-label="Dictate a message"
+      aria-label="Ditar uma mensagem"
       data-slot="composer-dictate"
       title={
         dictation.supported
-          ? "Dictate a message"
-          : "Dictation needs a supported browser and a secure (HTTPS) connection"
+          ? "Ditar uma mensagem"
+          : "O ditado precisa de um navegador compatível e de uma conexão segura (HTTPS)"
       }
       className="size-8 shrink-0 self-end rounded-full"
       disabled={disabled || !dictation.supported || dictation.busy}
@@ -119,9 +119,9 @@ function RecordingControls({
     >
       <Button
         ref={cancel}
-        aria-label="Cancel dictation"
+        aria-label="Cancelar ditado"
         data-slot="composer-dictate-cancel"
-        title="Cancel dictation"
+        title="Cancelar ditado"
         size="icon"
         type="button"
         variant="ghost"
@@ -147,12 +147,13 @@ function RecordingControls({
           </p>
         ) : state.phase === "requesting" ? (
           <p className="text-sm text-muted-foreground" role="status">
-            Waiting for microphone permission…
+            
+            Aguardando permissão do microfone…
           </p>
         ) : (
           <div className="flex min-w-0 items-center gap-3">
             <span className="sr-only" role="status">
-              {transcribing ? "Transcribing…" : "Listening"}
+              {transcribing ? "Transcribing…" : "Ouvindo"}
             </span>
             <LiveWaveform
               stream={state.stream}
@@ -162,7 +163,7 @@ function RecordingControls({
             />
             <span
               role="timer"
-              aria-label="Recording duration"
+              aria-label="Duração da gravação"
               className="shrink-0 text-xs text-muted-foreground tabular-nums"
             >
               {time}
@@ -186,14 +187,14 @@ function RecordingControls({
               void (state.canRetry ? session.retry() : session.start())
             }
           >
-            {state.canRetry ? "Retry" : "Record again"}
+            {state.canRetry ? "Tentar de novo" : "Gravar de novo"}
           </Button>
         ) : (
           <div className="flex shrink-0 items-center gap-2">
             <Button
-              aria-label="Stop and transcribe"
+              aria-label="Parar e transcrever"
               data-slot="composer-dictate-stop"
-              title="Stop and add to draft"
+              title="Parar e adicionar ao rascunho"
               disabled={!recording}
               size="icon"
               type="button"
@@ -204,8 +205,8 @@ function RecordingControls({
               <IconPlayerStopFilled className="size-3.5" />
             </Button>
             <Button
-              aria-label="Transcribe and send"
-              title="Transcribe and send"
+              aria-label="Transcrever e enviar"
+              title="Transcrever e enviar"
               disabled={!recording || !canSend}
               size="icon"
               type="button"

@@ -182,11 +182,11 @@ test("an add that fails while a second one is pressed still says what went wrong
 
   // The press that will fail, held open by the stub.
   await userEvent.click(
-    await within(slackRow).findByRole("button", { name: "Add" }),
+    await within(slackRow).findByRole("button", { name: "Adicionar" }),
   );
   // And the press that overtakes it, which rebuilds the shared observer under the first one.
   await userEvent.click(
-    await within(gmailRow).findByRole("button", { name: "Add" }),
+    await within(gmailRow).findByRole("button", { name: "Adicionar" }),
   );
 
   /*
@@ -210,6 +210,6 @@ test("an add that fails while a second one is pressed still says what went wrong
 
   // And the row drains on the refusal exactly as it would on a success, so a retry is possible.
   await waitFor(() => {
-    expect(within(slackRow).getByRole("button", { name: "Add" })).toBeTruthy();
+    expect(within(slackRow).getByRole("button", { name: "Adicionar" })).toBeTruthy();
   });
 });

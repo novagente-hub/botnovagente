@@ -37,19 +37,21 @@ export function CallbackTokenPanel({
   return (
     <section className="mt-6 grid gap-2">
       <h2 className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
-        Key for tools
+        
+        Chave para ferramentas
       </h2>
 
       <p className="text-muted-foreground text-sm">
         {hasToken
-          ? "This Bot has a key, so it can use its tools. If you make a new key, the old one stops working right away."
-          : "This Bot has no key yet. It can talk but can't use tools. Generate a key and add it to your agent's configuration."}
+          ? "Este Bot tem uma chave, então pode usar as ferramentas dele. Se você criar uma nova chave, a antiga para de funcionar na hora."
+          : "Este Bot ainda não tem chave. Ele pode conversar, mas não pode usar ferramentas. Gere uma chave e adicione-a à configuração do seu agente."}
       </p>
 
       {token ? (
         <div className="grid gap-2 rounded-lg border border-border bg-card p-3">
           <p className="font-medium text-sm">
-            Copy this key now. You won't see it again.
+            
+            Copie esta chave agora. Você não vai vê-la de novo.
           </p>
           {/*
            * Selectable and wrapped rather than a copy button alone: somebody pasting this into a
@@ -59,10 +61,12 @@ export function CallbackTokenPanel({
             {token}
           </code>
           <p className="text-muted-foreground text-xs">
-            If you lose it, make a new one.
+            
+            Se perdê-la, crie uma nova.
           </p>
           <Button onClick={() => setToken(null)} size="sm" variant="outline">
-            Done
+            
+            Concluído
           </Button>
         </div>
       ) : (
@@ -76,8 +80,8 @@ export function CallbackTokenPanel({
             {issue.isPending
               ? "Generating…"
               : hasToken
-                ? "Make a new key"
-                : "Generate key"}
+                ? "Criar uma nova chave"
+                : "Gerar chave"}
           </Button>
           {hasToken ? (
             <Button
@@ -86,7 +90,7 @@ export function CallbackTokenPanel({
               size="sm"
               variant="outline"
             >
-              {revoke.isPending ? "Revoking…" : "Revoke key"}
+              {revoke.isPending ? "Revoking…" : "Revogar chave"}
             </Button>
           ) : null}
         </div>

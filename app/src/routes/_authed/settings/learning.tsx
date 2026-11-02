@@ -10,8 +10,8 @@ export const Route = createFileRoute("/_authed/settings/learning")({
 function LearningSettingsPage() {
   return (
     <PageShell
-      title="Learning"
-      description="Every recording you make goes into your own Learning space, and the Skills learned there reach every Bot you use. Choose who else's Bots may use them too."
+      title="Aprendizado"
+      description="Cada gravação que você faz vai para o seu próprio espaço de Aprendizado, e as Habilidades aprendidas ali chegam a todos os Bots que você usa. Escolha os Bots de quem mais também podem usá-las."
     >
       <LearningSharing />
     </PageShell>

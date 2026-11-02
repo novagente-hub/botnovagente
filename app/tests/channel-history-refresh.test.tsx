@@ -51,9 +51,9 @@ const local: Message = {
 };
 const broken = { id: "broken", role: "user", content: null };
 const unavailable =
-  "Couldn't load earlier messages. You can keep using this conversation.";
+  "Não foi possível carregar mensagens anteriores. Você pode continuar usando esta conversa.";
 const oneHole =
-  "One earlier message couldn't be read, so it isn't shown. Everything else is here.";
+  "Uma mensagem anterior não pôde ser lida, então não aparece. Todo o resto está aqui.";
 let originalFetch: typeof fetch;
 let history: (threadId: string) => Promise<Response>;
 let historyReads: string[];
@@ -358,10 +358,10 @@ test.each([
       expect(view.getByText(initial.content)).toBeTruthy();
     const user = userEvent.setup({ document: view.container.ownerDocument });
     await user.type(
-      view.getByRole("textbox", { name: "Message" }),
+      view.getByRole("textbox", { name: "Mensagem" }),
       "Later local turn",
     );
-    await user.click(view.getByRole("button", { name: "Send message" }));
+    await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
     await waitFor(() => expect(runRequests).toHaveLength(1));
     expect(runRequests[0]?.path).toBe("/api/copilotkit/agent/refresh-bot/run");
     expect(runRequests[0]?.input.threadId).toBe(channel.threadId);
@@ -403,10 +403,10 @@ test("a finished run without new assistant text does not report a prior assistan
 
   const user = userEvent.setup({ document: view.container.ownerDocument });
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
+    view.getByRole("textbox", { name: "Mensagem" }),
     "Ask for the first answer",
   );
-  await user.click(view.getByRole("button", { name: "Send message" }));
+  await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   await view.findByText(priorReply.content);
   await waitFor(() =>
     expect(
@@ -423,10 +423,10 @@ test("a finished run without new assistant text does not report a prior assistan
     { type: "RUN_FINISHED", threadId: input.threadId, runId: input.runId },
   ];
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
+    view.getByRole("textbox", { name: "Mensagem" }),
     "Ask for a no-text follow-up",
   );
-  await user.click(view.getByRole("button", { name: "Send message" }));
+  await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   await waitFor(() => expect(runRequests).toHaveLength(2));
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -461,10 +461,10 @@ test("a finished run with new assistant text still reports that assistant text a
 
   const user = userEvent.setup({ document: view.container.ownerDocument });
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
+    view.getByRole("textbox", { name: "Mensagem" }),
     "Ask for current answer",
   );
-  await user.click(view.getByRole("button", { name: "Send message" }));
+  await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   await view.findByText(reply.content);
   await waitFor(() =>
     expect(
@@ -507,10 +507,10 @@ test("a same-tab activity echo does not append a lagging durable partial beside 
 
   const user = userEvent.setup({ document: view.container.ownerDocument });
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
+    view.getByRole("textbox", { name: "Mensagem" }),
     "Ask for live answer",
   );
-  await user.click(view.getByRole("button", { name: "Send message" }));
+  await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   await view.findByText(fullReply.content);
   await waitFor(() =>
     expect(
@@ -571,10 +571,10 @@ test("a same-timestamp different activity after a self echo still refreshes dura
 
   const user = userEvent.setup({ document: view.container.ownerDocument });
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
+    view.getByRole("textbox", { name: "Mensagem" }),
     "Ask before same-time relay",
   );
-  await user.click(view.getByRole("button", { name: "Send message" }));
+  await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   await view.findByText(fullReply.content);
   await waitFor(() =>
     expect(
@@ -647,10 +647,10 @@ test.each([
 
     const user = userEvent.setup({ document: view.container.ownerDocument });
     await user.type(
-      view.getByRole("textbox", { name: "Message" }),
+      view.getByRole("textbox", { name: "Mensagem" }),
       "Ask before relay",
     );
-    await user.click(view.getByRole("button", { name: "Send message" }));
+    await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
     await view.findByText(fullReply.content);
     await waitFor(() =>
       expect(
@@ -732,10 +732,10 @@ test.each([false, true])(
     expect(currentAgent().messages).toEqual([...snapshot, ...later]);
     const user = userEvent.setup({ document: view.container.ownerDocument });
     await user.type(
-      view.getByRole("textbox", { name: "Message" }),
+      view.getByRole("textbox", { name: "Mensagem" }),
       "Continue restored conversation",
     );
-    await user.click(view.getByRole("button", { name: "Send message" }));
+    await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
     await waitFor(() => expect(runRequests).toHaveLength(1));
     expect(runRequests[0]?.input.threadId).toBe(channel.threadId);
     expect(runRequests[0]?.input.messages.slice(0, -1)).toEqual([
@@ -751,10 +751,10 @@ test("a stalled mount history read releases the send gate and shows unavailable 
   await waitFor(() => expect(historyReads).toHaveLength(1));
   const user = userEvent.setup({ document: view.container.ownerDocument });
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
+    view.getByRole("textbox", { name: "Mensagem" }),
     "Send while history stalls",
   );
-  await user.click(view.getByRole("button", { name: "Send message" }));
+  await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
 
   await view.findByText(unavailable, {}, { timeout: 4000 });
   await waitFor(() => expect(runRequests).toHaveLength(1), { timeout: 4000 });
@@ -779,10 +779,10 @@ test("a UI send waits for mount history before adding its message", async () => 
   await waitFor(() => expect(historyReads).toHaveLength(1));
   const user = userEvent.setup({ document: view.container.ownerDocument });
   await user.type(
-    view.getByRole("textbox", { name: "Message" }),
+    view.getByRole("textbox", { name: "Mensagem" }),
     "Send after restore",
   );
-  await user.click(view.getByRole("button", { name: "Send message" }));
+  await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   expect(runRequests).toHaveLength(0);
   expect(currentAgent().messages).toEqual([initial]);
   await act(async () => pending.resolve(stored([initial, fresh])));
@@ -810,7 +810,7 @@ test("explicit valid-empty durable history finishes without a failure notice", a
   await waitFor(() =>
     expect(
       view
-        .getByRole("textbox", { name: "Message" })
+        .getByRole("textbox", { name: "Mensagem" })
         .getAttribute("contenteditable"),
     ).toBe("true"),
   );
@@ -1021,9 +1021,9 @@ test.each([false, true])(
     );
     await view.findByText(prefixPresent ? initial.content : unavailable);
     const user = userEvent.setup({ document: view.container.ownerDocument });
-    const editor = view.getByRole("textbox", { name: "Message" });
+    const editor = view.getByRole("textbox", { name: "Mensagem" });
     await user.type(editor, "Local turn after mount completed");
-    await user.click(view.getByRole("button", { name: "Send message" }));
+    await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
     await waitFor(() => expect(runRequests).toHaveLength(1));
     const sent = runRequests[0]?.input.messages.at(-1);
     if (sent?.role !== "user") throw new Error("Missing UI user message");
@@ -1039,7 +1039,7 @@ test.each([false, true])(
       transcript.indexOf(fresh.content),
     );
     await user.type(editor, "Capture restored ordering");
-    await user.click(view.getByRole("button", { name: "Send message" }));
+    await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
     await waitFor(() => expect(runRequests).toHaveLength(2));
     expect(runRequests[1]?.input.threadId).toBe(channel.threadId);
     expect(runRequests[1]?.input.messages.slice(0, 3)).toEqual([

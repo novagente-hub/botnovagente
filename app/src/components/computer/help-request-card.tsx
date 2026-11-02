@@ -61,21 +61,21 @@ function endedAs(outcome: HelpOutcome): {
   detail?: string;
 } {
   if (outcome.handoffStatus === "completed")
-    return { title: "Taken over and handed back", done: true };
-  if (outcome.stopped) return { title: "Stopped waiting for you", done: false };
+    return { title: "Assumido e devolvido", done: true };
+  if (outcome.stopped) return { title: "Parou de esperar por você", done: false };
   switch (outcome.handoffStatus) {
     case "cancelled":
-      return { title: "Nobody took over", done: false };
+      return { title: "Ninguém assumiu", done: false };
     case "expired":
-      return { title: "Nobody took over in time", done: false };
+      return { title: "Ninguém assumiu a tempo", done: false };
     case "interrupted":
       return {
-        title: "The computer stopped before this was done",
+        title: "O computador parou antes de terminar",
         done: false,
       };
     default:
       return {
-        title: "Couldn't wait for you",
+        title: "Não foi possível esperar por você",
         done: false,
         ...(outcome.reason ? { detail: outcome.reason } : {}),
       };
@@ -120,7 +120,7 @@ export function HelpRequestCard({
     );
 
   const ended = handedBackHere
-    ? { title: "Taken over and handed back", done: true }
+    ? { title: "Assumido e devolvido", done: true }
     : endedAs(outcome ?? {});
   /*
    * The Bot's turn ended on the hand-back without a word. Its tool result asks it to say what it does next, and it
@@ -160,22 +160,24 @@ export function HelpRequestCard({
                 aria-hidden="true"
                 className="mr-1 inline size-3.5 align-[-2px]"
               />
-              The Bot asked: “{asked}”
+              
+              O Bot perguntou: “{asked}”
             </>
           ) : (
-            "The Bot asked you to take over its browser."
+            "O Bot pediu para você assumir o navegador dele."
           )}
           {ended.detail ? ` ${ended.detail}` : null}
-          {handedBackHere ? " The Bot is carrying on." : null}
+          {handedBackHere ? " O Bot está continuando." : null}
           {silent
-            ? " The Bot stopped here without saying what it does next."
+            ? " O Bot parou aqui sem dizer o que faz a seguir."
             : null}
         </ItemDescription>
       </ItemContent>
       {silent ? (
         <ItemActions>
-          <Button onClick={() => ask?.("Please carry on.")} size="sm">
-            Carry on
+          <Button onClick={() => ask?.("Pode continuar.")} size="sm">
+            
+            Continuar
           </Button>
         </ItemActions>
       ) : null}

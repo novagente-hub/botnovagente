@@ -58,7 +58,7 @@ export async function callComputer(
     }
     return {
       ok: false,
-      reason: "The assistant's computer could not be reached.",
+      reason: "Não foi possível acessar o computador do assistente.",
     };
   }
 
@@ -108,7 +108,7 @@ export function failedComputerCall(
       reason:
         typeof body.error === "string"
           ? body.error
-          : "The computer is still starting. This call was not performed. Try it again in a moment.",
+          : "O computador ainda está iniciando. Esta chamada não foi feita. Tente de novo em instantes.",
     };
   }
   /*
@@ -124,12 +124,12 @@ export function failedComputerCall(
       reason:
         typeof body.error === "string"
           ? body.error
-          : "This action needs your approval in a chat with this Bot.",
+          : "Esta ação precisa da sua aprovação em um chat com este Bot.",
     };
   }
   return {
     ok: false,
-    reason: typeof body?.error === "string" ? body.error : "That did not work.",
+    reason: typeof body?.error === "string" ? body.error : "Isso não funcionou.",
     // Preserve refusal/stale-ref/control distinctions for the model's next step.
     ...(status === 403 ? { refused: true, rule: body?.rule ?? null } : {}),
     ...(status === 409

@@ -34,7 +34,7 @@ describe("a computer still starting", () => {
   test("is reported as starting and not performed, in the server's own words", async () => {
     serverAnswering(503, {
       error:
-        "The computer is still starting. This call was not performed. Try it again in a moment.",
+        "O computador ainda está iniciando. Esta chamada não foi feita. Tente de novo em instantes.",
       starting: true,
       notPerformed: true,
     });
@@ -46,7 +46,7 @@ describe("a computer still starting", () => {
       starting: true,
       notPerformed: true,
       reason:
-        "The computer is still starting. This call was not performed. Try it again in a moment.",
+        "O computador ainda está iniciando. Esta chamada não foi feita. Tente de novo em instantes.",
     });
   });
 

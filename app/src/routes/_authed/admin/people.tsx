@@ -58,15 +58,15 @@ function describe(person: Person): string {
     .map((provider) => PROVIDER_NAMES[provider] ?? provider)
     .join(", ");
   const when = person.lastSignedInAt
-    ? `last signed in ${new Date(person.lastSignedInAt).toLocaleDateString()}`
-    : "never signed in";
+    ? `último acesso em ${new Date(person.lastSignedInAt).toLocaleDateString()}`
+    : "nunca entrou";
 
   if (person.revoked)
-    return `Access removed · ${providers || "no provider"} · ${when}`;
+    return `Acesso removido · ${providers || "sem provedor"} · ${when}`;
   if (person.configuredAdmin) {
-    return `Admin by configuration · ${when}`;
+    return `Admin por configuração · ${when}`;
   }
-  return `${providers || "no provider"} · ${when}`;
+  return `${providers || "sem provedor"} · ${when}`;
 }
 
 function PeoplePage() {
@@ -95,12 +95,12 @@ function PeoplePage() {
 
   return (
     <PageShell
-      description="Manage access for people who have signed in. Only admins can access the Admin pages."
-      title="People"
+      description="Gerencie o acesso das pessoas que já entraram. Só administradores acessam as páginas de Admin."
+      title="Pessoas"
     >
       <PageSection
-        description="Addresses in INITIAL_ADMIN_EMAILS are always admins. You can't change them here."
-        title="Who is here"
+        description="Endereços em INITIAL_ADMIN_EMAILS são sempre administradores. Não é possível alterá-los aqui."
+        title="Quem está aqui"
       >
         {failure ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
@@ -109,12 +109,13 @@ function PeoplePage() {
         ) : null}
         {terminate.data ? (
           <p className="mt-4 text-muted-foreground text-sm" role="status">
-            Stopped {terminate.data.stopped.length}{" "}
+            
+            Parado {terminate.data.stopped.length}{" "}
             {terminate.data.stopped.length === 1 ? "computer" : "computers"}
             {terminate.data.failed.length > 0
-              ? `. ${terminate.data.failed.length} couldn't be stopped`
+              ? `. ${terminate.data.failed.length} não puderam ser parados`
               : ""}
-            . Their disks are kept.
+            . Os discos são mantidos.
           </p>
         ) : null}
         {/*
@@ -122,24 +123,25 @@ function PeoplePage() {
           is the opposite of what somebody looking for a colleague needs.
         */}
         <Input
-          aria-label="Search people"
+          aria-label="Pesquisar pessoas"
           className="mt-4"
           onChange={(event) => setSearch(event.target.value)}
-          placeholder="Search by name or address"
+          placeholder="Pesquise por nome ou endereço"
           value={search}
         />
 
         {people.isPending ? null : people.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            Couldn't load people. Reload the page.
+            
+            Não foi possível carregar as pessoas. Recarregue a página.
           </p>
         ) : rows.length === 0 ? (
           <PageEmpty
             icon={query ? IconSearch : IconUsers}
-            title={query ? "No matches" : "Nobody has signed in yet"}
+            title={query ? "Nenhum resultado" : "Ninguém entrou ainda"}
           >
             {query
-              ? `Nobody matches "${query}".`
+              ? `Ninguém corresponde a "${query}".`
               : "People show here once they do."}
           </PageEmpty>
         ) : (
@@ -179,7 +181,8 @@ function PeoplePage() {
                         size="sm"
                         variant="outline"
                       >
-                        Stop computers
+                        
+                        Parar computadores
                       </Button>
                       <Button
                         disabled={busy || isSelf || person.configuredAdmin}
@@ -192,7 +195,7 @@ function PeoplePage() {
                         size="sm"
                         variant={person.revoked ? "outline" : "destructive"}
                       >
-                        {person.revoked ? "Restore" : "Remove"}
+                        {person.revoked ? "Restaurar" : "Remover"}
                       </Button>
                       <Switch
                         aria-label={`Admin: ${person.email}`}
@@ -226,7 +229,7 @@ function PeoplePage() {
             size="sm"
             variant="outline"
           >
-            {people.isFetchingNextPage ? "Loading…" : "Show more"}
+            {people.isFetchingNextPage ? "Loading…" : "Mostrar mais"}
           </Button>
         ) : null}
       </PageSection>

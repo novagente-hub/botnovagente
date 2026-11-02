@@ -90,7 +90,7 @@ test("the creator sees everyone and can take another person out", async () => {
   const view = draw();
   fireEvent.click(await view.findByRole("button", { name: "2 people" }));
   expect(await view.findByText("Alex")).toBeTruthy();
-  expect(view.getByText("You")).toBeTruthy();
+  expect(view.getByText("Você")).toBeTruthy();
   fireEvent.click(
     view.getByRole("button", { name: "Remove alex@example.test" }),
   );
@@ -105,10 +105,10 @@ test("adding someone by email lists them without reopening the dialog", async ()
   fireEvent.click(await view.findByRole("button", { name: "1 person" }));
   const user = userEvent.setup({ document });
   await user.type(
-    await view.findByRole("textbox", { name: "Their email" }),
+    await view.findByRole("textbox", { name: "E-mail da pessoa" }),
     "sam@example.test",
   );
-  fireEvent.click(view.getByRole("button", { name: "Add" }));
+  fireEvent.click(view.getByRole("button", { name: "Adicionar" }));
   await waitFor(() =>
     expect(requests).toContain(
       'POST /api/groups/group-1/members {"email":"sam@example.test"}',

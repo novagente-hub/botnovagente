@@ -75,13 +75,13 @@ test("connecting a repository sends it with its secret", async () => {
   const view = draw();
   const user = userEvent.setup({ document });
   await view.findByText("acme/app");
-  await user.click(view.getByRole("button", { name: "Add a repository" }));
+  await user.click(view.getByRole("button", { name: "Adicionar um repositório" }));
   await user.type(
-    await view.findByRole("textbox", { name: "Repository" }),
+    await view.findByRole("textbox", { name: "Repositório" }),
     "acme/web",
   );
-  await user.type(view.getByLabelText("Webhook secret"), "s3cret");
-  fireEvent.click(view.getByRole("button", { name: "Connect events" }));
+  await user.type(view.getByLabelText("Segredo do webhook"), "s3cret");
+  fireEvent.click(view.getByRole("button", { name: "Conectar eventos" }));
   await waitFor(() =>
     expect(writes).toContainEqual({
       request: "POST /api/responsibilities/sources/github",

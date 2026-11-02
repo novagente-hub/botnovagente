@@ -84,8 +84,8 @@ export function RejectedFiles({
           <button
             aria-label={
               rejected.length === 1
-                ? "Dismiss this refusal"
-                : `Dismiss these ${rejected.length} refusals`
+                ? "Dispensar esta recusa"
+                : `Dispensar estas ${rejected.length} recusas`
             }
             className="-m-1 shrink-0 rounded p-1 text-destructive/70 transition-colors hover:text-destructive"
             onClick={onDismiss}

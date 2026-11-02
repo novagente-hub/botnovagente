@@ -102,7 +102,7 @@ test("admin previews asynchronously loaded published source with saved samples i
     );
     // The sizing observer must mount after the source arrives, even though the first render was empty.
     expect(observe.mock.calls).toHaveLength(2);
-    expect(view.queryByText("This build cannot draw this.")).toBeNull();
+    expect(view.queryByText("Esta versão não consegue desenhar isto.")).toBeNull();
   } finally {
     observe.mockRestore();
     queryClient.clear();
@@ -118,7 +118,7 @@ test("unpublished or never-published source does not reach the renderer", () => 
     />,
   );
   expect(
-    view.getByText("Publish in the playground to see a preview."),
+    view.getByText("Publique no playground para ver uma prévia."),
   ).toBeTruthy();
   view.rerender(
     <ComponentPreview
@@ -134,8 +134,8 @@ test("read-only galleries identify playground components without fetching admini
   const view = render(
     <ComponentPreview kind="sandboxed" name={PUBLISHED.name} />,
   );
-  expect(view.getByText("Published in the playground.")).toBeTruthy();
-  expect(view.queryByText("This build cannot draw this.")).toBeNull();
+  expect(view.getByText("Publicado no playground.")).toBeTruthy();
+  expect(view.queryByText("Esta versão não consegue desenhar isto.")).toBeNull();
   expect(fetcher).not.toHaveBeenCalled();
   expect(renderer).not.toHaveBeenCalled();
 });
@@ -149,7 +149,7 @@ test("compiled previews retain their real component and do not fetch sandboxed s
         <AdminComponentPreview kind="card" name="showTable" />
       </QueryClientProvider>,
     );
-    expect(view.getByText("Team capacity")).toBeTruthy();
+    expect(view.getByText("Capacidade da equipe")).toBeTruthy();
     expect(
       view.container.querySelector("table")?.closest("[inert]"),
     ).toBeTruthy();

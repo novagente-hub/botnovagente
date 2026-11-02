@@ -83,7 +83,7 @@ export function ProposedBotCard({
     const madeId = wasCreated(result) ? createdBotIdIn(result) : null;
     return (
       <GalleryFrame
-        action={<Badge tone="neutral">Done</Badge>}
+        action={<Badge tone="neutral">Concluído</Badge>}
         title={titleFor(args.name, clashes)}
       >
         <p className="text-sm">{result}</p>
@@ -95,7 +95,7 @@ export function ProposedBotCard({
   if (!respond) {
     return (
       <GalleryFrame title={titleFor(args.name, clashes)}>
-        <p className="text-muted-foreground text-sm">Writing the Bot…</p>
+        <p className="text-muted-foreground text-sm">Escrevendo o Bot…</p>
       </GalleryFrame>
     );
   }
@@ -116,7 +116,7 @@ export function ProposedBotCard({
       // Left on the card with the buttons still live. See `refusal` above.
       setSending(null);
       setRefusal(
-        cause instanceof Error ? cause.message : "The Bot wasn't created.",
+        cause instanceof Error ? cause.message : "O Bot não foi criado.",
       );
       return;
     }
@@ -134,33 +134,34 @@ export function ProposedBotCard({
 
   return (
     <GalleryFrame
-      action={<Badge tone="caution">Waiting on you</Badge>}
+      action={<Badge tone="caution">Esperando por você</Badge>}
       caption={
         clashes
-          ? `There's already a ${clashes.title}, and it's ${clashes.ownership === "the deployment's" ? "built into OpenBot" : clashes.ownership}. Two Bots with the same name are hard to tell apart.`
-          : "Nothing is created until you press Create it."
+          ? `Já existe um ${clashes.title}, e ele é ${clashes.ownership === "the deployment's" ? "integrado ao OpenBot" : clashes.ownership}. Dois Bots com o mesmo nome são difíceis de diferenciar.`
+          : "Nada é criado até você clicar em Criar."
       }
       title={titleFor(values.name, clashes)}
     >
       <dl className="grid grid-cols-[minmax(0,7rem)_1fr] gap-x-4 gap-y-1.5 text-sm">
-        <dt className="truncate text-muted-foreground">Name</dt>
+        <dt className="truncate text-muted-foreground">Nome</dt>
         <dd className="min-w-0 break-words font-medium">{values.name}</dd>
-        <dt className="truncate text-muted-foreground">Job</dt>
+        <dt className="truncate text-muted-foreground">Tarefa</dt>
         <dd className="min-w-0 break-words">{values.title}</dd>
-        <dt className="truncate text-muted-foreground">Skills</dt>
+        <dt className="truncate text-muted-foreground">Habilidades</dt>
         <dd className="min-w-0 break-words">
           {skills.length > 0 ? (
             <span className="font-mono text-xs">
               {skills.map((slug) => `/${slug}`).join(", ")}
             </span>
           ) : (
-            <span className="text-muted-foreground">None</span>
+            <span className="text-muted-foreground">Nenhum</span>
           )}
         </dd>
       </dl>
 
       <p className="mt-3 text-muted-foreground text-xs">
-        Its instructions. It follows these every time it replies.
+        
+        As instruções dele. Ele as segue sempre que responde.
       </p>
       {/*
        * Scrolled rather than clamped, and the distinction is the whole point of the card. A clamp
@@ -172,7 +173,8 @@ export function ProposedBotCard({
       </p>
 
       <p className="mt-2 text-muted-foreground text-xs">
-        It starts private, with no apps. Apps are added on its page afterwards.
+        
+        Ele começa privado, sem apps. Os apps são adicionados na página dele depois.
       </p>
 
       {refusal ? (
@@ -187,7 +189,7 @@ export function ProposedBotCard({
           onClick={() => void make()}
           size="sm"
         >
-          {sending === "create" ? "Creating…" : "Create it"}
+          {sending === "create" ? "Creating…" : "Criar"}
         </Button>
         <Button
           disabled={Boolean(sending)}
@@ -195,7 +197,7 @@ export function ProposedBotCard({
           size="sm"
           variant="outline"
         >
-          {sending === "decline" ? "…" : "Don't create"}
+          {sending === "decline" ? "…" : "Não criar"}
         </Button>
       </div>
     </GalleryFrame>
@@ -206,8 +208,8 @@ function titleFor(
   name: string | undefined,
   clashes: { title: string } | undefined,
 ): string {
-  const called = name?.trim() ? name.trim() : "a new Bot";
-  return clashes ? `Create ${called}, again` : `Create ${called}`;
+  const called = name?.trim() ? name.trim() : "um novo Bot";
+  return clashes ? `Criar ${called} mesmo assim` : `Create ${called}`;
 }
 
 /**
@@ -230,7 +232,8 @@ function TalkToIt({
       params={{ agentId }}
       to="/bots/$agentId"
     >
-      Open {name?.trim() || "the Bot"}
+      
+      Abrir {name?.trim() || "o Bot"}
     </Link>
   );
 }
@@ -265,11 +268,12 @@ function Unwritable({
 
   return (
     <GalleryFrame
-      action={<Badge tone="neutral">Not created</Badge>}
-      title="Create a Bot"
+      action={<Badge tone="neutral">Não criado</Badge>}
+      title="Criar um Bot"
     >
       <p className="text-sm">
-        This Bot couldn't be created as written. It's being rewritten.
+        
+        Este Bot não pôde ser criado como foi escrito. Ele está sendo reescrito.
       </p>
     </GalleryFrame>
   );

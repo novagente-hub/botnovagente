@@ -51,7 +51,7 @@ function useAttentionNotifications(bots: BotAttention[] | undefined) {
       if (bot.notify === "none" || now <= (previous.get(bot.agentId) ?? 0))
         continue;
       try {
-        new Notification(`${bot.name} needs you`, {
+        new Notification(`${bot.name} precisa de você`, {
           body: attentionSummary(bot),
           tag: `openbot-attention-${bot.agentId}`,
         });
@@ -80,7 +80,7 @@ export function BotsNavBadge() {
   if (waiting > 0) {
     return (
       <span
-        aria-label={`${waiting} ${waiting === 1 ? "thing needs" : "things need"} you`}
+        aria-label={`${waiting} ${waiting === 1 ? "item precisa" : "itens precisam"} de você`}
         className="ml-auto rounded-full bg-primary px-1.5 text-[11px] font-medium text-primary-foreground tabular-nums"
         role="img"
       >
@@ -91,7 +91,7 @@ export function BotsNavBadge() {
   if (bots.some((bot) => bot.unread > 0)) {
     return (
       <span
-        aria-label="Unread messages"
+        aria-label="Mensagens não lidas"
         className="ml-auto size-2 rounded-full bg-primary"
         role="img"
       />

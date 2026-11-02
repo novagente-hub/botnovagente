@@ -37,7 +37,7 @@ export const proactiveSettingsQueryOptions = () =>
     queryKey: proactiveKeys.settings,
     queryFn: (): Promise<ProactiveSetting[]> =>
       client("/api/proactive/settings", "settings", {
-        fallback: "Could not load background research",
+        fallback: "Não foi possível carregar a pesquisa em segundo plano",
       }),
     refetchInterval: 30_000,
   });
@@ -46,7 +46,7 @@ export const proactiveSuggestionsQueryOptions = () =>
     queryKey: proactiveKeys.suggestions,
     queryFn: (): Promise<ProactiveSuggestion[]> =>
       client("/api/proactive/suggestions", "suggestions", {
-        fallback: "Could not load suggestions",
+        fallback: "Não foi possível carregar as sugestões",
       }),
     refetchInterval: 30_000,
   });
@@ -60,7 +60,7 @@ export const createProactiveSetting = (input: {
   client("/api/proactive/settings", {
     method: "POST",
     body: input,
-    fallback: "Could not turn on background research",
+    fallback: "Não foi possível ativar a pesquisa em segundo plano",
   });
 export const updateProactiveSetting = (
   id: string,
@@ -69,25 +69,25 @@ export const updateProactiveSetting = (
   client(`/api/proactive/settings/${encodeURIComponent(id)}`, {
     method: "PATCH",
     body: input,
-    fallback: "Could not change background research",
+    fallback: "Não foi possível alterar a pesquisa em segundo plano",
   });
 export const runProactiveNow = (id: string) =>
   client(`/api/proactive/settings/${encodeURIComponent(id)}/run`, {
     method: "POST",
-    fallback: "Could not start background research",
+    fallback: "Não foi possível iniciar a pesquisa em segundo plano",
   });
 export const removeProactiveSetting = (id: string) =>
   client(`/api/proactive/settings/${encodeURIComponent(id)}`, {
     method: "DELETE",
-    fallback: "Could not remove background research",
+    fallback: "Não foi possível remover a pesquisa em segundo plano",
   });
 export const resolveSuggestion = (id: string, action: "start" | "dismiss") =>
   client(`/api/proactive/suggestions/${encodeURIComponent(id)}/${action}`, {
     method: "POST",
     fallback:
       action === "start"
-        ? "Could not start this suggestion"
-        : "Could not dismiss this suggestion",
+        ? "Não foi possível iniciar esta sugestão"
+        : "Não foi possível dispensar esta sugestão",
   });
 
 /** A setting's research produces suggestions, so a change to either refreshes both. */

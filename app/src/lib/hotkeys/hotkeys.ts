@@ -32,8 +32,8 @@ export type Hotkey = {
 export const HOTKEYS = [
   {
     id: "new-chat",
-    label: "New chat",
-    description: "Start a new chat from anywhere in the app.",
+    label: "Novo chat",
+    description: "Inicie um novo chat de qualquer lugar do app.",
     combo: { key: "n", shift: true },
   },
 ] as const satisfies readonly Hotkey[];

@@ -185,7 +185,7 @@ const recordingKey = (botId: string, recordingId: string) =>
 
 /** What the panel says when a recording of the person's ended without Stop, while they no longer hold the wheel. */
 const ENDED_WITH_THE_WHEEL =
-  "The recording ended when control went back to the Bot.";
+  "A gravação terminou quando o controle voltou para o Bot.";
 
 /**
  * Record and Stop for the Bot's browser, for the person holding the wheel, from the Recorder's report and the server's
@@ -226,10 +226,10 @@ function useBotRecording(
     recorder,
     waiting: !state.mine
       ? someoneElse
-        ? "Someone else has control."
-        : "Take control to record."
+        ? "Outra pessoa está com o controle."
+        : "Assuma o controle para gravar."
       : !state.open
-        ? "The Bot's browser isn't open."
+        ? "O navegador do Bot não está aberto."
         : null,
     start: startBotBrowserRecordingMutationOptions(queryClient, botId),
     stop: stopBotBrowserRecordingMutationOptions(queryClient, botId),
@@ -301,15 +301,15 @@ export function BotRecordPanel(props: {
   // Where the Bots share one computer, so another Bot could read the person's Recorder connection off the disk.
   if (props.state.recordRefused)
     return (
-      <section aria-label="Record a task">
-        <h2 className="font-semibold text-sm">Record a task</h2>
+      <section aria-label="Gravar uma tarefa">
+        <h2 className="font-semibold text-sm">Gravar uma tarefa</h2>
         <PageRows className="mt-3">
           <Item size="sm" role="status">
             <ItemMedia variant="icon">
               <IconLock className="text-muted-foreground" />
             </ItemMedia>
             <ItemContent>
-              <ItemTitle>Recording isn't available here</ItemTitle>
+              <ItemTitle>A gravação não está disponível aqui</ItemTitle>
               <ItemDescription className="line-clamp-none">
                 {props.state.recordRefused}
               </ItemDescription>
@@ -347,13 +347,13 @@ function RecordPanel({
     },
   });
   /** Why a recording of the person's ended that Stop did not end: the wheel going back, as a rule. */
-  const ended = state.mine ? "The recording ended." : ENDED_WITH_THE_WHEEL;
+  const ended = state.mine ? "A gravação terminou." : ENDED_WITH_THE_WHEEL;
   return (
-    <section aria-label="Record a task">
-      <h2 className="font-semibold text-sm">Record a task</h2>
+    <section aria-label="Gravar uma tarefa">
+      <h2 className="font-semibold text-sm">Gravar uma tarefa</h2>
       <p className="mt-1 text-pretty text-muted-foreground text-sm">
-        Do the task in the Bot's browser while you have control. Only what you
-        do is recorded, and it goes to your own Learning space.{" "}
+        
+        Faça a tarefa no navegador do Bot enquanto estiver com o controle. Só o que você faz é gravado, e vai para o seu próprio espaço de Aprendizado.{" "}
         {RECORDER_COLLECTS_SHORT}
       </p>
       <PageRows className="mt-3">
@@ -363,14 +363,14 @@ function RecordPanel({
               <RecordingMark live={false} />
             </ItemMedia>
             <ItemContent>
-              <ItemTitle>Someone is recording</ItemTitle>
-              <ItemDescription>You can record once they stop.</ItemDescription>
+              <ItemTitle>Alguém está gravando</ItemTitle>
+              <ItemDescription>Você pode gravar quando a pessoa parar.</ItemDescription>
             </ItemContent>
           </Item>
         ) : (
           <RecordingRow
             recording={recording}
-            placeholder="Name the task to record"
+            placeholder="Dê um nome à tarefa para gravar"
           />
         )}
         {/* Narration is for the person who can record: their own microphone, while they hold the wheel. */}

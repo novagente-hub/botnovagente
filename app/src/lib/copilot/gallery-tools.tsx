@@ -290,7 +290,7 @@ export function useDecisionTool(
       new Promise<unknown>((resolve, reject) => {
         const signal = context?.signal;
         if (signal?.aborted) {
-          reject(new Error("Human-in-the-loop interaction aborted"));
+          reject(new Error("Interação com a pessoa cancelada"));
           return;
         }
         resolveRef.current = resolve;
@@ -298,7 +298,7 @@ export function useDecisionTool(
           const onAbort = () => {
             stopListeningRef.current = null;
             resolveRef.current = null;
-            reject(new Error("Human-in-the-loop interaction aborted"));
+            reject(new Error("Interação com a pessoa cancelada"));
           };
           signal.addEventListener("abort", onAbort, { once: true });
           stopListeningRef.current = () =>

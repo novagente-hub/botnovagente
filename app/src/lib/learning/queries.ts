@@ -25,7 +25,7 @@ export function personalLearningQueryOptions() {
     queryFn: async (): Promise<PersonalLearningSharing> =>
       (
         await client("/api/settings/learning", {
-          fallback: "Couldn't load your Learning settings. Reload the page.",
+          fallback: "Não foi possível carregar suas configurações de Aprendizado. Recarregue a página.",
         })
       ).json(),
   });
@@ -35,7 +35,7 @@ export function learningSettingsQueryOptions() {
     queryKey: learningKeys.settings,
     queryFn: (): Promise<LearningSettings> =>
       client("/api/admin/learning/settings", "settings", {
-        fallback: "Learning settings could not be loaded.",
+        fallback: "Não foi possível carregar as configurações de Aprendizado.",
       }),
   });
 }
@@ -48,7 +48,7 @@ export function learningAutomaticQueryOptions() {
       (await client<LearningAutoAssignState | undefined>(
         "/api/admin/learning/settings",
         "automatic",
-        { fallback: "Learning settings could not be loaded." },
+        { fallback: "Não foi possível carregar as configurações de Aprendizado." },
       )) ?? null,
   });
 }
@@ -60,7 +60,7 @@ export function learningOverviewQueryOptions(agentId?: string) {
       client(
         `/api/admin/learning/overview${agentId ? `?agentId=${encodeURIComponent(agentId)}` : ""}`,
         "overview",
-        { fallback: "Learning status could not be loaded." },
+        { fallback: "Não foi possível carregar o status do Aprendizado." },
       ),
   });
 }
@@ -73,7 +73,7 @@ export function learningDeliveryQueryOptions(agentId: string) {
       client(
         `/api/admin/learning/status/${encodeURIComponent(agentId)}`,
         "status",
-        { fallback: "Skill delivery status could not be loaded." },
+        { fallback: "Não foi possível carregar o status da entrega de habilidades." },
       ),
   });
 }
@@ -82,7 +82,7 @@ export function createLearningContainer(): Promise<LearningAutoAssignState> {
   return client("/api/admin/learning/container", "automatic", {
     method: "POST",
     body: {},
-    fallback: "The Learning container could not be created.",
+    fallback: "Não foi possível criar o container de Aprendizado.",
   });
 }
 export function saveLearningSettings(
@@ -91,6 +91,6 @@ export function saveLearningSettings(
   return client("/api/admin/learning/settings", "settings", {
     method: "PUT",
     body: settings,
-    fallback: "Learning settings could not be saved.",
+    fallback: "Não foi possível salvar as configurações de Aprendizado.",
   });
 }

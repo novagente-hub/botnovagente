@@ -57,7 +57,7 @@ export const Channel = memo(function Channel({
   });
   /* Types in only on arrival; an already-named row draws it outright. */
   const revealed = useTypedReveal(summary);
-  const threadTitle = revealed.text || lastMessage || "New conversation";
+  const threadTitle = revealed.text || lastMessage || "Nova conversa";
   const setPinned = useMutation(setChannelPinnedMutationOptions(queryClient));
   const [confirming, setConfirming] = useState(false);
   /**
@@ -91,7 +91,7 @@ export const Channel = memo(function Channel({
             <ChannelItemContent
               participantIds={participantIds}
               name={name}
-              title={summary || lastMessage || "New conversation"}
+              title={summary || lastMessage || "Nova conversa"}
               displayedTitle={threadTitle}
               lastMessageAt={lastMessageAt}
               emphasis={emphasis}
@@ -113,14 +113,15 @@ export const Channel = memo(function Channel({
             }}
           >
             {pinned ? <IconPinnedOff /> : <IconPin />}
-            {pinned ? "Unpin conversation" : "Pin conversation"}
+            {pinned ? "Desafixar conversa" : "Fixar conversa"}
           </ContextMenuItem>
           <ContextMenuItem
             variant="destructive"
             onClick={() => setConfirming(true)}
           >
             <IconTrash />
-            Delete conversation…
+            
+            Excluir conversa…
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>

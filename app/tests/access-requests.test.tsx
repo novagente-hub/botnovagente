@@ -181,7 +181,7 @@ test("lists who asked for what, for which Bot, and when — and nothing about an
 test("approve does what was asked through the approve route", async () => {
   const sent = serving({ requests: [request()] });
   const view = draw(() => <AccessRequestsSection app="composio-gmail" />);
-  fireEvent.click(await view.findByRole("button", { name: "Approve" }));
+  fireEvent.click(await view.findByRole("button", { name: "Aprovar" }));
   await waitFor(() =>
     expect(sent).toContain("POST /api/plugins/access-requests/req_1/approve"),
   );
@@ -199,14 +199,14 @@ test("an approval the server cannot complete says why, on the request, and leave
     },
   });
   const view = draw(() => <AccessRequestsSection app="composio-gmail" />);
-  fireEvent.click(await view.findByRole("button", { name: "Approve" }));
+  fireEvent.click(await view.findByRole("button", { name: "Aprovar" }));
   const row = within(
     (await view.findByRole("alert")).closest("[data-request]") as HTMLElement,
   );
   expect(row.getByRole("alert").textContent).toMatch(
     /^The shared Gmail account is not connected yet\./,
   );
-  expect(row.getByRole("button", { name: "Approve" })).toBeTruthy();
+  expect(row.getByRole("button", { name: "Aprovar" })).toBeTruthy();
 });
 
 test("a grant says approving gives the Bot read-only actions, and links to where the others are chosen", async () => {
@@ -262,7 +262,7 @@ test("an app with no read-only actions is refused on the row, which stays", asyn
     },
   });
   const view = draw(() => <AccessRequestsSection app="composio-gmail" />);
-  fireEvent.click(await view.findByRole("button", { name: "Approve" }));
+  fireEvent.click(await view.findByRole("button", { name: "Aprovar" }));
   expect((await view.findByRole("alert")).textContent).toMatch(
     /^Gmail has no read-only actions to grant\./,
   );
@@ -272,7 +272,7 @@ test("an app with no read-only actions is refused on the row, which stays", asyn
 test("dismiss goes to the dismiss route", async () => {
   const sent = serving({ requests: [request()] });
   const view = draw(() => <AccessRequestsSection app="composio-gmail" />);
-  fireEvent.click(await view.findByRole("button", { name: "Dismiss" }));
+  fireEvent.click(await view.findByRole("button", { name: "Dispensar" }));
   await waitFor(() =>
     expect(sent).toContain("POST /api/plugins/access-requests/req_1/dismiss"),
   );
@@ -287,7 +287,7 @@ test("nothing waiting draws no section at all", async () => {
     ),
   );
   await settleReactWork();
-  expect(view.queryByText("Requests")).toBeNull();
+  expect(view.queryByText("Pedidos")).toBeNull();
 });
 
 test("the Plugins list puts every request first and counts them on each app's row", async () => {
@@ -306,7 +306,7 @@ test("the Plugins list puts every request first and counts them on each app's ro
   });
   const Page = PluginsIndexRoute.options.component as () => ReactNode;
   const view = draw(Page);
-  expect(await view.findByText("Requests")).toBeTruthy();
+  expect(await view.findByText("Pedidos")).toBeTruthy();
   expect(view.getByText("Turn on Slack for Expenses")).toBeTruthy();
   const gmail = within(await view.findByTestId("plugin-composio-gmail"));
   expect(gmail.getByText("2 requests")).toBeTruthy();

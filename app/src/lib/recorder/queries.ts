@@ -42,7 +42,7 @@ export const recorderConnectionsQueryOptions = (options?: {
     queryFn: async (): Promise<RecorderConnectionsResponse> =>
       (
         await client(recorderPaths.connections, {
-          fallback: "Couldn't load your connected browsers.",
+          fallback: "Não foi possível carregar seus navegadores conectados.",
         })
       ).json(),
     refetchInterval: options?.awaiting

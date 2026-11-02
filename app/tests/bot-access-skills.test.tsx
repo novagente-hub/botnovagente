@@ -153,8 +153,8 @@ test("switching a skill on grants it to this Bot", async () => {
 test("on a Bot that is not yours there are no skill switches", async () => {
   serving();
   const view = draw({ ...BOT, mine: false, canManage: false });
-  expect(await view.findByText("No apps yet")).toBeTruthy();
-  expect(view.getByText(/^An admin has to add them\./)).toBeTruthy();
+  expect(await view.findByText("Nenhum app ainda")).toBeTruthy();
+  expect(view.getByText(/^Um administrador precisa adicioná-los\./)).toBeTruthy();
   expect(view.queryByRole("switch")).toBeNull();
 });
 
@@ -167,7 +167,7 @@ test("your skills failing to load says so, not that you have none", async () => 
       : served(input, init)) as unknown as typeof fetch;
   const view = draw(BOT);
   expect(
-    await view.findByText("Couldn't load your skills. Reload the page."),
+    await view.findByText("Não foi possível carregar suas habilidades. Recarregue a página."),
   ).toBeTruthy();
-  expect(view.queryByText(/No skills yet/)).toBeNull();
+  expect(view.queryByText(/Nenhuma habilidade ainda/)).toBeNull();
 });

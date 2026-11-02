@@ -212,11 +212,12 @@ function RouteComponent() {
     return (
       <PageShell
         backButton={{ label: "Plugins", linkProps: { to: "/admin/plugins" } }}
-        description="No app with that name is turned on."
+        description="Nenhum app com esse nome está ativado."
         title={appTitle}
       >
-        <PageEmpty icon={IconPlugOff} title="This app is off">
-          Nothing to give a Bot here.
+        <PageEmpty icon={IconPlugOff} title="Este app está desativado">
+          
+          Nada para dar a um Bot aqui.
         </PageEmpty>
       </PageShell>
     );
@@ -236,7 +237,8 @@ function RouteComponent() {
         title="Plugins"
       >
         <p className="mt-12 text-destructive text-sm" role="alert">
-          Couldn't load plugins. Reload the page.
+          
+          Não foi possível carregar os plugins. Recarregue a página.
         </p>
       </PageShell>
     );
@@ -258,11 +260,12 @@ function RouteComponent() {
     return (
       <PageShell
         backButton={back}
-        description="There is no Bot with that name."
-        title="Not a Bot"
+        description="Não existe Bot com esse nome."
+        title="Não é um Bot"
       >
-        <PageEmpty icon={IconRobot} title="Bot not found">
-          It may have been deleted after you opened this page.
+        <PageEmpty icon={IconRobot} title="Bot não encontrado">
+          
+          Ele pode ter sido excluído depois que você abriu esta página.
         </PageEmpty>
       </PageShell>
     );
@@ -344,7 +347,7 @@ function RouteComponent() {
             <ItemContent>
               <ItemTitle className="font-mono text-xs">{tool.name}</ItemTitle>
               <ItemDescription>
-                {tool.description || "This action has no description."}
+                {tool.description || "Esta ação não tem descrição."}
               </ItemDescription>
             </ItemContent>
             <ItemActions>
@@ -360,7 +363,8 @@ function RouteComponent() {
                */}
               {tool.destructive ? (
                 <span className="text-destructive text-xs">
-                  destroys things
+                  
+                  destrói coisas
                 </span>
               ) : null}
               {/*
@@ -418,7 +422,7 @@ function RouteComponent() {
   return (
     <PageShell
       backButton={back}
-      description={`Which ${appTitle} actions ${botName} can call. Turning one off applies from the next call.`}
+      description={`Quais ações de ${appTitle} ${botName} pode chamar. Desativar uma vale a partir da próxima chamada.`}
       title={`${botName} and ${appTitle}`}
     >
       {error ? (
@@ -430,16 +434,16 @@ function RouteComponent() {
       <SkippedToolsNotice names={server.skippedTools ?? []} />
 
       {server.tools.length === 0 ? (
-        <PageEmpty icon={IconTool} title="No actions listed">
-          {server.lastError ?? "Refresh its tools to check again."}
+        <PageEmpty icon={IconTool} title="Nenhuma ação listada">
+          {server.lastError ?? "Atualize as ferramentas para verificar de novo."}
         </PageEmpty>
       ) : (
         <>
           <Input
-            aria-label={`Search ${appTitle} actions`}
+            aria-label={`Pesquisar ações de ${appTitle}`}
             className="mt-6"
             onChange={(event) => setSearch(event.target.value)}
-            placeholder="Search by action name"
+            placeholder="Pesquisar pelo nome da ação"
             value={search}
           />
 
@@ -454,9 +458,7 @@ function RouteComponent() {
           {ungranted.length > 0 ? (
             <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
               <p className="text-muted-foreground text-xs">
-                {`This Bot would then have ${wouldHold} ${
-                  wouldHold === 1 ? "tool" : "tools"
-                } from this app.`}
+                {`Este Bot teria então ${wouldHold} ${wouldHold === 1 ? "tool" : "tools"} deste app.`}
               </p>
               <Button
                 disabled={granting !== null}
@@ -467,8 +469,8 @@ function RouteComponent() {
               >
                 {/* The one in flight, not the ones finished: a count starting at zero of forty reads as nothing happening. */}
                 {granting
-                  ? `Granting ${Math.min(granting.done + 1, granting.total)} of ${granting.total}…`
-                  : "Turn on every read-only action"}
+                  ? `Concedendo ${Math.min(granting.done + 1, granting.total)} de ${granting.total}…`
+                  : "Ativar todas as ações somente leitura"}
               </Button>
             </div>
           ) : null}
@@ -476,18 +478,18 @@ function RouteComponent() {
           <PageSection
             description={
               sharedSectionSentence("read", shared) ??
-              "These only read. Boundaries about writes don't apply to them."
+              "Estas só leem. Limites sobre gravações não se aplicam a elas."
             }
-            title="Reads"
+            title="Leituras"
           >
             {reads.length === 0 ? (
               <PageEmpty
                 icon={needle ? IconSearch : IconListDetails}
-                title={needle ? "No matches" : "No read-only actions"}
+                title={needle ? "Nenhum resultado" : "Nenhuma ação somente leitura"}
               >
                 {needle
-                  ? `Nothing that only reads matches "${search.trim()}".`
-                  : `${appTitle} has no read-only actions.`}
+                  ? `Nada que só lê corresponde a "${search.trim()}".`
+                  : `${appTitle} não tem ações somente leitura.`}
               </PageEmpty>
             ) : (
               rows(reads)
@@ -497,18 +499,18 @@ function RouteComponent() {
           <PageSection
             description={
               sharedSectionSentence("write", shared) ??
-              "These change something at the vendor. Boundaries about writes apply to them."
+              "Estas alteram algo no fornecedor. Limites sobre gravações se aplicam a elas."
             }
-            title="Changes things"
+            title="Altera coisas"
           >
             {writes.length === 0 ? (
               <PageEmpty
                 icon={needle ? IconSearch : IconListDetails}
-                title={needle ? "No matches" : "No actions that change things"}
+                title={needle ? "Nenhum resultado" : "Nenhuma ação que altera coisas"}
               >
                 {needle
-                  ? `Nothing that changes things matches "${search.trim()}".`
-                  : `${appTitle} has no actions that change things.`}
+                  ? `Nada que altera coisas corresponde a "${search.trim()}".`
+                  : `${appTitle} não tem ações que alteram coisas.`}
               </PageEmpty>
             ) : (
               rows(writes)
@@ -529,7 +531,8 @@ function RouteComponent() {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>
-                  Let {botName} use the shared {appTitle} account?
+                  
+                  Permitir que {botName}  use a conta compartilhada {appTitle}  ?
                 </DialogTitle>
               </DialogHeader>
               <DialogBody className="mt-4">
@@ -551,14 +554,15 @@ function RouteComponent() {
                   size="sm"
                   variant="outline"
                 >
-                  Cancel
+                  
+                  Cancelar
                 </Button>
                 <Button
                   disabled={grantingShared}
                   onClick={() => void confirmSharedGrant()}
                   size="sm"
                 >
-                  {grantingShared ? "Allowing…" : "Allow"}
+                  {grantingShared ? "Allowing…" : "Permitir"}
                 </Button>
               </DialogFooter>
             </DialogContent>

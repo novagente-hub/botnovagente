@@ -116,14 +116,14 @@ function LiveAppAccessCard({
               {access.state !== "ready"
                 ? refusedSentence(access, prompt, bot)
                 : carried || offer
-                  ? `${name} is ready now.`
+                  ? `${name} está pronto agora.`
                   : prompt.reason !== "access"
-                    ? `${name} is ready now. Ask again and the Bot can use it.`
+                    ? `${name} está pronto agora. Peça de novo e o Bot poderá usá-lo.`
                     : refusedSentence(access, prompt, bot)}
             </p>
           ) : (
             <p className="text-muted-foreground text-sm" role="alert">
-              {name}'s status couldn't be loaded. Try again in a moment.
+              {name}: não foi possível carregar o status. Tente novamente em instantes.
             </p>
           )}
         </div>
@@ -135,7 +135,8 @@ function LiveAppAccessCard({
       ) : offer ? (
         <div className="flex justify-end">
           <Button onClick={offer} size="sm">
-            Continue
+            
+            Continuar
           </Button>
         </div>
       ) : null}
@@ -191,6 +192,6 @@ function refusedSentence(
     prompt.reason === "shared" &&
     !access.requestKind
   )
-    return `Your organisation's ${access.displayName} account needs reconnecting. Only an admin can reconnect it.`;
+    return `A conta ${access.displayName} da sua organização precisa ser reconectada. Só um administrador pode reconectá-la.`;
   return appAccessSentence(access, bot);
 }

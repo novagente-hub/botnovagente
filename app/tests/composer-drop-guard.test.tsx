@@ -55,7 +55,7 @@ afterAll(async () => {
  * `.dropEffect`, and nothing here is asked to be a real `DataTransfer`.
  */
 function transfer(...files: File[]) {
-  return { dropEffect: "copy", files, items: [], types: ["Files"] };
+  return { dropEffect: "copy", files, items: [], types: ["Arquivos"] };
 }
 
 /*
@@ -336,7 +336,7 @@ test("a disabled composer with no channel does not tell people to send first", a
   expect(alert.textContent).toContain("can no longer take messages");
   // The half that made the old sentence a lie, asserted rather than assumed: the control it sent
   // them to is shut.
-  expect((getByLabelText("Send message") as HTMLButtonElement).disabled).toBe(
+  expect((getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled).toBe(
     true,
   );
   expect(alert.textContent).not.toContain("Send this message first");

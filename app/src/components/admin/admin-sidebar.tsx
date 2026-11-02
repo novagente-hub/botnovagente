@@ -45,32 +45,32 @@ const GROUPS: {
   }[];
 }[] = [
   {
-    label: "What Bots can reach",
+    label: "O que os Bots podem acessar",
     items: [
       {
-        title: "Credentials",
+        title: "Credenciais",
         icon: IconKey,
         linkOptions: { to: "/admin/credentials" },
       },
       {
-        title: "Boundaries",
+        title: "Limites",
         icon: IconShieldCheck,
         linkOptions: { to: "/admin/boundaries" },
       },
       {
-        title: "Approvals",
+        title: "Aprovações",
         icon: IconChecks,
         linkOptions: { to: "/admin/approvals" },
       },
       {
-        title: "Computers",
+        title: "Computadores",
         icon: IconDeviceDesktop,
         linkOptions: { to: "/admin/computers" },
       },
     ],
   },
   {
-    label: "What Bots can do",
+    label: "O que os Bots podem fazer",
     items: [
       {
         title: "Plugins",
@@ -78,17 +78,17 @@ const GROUPS: {
         linkOptions: { to: "/admin/plugins" },
       },
       {
-        title: "Skills",
+        title: "Habilidades",
         icon: IconFileText,
         linkOptions: { to: "/admin/skills" },
       },
       {
-        title: "Automatic learning",
+        title: "Aprendizado automático",
         icon: IconFileText,
         linkOptions: { to: "/admin/learning" },
       },
       {
-        title: "UI components",
+        title: "Componentes de interface",
         icon: IconLayoutGrid,
         linkOptions: { to: "/admin/components" },
       },
@@ -100,25 +100,25 @@ const GROUPS: {
     ],
   },
   {
-    label: "Who can get in",
+    label: "Quem pode entrar",
     items: [
       {
-        title: "People",
+        title: "Pessoas",
         icon: IconUsers,
         linkOptions: { to: "/admin/people" },
       },
       {
-        title: "Identity providers",
+        title: "Provedores de identidade",
         icon: IconBuildingBank,
         linkOptions: { to: "/admin/identity-providers" },
       },
     ],
   },
   {
-    label: "What happened",
+    label: "O que aconteceu",
     items: [
       {
-        title: "Audit",
+        title: "Auditoria",
         icon: IconListDetails,
         linkOptions: { to: "/admin/audit" },
       },
@@ -147,7 +147,8 @@ export function AdminSidebar({
               render={(props) => (
                 <Link {...appLinkOptions} {...props}>
                   <IconArrowLeft className="mr-2 h-4 w-4" />
-                  Back to app
+                  
+                  Voltar ao app
                 </Link>
               )}
             />
@@ -170,7 +171,8 @@ export function AdminSidebar({
                     activeProps={{ className: "bg-foreground/5" }}
                     {...props}
                   >
-                    Overview
+                    
+                    Visão geral
                   </Link>
                 )}
               />

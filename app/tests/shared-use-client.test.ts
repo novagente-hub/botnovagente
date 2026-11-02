@@ -85,10 +85,10 @@ describe("describeApproval", () => {
   test("says who, in plain words", () => {
     expect(
       describeApproval({ audience: "owner", outsideInput: false, members: [] }),
-    ).toBe("Only its owner");
+    ).toBe("Só o dono");
     expect(
       describeApproval({ audience: "team", outsideInput: true, members: [] }),
-    ).toBe("Everyone, and outside input");
+    ).toBe("Todos, e entrada externa");
     expect(
       describeApproval({
         audience: "people",

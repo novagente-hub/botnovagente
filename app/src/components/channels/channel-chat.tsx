@@ -154,13 +154,13 @@ export function channelHistoryNotice({
     historyAvailability === "unavailable" &&
     (historyReadFailed || (messageCount === 0 && lastMessageAt !== null))
   ) {
-    return "Couldn't load earlier messages. You can keep using this conversation.";
+    return "Não foi possível carregar mensagens anteriores. Você pode continuar usando esta conversa.";
   }
 
   if (unreadable > 0) {
     return unreadable === 1
-      ? "One earlier message couldn't be read, so it isn't shown. Everything else is here."
-      : `${unreadable} earlier messages couldn't be read, so they aren't shown. Everything else is here.`;
+      ? "Uma mensagem anterior não pôde ser lida, então não aparece. Todo o resto está aqui."
+      : `${unreadable} mensagens anteriores não puderam ser lidas, então não aparecem. Todo o resto está aqui.`;
   }
 
   return null;
@@ -235,7 +235,7 @@ function uploadedAttachment(attachment: Attachment): {
     | undefined;
   const attachmentId = metadata?.attachmentId;
   if (typeof attachmentId !== "string") {
-    throw new Error("Attachment is missing its uploaded id.");
+    throw new Error("O anexo está sem o id de upload.");
   }
   const filename =
     typeof metadata?.filename === "string" ? metadata.filename : undefined;
@@ -304,9 +304,9 @@ export function toMessageContent(
 function describeAttachments(attachments: readonly Attachment[]): string {
   if (attachments.length === 1) {
     const { filename } = uploadedAttachment(attachments[0]);
-    return filename ? `Sent ${filename}` : "Sent an attachment";
+    return filename ? `Sent ${filename}` : "Enviou um anexo";
   }
-  return `Sent ${attachments.length} attachments`;
+  return `Enviou ${attachments.length} anexos`;
 }
 
 /**
@@ -747,14 +747,14 @@ export function ChannelChat({
       loadVoiceArchive(channel.id),
       new Promise<never>((_resolve, reject) => {
         voiceHistoryTimer = setTimeout(
-          () => reject(new Error("Voice history timed out")),
+          () => reject(new Error("O histórico de voz expirou")),
           2000,
         );
       }),
     ])
       .catch(() => {
         setVoiceContextNotice(
-          "Couldn’t bring in what was said on the call. You may need to repeat it.",
+          "Não foi possível trazer o que foi dito na chamada. Talvez você precise repetir.",
         );
         return cachedVoiceArchive(channel.id);
       })
@@ -882,7 +882,7 @@ export function ChannelChat({
     // Voice and typed requests share this turn boundary, including gaps between frontend tools.
     if (turnsRef.current > 0 || agentRef.current.isRunning) {
       throw new Error(
-        "This Bot is still working on something. Wait for it, or stop it first.",
+        "Este Bot ainda está trabalhando em algo. Aguarde ou pare-o antes.",
       );
     }
 
@@ -969,7 +969,7 @@ export function ChannelChat({
         send: (text) => sayRef.current(text),
       });
       if (started !== stopEpoch.current)
-        throw new Error("The user stopped this task before it completed.");
+        throw new Error("O usuário parou esta tarefa antes de ser concluída.");
       return answer;
     },
   });
@@ -1080,7 +1080,8 @@ export function ChannelChat({
                 />
                 {voiceArchive.error && (
                   <p className="pb-2 text-sm text-destructive" role="alert">
-                    Couldn’t load voice chats. Reload the page.
+                    
+                    Não foi possível carregar as conversas de voz. Recarregue a página.
                   </p>
                 )}
                 {voiceContextNotice && (
@@ -1104,8 +1105,8 @@ export function ChannelChat({
                     className="pb-2 text-sm text-muted-foreground"
                     role="status"
                   >
-                    This Bot was deleted. You can still read this conversation,
-                    but the Bot can't reply.
+                    
+                    Este Bot foi excluído. Você ainda pode ler esta conversa, mas o Bot não pode responder.
                   </p>
                 )}
               </>

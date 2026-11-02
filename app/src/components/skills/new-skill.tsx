@@ -19,10 +19,11 @@ export function NewSkill() {
   return (
     <div className="mx-auto flex w-full max-w-xl flex-col gap-6 p-8">
       <header>
-        <h1 className="text-2xl font-semibold">New skill</h1>
+        <h1 className="text-2xl font-semibold">Nova habilidade</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          An instruction you start with <code>/</code>. Only you see it, and it
-          works on Bots you own.
+          
+          Uma instrução para começar <code>/</code>. Só você a vê, e ela
+          funciona nos Bots que são seus.
         </p>
       </header>
 
@@ -35,7 +36,7 @@ export function NewSkill() {
           // skill than the form just said, and the new row is already behind it in the list.
           await navigate({ search: {}, to: "/capabilities/skills" });
         }}
-        submitLabel="Save skill"
+        submitLabel="Salvar habilidade"
       />
     </div>
   );

@@ -187,7 +187,7 @@ test("a proposed coworker named like an existing one says so", async () => {
     </Providers>,
   );
 
-  await tree.findByText("Writing the Bot…");
+  await tree.findByText("Escrevendo o Bot…");
   // Whoever asks for it, the roster has loaded by now.
   await waitFor(() =>
     expect(
@@ -232,7 +232,7 @@ test("a proposed skill that would overwrite an existing one says so", async () =
     ),
   );
 
-  await tree.findByText("Writing the skill…");
+  await tree.findByText("Escrevendo a habilidade…");
   // Whoever asks for them, the skills have loaded by now.
   await waitFor(() =>
     expect(

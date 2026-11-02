@@ -29,8 +29,8 @@ describe("reading a tool's answer", () => {
   });
 
   test("plain text is left alone", () => {
-    expect(asText("Meals under $75 need no receipt.")).toBe(
-      "Meals under $75 need no receipt.",
+    expect(asText("Refeições abaixo de US$ 75 não precisam de recibo.")).toBe(
+      "Refeições abaixo de US$ 75 não precisam de recibo.",
     );
   });
 

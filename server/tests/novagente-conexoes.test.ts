@@ -78,7 +78,7 @@ function fixture() {
   const app = new Hono();
   app.route("/api/conexoes", createConexoesRoutes(store, user, profiles as never));
   function request(path: string, method = "GET", actor = "alice", body?: unknown) {
-    return app.request("/api/conexoes" + path, {
+    return app.request("/api/conexoes" + (path === "/" ? "" : path), {
       method,
       headers: {
         ...(actor ? { "x-test-user": actor } : {}),

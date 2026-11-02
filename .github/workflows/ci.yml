@@ -2,6 +2,8 @@ name: CI
 
 on:
   pull_request:
+    # Adding the full-ci label starts complete PR checks without a new commit.
+    types: [opened, synchronize, reopened, labeled]
   push:
     branches: [main]
   # Callable, so publishing a release runs these same checks against the release commit rather than
@@ -18,8 +20,51 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  # A cheap runner determines which costly jobs matter to a PR. Full
+  # coverage ALWAYS runs on main and for workflow_call (release).
+  # Unknown paths fail closed to full coverage.
+  scope:
+    name: classify PR changes
+    runs-on: ubuntu-latest
+    outputs:
+      static: ${{ steps.select.outputs.static }}
+      deployables: ${{ steps.select.outputs.deployables }}
+      mobile: ${{ steps.select.outputs.mobile }}
+      computer_browser: ${{ steps.select.outputs.computer_browser }}
+      chart: ${{ steps.select.outputs.chart }}
+      test: ${{ steps.select.outputs.test }}
+      startup: ${{ steps.select.outputs.startup }}
+      python_harness: ${{ steps.select.outputs.python_harness }}
+      build: ${{ steps.select.outputs.build }}
+      migrations: ${{ steps.select.outputs.migrations }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: github.event_name == 'pull_request'
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Test fail-closed change selection
+        if: github.event_name == 'pull_request'
+        run: python3 -m unittest discover -s scripts/tests -p test_ci_pr_scope.py
+      - id: select
+        name: Select affected PR jobs
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.sha }}
+        run: >-
+          python3 scripts/ci-pr-scope.py
+          --base "$BASE_SHA"
+          --head "$HEAD_SHA"
+          --output "$GITHUB_OUTPUT"
+
   # Formatting, linting, typing and tests are independent checks, so each reports its own result.
   static:
+    needs: scope
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'full-ci') ||
+      needs.scope.outputs.static == 'true'
     name: format, lint, types
     runs-on: ubuntu-latest
     steps:
@@ -72,6 +117,11 @@ jobs:
   # there. A matrix rather than two jobs, so each package reports its own result and a third one is a
   # line in the list below and nothing in `verify`, which sees the whole matrix as one entry.
   deployables:
+    needs: scope
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'full-ci') ||
+      needs.scope.outputs.deployables == 'true'
     name: types (${{ matrix.package }})
     runs-on: ubuntu-latest
     strategy:
@@ -98,6 +148,11 @@ jobs:
         working-directory: ${{ matrix.package }}
 
   mobile:
+    needs: scope
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'full-ci') ||
+      needs.scope.outputs.mobile == 'true'
     name: native types
     runs-on: ubuntu-latest
     steps:
@@ -120,6 +175,11 @@ jobs:
   # WebRTC leaving around the egress filter. The browser is the one the computer image installs,
   # pinned by agent-computer's own lockfile.
   computer-browser:
+    needs: scope
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'full-ci') ||
+      needs.scope.outputs.computer_browser == 'true'
     name: computer (real browser)
     runs-on: ubuntu-latest
     steps:
@@ -160,6 +220,11 @@ jobs:
           COMPUTER_BROWSER_MODE: headed
 
   chart:
+    needs: scope
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'full-ci') ||
+      needs.scope.outputs.chart == 'true'
     name: chart (${{ matrix.target }})
     runs-on: ubuntu-latest
     strategy:
@@ -311,6 +376,11 @@ jobs:
         run: bun scripts/check-new-values-keys.ts charts/openbot/ci/${{ matrix.target }}-values.yaml
 
   test:
+    needs: scope
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'full-ci') ||
+      needs.scope.outputs.test == 'true'
     name: tests
     runs-on: ubuntu-latest
     # The suite includes a real database integration test. Without a database it fails on every run,
@@ -373,6 +443,11 @@ jobs:
       - run: bun run test:ci
 
   startup:
+    needs: scope
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'full-ci') ||
+      needs.scope.outputs.startup == 'true'
     name: startup (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
@@ -390,6 +465,11 @@ jobs:
       - run: bun test app/tests/build-cache.test.ts
 
   python-harness:
+    needs: scope
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'full-ci') ||
+      needs.scope.outputs.python_harness == 'true'
     name: python harness regressions
     runs-on: ubuntu-latest
     steps:
@@ -493,6 +573,11 @@ jobs:
           PICKED_HARNESS_IMAGE: openbot-agent-langgraph-agui:test
 
   build:
+    needs: scope
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'full-ci') ||
+      needs.scope.outputs.build == 'true'
     name: build
     runs-on: ubuntu-latest
     steps:
@@ -509,6 +594,11 @@ jobs:
   # that has drifted from the schema produces a migration nobody wrote, applied to somebody's
   # database on their next deploy. Neither command needs a running database, only the config.
   migrations:
+    needs: scope
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'full-ci') ||
+      needs.scope.outputs.migrations == 'true'
     name: migrations
     runs-on: ubuntu-latest
     env:
@@ -719,7 +809,7 @@ jobs:
     name: verify
     runs-on: ubuntu-latest
     if: always()
-    needs: [static, deployables, mobile, computer-browser, chart, test, startup, python-harness, build, migrations, image, component-dockerfiles]
+    needs: [scope, static, deployables, mobile, computer-browser, chart, test, startup, python-harness, build, migrations, image, component-dockerfiles]
     steps:
       - name: Require every check
         env:

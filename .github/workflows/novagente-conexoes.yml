@@ -30,20 +30,26 @@ jobs:
         run: |
           bun run --cwd server typecheck
           bun run --cwd app typecheck
-      - name: Inspecionar correções de formato (somente CI, sem push)
+      - name: Verificar formato dos arquivos do MVP
         run: |
-          bunx biome format --write             server/src/conexoes/store.ts             server/src/conexoes/routes.ts             server/src/db/schema/novagente-conexoes.ts             server/tests/novagente-conexoes.test.ts             server/src/app.ts             server/src/index.ts             app/src/components/conexoes/conexoes-panel.tsx
-          git diff -- server/src/conexoes server/src/db/schema/novagente-conexoes.ts             server/tests/novagente-conexoes.test.ts server/src/app.ts server/src/index.ts             app/src/components/conexoes/conexoes-panel.tsx | head -1100
-      - name: Inspecionar deriva do esquema (somente CI)
+          bunx biome format \
+            server/src/conexoes/store.ts \
+            server/src/conexoes/routes.ts \
+            server/src/db/schema/novagente-conexoes.ts \
+            server/tests/novagente-conexoes.test.ts \
+            server/src/app.ts \
+            server/src/index.ts \
+            app/src/components/conexoes/conexoes-panel.tsx
+      - name: Verificar snapshot e migração Drizzle sem alterações
         env:
           DATABASE_URL: postgres://openbot:test@localhost:5432/openbot_test
         run: |
+          set -euo pipefail
           cd server
+          bunx drizzle-kit check --config=drizzle.config.ts
           bunx drizzle-kit generate --config=drizzle.config.ts --name=ci_probe
-          if [ -f drizzle/0071_ci_probe.sql ]; then
-            echo 'MIGRATION_DRIFT_SQL_START'
-            cat drizzle/0071_ci_probe.sql
-            echo 'MIGRATION_DRIFT_SQL_END'
-          else
-            echo 'MIGRATION_SNAPSHOT_OK'
+          if [ -n "$(git status --porcelain drizzle)" ]; then
+            echo "::error::Migration drift detected; commit the correct schema snapshot."
+            git status --porcelain drizzle
+            exit 1
           fi

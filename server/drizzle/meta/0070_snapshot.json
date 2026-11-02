@@ -10859,7 +10859,7 @@
       "checkConstraints": {
         "novagente_application_grants_permission_check": {
           "name": "novagente_application_grants_permission_check",
-          "value": "\"novagente_application_grants\".\"permission\" IN ('view','operate')"
+          "value": "\"novagente_application_grants\".\"permission\" IN ('view', 'operate')"
         }
       }
     }

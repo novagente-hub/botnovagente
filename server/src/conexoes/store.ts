@@ -60,26 +60,40 @@ export function createConexoesStore(db: Database) {
   });
   return {
     async list(ownerId: string) {
-      const rows = await db.select().from(apps).where(eq(apps.ownerUserId, ownerId));
+      const rows = await db
+        .select()
+        .from(apps)
+        .where(eq(apps.ownerUserId, ownerId));
       return rows.map(summary);
     },
     async create(ownerId: string, name: string, rawOrigin: string) {
       const origin = safeApplicationOrigin(rawOrigin);
       if (!name.trim() || name.length > 100)
-        throw new ConnectionRefusedError("Informe um nome com até 100 caracteres.");
-      const [row] = await db.insert(apps).values({
-        id: randomUUID(),
-        ownerUserId: ownerId,
-        name: name.trim(),
-        origin,
-      }).returning();
-      if (!row) throw new ConnectionRefusedError("Não foi possível cadastrar a aplicação.");
+        throw new ConnectionRefusedError(
+          "Informe um nome com até 100 caracteres.",
+        );
+      const [row] = await db
+        .insert(apps)
+        .values({
+          id: randomUUID(),
+          ownerUserId: ownerId,
+          name: name.trim(),
+          origin,
+        })
+        .returning();
+      if (!row)
+        throw new ConnectionRefusedError(
+          "Não foi possível cadastrar a aplicação.",
+        );
       return summary(row);
     },
     async remove(ownerId: string, id: string) {
-      const deleted = await db.delete(apps).where(owned(ownerId, id))
+      const deleted = await db
+        .delete(apps)
+        .where(owned(ownerId, id))
         .returning({ id: apps.id });
-      if (!deleted.length) throw new ConnectionRefusedError("Aplicação não encontrada.");
+      if (!deleted.length)
+        throw new ConnectionRefusedError("Aplicação não encontrada.");
     },
     async listGrants(ownerId: string, appId: string) {
       const rows = await db
@@ -110,7 +124,8 @@ export function createConexoesStore(db: Database) {
           granted_at = now()
         RETURNING application_id
       `);
-      if (!result.length) throw new ConnectionRefusedError("Aplicação não encontrada.");
+      if (!result.length)
+        throw new ConnectionRefusedError("Aplicação não encontrada.");
       return { botId, permission };
     },
     async revoke(ownerId: string, appId: string, botId: string) {
@@ -126,15 +141,22 @@ export function createConexoesStore(db: Database) {
       return { revoked: result.length > 0 };
     },
     /** Future execution gate: never trust cached permissions or an app ID. */
-    async allowed(ownerId: string, appId: string, botId: string, permission: ConnectionPermission) {
+    async allowed(
+      ownerId: string,
+      appId: string,
+      botId: string,
+      permission: ConnectionPermission,
+    ) {
       const [row] = await db
         .select({ permission: grants.permission })
         .from(grants)
         .innerJoin(apps, eq(grants.applicationId, apps.id))
         .where(and(owned(ownerId, appId), eq(grants.botId, botId)))
         .limit(1);
-      return row?.permission === "operate" ||
-        (permission === "view" && row?.permission === "view");
+      return (
+        row?.permission === "operate" ||
+        (permission === "view" && row?.permission === "view")
+      );
     },
   };
 }

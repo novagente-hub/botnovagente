@@ -49,9 +49,7 @@ export const novagenteApplicationGrants = pgTable(
     botId: text("bot_id")
       .notNull()
       .references(() => agents.id, { onDelete: "cascade" }),
-    permission: text("permission")
-      .$type<"view" | "operate">()
-      .notNull(),
+    permission: text("permission").$type<"view" | "operate">().notNull(),
     grantedBy: text("granted_by")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),

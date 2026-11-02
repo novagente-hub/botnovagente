@@ -1464,7 +1464,12 @@ export function createApp(
   if (coworker?.conexoes && agentProfileStore) {
     app.route(
       "/api/conexoes",
-      createConexoesRoutes(coworker.conexoes, requireUser, agentProfileStore, auditStore),
+      createConexoesRoutes(
+        coworker.conexoes,
+        requireUser,
+        agentProfileStore,
+        auditStore,
+      ),
     );
   }
 

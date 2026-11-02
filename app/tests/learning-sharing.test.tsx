@@ -167,15 +167,15 @@ test("under The Skills I choose, each Skill in your space has a switch that open
     name: "Abrir refund-order para todos",
   });
   const close = view.getByRole("switch", {
-    name: "Open close-ticket to everyone",
+    name: "Abrir close-ticket para todos",
   });
   expect(refund.getAttribute("aria-checked")).toBe("false");
   expect(close.getAttribute("aria-checked")).toBe("true");
   expect(
-    view.getByText(/Only your Bots use it\. Refunds an order\./),
+    view.getByText(/Só os seus Bots a usam\. Refunds an order\./),
   ).toBeTruthy();
   expect(
-    view.getByText(/Every Bot may use it\. Closes a ticket\./),
+    view.getByText(/Todos os Bots podem usá-la\. Closes a ticket\./),
   ).toBeTruthy();
   fireEvent.click(refund);
   await waitFor(() =>
@@ -256,13 +256,13 @@ test("a choice made before sharing was turned off says it applies again, and an 
   answer = { ...answer, mode: "choose", sharingAllowed: false };
   const view = draw();
   await view.findByText(
-    "Um administrador não ativou o compartilhamento de Habilidades com todos os Bots, então só os Bots que você usa aproveitam as suas. Your choice below applies again if an admin turns it on.",
+    "Um administrador não ativou o compartilhamento de Habilidades com todos os Bots, então só os Bots que você usa aproveitam as suas. Sua escolha abaixo volta a valer se um administrador ativar.",
   );
   const refund = view.getByRole("switch", {
     name: "Abrir refund-order para todos",
   });
   const close = view.getByRole("switch", {
-    name: "Open close-ticket to everyone",
+    name: "Abrir close-ticket para todos",
   });
   expect(refund.hasAttribute("data-disabled")).toBe(true);
   expect(close.hasAttribute("data-disabled")).toBe(false);

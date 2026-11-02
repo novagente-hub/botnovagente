@@ -82,7 +82,7 @@ test("sources the model wrote in the wrong shape are skipped, not fatal", () => 
       } as unknown as Parameters<typeof BarChartCard>[0])}
     />,
   );
-  expect(view.container.textContent).toContain("Sources: Notes");
+  expect(view.container.textContent).toContain("Fontes: Notes");
   expect(view.container.textContent).not.toContain("Notes, Notes");
   expect(view.queryByText(/As of/)).toBeNull();
 });

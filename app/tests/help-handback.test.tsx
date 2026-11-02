@@ -458,7 +458,7 @@ test("leaving the conversation while holding control: back in it, the hand-back'
     view.container.querySelector('[data-help-request="call-help"]')
       ?.textContent,
   ).toBe(
-    `Assumido e devolvidoO Bot perguntou: “${ASKED}” The Bot is carrying on.`,
+    `Assumido e devolvidoO Bot perguntou: “${ASKED}” O Bot está continuando.`,
   );
   release();
 

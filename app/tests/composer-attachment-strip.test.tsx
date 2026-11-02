@@ -107,7 +107,7 @@ test("an image still going up is named rather than left a blank box", () => {
     />,
   );
 
-  expect(getByRole("img", { name: "A cat, uploading" })).toBeTruthy();
+  expect(getByRole("img", { name: "A cat, enviando" })).toBeTruthy();
 });
 
 test("an unnamed image going up falls back to the same word the finished one uses", () => {
@@ -119,7 +119,7 @@ test("an unnamed image going up falls back to the same word the finished one use
     />,
   );
 
-  expect(getByRole("img", { name: "Attachment, uploading" })).toBeTruthy();
+  expect(getByRole("img", { name: "Anexo, enviando" })).toBeTruthy();
 });
 
 test("a text file that fits shows no truncation warning", () => {

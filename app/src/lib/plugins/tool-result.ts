@@ -128,7 +128,7 @@ export function toolResultFailed(result: string | undefined): boolean {
   if (result === undefined) return false;
   const answer = asText(result);
   return (
-    answer.startsWith("O fornecedor informou um erro:") ||
-    answer.startsWith("Não foi possível chamar essa ferramenta")
+    answer.startsWith("The vendor reported an error:") ||
+    answer.startsWith("That tool could not be called")
   );
 }

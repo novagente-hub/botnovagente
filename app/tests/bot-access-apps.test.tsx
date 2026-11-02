@@ -199,17 +199,17 @@ test("an app only an admin can fix offers Request access, and a pending one read
     ),
   ).toBeTruthy();
   expect(
-    slack.getByRole("button", { name: "Request access to Slack" }),
+    slack.getByRole("button", { name: "Pedir acesso a Slack" }),
   ).toBeTruthy();
   const notion = await row(view, "notion");
   expect(
     notion.getByText(
-      "Notion isn't turned on yet. Only an admin can turn it on.",
+      "Notion ainda não está ativado. Só um administrador pode ativá-lo.",
     ),
   ).toBeTruthy();
   expect(notion.getByText("Solicitado")).toBeTruthy();
   expect(
-    notion.getByRole("button", { name: "Withdraw request for Notion" }),
+    notion.getByRole("button", { name: "Retirar pedido de Notion" }),
   ).toBeTruthy();
 });
 
@@ -267,7 +267,7 @@ test("on somebody else's Team Bot, an app on its owner's account says so, and an
   const notion = await row(view, "notion");
   expect(
     notion.getByText(
-      "This Bot uses its owner's Notion account, which needs reconnecting. Only the Bot's owner can reconnect it.",
+      "Este Bot usa a conta Notion do dono, que precisa ser reconectada. Só o dono do Bot pode reconectá-la.",
     ),
   ).toBeTruthy();
   expect(notion.queryByRole("button")).toBeNull();

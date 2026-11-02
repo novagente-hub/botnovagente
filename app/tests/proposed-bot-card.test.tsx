@@ -292,7 +292,7 @@ test("a completed card links to the coworker, rebuilt from the answer alone", as
     />,
   );
 
-  const link = await view.findByText("Open Renewal Desk");
+  const link = await view.findByText("Abrir Renewal Desk");
   expect(link.closest("a")?.getAttribute("href")).toBe("/bots/agent_1");
 });
 

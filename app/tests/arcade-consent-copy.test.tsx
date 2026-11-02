@@ -83,7 +83,7 @@ test("unscoped: all-or-nothing, with the count derived", () => {
     "Este app não consegue separar permissões; aprovar isto aprova todas as 43.",
   );
   expect(consentCopy("Github.Action0", forty3.slice(0, 7)).sentence).toContain(
-    "approves all 7.",
+    "aprova todas as 7.",
   );
 });
 
@@ -114,7 +114,7 @@ test("no copy promises confinement", () => {
 });
 
 /**
- * WHAT "N" MEANS in "approving this approves all N": the actions an approval genuinely covers —
+ * WHAT "N" MEANS in "aprovar isto aprova todas as N": the actions an approval genuinely covers —
  * those still waiting on one and those whose authorization is held — and never an action that needs
  * no authorization, which nothing withheld and no approval grants.
  *
@@ -165,7 +165,7 @@ test("N counts what an approval covers, and no action that needs no authorizatio
         Array.from({ length: covered }, (_, i) => `Tk.Covered${i}`).sort(),
       );
       expect(consentCopy("Tk.Covered0", actions).sentence).toContain(
-        `approving this approves all ${expected}.`,
+        `aprovar isto aprova todas as ${expected}.`,
       );
     }
   }

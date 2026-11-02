@@ -277,7 +277,7 @@ test("two rules for one tool are told apart by the rest of what they match, neve
   };
   const view = draw(<ApprovalSettings />);
   const match = await view.findByText(
-    "write on checkout.a-very-long-shop-name.example",
+    "write em checkout.a-very-long-shop-name.example",
   );
   expect(match.className).toContain("line-clamp-none");
   // The tool stays the row's title.
@@ -369,10 +369,10 @@ test("a pending change is drawn in the conversation where the action was, and de
     </QueryClientProvider>,
   );
   await view.findByRole("region", { name: "Aguardando sua aprovação" });
-  expect(view.getByText(/Isto precisa de você: click on shop.example/)).toBeTruthy();
+  expect(view.getByText(/Isto precisa de você: click em shop.example/)).toBeTruthy();
   // Another call's line is left to its own renderer.
-  expect(view.getByText("Preencheu um campo")).toBeTruthy();
-  expect(view.queryByText("Clicou na página")).toBeNull();
+  expect(view.getByText("Filled in field")).toBeTruthy();
+  expect(view.queryByText("Clicked on page")).toBeNull();
   fireEvent.click(view.getByRole("button", { name: "Eu mesmo fiz" }));
   await waitFor(() =>
     expect(sent).toContainEqual({

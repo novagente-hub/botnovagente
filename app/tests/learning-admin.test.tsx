@@ -147,12 +147,12 @@ test.each([
   [
     { enabled: true, defaultTarget: null, agents: {} },
     { state: "absent", containerId: "openbot" },
-    'This Intelligence project has no "openbot" Learning container yet',
+    'ainda não tem um container de Aprendizado "openbot"',
   ],
   [
     { enabled: true, defaultTarget: { containerId: "openbot" }, agents: {} },
     { state: "assigned", containerId: "openbot" },
-    'OpenBot assigned this Intelligence project\'s "openbot" container automatically',
+    'atribuiu automaticamente o container "openbot"',
   ],
   [
     { enabled: true, defaultTarget: null, agents: {} },
@@ -238,7 +238,7 @@ test("a missing container shows exactly what to run, and a Create button only wh
   fireEvent.click(
     await can.findByRole("button", { name: "Criar o container openbot" }),
   );
-  await can.findByText("container automatically", { exact: false });
+  await can.findByText("atribuiu automaticamente o container", { exact: false });
   expect(created).toBe(1);
   // Let the refetch the creation started settle before the DOM is torn down.
   await waitFor(() =>

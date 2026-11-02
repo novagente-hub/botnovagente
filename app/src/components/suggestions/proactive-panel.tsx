@@ -183,7 +183,7 @@ export function SuggestionsInbox({
                 <ItemContent>
                   <ItemTitle className="text-muted-foreground">
                     
-                    Mostrar {hidden} more
+                    Mostrar mais {hidden}
                   </ItemTitle>
                 </ItemContent>
                 <ItemActions>

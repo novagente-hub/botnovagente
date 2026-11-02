@@ -350,7 +350,7 @@ test("a throttled connect says plainly when to try again, not that another reque
   recorder.connect = { ok: false, error: "throttled", retryAfterMs: 20_000 };
   fireEvent.click(button);
   await view.findByText(
-    "Muitos pedidos de conexão em pouco tempo. Try again in 1 minute.",
+    "Muitos pedidos de conexão em pouco tempo. Tente de novo em 1 minuto.",
   );
 });
 

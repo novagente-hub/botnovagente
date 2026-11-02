@@ -261,7 +261,7 @@ test("the summary says what was done, never which provider searched", () => {
         stepDetails,
       ),
     ),
-  ).toBe("Used Google Drive");
+  ).toBe("Usou Google Drive");
 });
 
 test("a brokered app is summarised as the app, never with its broker's name", () => {
@@ -295,7 +295,7 @@ test("a refusal and a failure each count as an issue on the folded line", () => 
       <ToolActivity group={group} active={false} />
     </QueryClientProvider>,
   );
-  expect(view.getByText("2 issues")).toBeDefined();
+  expect(view.getByText("2 problemas")).toBeDefined();
   expect(view.getByText("Bloqueado")).toBeDefined();
   expect(view.getByText("Não funcionou")).toBeDefined();
 });

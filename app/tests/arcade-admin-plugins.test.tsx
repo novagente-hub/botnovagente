@@ -64,22 +64,22 @@ test("a Composio deployment keeps today's exact wording", () => {
     linked: false,
   });
   expect(brokeredConnectionDescription("composio")).toBe(
-    "Reached through Composio, which holds each person's own account.",
+    "Acessado por meio de Composio, que guarda a conta de cada pessoa.",
   );
   expect(brokeredReach("composio")).toEqual({
     description:
-      "Composio holds the account. This deployment sends one key and who is asking. Each person connects their own, and a Bot sees only what that person can see. There is no token to paste.",
-    badge: "Through Composio",
+      "Composio guarda a conta. Esta implantação envia uma chave e quem está pedindo. Cada pessoa conecta a sua, e um Bot vê só o que essa pessoa pode ver. Não há token para colar.",
+    badge: "Via Composio",
   });
   expect(brokeredDisconnectNote("composio")).toBe(
-    "Disconnecting also ends the account at Composio.",
+    "Desconectar também encerra a conta em Composio.",
   );
 });
 
 test("the vocabulary follows the provider rather than being hard-coded", () => {
   expect(moreAppsRow("arcade", false).title).toBe("Arcade");
   expect(moreAppsRow("arcade", false).description).toContain("ARCADE_API_KEY");
-  expect(brokeredReach("arcade").badge).toBe("Through Arcade");
+  expect(brokeredReach("arcade").badge).toBe("Via Arcade");
   expect(brokeredDisconnectNote("arcade")).toContain("Arcade");
 });
 

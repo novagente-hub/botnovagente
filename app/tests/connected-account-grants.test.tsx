@@ -674,7 +674,7 @@ test("on screen, the N an approval approves leaves out every action that needs n
     name: /Antes de autorizar/,
   });
   expect(panel.textContent).toContain(
-    `approving this approves all ${covered}.`,
+    `aprovar isto aprova todas as ${covered}.`,
   );
   expect(row(view, "Tk.X").textContent).toContain("Não precisa de autorização.");
   const together = view.container.querySelector(

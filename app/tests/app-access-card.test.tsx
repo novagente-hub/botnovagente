@@ -311,14 +311,14 @@ test("an older refusal that names no Bot asks about the Bot the surface declared
 test("with no Bot to ask about at all, it is the Connect card it always was", async () => {
   const asked = serving(null);
   const view = mount(<AppAccessCard prompt={prompt({ agentId: undefined })} />);
-  expect(await view.findByRole("button", { name: "Conectar Gmail" })).toBeTruthy();
+  expect(await view.findByRole("button", { name: "Conectar" })).toBeTruthy();
   expect(asked.some((url) => url.includes("/apps/"))).toBe(false);
 });
 
 test("a live read that fails falls back to the Connect card for a connect refusal", async () => {
   serving(null);
   const view = mount(<AppAccessCard prompt={prompt()} />);
-  expect(await view.findByRole("button", { name: "Conectar Gmail" })).toBeTruthy();
+  expect(await view.findByRole("button", { name: "Conectar" })).toBeTruthy();
 });
 
 test("a live read that fails says so in the person's words, never the model's", async () => {

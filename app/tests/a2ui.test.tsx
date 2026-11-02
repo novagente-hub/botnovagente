@@ -115,7 +115,7 @@ test("the catalog is the standard one, less the omitted components and without t
     "Column",
     "List",
     "Card",
-    "Abas",
+    "Tabs",
     "Divider",
     "Modal",
     "Button",
@@ -126,10 +126,10 @@ test("the catalog is the standard one, less the omitted components and without t
     "Slider",
   ])
     expect(OPENBOT_UI.components.has(name)).toBe(true);
-  expect(OPENBOT_UI.components.has("Tabela")).toBe(true);
+  expect(OPENBOT_UI.components.has("Table")).toBe(true);
   expect(OPENBOT_UI.components.has("Chart")).toBe(true);
   // Map needs maplibre-gl; the other three send linked domains to Google's favicon service.
-  for (const name of ["Mapa", "Favicon", "LinkCard", "Citação"])
+  for (const name of ["Map", "Favicon", "LinkCard", "Citation"])
     expect(OPENBOT_UI.components.has(name)).toBe(false);
   // The gallery components keep their separate per-Bot tool and grant path.
   expect(OPENBOT_UI.components.has("showTable")).toBe(false);

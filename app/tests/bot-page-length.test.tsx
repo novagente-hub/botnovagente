@@ -97,9 +97,9 @@ test("the newest three suggestions show, and the rest open in place", async () =
 
   expect(await view.findByText("Suggestion 3")).toBeTruthy();
   expect(view.queryByText("Suggestion 4")).toBeNull();
-  fireEvent.click(view.getByRole("button", { name: "Show 2 more" }));
+  fireEvent.click(view.getByRole("button", { name: "Mostrar mais 2" }));
   expect(view.getByText("Suggestion 5")).toBeTruthy();
-  expect(view.queryByRole("button", { name: /more$/ })).toBeNull();
+  expect(view.queryByRole("button", { name: /^Mostrar mais/ })).toBeNull();
 });
 
 function glance(data: BotActivity) {

@@ -37,7 +37,7 @@ test("a downward wheel keeps following", () => {
 });
 
 test("scroll keys stop following", () => {
-  for (const key of ["PageUp", "ArrowUp", "Início"]) {
+  for (const key of ["PageUp", "ArrowUp", "Home"]) {
     expect(
       nextFollow(FOLLOWING, { type: "key", key, shiftKey: false }).state,
     ).toEqual(PAUSED);

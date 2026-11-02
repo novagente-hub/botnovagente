@@ -150,7 +150,7 @@ describe("uploadToChannel", () => {
 
     const upload = uploadToChannel("chan_1", "group_1");
     await expect(upload(file("receipt.png", "image/png"))).rejects.toThrow(
-      'Couldn\'t upload "receipt.png". Try again.',
+      'Não foi possível enviar "receipt.png". Tente novamente.',
     );
     await expect(upload(file("receipt.png", "image/png"))).rejects.not.toThrow(
       /JSON/,

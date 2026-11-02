@@ -331,7 +331,7 @@ describe("OpenDots frame", () => {
       expect(view.getByTestId("opendots-crumb").textContent).toBe("Ada"),
     );
 
-    await user.click(view.getByLabelText("Open Cass's settings"));
+    await user.click(view.getByLabelText("Abrir as configurações de Cass"));
     await waitFor(() =>
       expect(router.state.location.pathname).toBe("/bots/cass"),
     );

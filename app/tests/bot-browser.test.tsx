@@ -587,7 +587,7 @@ test("Record names the task, runs while the person holds the wheel, and Stop say
   );
   expect(
     (await dialog.findByRole("timer")).textContent?.match(
-      /^0:4\d · 7 actions$/,
+      /^0:4\d · 7 ações$/,
     ),
   ).toBeTruthy();
   expect(dialog.getByText("Submit the taxi receipt")).toBeTruthy();
@@ -605,8 +605,8 @@ test("Record names the task, runs while the person holds the wheel, and Stop say
       dialog
         .getAllByRole("status")
         .map((status) => status.textContent)
-        .find((text) => text?.includes("Salvou")),
-    ).toBe("Submit the taxi receiptSalvo no seu espaço de Aprendizado: 7 actions."),
+        .find((text) => text?.includes("Salvo")),
+    ).toBe("Submit the taxi receiptSalvo no seu espaço de Aprendizado: 7 ações."),
   );
   expect(dialog.getByRole("textbox", { name: "Nome da tarefa" })).toBeTruthy();
   expect(dialog.queryByRole("alert")).toBeNull();
@@ -675,7 +675,7 @@ test("handing the wheel back while recording ends the recording, said as an endi
       dialog
         .getAllByRole("status")
         .map((status) => status.textContent)
-        .find((text) => text?.includes("Salvou")),
+        .find((text) => text?.includes("Salvo")),
     ).toBe(
       "Submit the taxi receiptA gravação terminou quando o controle voltou para o Bot. Salvo no seu espaço de Aprendizado: 3 ações.",
     ),
@@ -749,7 +749,7 @@ test("another person's recording is said only to be running, and is never called
     await dialog.findByRole("textbox", { name: "Nome da tarefa" }),
   ).toBeTruthy();
   expect(dialog.queryByText(/Pay the vendor/)).toBeNull();
-  expect(dialog.queryByText(/Salvou/)).toBeNull();
+  expect(dialog.queryByText(/Salvo/)).toBeNull();
 });
 
 test("the retired Teach a browser workflow panel is gone, and nothing asks for demonstrations", async () => {
@@ -795,14 +795,14 @@ test("after a reload the person is told their last recording went to their Learn
           dialog
             .getAllByRole("status")
             .map((status) => status.textContent)
-            .find((text) => text?.includes("Salvou")),
+            .find((text) => text?.includes("Salvo")),
         ).toBe(says),
       );
     else {
       // Read twice, so the answer is not the moment before the first read arrived.
       await queryClient.invalidateQueries();
       await settleReactWork();
-      expect(dialog.queryByText(/Salvou/)).toBeNull();
+      expect(dialog.queryByText(/Salvo/)).toBeNull();
       expect(dialog.queryByText(/Submit the taxi receipt/)).toBeNull();
     }
   }

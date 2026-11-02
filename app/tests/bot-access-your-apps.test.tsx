@@ -134,7 +134,7 @@ test("each app you could give has a switch, on where you gave it, and pressing i
   const notion = view.getByRole("switch", { name: "Let Expenses use Notion" });
   expect(gmail.getAttribute("aria-checked")).toBe("false");
   expect(notion.getAttribute("aria-checked")).toBe("true");
-  expect(view.getByText("Expenses can't use your Gmail.")).toBeTruthy();
+  expect(view.getByText("Expenses não pode usar seu Gmail.")).toBeTruthy();
 
   fireEvent.click(gmail);
   await waitFor(() =>

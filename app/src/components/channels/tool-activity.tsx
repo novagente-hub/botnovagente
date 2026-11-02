@@ -562,7 +562,7 @@ export function ToolActivity({
       <ToolLine
         icon={<IconStack kinds={kinds} />}
         label={running && current ? `${current.label}…` : summarise(steps)}
-        detail={issues ? plural(issues, "issue", "issues") : undefined}
+        detail={issues ? plural(issues, "problema", "problemas") : undefined}
         running={running}
       >
         <ol className="space-y-2 py-1">

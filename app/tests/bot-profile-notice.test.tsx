@@ -113,6 +113,6 @@ test("someone who cannot manage the Bot is not shown the warning", async () => {
 test("the Message row shows the chevron every row that goes somewhere carries", async () => {
   serving();
   const view = draw(BOT);
-  const row = (await view.findByText("Message Expenses")).closest("a");
+  const row = (await view.findByText("Enviar mensagem a Expenses")).closest("a");
   expect(row?.querySelector(".tabler-icon-chevron-right")).not.toBeNull();
 });

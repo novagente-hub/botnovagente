@@ -134,7 +134,7 @@ export function brokeredReach(provider: PluginsProvider): {
   const { name } = VOCABULARY[provider];
   return {
     description: `${name} guarda a conta. Esta implantação envia uma chave e quem está pedindo. Cada pessoa conecta a sua, e um Bot vê só o que essa pessoa pode ver. Não há token para colar.`,
-    badge: `Through ${name}`,
+    badge: `Via ${name}`,
   };
 }
 
@@ -211,8 +211,8 @@ export function disconnectSiblingsNotice(answer: {
 }
 
 function joinNames(names: readonly string[]): string {
-  if (names.length <= 2) return names.join(" and ");
-  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+  if (names.length <= 2) return names.join(" e ");
+  return `${names.slice(0, -1).join(", ")} e ${names[names.length - 1]}`;
 }
 
 /**

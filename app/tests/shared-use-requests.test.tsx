@@ -84,8 +84,8 @@ describe("Pedidos de contas compartilhadas", () => {
     expect(
       await view.findByText("Helpdesk quer a conta compartilhada Team GitHub"),
     ).toBeTruthy();
-    expect(view.getByText("Now: Only its owner")).toBeTruthy();
-    expect(view.getByText("Asked: Everyone, and outside input")).toBeTruthy();
+    expect(view.getByText("Agora: Só o dono")).toBeTruthy();
+    expect(view.getByText("Pedido: Todos, e entrada externa")).toBeTruthy();
     expect(
       view.getByText(
         "Uma ação foi bloqueada. Este Bot alcança mais pessoas do que o aprovado.",

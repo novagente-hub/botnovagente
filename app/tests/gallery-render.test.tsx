@@ -177,12 +177,12 @@ test("a half-arrived number is held back until the call completes", () => {
   store.set({ grants: heldGrants });
   const Render = makeGalleryRender(spec(ShowsValue), store);
   const view = render(
-    <Render args={{ title: "Vendas", value: 12 }} status="inProgress" />,
+    <Render args={{ title: "Sales", value: 12 }} status="inProgress" />,
   );
   expect(view.getByText("Sales: pending")).toBeTruthy();
 
   view.rerender(
-    <Render args={{ title: "Vendas", value: 125 }} status="complete" />,
+    <Render args={{ title: "Sales", value: 125 }} status="complete" />,
   );
   expect(view.getByText("Sales: 125")).toBeTruthy();
 });
@@ -197,7 +197,7 @@ test("a streaming table draws its complete rows through the gallery render", () 
   const view = render(
     <Render
       args={{
-        title: "Vendas",
+        title: "Sales",
         columns: ["Quarter", "Receita"],
         rows: [{ cells: ["Q1", 8] }, { cells: ["Q2", 9] }],
       }}
@@ -219,7 +219,7 @@ test("a call whose arguments are final draws its last number", () => {
   store.set({ grants: heldGrants });
   const Render = makeGalleryRender(spec(ShowsValue), store);
   const view = render(
-    <Render args={{ title: "Vendas", value: 125 }} status="executing" />,
+    <Render args={{ title: "Sales", value: 125 }} status="executing" />,
   );
   expect(view.getByText("Sales: 125")).toBeTruthy();
 });
@@ -230,7 +230,7 @@ test("a call left without a result outside the running turn draws its last numbe
   const Render = makeGalleryRender(spec(ShowsValue), store);
   const view = render(
     <ArgumentsArrivingContext.Provider value={false}>
-      <Render args={{ title: "Vendas", value: 125 }} status="inProgress" />
+      <Render args={{ title: "Sales", value: 125 }} status="inProgress" />
     </ArgumentsArrivingContext.Provider>,
   );
   expect(view.getByText("Sales: 125")).toBeTruthy();

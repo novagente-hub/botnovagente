@@ -213,7 +213,7 @@ export function BotProfile({
                 <IconMessage />
               </ItemMedia>
               <ItemContent>
-                <ItemTitle>Mensagem {agent.name}</ItemTitle>
+                <ItemTitle>Enviar mensagem a {agent.name}</ItemTitle>
                 <ItemDescription>Comece uma conversa.</ItemDescription>
               </ItemContent>
               <ItemActions>

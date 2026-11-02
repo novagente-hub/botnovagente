@@ -115,5 +115,5 @@ test("a Bot that starts needing the person sends a browser notification", async 
   await act(async () => {
     await client.refetchQueries({ queryKey: botLifecycleKeys.attention });
   });
-  await waitFor(() => expect(sent).toEqual(["Expenses needs you"]));
+  await waitFor(() => expect(sent).toEqual(["Expenses precisa de você"]));
 });

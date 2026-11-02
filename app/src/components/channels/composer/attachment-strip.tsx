@@ -100,7 +100,7 @@ export function AttachmentStrip({
                * region, and a paste of eight images would interrupt eight times to say so.
                */
               <Skeleton
-                aria-label={`${image.alt ?? "Anexo"}, uploading`}
+                aria-label={`${image.alt ?? "Anexo"}, enviando`}
                 className="size-20 rounded-xl"
                 role="img"
               />

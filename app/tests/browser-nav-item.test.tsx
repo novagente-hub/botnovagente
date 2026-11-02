@@ -289,7 +289,7 @@ test("on OpenBot Desktop the Browser button opens the person's own window in one
   await waitFor(() => expect(opens()).toBe(2));
   expect(router.state.location.pathname).toBe("/");
   expect(visited).not.toContain("/browser");
-  expect(view.getByText("Início")).toBeTruthy();
+  expect(view.getByText("Home")).toBeTruthy();
 });
 
 test("on OpenBot Desktop, a click that opened a browser in the page takes the person to it", async () => {

@@ -1130,7 +1130,7 @@ test("a typed scheme this screen does not know is refused, not navigated to unde
      */
     await waitFor(() =>
       expect(
-        view.queryByText(/connects with a key, not a sign-in page/),
+        view.queryByText(/se conecta com uma chave, não com uma página de login/),
       ).toBeTruthy(),
     );
     // The defect in its plainest form: before the fix this array held the one string "undefined".

@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { AppSidebar } from "@/components/app-sidebar/app-sidebar";
+import { PwaInstallBar } from "@/components/pwa/pwa-install-bar";
 import { SelfHostBanner } from "@/components/layout/self-host-banner";
 import { SidebarShell } from "@/components/layout/sidebar-shell";
 import { useActiveSkin } from "@/skins/registry";
@@ -29,6 +30,7 @@ function RouteComponent() {
       <AppSidebar />
       <main className="flex-1 flex flex-col min-h-0 overflow-hidden">
         <SelfHostBanner />
+        <PwaInstallBar />
         <Outlet />
       </main>
     </SidebarShell>

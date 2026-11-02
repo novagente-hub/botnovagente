@@ -28,27 +28,27 @@ const masking = RECORDER_COLLECTS.find((item) => item.kind === "masking");
 
 const MASKED: readonly { named: string; text: string; secret: string }[] = [
   {
-    named: "card numbers",
+    named: "números de cartão",
     text: "Paid with 4111 1111 1111 1111 on Tuesday",
     secret: "4111 1111 1111 1111",
   },
   {
-    named: "email addresses",
+    named: "endereços de e-mail",
     text: "Send the receipt to ada.lovelace@example.com please",
     secret: "ada.lovelace@example.com",
   },
   {
-    named: "sign-in tokens",
+    named: "tokens de login",
     text: "Authorization: Bearer 0f3c9a7e-1b2d-4c5e-8f9a-0b1c2d3e4f5a",
     secret: "0f3c9a7e-1b2d-4c5e-8f9a-0b1c2d3e4f5a",
   },
   {
-    named: "sign-in tokens",
+    named: "tokens de login",
     text: "id eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGEifQ.c2lnbmF0dXJlLXZhbHVl done",
     secret: "eyJzdWIiOiJhZGEifQ",
   },
   {
-    named: "keys",
+    named: "chaves",
     text: `key ${PAYMENT_KEY} set`,
     secret: PAYMENT_KEY,
   },
@@ -65,15 +65,15 @@ test("each kind of thing the masking takes is named in the disclosure, and is ta
   // A secret field's own value goes by what the field is (recorder-masking.ts `SENSITIVE_FIELD`), and a clicked
   // control's name loses its web addresses (learning-patch.test.ts).
   for (const named of [
-    "passwords",
-    "one-time codes",
-    "secret field",
-    "Web addresses",
-    "buttons and links you click",
+    "senhas",
+    "códigos de uso único",
+    "campos sigilosos",
+    "Endereços web",
+    "botões e links que você clica",
   ])
     expect(description).toContain(named);
   expect(RECORDER_COLLECTS_SHORT).toContain(
-    "Passwords, card numbers, email addresses and tokens are masked",
+    "Senhas, números de cartão, e-mails e tokens são mascarados",
   );
 });
 
@@ -82,6 +82,6 @@ test("what the masking leaves is said to be left: a phone number, a name and an 
     "Call Ada Lovelace on +44 20 7946 0958 about the 1,250.00 refund";
   expect(scrubText(text)).toBe(text);
   expect(masking?.description).toContain(
-    "such as names, phone numbers and amounts, can still be included",
+    "como nomes, telefones e valores, ainda podem ser incluídos",
   );
 });

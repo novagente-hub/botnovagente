@@ -116,9 +116,12 @@ export function createLocalIntelligence(): CopilotKitIntelligence {
       agentId: string;
       name?: string;
     }) {
-      const result = (await implemented.getOrCreateThread!(
-        params as never,
-      )) as { thread: Thread };
+      if (!implemented.getOrCreateThread) {
+        throw new Error("Thread creation is unavailable.");
+      }
+      const result = (await implemented.getOrCreateThread(params as never)) as {
+        thread: Thread;
+      };
       return result.thread;
     },
     async getThreadMessages(params: { threadId: string; userId: string }) {
@@ -180,11 +183,13 @@ export function createLocalIntelligence(): CopilotKitIntelligence {
           status: "completed",
           threadId: params.threadId,
         };
+      const lease = rows[0];
+      if (!lease) throw new Error("Lease renewal returned no row.");
       return {
         ttlSeconds: ttl,
         status: "renewed",
         threadId: params.threadId,
-        runId: rows[0]!.run_id,
+        runId: lease.run_id,
       };
     },
     async ɵcleanupThreadLock(params: { threadId: string; runId?: string }) {

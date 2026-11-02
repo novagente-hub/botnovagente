@@ -98,7 +98,9 @@ async function backfill(agentId: string, userId: string) {
   );
   if (!vectors) return;
   for (const [i, r] of rows.entries()) {
-    await sql`UPDATE nb_agent_memory SET embedding = (${literal(vectors[i]!)}::text)::vector
+    const vector = vectors[i];
+    if (!vector) throw new Error("Embedding response is missing a vector.");
+    await sql`UPDATE nb_agent_memory SET embedding = (${literal(vector)}::text)::vector
       WHERE id = ${r.id}::bigint AND agent_id = ${agentId} AND user_id = ${userId}`;
   }
 }

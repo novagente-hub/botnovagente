@@ -10,7 +10,10 @@ describe("NovaBot standalone mobile keyboard layout", () => {
     expect(html).toContain("interactive-widget=resizes-content");
   });
   test("uses dynamic viewport height instead of stable viewport height", () => {
-    const route = readFileSync(join(appDir, "src/routes/_authed/_app.tsx"), "utf8");
+    const route = readFileSync(
+      join(appDir, "src/routes/_authed/_app.tsx"),
+      "utf8",
+    );
     expect(route).toContain("novagente-chat-shell dark h-dvh");
     expect(route).toContain("viewport.addEventListener");
   });

@@ -53,6 +53,16 @@ class PRScopeTests(unittest.TestCase):
             ["static", "test", "build", "python-harness"],
         )
 
+    def test_unknown_agent_executable_fails_closed_to_all(self):
+        for path in [
+            "agent-mastra/src/provider.ts",
+            "agent-bot/package.json",
+            "agent-antigravity/src/run.ts",
+            "agent-langgraph/src/index.ts",
+        ]:
+            with self.subTest(path=path):
+                self.assertEqual(scope.checks_for_paths([path]), scope.ALL)
+
     def test_build_cache_windows_and_mac_remain_covered(self):
         self.assertChecks(
             ["app/tests/build-cache.test.ts"],

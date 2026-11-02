@@ -70,6 +70,11 @@ def checks_for_paths(paths: list[str]) -> frozenset[str]:
         if (
             path.startswith(".github/")
             or path.startswith("scripts/ci-pr-scope")
+            # Unclassified agent executables might access secrets or their own
+            # runtimes. Only the audited set can use lighter checks.
+            or (path.startswith("agent-")
+                and not path.startswith(PYTHON_HARNESSES)
+                and not path.startswith("agent-computer/"))
             or path in GLOBAL_ROOT
             or path.startswith("shared/")
             or path.startswith("toolkit/")

@@ -244,6 +244,8 @@ import {
   vendorAnswer,
 } from "./plugins/tools";
 import { createProactiveEngine } from "./proactive/engine";
+import { createSharedResourceStore } from "./novabot-resources/store";
+import { sharedResourceTools } from "./novabot-resources/tools";
 import {
   createPrivateShareCheck,
   PRIVATE_SHARE_TOOL_REF,
@@ -308,6 +310,7 @@ clearLearningRevisionFallback();
 const port = config.port;
 const database = createDatabase(config.databaseUrl);
 const conexoesStore = createConexoesStore(database);
+const sharedResourceStore = createSharedResourceStore(database);
 // NovaBot: the local runtime stores threads through the same pool.
 registerLocalSql(database.$client);
 const profileStore = createProfileStore(database);
@@ -1485,6 +1488,13 @@ const loadToolsForActor =
       ownerUserId: actorId,
       agentId: botId,
     }),
+    ...sharedResourceTools(
+      sharedResourceStore,
+      actorId,
+      botId,
+      bootAuditStore,
+      initiator,
+    ),
     /*
      * Held by every Bot, granted or not: how a Bot puts an app it cannot reach in front of the
      * person with the step that fixes it, instead of naming an administrator. A read; see the file.
@@ -2615,6 +2625,17 @@ const app = createApp(
       const text = await memory.execute(args);
       return { text, isError: text.startsWith(REFUSAL_MARKER) };
     }
+    const sharedResource = sharedResourceTools(
+      sharedResourceStore,
+      actorId,
+      botId,
+      bootAuditStore,
+      initiator,
+    ).find((candidate) => candidate.name === name);
+    if (sharedResource) {
+      const text = await sharedResource.execute(args);
+      return { text, isError: text.startsWith(REFUSAL_MARKER) };
+    }
     if (!name.startsWith("host_")) return null;
     const tool = hostAccessTools({
       broker: hostAccessBroker,
@@ -2771,6 +2792,7 @@ const app = createApp(
     groups: groupConversations,
     teamBots,
     conexoes: conexoesStore,
+    resources: sharedResourceStore,
     lifecycle: {
       lifecycle: createBotLifecycleStore(database),
       reset: createBotReset({

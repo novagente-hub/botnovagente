@@ -15,6 +15,7 @@ export * from "./learning";
 export * from "./lifecycle";
 export * from "./memory";
 export * from "./novagente-conexoes";
+export * from "./novabot-resources";
 export * from "./passwords";
 export * from "./plugins";
 export * from "./proactive";

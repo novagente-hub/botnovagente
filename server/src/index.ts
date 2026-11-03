@@ -39,6 +39,7 @@ import { runsIsolated } from "./agents/isolation";
 import {
   configureBotLifecycle,
   createBotLifecycleStore,
+  isBotPaused,
 } from "./agents/lifecycle";
 import { createBotReset } from "./agents/lifecycle-reset";
 import { createAgentProfileStore } from "./agents/profile-store";
@@ -279,6 +280,8 @@ import type { Responsibility } from "./responsibilities/types";
 import { createServerResponsibilityEngine } from "./responsibilities/wiring";
 import { createRoutineRunner } from "./routines/runner";
 import { createRoutineStore } from "./routines/store";
+import { createMissionStore } from "./missions/store";
+import { createMissionRunner } from "./missions/runner";
 import { createIntentRouter } from "./routing/classify";
 import { createModelCompleter } from "./routing/model";
 import { createSelfHostBanner } from "./self-host-banner";
@@ -1079,6 +1082,12 @@ if (composio) {
  * them refuses, which is the honest behaviour for a deployment that never wired it, and would be a
  * silent outage for this one.
  */
+// Independent mission ledger, opt-in. Do not initialize or alter schema in
+// production until migration ordering and multi-tenant review are complete.
+const missionStore =
+  process.env.NOVABOT_MISSIONS_ENABLED?.trim().toLowerCase() === "true"
+    ? createMissionStore(database.$client)
+    : undefined;
 const routineStore = createRoutineStore(database);
 useRoutineTools(routineStore);
 const responsibilityStore = createResponsibilityStore(database, {
@@ -1774,35 +1783,57 @@ const routineAgentRunner = isLocalRuntime()
       authToken: routineIntelligence.ɵgetRunnerAuthToken(),
     });
 
+const missionTurnRunner = createTurnRunner({
+  admission: serverTurnAdmission,
+  intelligence: routineIntelligence,
+  runner: routineAgentRunner,
+  components: componentCatalog,
+  buildAgentFor,
+  toolsForTurn: async ({ ownerUserId, agentId, initiator }) => {
+    if (!computerGateway) return [];
+    const actor = await actorFor(ownerUserId);
+    const profile = await agentProfileStore.get(actor, agentId);
+    if (!profile) throw new Error("That Bot is not available to this owner.");
+    // A Team Bot's teammate uses the Bot, not its owner's signed-in computer.
+    if (!canUseComputer(profile, actor)) return [];
+    return createHeadlessComputerTools({
+      gateway: computerGateway,
+      seat: await computerGateway.seatFor(agentId, actor.id),
+      actor: { id: actor.id, userId: actor.id, initiator },
+      auditStore: bootAuditStore,
+      ...(signInService ? { signIn: signInService } : {}),
+    });
+  },
+  learningContainerForThread: (input) =>
+    copilotRuntime.learning?.containerForThread(input) ??
+    Promise.resolve(undefined),
+});
+
 const routineRunner = createRoutineRunner({
   routineStore,
   channelStore,
-  runTurn: createTurnRunner({
-    admission: serverTurnAdmission,
-    intelligence: routineIntelligence,
-    runner: routineAgentRunner,
-    components: componentCatalog,
-    buildAgentFor,
-    toolsForTurn: async ({ ownerUserId, agentId, initiator }) => {
-      if (!computerGateway) return [];
-      const actor = await actorFor(ownerUserId);
-      const profile = await agentProfileStore.get(actor, agentId);
-      if (!profile) throw new Error("That Bot is not available to this owner.");
-      // A Team Bot's teammate uses the Bot, not its owner's signed-in computer.
-      if (!canUseComputer(profile, actor)) return [];
-      return createHeadlessComputerTools({
-        gateway: computerGateway,
-        seat: await computerGateway.seatFor(agentId, actor.id),
-        actor: { id: actor.id, userId: actor.id, initiator },
-        auditStore: bootAuditStore,
-        ...(signInService ? { signIn: signInService } : {}),
-      });
-    },
-    learningContainerForThread: (input) =>
-      copilotRuntime.learning?.containerForThread(input) ??
-      Promise.resolve(undefined),
-  }),
+  runTurn: missionTurnRunner,
 });
+
+const missionRunner = missionStore
+  ? createMissionRunner({
+      store: missionStore,
+      queue: createWorkQueue(database),
+      owner: workOwner("missions"),
+      runTurn: missionTurnRunner,
+      channelStore,
+      isBotPaused,
+    })
+  : undefined;
+if (missionRunner) {
+  repeatAfterEach(async () => {
+    try {
+      await missionRunner.sweep();
+    } catch (error) {
+      console.error("[novabot-missions] mission runner failed:", error);
+    }
+  }, 5_000);
+}
 
 /**
  * The runtime, and the two things beside it a hop needs.
@@ -2724,6 +2755,7 @@ const app = createApp(
           },
         }
       : {}),
+    ...(missionStore ? { missions: { store: missionStore } } : {}),
     personalLearning: {
       store: learningSharingStore,
       skillsOf: (userId) =>

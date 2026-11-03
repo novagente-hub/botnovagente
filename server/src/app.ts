@@ -138,6 +138,8 @@ import { createResponsibilityRoutes } from "./responsibilities/routes";
 import type { TriggerStore } from "./responsibilities/triggers";
 import type { ResponsibilityStore } from "./responsibilities/types";
 import { createRoutineRoutes, type RoutineStore } from "./routines/routes";
+import { createMissionRoutes } from "./missions/routes";
+import type { MissionStore } from "./missions/store";
 import type { RoutineRunner } from "./routines/runner";
 import type { IntentRouter } from "./routing/classify";
 import { createRoutingRoutes } from "./routing/routes";
@@ -444,6 +446,7 @@ export function createApp(
       webhooks: Parameters<typeof createDeliveryWebhookRoutes>[0];
     };
     memory?: { store: MemoryStore; ingestion: MemoryIngestion };
+    missions?: { store: MissionStore };
     proactive?: { store: ProactiveStore; engine: ProactiveEngine };
     responsibilities?: {
       store: ResponsibilityStore;
@@ -1614,6 +1617,13 @@ export function createApp(
     app.route(
       "/api/attachments",
       createAttachmentRoutes(attachmentDatabase, requireUser),
+    );
+  }
+
+  if (coworker?.missions && channelStore) {
+    app.route(
+      "/api/missions",
+      createMissionRoutes(coworker.missions.store, channelStore, requireUser),
     );
   }
 

@@ -28,6 +28,8 @@ services:
       PORT: "3001"
       SERVER_PORT: "3001"
       NOVABOT_LOCAL_RUNTIME: "true"
+      # Opt-in only; do not change production behavior until validation.
+      NOVABOT_AUTONOMY_ENABLED: "${NOVABOT_AUTONOMY_ENABLED:-false}"
       DATABASE_URL: "postgres://openbot:${PG_PASSWORD}@postgres:5432/openbot"
       MANAGED_AGENT_AG_UI_URL: http://agent-bot:4200/ag-ui
       COPILOTKIT_OPENAI_API: chat
@@ -69,6 +71,7 @@ services:
       OPENAI_API_KEY: "${OPENAI_API_KEY}"
       OPENAI_BASE_URL: https://api.deepseek.com
       BOT_MODEL: deepseek-flash
+      NOVABOT_AUTONOMY_ENABLED: "${NOVABOT_AUTONOMY_ENABLED:-false}"
       MANAGED_AGENT_TOKEN: "${MANAGED_AGENT_TOKEN}"
     restart: unless-stopped
     mem_limit: 128m

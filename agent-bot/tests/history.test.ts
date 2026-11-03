@@ -379,3 +379,48 @@ describe("a message with a file attached", () => {
     expect(userContent("What is 17 times 3?")).toBe("What is 17 times 3?");
   });
 });
+
+test("autonomy opt-in gives the Bot a recovery and verification loop", () => {
+  const run = input([
+    { id: "u1", role: "user", content: "Resolva a falha." } as Message,
+    {
+      id: "a1",
+      role: "assistant",
+      toolCalls: [call("c1", "computer_read")],
+    } as unknown as Message,
+    {
+      id: "t1",
+      role: "tool",
+      toolCallId: "c1",
+      content: '{"ok":false}',
+    } as unknown as Message,
+  ]);
+  const messages = toProviderMessages(run, { autonomy: true });
+  expect(String(messages[0]?.content)).toContain(
+    "accountable for the requested outcome",
+  );
+  expect(String(messages[1]?.content)).toContain("11 tool actions remain");
+  expect(String(messages[1]?.content)).toContain("1 tool results failed");
+  expect(toProviderMessages(run, { autonomy: false })).not.toHaveLength(
+    messages.length,
+  );
+});
+
+test("autonomy tells the model to stop when a policy rule denies a tool", () => {
+  const run = input([
+    { id: "u1", role: "user", content: "Faça." } as Message,
+    {
+      id: "a1",
+      role: "assistant",
+      toolCalls: [call("c1", "computer_read")],
+    } as unknown as Message,
+    {
+      id: "t1",
+      role: "tool",
+      toolCallId: "c1",
+      content: '{"code":"policy_denied"}',
+    } as unknown as Message,
+  ]);
+  const messages = toProviderMessages(run, { autonomy: true });
+  expect(String(messages[1]?.content)).toContain("Do not try another route");
+});

@@ -9,6 +9,7 @@
  * only their role: asked to file an issue on a site it was not signed in to, one browsed to the page
  * and then said it could not, never calling `computer_request_help` to have a person sign in.
  */
+import { autonomyEnabled } from "./autonomy";
 import { SHOW_APP_ACCESS_TOOL } from "./connect-prompt";
 import { RESEARCH_APP_NAMES } from "./research";
 
@@ -145,10 +146,37 @@ function asParagraphs(lines: readonly string[]): string {
     .join("\n\n");
 }
 
+/**
+ * An outcome-oriented operating contract, not an unbounded permission grant.
+ * The executor has to find a way to make progress with tools it already holds,
+ * verify outcomes, and ask only when a legitimate human decision is required.
+ * Paired with the agent-bot guard that caps automatic actions per request.
+ */
+const AUTONOMY_LINES = [
+  "You are accountable for the requested outcome, not merely one attempt.",
+  "Determine what success would look like, inspect the available tools, choose a feasible",
+  "approach and carry it through. Prefer a read-only diagnosis before changing anything.",
+  "After every meaningful action, observe the actual result. If it did not work, diagnose",
+  "the cause and choose a different permitted approach. Do not return a failed first attempt",
+  "as the final answer when another safe route is available.",
+  "Do not ask the person to perform routine work you can safely do with existing tools.",
+  "Only ask for a concrete decision, sign-in, secret or permission when truly necessary;",
+  "use the designated help/approval tool if one exists.",
+  "An unavailable tool, denied permission or unsafe action is NOT permission to bypass",
+  "the boundary by using another tool or identity. Do not repeat an action with an",
+  "unverified outcome if it could change data, charge money or send messages.",
+  "Keep actions bounded. Respect the configured tool and failure budgets, cancel and stop",
+  "requests. Do not run indefinitely or claim success because a tool returned without error.",
+  "Report completion only with observable evidence. Otherwise clearly distinguish partial",
+  "work, attempts, verified results and the precise remaining blocker.",
+];
+
 /** What a run holds that changes what it is told about its computer. */
 export type ComputerHolding = {
   /** Whether this run was offered a tool that finds sources, from any research provider. */
   search: boolean;
+  /** Enable outcome-driven autonomy within the host's existing grants. */
+  autonomy?: boolean;
 };
 
 /**
@@ -166,6 +194,10 @@ export function computerGuidance(holding: ComputerHolding): string {
     ...(holding.search ? WITH_SEARCH_LINES : WITHOUT_SEARCH_LINES),
     "",
     ...ACTING_LINES,
+    ...((holding.autonomy ??
+    autonomyEnabled(process.env.NOVABOT_AUTONOMY_ENABLED))
+      ? ["", ...AUTONOMY_LINES]
+      : []),
   ]);
 }
 

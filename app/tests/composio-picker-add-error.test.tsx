@@ -210,6 +210,8 @@ test("an add that fails while a second one is pressed still says what went wrong
 
   // And the row drains on the refusal exactly as it would on a success, so a retry is possible.
   await waitFor(() => {
-    expect(within(slackRow).getByRole("button", { name: "Adicionar" })).toBeTruthy();
+    expect(
+      within(slackRow).getByRole("button", { name: "Adicionar" }),
+    ).toBeTruthy();
   });
 });

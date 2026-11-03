@@ -51,7 +51,6 @@ export function GithubSources() {
       action={
         <Button onClick={() => setAdding(true)} size="sm" variant="ghost">
           <IconPlus />
-          
           Adicionar um repositório
         </Button>
       }
@@ -69,15 +68,14 @@ export function GithubSources() {
           action={
             <Button onClick={() => setAdding(true)} size="sm" variant="outline">
               <IconPlus />
-              
               Adicionar um repositório
             </Button>
           }
           icon={IconBrandGithub}
           title="Nenhum repositório ainda"
         >
-          
-          Os repositórios que você adicionar aparecem aqui com o endereço do webhook.
+          Os repositórios que você adicionar aparecem aqui com o endereço do
+          webhook.
         </PageEmpty>
       ) : (
         <PageRows>
@@ -101,7 +99,6 @@ export function GithubSources() {
                     size="sm"
                     variant="outline"
                   >
-                    
                     Desconectar
                   </Button>
                 </ItemActions>
@@ -129,7 +126,6 @@ function AddRepositoryDialog({ onClose }: { onClose: () => void }) {
         <DialogHeader>
           <DialogTitle>Adicionar um repositório</DialogTitle>
           <DialogDescription>
-            
             Use o mesmo segredo ao adicionar o webhook no GitHub.
           </DialogDescription>
         </DialogHeader>
@@ -155,7 +151,6 @@ function AddRepositoryDialog({ onClose }: { onClose: () => void }) {
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor={`${formId}-repository`}>
-                  
                   Repositório
                 </FieldLabel>
                 <Input
@@ -169,7 +164,6 @@ function AddRepositoryDialog({ onClose }: { onClose: () => void }) {
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${formId}-secret`}>
-                  
                   Segredo do webhook
                 </FieldLabel>
                 <Input
@@ -191,7 +185,6 @@ function AddRepositoryDialog({ onClose }: { onClose: () => void }) {
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" variant="outline">
-            
             Cancelar
           </Button>
           <Button
@@ -200,7 +193,6 @@ function AddRepositoryDialog({ onClose }: { onClose: () => void }) {
             size="sm"
             type="submit"
           >
-            
             Conectar eventos
           </Button>
         </DialogFooter>

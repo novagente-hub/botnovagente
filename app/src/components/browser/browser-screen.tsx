@@ -258,7 +258,6 @@ function Screen({
                 size="sm"
                 variant="outline"
               >
-                
                 Tentar novamente
               </Button>
             </div>

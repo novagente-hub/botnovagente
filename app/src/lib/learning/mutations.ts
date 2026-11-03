@@ -3,7 +3,8 @@ import { mutationOptions, type QueryClient } from "@tanstack/react-query";
 import { client } from "@/lib/client";
 import { learningKeys } from "./queries";
 
-const FALLBACK = "Não foi possível salvar suas configurações de Aprendizado. Tente novamente.";
+const FALLBACK =
+  "Não foi possível salvar suas configurações de Aprendizado. Tente novamente.";
 
 /** Who else's Bots use your Skills: only yours, everyone's, or the ones you open. */
 export function setLearningSharingModeMutationOptions(

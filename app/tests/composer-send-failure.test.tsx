@@ -108,9 +108,9 @@ test("a failed send puts the words back rather than throwing at nobody", async (
 
   expect(typedText(container)).toContain("ship it");
   // Back to a composer that can be sent from again, rather than one stuck mid-send.
-  expect((getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled).toBe(
-    false,
-  );
+  expect(
+    (getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled,
+  ).toBe(false);
 });
 
 /**

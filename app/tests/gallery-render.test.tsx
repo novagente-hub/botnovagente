@@ -119,7 +119,9 @@ test("refuses with the couldn't-check reason when grants failed", () => {
   );
 
   expect(
-    view.getByText(/Não foi possível verificar se este Bot pode mostrar Gráfico de barras/),
+    view.getByText(
+      /Não foi possível verificar se este Bot pode mostrar Gráfico de barras/,
+    ),
   ).toBeTruthy();
 });
 
@@ -205,7 +207,9 @@ test("a streaming table draws its complete rows through the gallery render", () 
     />,
   );
 
-  expect(view.queryByText(/Aguardando os dados completos da tabela/)).toBeNull();
+  expect(
+    view.queryByText(/Aguardando os dados completos da tabela/),
+  ).toBeNull();
   expect(view.getByText("Q1")).toBeTruthy();
 });
 

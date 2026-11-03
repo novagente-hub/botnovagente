@@ -263,7 +263,9 @@ test("a failed plugin read reports the failure instead of claiming the app is no
   const view = renderScreen(failingQueryClient());
 
   expect(
-    await view.findByText("Não foi possível carregar os plugins. Recarregue a página."),
+    await view.findByText(
+      "Não foi possível carregar os plugins. Recarregue a página.",
+    ),
   ).toBeTruthy();
 
   // The whole point: an app that may be enabled, with grants on it right now, must never be
@@ -275,7 +277,9 @@ test("a failed plugin read reports the failure instead of claiming the app is no
 test("a failed plugin read draws no switches, so nothing reads as a Bot holding nothing", async () => {
   const view = renderScreen(failingQueryClient());
 
-  await view.findByText("Não foi possível carregar os plugins. Recarregue a página.");
+  await view.findByText(
+    "Não foi possível carregar os plugins. Recarregue a página.",
+  );
 
   expect(view.container.querySelectorAll('[role="switch"]').length).toBe(0);
   expect(view.queryByText("Ativar todas as ações somente leitura")).toBeNull();
@@ -297,7 +301,9 @@ test("an answer that genuinely lacks the app still says the app is not enabled",
     await view.findByText("Nenhum app com esse nome está ativado."),
   ).toBeTruthy();
   expect(
-    view.queryByText("Não foi possível carregar os plugins. Recarregue a página."),
+    view.queryByText(
+      "Não foi possível carregar os plugins. Recarregue a página.",
+    ),
   ).toBeNull();
 });
 
@@ -318,7 +324,9 @@ test("a failed REFETCH keeps the grant list it already had, not the error", asyn
 
   expect(await view.findByText("list_channels")).toBeTruthy();
   expect(
-    view.queryByText("Não foi possível carregar os plugins. Recarregue a página."),
+    view.queryByText(
+      "Não foi possível carregar os plugins. Recarregue a página.",
+    ),
   ).toBeNull();
   expect(view.queryByText("Nenhum app com esse nome está ativado.")).toBeNull();
 });

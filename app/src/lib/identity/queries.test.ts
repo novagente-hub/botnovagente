@@ -31,7 +31,8 @@ describe("providersFromResponse", () => {
   });
 
   test("throws when providers is missing or not boolean-shaped", async () => {
-    const message = "Não foi possível carregar os tipos de conta que você pode vincular";
+    const message =
+      "Não foi possível carregar os tipos de conta que você pode vincular";
     await expect(providersFromResponse(Response.json({}))).rejects.toThrow(
       message,
     );

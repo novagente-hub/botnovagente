@@ -43,10 +43,7 @@ export function SelfHostBanner() {
        * Wraps rather than truncates, so a phone reads the whole sentence. The link and Dismiss stay
        * together and drop to the next line as one, which keeps Dismiss on the left there too.
        */}
-      <p className="text-foreground">
-        
-        Hospede o OpenBot na sua organização.
-      </p>
+      <p className="text-foreground">Hospede o OpenBot na sua organização.</p>
       <span className="flex items-center gap-2">
         {/* An anchor, not Button: Base UI gives a rendered anchor role="button", and this is a link. */}
         <a
@@ -59,7 +56,6 @@ export function SelfHostBanner() {
           rel="noopener noreferrer"
           target="_blank"
         >
-          
           Fale com um engenheiro
         </a>
         <Button

@@ -50,8 +50,8 @@ export function ConnectedBrowsers({
     <PageSection title="Navegadores conectados">
       {connections.isPending ? null : connections.error ? (
         <p className="text-destructive text-sm" role="alert">
-          
-          Não foi possível carregar seus navegadores conectados. Recarregue a página.
+          Não foi possível carregar seus navegadores conectados. Recarregue a
+          página.
         </p>
       ) : connections.data.connections.length === 0 ? (
         <PageEmpty>Nenhum navegador conectado ainda.</PageEmpty>
@@ -149,8 +149,9 @@ function ConnectedBrowserRow({
           </DialogHeader>
           <DialogBody className="mt-4 text-sm">
             <p>
-              
-              O OpenBot desconecta o Recorder em {which}  . Ele não grava nada para você até ser conectado de novo, e uma gravação em andamento lá é interrompida.
+              O OpenBot desconecta o Recorder em {which} . Ele não grava nada
+              para você até ser conectado de novo, e uma gravação em andamento
+              lá é interrompida.
             </p>
             {revoke.error ? (
               <p className="mt-2 text-destructive" role="alert">
@@ -160,7 +161,6 @@ function ConnectedBrowserRow({
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button size="sm" variant="ghost" onClick={() => setAsking(false)}>
-              
               Cancelar
             </Button>
             <Button

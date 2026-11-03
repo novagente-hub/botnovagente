@@ -147,7 +147,6 @@ export function AdminSidebar({
               render={(props) => (
                 <Link {...appLinkOptions} {...props}>
                   <IconArrowLeft className="mr-2 h-4 w-4" />
-                  
                   Voltar ao app
                 </Link>
               )}
@@ -171,7 +170,6 @@ export function AdminSidebar({
                     activeProps={{ className: "bg-foreground/5" }}
                     {...props}
                   >
-                    
                     Visão geral
                   </Link>
                 )}

@@ -222,8 +222,16 @@ test("a team account the vendor lost: says an admin has to reconnect it, with no
 });
 
 test.each([
-  ["disabled", "enable", /GmailGmail ainda não está ativado\. Só um administrador pode ativá-lo\.Pedir acesso/],
-  ["not_granted", "grant", /GmailEste Bot não recebeu Gmail\. Só um administrador pode dar\.Pedir acesso/],
+  [
+    "disabled",
+    "enable",
+    /GmailGmail ainda não está ativado\. Só um administrador pode ativá-lo\.Pedir acesso/,
+  ],
+  [
+    "not_granted",
+    "grant",
+    /GmailEste Bot não recebeu Gmail\. Só um administrador pode dar\.Pedir acesso/,
+  ],
 ] as const)(
   "the Bot asked about an app that is %s: Request access",
   async (state, kind, sentence) => {
@@ -451,7 +459,9 @@ describe("carrying the task on once the app is ready", () => {
     state.live = appAccess({ state: "ready" });
     await act(() => view.client.invalidateQueries());
     await waitFor(() => expect(view.asked).toEqual([carryOnMessage("Gmail")]));
-    expect((await card(view)).textContent).toContain("Gmail está pronto agora.");
+    expect((await card(view)).textContent).toContain(
+      "Gmail está pronto agora.",
+    );
     expect(view.container.textContent).not.toContain("Ask again");
     // Read again and drawn again: still the one message.
     await act(() => view.client.invalidateQueries());
@@ -498,7 +508,9 @@ describe("carrying the task on once the app is ready", () => {
     const again = inConversation(
       <AppAccessCard place={place} prompt={prompt()} />,
     );
-    expect((await card(again)).textContent).toContain("Gmail está pronto agora.");
+    expect((await card(again)).textContent).toContain(
+      "Gmail está pronto agora.",
+    );
     expect(again.queryByRole("button", { name: "Continuar" })).toBeNull();
     expect(again.asked).toEqual([]);
   });

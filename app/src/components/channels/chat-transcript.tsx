@@ -216,7 +216,6 @@ function Thinking() {
       // is doing. The text says it, so a screen reader is told the same thing the shimmer implies.
       role="status"
     >
-      
       Pensando
     </p>
   );
@@ -397,7 +396,6 @@ function Queued({
               onClick={onRemove}
               type="button"
             >
-              
               Remover
             </button>
           ) : null}
@@ -675,13 +673,12 @@ function ResponsibilityFiring({
       <IconClock aria-hidden className="size-4 shrink-0 translate-y-0.5" />
       <div className="min-w-0">
         <p>
-          <span className="font-medium">Responsabilidade executada.</span>  Gatilho:{" "}
-          {describeTrigger(turn.trigger)}
+          <span className="font-medium">Responsabilidade executada.</span>{" "}
+          Gatilho: {describeTrigger(turn.trigger)}
         </p>
         <p className="whitespace-pre-wrap">{turn.instruction}</p>
         <details className="group mt-1">
           <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-sm text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
-            
             Detalhes
             <IconChevronDown
               aria-hidden

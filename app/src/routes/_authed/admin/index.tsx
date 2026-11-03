@@ -70,13 +70,15 @@ const SECTIONS: {
       },
       {
         title: "Aprovações",
-        description: "Escolha quais ações exigem aprovação para os Bots dos membros.",
+        description:
+          "Escolha quais ações exigem aprovação para os Bots dos membros.",
         icon: IconChecks,
         linkOptions: { to: "/admin/approvals" },
       },
       {
         title: "Computadores",
-        description: "Gerencie os computadores que executam as ferramentas dos Bots.",
+        description:
+          "Gerencie os computadores que executam as ferramentas dos Bots.",
         icon: IconDeviceDesktop,
         linkOptions: { to: "/admin/computers" },
       },
@@ -95,7 +97,8 @@ const SECTIONS: {
       },
       {
         title: "Habilidades",
-        description: "Crie instruções reutilizáveis que as pessoas podem executar com /.",
+        description:
+          "Crie instruções reutilizáveis que as pessoas podem executar com /.",
         icon: IconFileText,
         linkOptions: { to: "/admin/skills" },
       },
@@ -115,7 +118,8 @@ const SECTIONS: {
       },
       {
         title: "Playground",
-        description: "Escreva um componente e veja-o renderizar enquanto digita.",
+        description:
+          "Escreva um componente e veja-o renderizar enquanto digita.",
         icon: IconCode,
         linkOptions: { to: "/admin/playground" },
       },
@@ -127,7 +131,8 @@ const SECTIONS: {
     items: [
       {
         title: "Pessoas",
-        description: "Revise membros, gerencie funções de administrador e remova acessos.",
+        description:
+          "Revise membros, gerencie funções de administrador e remova acessos.",
         icon: IconUsers,
         linkOptions: { to: "/admin/people" },
       },

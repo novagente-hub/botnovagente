@@ -74,7 +74,9 @@ export function ProposedSkillCard({
   if (!respond) {
     return (
       <GalleryFrame title={titleFor(args.slug, replaces)}>
-        <p className="text-sm text-muted-foreground">Escrevendo a habilidade…</p>
+        <p className="text-sm text-muted-foreground">
+          Escrevendo a habilidade…
+        </p>
       </GalleryFrame>
     );
   }
@@ -94,7 +96,9 @@ export function ProposedSkillCard({
       // Left on the card with the buttons still live. See `refusal` above.
       setSending(null);
       setRefusal(
-        cause instanceof Error ? cause.message : "Não foi possível salvar a habilidade.",
+        cause instanceof Error
+          ? cause.message
+          : "Não foi possível salvar a habilidade.",
       );
       return;
     }
@@ -123,7 +127,9 @@ export function ProposedSkillCard({
         <dd className="min-w-0 break-words">{values.title}</dd>
         {values.summary ? (
           <>
-            <dt className="truncate text-muted-foreground">Resumo de uma linha</dt>
+            <dt className="truncate text-muted-foreground">
+              Resumo de uma linha
+            </dt>
             <dd className="min-w-0 break-words">{values.summary}</dd>
           </>
         ) : null}
@@ -145,8 +151,8 @@ export function ProposedSkillCard({
 
       {values.tools.length > 0 ? (
         <p className="mt-2 text-muted-foreground text-xs">
-          
-          Citar uma ferramenta não dá acesso. Um Bot só pode usá-las se já as tiver.
+          Citar uma ferramenta não dá acesso. Um Bot só pode usá-las se já as
+          tiver.
         </p>
       ) : null}
 
@@ -162,11 +168,7 @@ export function ProposedSkillCard({
           onClick={() => void create()}
           size="sm"
         >
-          {sending === "save"
-            ? "Salvando…"
-            : replaces
-              ? "Substituir"
-              : "Criar"}
+          {sending === "save" ? "Salvando…" : replaces ? "Substituir" : "Criar"}
         </Button>
         <Button
           disabled={Boolean(sending)}
@@ -197,7 +199,6 @@ function PutItOnABot({ slug }: { slug: string }) {
       search={{ edit: slug }}
       to="/capabilities/skills"
     >
-      
       Colocar em um Bot
     </Link>
   );
@@ -237,8 +238,8 @@ function Unwritable({
       title="Habilidade"
     >
       <p className="text-sm">
-        
-        O rascunho do Bot não era uma habilidade válida. Nada foi salvo, e o Bot sabe o que corrigir.
+        O rascunho do Bot não era uma habilidade válida. Nada foi salvo, e o Bot
+        sabe o que corrigir.
       </p>
     </GalleryFrame>
   );

@@ -58,7 +58,8 @@ export function issueSlackCodeMutationOptions() {
   });
 }
 
-const CONNECT_GITHUB_FAILED = "Não foi possível começar a conectar o GitHub. Tente novamente.";
+const CONNECT_GITHUB_FAILED =
+  "Não foi possível começar a conectar o GitHub. Tente novamente.";
 
 /**
  * The only address the browser will follow after asking to connect GitHub: the OAuth authorize page

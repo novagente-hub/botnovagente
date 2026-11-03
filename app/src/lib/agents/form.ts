@@ -11,7 +11,10 @@ export const agentFormSchema = z.object({
     .trim()
     .min(1, "O nome é obrigatório.")
     .max(80, "O nome deve ter no máximo 80 caracteres."),
-  title: z.string().trim().max(120, "O título deve ter no máximo 120 caracteres."),
+  title: z
+    .string()
+    .trim()
+    .max(120, "O título deve ter no máximo 120 caracteres."),
   roleDescription: z
     .string()
     .trim()

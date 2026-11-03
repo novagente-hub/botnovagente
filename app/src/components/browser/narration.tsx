@@ -200,13 +200,11 @@ export function NarrationSwitch({
             aria-hidden="true"
             className="size-1.5 shrink-0 rounded-full bg-emerald-500 motion-safe:animate-pulse"
           />
-          
           Ouvindo
         </span>
       ) : null}
       <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
       <label htmlFor={id} id={labelId} className="text-muted-foreground">
-        
         Narração
       </label>
       {/* Named by the label's id as well: the switch is a span with role="switch", which `htmlFor` cannot name. */}

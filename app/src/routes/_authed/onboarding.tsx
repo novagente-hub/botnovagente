@@ -83,7 +83,6 @@ function ComputerUseStep() {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tight max-w-md text-center">
-        
         Cada Bot tem o próprio navegador e arquivos
       </h1>
       <div className="h-8" />
@@ -108,7 +107,11 @@ const AGENTS_PLACEHOLDER: RosterCard[] = [
     name: "Analista de pesquisa",
     avatarSeed: "research-analyst",
   },
-  { id: "placeholder-data", name: "Analista de dados", avatarSeed: "data-analyst" },
+  {
+    id: "placeholder-data",
+    name: "Analista de dados",
+    avatarSeed: "data-analyst",
+  },
   {
     id: "placeholder-support",
     name: "Central de suporte",
@@ -133,7 +136,6 @@ function RosterStep() {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tight max-w-md text-center">
-        
         Escolha um Bot ou crie o seu
       </h1>
       <div className="h-8" />
@@ -163,7 +165,6 @@ function RosterStep() {
         <div className="bg-card p-4 rounded-lg flex flex-row gap-4 items-center">
           <div className="rounded-full size-[40px] border border-foreground/30 border-dashed" />
           <h3 className="line-clamp-1 text-base font-medium tracking-tight text-foreground/70">
-            
             Seu próprio Bot
           </h3>
         </div>
@@ -183,7 +184,6 @@ function LocalStep() {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tight max-w-md text-center">
-        
         Ele roda na sua máquina
       </h1>
       {/*
@@ -192,8 +192,8 @@ function LocalStep() {
        * word about sign-in either: activating a local install signs you in to CopilotKit.
        */}
       <p className="mt-3 max-w-md text-center text-muted-foreground">
-        
-        Suas conversas, arquivos e Bots ficam neste computador. Só o que você envia ao seu modelo sai dele.
+        Suas conversas, arquivos e Bots ficam neste computador. Só o que você
+        envia ao seu modelo sai dele.
       </p>
       <div className="h-8" />
       <IllustrationFrame
@@ -213,12 +213,11 @@ function AgentsStep() {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tight max-w-md text-center">
-        
         Traga os agentes que você já tem
       </h1>
       <p className="mt-3 max-w-md text-center text-muted-foreground">
-        
-        Qualquer agente AG-UI pode entrar como Bot. Adicione um em Bots, depois Novo Bot.
+        Qualquer agente AG-UI pode entrar como Bot. Adicione um em Bots, depois
+        Novo Bot.
       </p>
       <div className="h-8" />
       <IllustrationFrame
@@ -243,12 +242,11 @@ function OrganizationStep() {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <h1 className="text-3xl font-semibold tracking-tight max-w-md text-center">
-        
         Implante na sua organização
       </h1>
       <p className="mt-3 max-w-md text-center text-muted-foreground">
-        
-        Rode uma imagem de container ou um Helm chart para EKS, GKE ou AKS. Sua equipe entra com Google, Microsoft ou Okta.
+        Rode uma imagem de container ou um Helm chart para EKS, GKE ou AKS. Sua
+        equipe entra com Google, Microsoft ou Okta.
       </p>
       <div className="h-8" />
       <IllustrationFrame
@@ -267,7 +265,6 @@ function OrganizationStep() {
         rel="noopener noreferrer"
         target="_blank"
       >
-        
         Fale com um engenheiro
       </a>
     </div>
@@ -407,15 +404,14 @@ function RouteComponent() {
               {capabilitiesError && !capabilities ? (
                 <div className="mt-4 text-center">
                   <p className="text-sm text-destructive" role="alert">
-                    
-                    Não foi possível carregar sua configuração. Tente novamente para continuar.
+                    Não foi possível carregar sua configuração. Tente novamente
+                    para continuar.
                   </p>
                   <Button
                     variant="ghost"
                     disabled={loadingCapabilities}
                     onClick={() => retryCapabilities()}
                   >
-                    
                     Tentar novamente
                   </Button>
                 </div>
@@ -445,7 +441,6 @@ function RouteComponent() {
                     }
                     size="lg"
                   >
-                    
                     Continuar
                   </Button>
                 )}
@@ -464,7 +459,6 @@ function RouteComponent() {
                     variant="secondary"
                     size="lg"
                   >
-                    
                     Voltar
                   </Button>
                 )}

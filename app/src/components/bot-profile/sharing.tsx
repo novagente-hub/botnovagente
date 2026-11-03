@@ -117,7 +117,6 @@ export function SharingSections({ agent }: { agent: AgentProfile }) {
                     size="sm"
                     variant="outline"
                   >
-                    
                     Despublicar
                   </Button>
                 </ItemActions>
@@ -131,7 +130,6 @@ export function SharingSections({ agent }: { agent: AgentProfile }) {
               <ItemContent>
                 <ItemTitle>Link</ItemTitle>
                 <ItemDescription>
-                  
                   Abre uma conversa privada com ele.
                 </ItemDescription>
               </ItemContent>
@@ -258,8 +256,8 @@ function PublishDialog({
             {current ? "Para quem está publicado" : "Publicar"}
           </DialogTitle>
           <DialogDescription>
-            
-            Publicar não muda a visibilidade. Você pode despublicar a qualquer momento.
+            Publicar não muda a visibilidade. Você pode despublicar a qualquer
+            momento.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 overflow-y-auto">
@@ -283,7 +281,6 @@ function PublishDialog({
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor={`${formId}-audience`}>
-                  
                   Publicado para
                 </FieldLabel>
                 <Select
@@ -313,7 +310,6 @@ function PublishDialog({
                 <>
                   <Field>
                     <FieldLabel htmlFor={`${formId}-people`}>
-                      
                       Pessoas, por e-mail
                     </FieldLabel>
                     <Input
@@ -345,7 +341,6 @@ function PublishDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            
             Cancelar
           </Button>
           <Button
@@ -400,7 +395,6 @@ function Assignments({ bot }: { bot: TeamBot }) {
                   size="sm"
                   variant="outline"
                 >
-                  
                   Remover
                 </Button>
               </ItemActions>
@@ -439,9 +433,8 @@ function AssignDialog({ bot, onClose }: { bot: TeamBot; onClose: () => void }) {
     <Dialog onOpenChange={(next) => !next && onClose()} open>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Atribuir {bot.name}  a um grupo</DialogTitle>
+          <DialogTitle>Atribuir {bot.name} a um grupo</DialogTitle>
           <DialogDescription>
-            
             Fica fixado no topo da lista de Bots de cada membro.
           </DialogDescription>
         </DialogHeader>
@@ -471,7 +464,6 @@ function AssignDialog({ bot, onClose }: { bot: TeamBot; onClose: () => void }) {
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            
             Cancelar
           </Button>
           <Button
@@ -480,7 +472,6 @@ function AssignDialog({ bot, onClose }: { bot: TeamBot; onClose: () => void }) {
             size="sm"
             type="submit"
           >
-            
             Atribuir
           </Button>
         </DialogFooter>

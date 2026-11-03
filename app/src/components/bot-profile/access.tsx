@@ -154,7 +154,6 @@ function YourApps({ agent }: { agent: AgentProfile }) {
       ) : null}
       {giveable.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar seus apps. Recarregue a página.
         </p>
       ) : rows.length === 0 ? (
@@ -166,14 +165,12 @@ function YourApps({ agent }: { agent: AgentProfile }) {
               variant="outline"
             >
               <IconPlug />
-              
               Conexões
             </Button>
           }
           icon={IconApps}
           title="Ainda não há apps para dar"
         >
-          
           Conecte um app para que seus Bots possam usá-lo.
         </PageEmpty>
       ) : (
@@ -249,7 +246,6 @@ function YourSkills({ agentId }: { agentId: string }) {
       ) : null}
       {page.isPending ? null : page.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar suas habilidades. Recarregue a página.
         </p>
       ) : skills.length === 0 ? (
@@ -261,14 +257,12 @@ function YourSkills({ agentId }: { agentId: string }) {
               variant="outline"
             >
               <IconPlus />
-              
               Escrever uma habilidade
             </Button>
           }
           icon={IconBox}
           title="Nenhuma habilidade ainda"
         >
-          
           As habilidades que você escrever aparecem aqui.
         </PageEmpty>
       ) : (
@@ -332,7 +326,6 @@ function Granted({ agentId, mine }: { agentId: string; mine: boolean }) {
   if (!plugins.data) {
     return (
       <p className="mt-6 text-destructive text-sm" role="alert">
-        
         Não foi possível carregar o que este Bot pode usar. Recarregue a página.
       </p>
     );
@@ -356,8 +349,8 @@ function Granted({ agentId, mine }: { agentId: string; mine: boolean }) {
     >
       {apps.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          
-          Não foi possível verificar se cada app está pronto para você. Recarregue a página.
+          Não foi possível verificar se cada app está pronto para você.
+          Recarregue a página.
         </p>
       ) : null}
       {count === 0 ? (
@@ -445,7 +438,9 @@ function Granted({ agentId, mine }: { agentId: string; mine: boolean }) {
                   <ItemDescription>{skill.summary}</ItemDescription>
                 </ItemContent>
                 <ItemActions>
-                  <span className="text-muted-foreground text-sm">Habilidade</span>
+                  <span className="text-muted-foreground text-sm">
+                    Habilidade
+                  </span>
                 </ItemActions>
               </Item>
             </Fragment>

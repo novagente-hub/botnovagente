@@ -28,7 +28,6 @@ export function CommandOutput({
     <div className="space-y-1.5">
       {truncated ? (
         <p className="text-muted-foreground text-xs">
-          
           A saída ficou longa demais. Este é o final dela.
         </p>
       ) : null}
@@ -38,19 +37,16 @@ export function CommandOutput({
         </pre>
       ) : (
         <p className="text-muted-foreground text-xs italic">
-          
           Não imprimiu nada.
         </p>
       )}
       {timedOut ? (
         <p className="text-destructive text-xs">
-          
           Demorou demais e foi interrompido.
         </p>
       ) : null}
       {failed ? (
         <p className="text-amber-600 text-xs dark:text-amber-500">
-          
           Código de saída {exitCode}.
         </p>
       ) : null}

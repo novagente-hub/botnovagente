@@ -102,7 +102,9 @@ test("admin previews asynchronously loaded published source with saved samples i
     );
     // The sizing observer must mount after the source arrives, even though the first render was empty.
     expect(observe.mock.calls).toHaveLength(2);
-    expect(view.queryByText("Esta versão não consegue desenhar isto.")).toBeNull();
+    expect(
+      view.queryByText("Esta versão não consegue desenhar isto."),
+    ).toBeNull();
   } finally {
     observe.mockRestore();
     queryClient.clear();
@@ -135,7 +137,9 @@ test("read-only galleries identify playground components without fetching admini
     <ComponentPreview kind="sandboxed" name={PUBLISHED.name} />,
   );
   expect(view.getByText("Publicado no playground.")).toBeTruthy();
-  expect(view.queryByText("Esta versão não consegue desenhar isto.")).toBeNull();
+  expect(
+    view.queryByText("Esta versão não consegue desenhar isto."),
+  ).toBeNull();
   expect(fetcher).not.toHaveBeenCalled();
   expect(renderer).not.toHaveBeenCalled();
 });

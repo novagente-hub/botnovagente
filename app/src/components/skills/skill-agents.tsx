@@ -39,7 +39,6 @@ export function SkillAgents({
       <h2 className="text-sm font-medium">Bots</h2>
       {mine.length === 0 ? (
         <p className="text-muted-foreground text-xs">
-          
           Você ainda não tem um Bot próprio.
         </p>
       ) : (
@@ -67,9 +66,8 @@ export function SkillAgents({
             })}
           </div>
           <p className="text-muted-foreground text-xs">
-            
-            Os Bots que você escolher aqui oferecem <code>/{slug}</code>  quando você digita{" "}
-            <code>/</code>.
+            Os Bots que você escolher aqui oferecem <code>/{slug}</code> quando
+            você digita <code>/</code>.
           </p>
         </>
       )}

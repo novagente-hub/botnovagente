@@ -46,8 +46,7 @@ describe("SharedApprovalFields", () => {
     }
     const view = render(<Harness />);
     expect(
-      (view.getByRole("radio", { name: "Todos" }) as HTMLInputElement)
-        .checked,
+      (view.getByRole("radio", { name: "Todos" }) as HTMLInputElement).checked,
     ).toBe(true);
     await userEvent.click(view.getByRole("radio", { name: "Só o dono" }));
     await userEvent.click(

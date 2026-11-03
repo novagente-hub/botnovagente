@@ -37,7 +37,6 @@ export function CallbackTokenPanel({
   return (
     <section className="mt-6 grid gap-2">
       <h2 className="font-medium text-muted-foreground text-xs uppercase tracking-wide">
-        
         Chave para ferramentas
       </h2>
 
@@ -50,7 +49,6 @@ export function CallbackTokenPanel({
       {token ? (
         <div className="grid gap-2 rounded-lg border border-border bg-card p-3">
           <p className="font-medium text-sm">
-            
             Copie esta chave agora. Você não vai vê-la de novo.
           </p>
           {/*
@@ -61,11 +59,9 @@ export function CallbackTokenPanel({
             {token}
           </code>
           <p className="text-muted-foreground text-xs">
-            
             Se perdê-la, crie uma nova.
           </p>
           <Button onClick={() => setToken(null)} size="sm" variant="outline">
-            
             Concluído
           </Button>
         </div>

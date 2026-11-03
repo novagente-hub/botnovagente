@@ -96,7 +96,6 @@ export function RecipientField({
           ))}
           {matches.length === 0 ? (
             <li className="px-2 py-1.5 text-sm text-muted-foreground">
-              
               Nenhum Bot com esse nome.
             </li>
           ) : null}

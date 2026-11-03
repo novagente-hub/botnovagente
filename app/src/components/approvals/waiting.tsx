@@ -91,7 +91,6 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                     }
                     size="sm"
                   >
-                    
                     Enviar resposta
                   </Button>
                 </ItemFooter>
@@ -136,7 +135,6 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                       }
                       size="sm"
                     >
-                      
                       Eu mesmo fiz
                     </Button>
                     <Button
@@ -147,7 +145,6 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                       size="sm"
                       variant="outline"
                     >
-                      
                       Não faça
                     </Button>
                   </ItemFooter>
@@ -163,7 +160,6 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                       }
                       size="sm"
                     >
-                      
                       Permitir uma vez
                     </Button>
                     <Button
@@ -177,7 +173,6 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                       size="sm"
                       variant="outline"
                     >
-                      
                       Sempre permitir aqui
                     </Button>
                     <Button
@@ -188,7 +183,6 @@ export function WaitingForYou({ agentId }: { agentId?: string }) {
                       size="sm"
                       variant="outline"
                     >
-                      
                       Negar
                     </Button>
                   </ItemFooter>

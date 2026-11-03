@@ -371,7 +371,8 @@ const DISCOVERY_REASONS: Record<string, string> = {
   "under-floor": "Poucas ferramentas, então todas foram oferecidas",
   "nothing-declared": "Nenhuma habilidade declara estas ferramentas",
   unavailable: "Não foi possível escolher, então todas foram oferecidas",
-  "nothing-chosen": "Nenhuma habilidade se aplicou, então todas foram oferecidas",
+  "nothing-chosen":
+    "Nenhuma habilidade se aplicou, então todas foram oferecidas",
   selected: "Escolhidas pela habilidade",
 };
 

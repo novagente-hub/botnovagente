@@ -108,7 +108,9 @@ export function saveVoiceSession(
       const body: { session?: VoiceSessionRecord; error?: string } =
         await response.json().catch(() => ({}));
       if (!body.session)
-        throw new Error(body.error ?? "Não foi possível salvar este chat de voz.");
+        throw new Error(
+          body.error ?? "Não foi possível salvar este chat de voz.",
+        );
       const session = body.session;
       forgetVoiceCall(session, ownerId);
       queryClient.setQueryData<VoiceSessionRecord[]>(

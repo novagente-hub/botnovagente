@@ -200,7 +200,6 @@ export function VoiceCallWidget({
                   checked={captions}
                   onCheckedChange={setCaptions}
                 >
-                  
                   Mostrar legendas ao vivo
                 </DropdownMenuCheckboxItem>
               </DropdownMenuContent>
@@ -281,7 +280,6 @@ export function VoiceCallWidget({
                 className="mt-2"
                 onClick={() => void session.start()}
               >
-                
                 Tentar novamente
               </Button>
             </div>

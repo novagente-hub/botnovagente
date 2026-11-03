@@ -137,7 +137,9 @@ test("a row opens the Bot's own page", async () => {
 test("with every Bot of yours pinned, Yours says so instead of claiming none", async () => {
   serving([bot({ id: "favourite", name: "Favourite", pinned: true })], []);
   const view = draw();
-  expect(await view.findByText("Seus Bots estão todos fixados acima.")).toBeTruthy();
+  expect(
+    await view.findByText("Seus Bots estão todos fixados acima."),
+  ).toBeTruthy();
   expect(
     view.queryByText("You don't have any Bots yet. Create one with New Bot."),
   ).toBeNull();
@@ -219,7 +221,11 @@ test("a Bot with something waiting comes first, under Needs you, with its count"
   const headings = [...view.container.querySelectorAll("h2")].map(
     (heading) => heading.textContent,
   );
-  expect(headings).toEqual(["Precisa de você", "Seus", "Compartilhados com você"]);
+  expect(headings).toEqual([
+    "Precisa de você",
+    "Seus",
+    "Compartilhados com você",
+  ]);
   // Once, under Needs you, not again under Shared with you.
   expect(view.getAllByText("Waiting")).toHaveLength(1);
   expect(view.getByText("2")).toBeTruthy();

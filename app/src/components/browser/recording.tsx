@@ -87,7 +87,9 @@ export function useRecording(
      * A Recorder that reports itself disconnected does not hold Record back: the server connects the person's own
      * browser again before it starts (a Disconnect in Settings, Browsers leaves it signed out until then).
      */
-    waiting: !state.open ? "Seu navegador está fechado. Abra-o para gravar." : null,
+    waiting: !state.open
+      ? "Seu navegador está fechado. Abra-o para gravar."
+      : null,
     start: startBrowserRecordingMutationOptions(queryClient),
     stop: stopBrowserRecordingMutationOptions(queryClient),
     choice,
@@ -375,7 +377,6 @@ export function RecordingRow({
             disabled={recording.stopping || recording.phase !== "recording"}
             onClick={() => void recording.stop()}
           >
-            
             Parar
           </Button>
         </ItemActions>
@@ -452,7 +453,6 @@ export function RecordingBar({
           disabled={recording.stopping || recording.phase !== "recording"}
           onClick={() => void recording.stop()}
         >
-          
           Parar
         </Button>
       </div>

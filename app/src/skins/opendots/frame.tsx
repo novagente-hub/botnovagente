@@ -105,7 +105,6 @@ function RailUserMenu() {
           variant="destructive"
         >
           <IconLogout />
-          
           Sair
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -170,11 +169,17 @@ function Rail({
       >
         <AgentOrb size="26px" />
       </Link>
-      <RailTip label={navCollapsed ? "Expandir barra lateral" : "Recolher barra lateral"}>
+      <RailTip
+        label={
+          navCollapsed ? "Expandir barra lateral" : "Recolher barra lateral"
+        }
+      >
         <button
           aria-controls="opendots-sidebar"
           aria-expanded={!navCollapsed}
-          aria-label={navCollapsed ? "Expandir barra lateral" : "Recolher barra lateral"}
+          aria-label={
+            navCollapsed ? "Expandir barra lateral" : "Recolher barra lateral"
+          }
           className={railButton}
           onClick={onToggleNav}
           type="button"

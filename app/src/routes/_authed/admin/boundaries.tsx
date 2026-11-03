@@ -57,7 +57,6 @@ function BoundariesPage() {
       variant="ghost"
     >
       <IconPlus />
-      
       Adicionar regra
     </Button>
   );
@@ -93,14 +92,12 @@ function BoundariesPage() {
                 variant="outline"
               >
                 <IconPlus />
-                
                 Adicionar regra
               </Button>
             }
             icon={IconShieldX}
             title="Nenhuma regra ainda"
           >
-            
             Os Bots podem fazer tudo o que as próprias permissões permitem.
           </PageEmpty>
         ) : (
@@ -179,8 +176,8 @@ function BoundariesPage() {
             <ItemContent>
               <ItemTitle>Ações impedidas</ItemTitle>
               <ItemDescription>
-                
-                Em Auditoria, escolha Bloqueado para ver cada ação que uma regra impediu e qual regra foi.
+                Em Auditoria, escolha Bloqueado para ver cada ação que uma regra
+                impediu e qual regra foi.
               </ItemDescription>
             </ItemContent>
             <IconChevronRight className="size-4 shrink-0 text-muted-foreground" />

@@ -24,7 +24,8 @@ import { queryClient } from "@/query-client";
 const KIND_LABEL: Record<UpdateKind, { title: string; description: string }> = {
   progress: {
     title: "Progresso",
-    description: "Respostas e resultados de trabalhos que você não estava acompanhando.",
+    description:
+      "Respostas e resultados de trabalhos que você não estava acompanhando.",
   },
   decision: {
     title: "Decisões",
@@ -67,8 +68,8 @@ export function UpdateRoutingSection() {
     >
       {routing.isPending || reach.isPending ? null : routing.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          
-          Não foi possível carregar para onde vão suas atualizações. Recarregue a página.
+          Não foi possível carregar para onde vão suas atualizações. Recarregue
+          a página.
         </p>
       ) : (
         <PageRows>
@@ -120,7 +121,6 @@ export function UpdateRoutingSection() {
                           {transport.label}
                           {configured(transport.id) ? null : (
                             <span className="text-muted-foreground text-xs">
-                              
                               Não configurado
                             </span>
                           )}

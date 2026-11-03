@@ -83,15 +83,15 @@ export function HandoffPanel({ agentId }: { agentId: string }) {
       {/* Facts about the deployment rather than rows to act on, so said as sentences. */}
       {enabled ? null : (
         <PageEmpty icon={IconArrowsExchange} title="Repasses desativados">
-          
-          Um administrador desativou o repasse de trabalho entre Bots. Estas configurações ficam guardadas e voltam a valer quando for reativado.
+          Um administrador desativou o repasse de trabalho entre Bots. Estas
+          configurações ficam guardadas e voltam a valer quando for reativado.
         </PageEmpty>
       )}
 
       {grantable ? null : (
         <PageEmpty icon={IconLock} title="Não pode repassar trabalho">
-          
-          Este Bot não pode repassar trabalho a outros Bots. Outros Bots ainda podem repassar trabalho a ele.
+          Este Bot não pode repassar trabalho a outros Bots. Outros Bots ainda
+          podem repassar trabalho a ele.
         </PageEmpty>
       )}
 
@@ -103,7 +103,6 @@ export function HandoffPanel({ agentId }: { agentId: string }) {
 
       {grantable && total === 0 ? (
         <PageEmpty icon={IconRobot} title="Ainda não há outros Bots">
-          
           Quando houver mais, você pode deixar este Bot pedir ajuda a eles aqui.
         </PageEmpty>
       ) : null}
@@ -155,7 +154,6 @@ export function HandoffPanel({ agentId }: { agentId: string }) {
 
       {canGrant ? null : (
         <PageEmpty icon={IconLock} title="Definido por um administrador">
-          
           Um administrador decide a quais Bots este pode pedir ajuda.
         </PageEmpty>
       )}

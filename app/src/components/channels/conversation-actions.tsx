@@ -47,7 +47,6 @@ export function ConversationActions({
     <section className="grid gap-2">
       {/* Headed like the profile's own sections, so it reads as about the conversation, not the Bot. */}
       <h2 className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-        
         Esta conversa
       </h2>
       <div className="flex flex-col gap-2">
@@ -69,7 +68,6 @@ export function ConversationActions({
           variant="destructive"
         >
           <IconTrash />
-          
           Excluir…
         </Button>
       </div>

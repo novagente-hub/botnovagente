@@ -53,7 +53,8 @@ export function isBrokeredGithub(
 export const IDENTITY_SUMMARIES = {
   github:
     "Permite que o OpenBot reconheça você no GitHub, para que eventos de um repositório possam iniciar o trabalho dos seus Bots.",
-  slack: "Permite que o OpenBot reconheça você quando você envia mensagens pelo Slack.",
+  slack:
+    "Permite que o OpenBot reconheça você quando você envia mensagens pelo Slack.",
 } as const;
 
 const IDENTITY_TITLES = { github: "GitHub", slack: "Slack" } as const;

@@ -42,17 +42,15 @@ function PasswordsPage() {
       <PageSection title="Logins salvos">
         {logins.isPending ? null : logins.error ? (
           <p className="text-destructive text-sm" role="alert">
-            
             Não foi possível carregar suas senhas. Recarregue a página.
           </p>
         ) : !logins.data.passwordManager ? (
           <PageEmpty icon={IconLockOff} title="Senhas salvas desativadas">
-            
-            Um administrador as desativou. Seus logins ficam guardados, mas não serão oferecidos.
+            Um administrador as desativou. Seus logins ficam guardados, mas não
+            serão oferecidos.
           </PageEmpty>
         ) : logins.data.logins.length === 0 ? (
           <PageEmpty icon={IconKey} title="Nenhum login salvo ainda">
-            
             Escolha Salvar em Senhas quando fizer login de um Bot em um site.
           </PageEmpty>
         ) : (

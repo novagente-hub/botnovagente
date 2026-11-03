@@ -76,7 +76,10 @@ export function screenPickedFiles(
 
     if (kind === "unsupported" && !unnamed) {
       rejected.push(
-        reject(file, `'${file.name}' não é um tipo de arquivo que pode ser anexado.`),
+        reject(
+          file,
+          `'${file.name}' não é um tipo de arquivo que pode ser anexado.`,
+        ),
       );
       continue;
     }

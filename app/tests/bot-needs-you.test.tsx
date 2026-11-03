@@ -149,8 +149,12 @@ test("only what this Bot waits on is shown, and it can be decided here", async (
   expect(await view.findByText("Precisa de você")).toBeTruthy();
   expect(view.getByText(/Which card\?/)).toBeTruthy();
   expect(view.queryByText(/Which wiki\?/)).toBeNull();
-  expect(view.getAllByRole("button", { name: "Permitir uma vez" })).toHaveLength(1);
-  expect(view.getByRole("button", { name: "Sempre permitir aqui" })).toBeTruthy();
+  expect(
+    view.getAllByRole("button", { name: "Permitir uma vez" }),
+  ).toHaveLength(1);
+  expect(
+    view.getByRole("button", { name: "Sempre permitir aqui" }),
+  ).toBeTruthy();
   expect(view.getByRole("button", { name: "Negar" })).toBeTruthy();
   expect(view.getByRole("button", { name: "Enviar resposta" })).toBeTruthy();
   fireEvent.click(view.getByRole("button", { name: "Permitir uma vez" }));

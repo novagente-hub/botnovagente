@@ -161,7 +161,6 @@ export function RuleRow({
               size="sm"
               variant="outline"
             >
-              
               Remover
             </Button>
           </>
@@ -235,7 +234,6 @@ export function RuleForm({
         <ItemContent>
           <ItemTitle>{label}</ItemTitle>
           <ItemDescription>
-            
             Uma ferramenta ou app, e o que o Bot faz antes de usá-lo.
           </ItemDescription>
         </ItemContent>
@@ -248,8 +246,9 @@ export function RuleForm({
           <DialogHeader>
             <DialogTitle>{label}</DialogTitle>
             <DialogDescription>
-              Use * para corresponder a qualquer coisa. mcp/gmail/* significa todas as
-              ferramentas do Gmail. Um alvo *.example.com significa todas as páginas desse site.
+              Use * para corresponder a qualquer coisa. mcp/gmail/* significa
+              todas as ferramentas do Gmail. Um alvo *.example.com significa
+              todas as páginas desse site.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4">
@@ -270,10 +269,18 @@ export function RuleForm({
                   "mcp/gmail/*, computer_click, host/*",
                 )}
                 {field("effect", "Tipo de ação", "* , write, read, delegate")}
-                {field("scope", "Alvo", "*, um site, uma pasta, um nome de Bot")}
-                {botField ? field("botId", "Bot", "* para todos os Bots") : null}
+                {field(
+                  "scope",
+                  "Alvo",
+                  "*, um site, uma pasta, um nome de Bot",
+                )}
+                {botField
+                  ? field("botId", "Bot", "* para todos os Bots")
+                  : null}
                 <Field>
-                  <FieldLabel htmlFor={`${id}-behaviour`}>Comportamento</FieldLabel>
+                  <FieldLabel htmlFor={`${id}-behaviour`}>
+                    Comportamento
+                  </FieldLabel>
                   <LabelSelect
                     id={`${id}-behaviour`}
                     labels={BEHAVIOUR_LABELS}
@@ -293,7 +300,6 @@ export function RuleForm({
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button onClick={close} size="sm" variant="outline">
-              
               Cancelar
             </Button>
             <Button
@@ -302,7 +308,6 @@ export function RuleForm({
               size="sm"
               type="submit"
             >
-              
               Salvar regra
             </Button>
           </DialogFooter>

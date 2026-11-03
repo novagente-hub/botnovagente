@@ -147,7 +147,6 @@ function RecordingControls({
           </p>
         ) : state.phase === "requesting" ? (
           <p className="text-sm text-muted-foreground" role="status">
-            
             Aguardando permissão do microfone…
           </p>
         ) : (

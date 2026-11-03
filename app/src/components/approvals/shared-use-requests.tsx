@@ -24,7 +24,8 @@ const WHY: Record<SharedUseRequestReason, string> = {
   refused_call:
     "Uma ação foi bloqueada. Este Bot alcança mais pessoas do que o aprovado.",
   publish: "O dono ampliou quem pode acessá-lo.",
-  trigger: "O dono adicionou um gatilho que permite que mensagens de fora o direcionem.",
+  trigger:
+    "O dono adicionou um gatilho que permite que mensagens de fora o direcionem.",
   grant: "Ele recebeu as ações do app.",
 };
 
@@ -65,14 +66,12 @@ export function SharedUseRequests() {
                     request.reason}
                 </ItemDescription>
                 <p className="text-sm">
-                  
                   Agora:{" "}
                   {request.current
                     ? describeApproval(request.current)
                     : "Não aprovado"}
                 </p>
                 <p className="text-sm">
-                  
                   Pedido: {describeApproval(request.proposed)}
                 </p>
               </ItemContent>
@@ -84,7 +83,6 @@ export function SharedUseRequests() {
                   }
                   size="sm"
                 >
-                  
                   Aprovar
                 </Button>
                 <Button
@@ -95,7 +93,6 @@ export function SharedUseRequests() {
                   size="sm"
                   variant="outline"
                 >
-                  
                   Recusar
                 </Button>
               </ItemFooter>

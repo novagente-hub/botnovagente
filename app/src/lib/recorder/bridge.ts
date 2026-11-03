@@ -159,7 +159,8 @@ export async function askConnectWait(id: string): Promise<ConnectWait> {
 
 const CONNECT_REFUSALS: Record<string, string> = {
   "not-https": "O Recorder só se conecta ao OpenBot por HTTPS.",
-  "pinned-elsewhere": "Sua organização configurou o Recorder para outro OpenBot.",
+  "pinned-elsewhere":
+    "Sua organização configurou o Recorder para outro OpenBot.",
   "policy-invalid":
     "A política do Recorder da sua organização indica um endereço do OpenBot que o Recorder não pode usar. Fale com sua equipe de TI.",
   busy: "O Recorder está concluindo outro pedido de conexão. Tente de novo em instantes.",
@@ -176,7 +177,8 @@ const CONNECT_REFUSAL_FALLBACK =
 /** The Recorder takes only so many connects from one OpenBot in ten minutes; its refusal says how long is left. */
 function throttledSentence(retryAfterMs: number | undefined): string {
   const lead = "Muitos pedidos de conexão em pouco tempo.";
-  if (retryAfterMs === undefined) return `${lead} Tente de novo em alguns minutos.`;
+  if (retryAfterMs === undefined)
+    return `${lead} Tente de novo em alguns minutos.`;
   const minutes = Math.max(1, Math.ceil(retryAfterMs / 60_000));
   return `${lead} Tente de novo em ${minutes} ${minutes === 1 ? "minuto" : "minutos"}.`;
 }

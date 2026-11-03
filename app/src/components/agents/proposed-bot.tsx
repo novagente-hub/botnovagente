@@ -160,7 +160,6 @@ export function ProposedBotCard({
       </dl>
 
       <p className="mt-3 text-muted-foreground text-xs">
-        
         As instruções dele. Ele as segue sempre que responde.
       </p>
       {/*
@@ -173,8 +172,8 @@ export function ProposedBotCard({
       </p>
 
       <p className="mt-2 text-muted-foreground text-xs">
-        
-        Ele começa privado, sem apps. Os apps são adicionados na página dele depois.
+        Ele começa privado, sem apps. Os apps são adicionados na página dele
+        depois.
       </p>
 
       {refusal ? (
@@ -232,7 +231,6 @@ function TalkToIt({
       params={{ agentId }}
       to="/bots/$agentId"
     >
-      
       Abrir {name?.trim() || "o Bot"}
     </Link>
   );
@@ -272,7 +270,6 @@ function Unwritable({
       title="Criar um Bot"
     >
       <p className="text-sm">
-        
         Este Bot não pôde ser criado como foi escrito. Ele está sendo reescrito.
       </p>
     </GalleryFrame>

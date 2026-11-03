@@ -87,7 +87,8 @@ function AuditPage() {
     setExportCapped(null);
     try {
       const response = await client(auditExportUrl(search), {
-        fallback: "Não foi possível exportar os eventos de auditoria. Tente novamente.",
+        fallback:
+          "Não foi possível exportar os eventos de auditoria. Tente novamente.",
       });
       // A file that stopped early must say so, or it reads as the whole trail.
       const capped = Number(response.headers.get("x-audit-export-truncated"));
@@ -125,8 +126,8 @@ function AuditPage() {
     >
       {events.isPending ? null : events.isError ? (
         <p className="px-4 text-destructive text-sm" role="alert">
-          
-          Não foi possível carregar o registro de auditoria. Recarregue a página.
+          Não foi possível carregar o registro de auditoria. Recarregue a
+          página.
         </p>
       ) : (
         <AuditTable
@@ -192,7 +193,6 @@ function AuditPage() {
                     variant="outline"
                   >
                     <IconRefresh />
-                    
                     Atualizar
                   </Button>
                   <Button
@@ -213,15 +213,13 @@ function AuditPage() {
               ) : null}
               {exportCapped ? (
                 <p className="text-muted-foreground text-sm" role="status">
-                  
-                  O arquivo tem os {exportCapped.toLocaleString()}{" "}
-                  
-                  eventos mais recentes, não todos. Restrinja o filtro ou as datas para exportar o resto.
+                  O arquivo tem os {exportCapped.toLocaleString()} eventos mais
+                  recentes, não todos. Restrinja o filtro ou as datas para
+                  exportar o resto.
                 </p>
               ) : null}
               {rows.length === 0 ? (
                 <PageEmpty icon={IconSearch} title="Nenhum resultado">
-                  
                   Nenhum evento corresponde a este filtro ainda.
                 </PageEmpty>
               ) : null}

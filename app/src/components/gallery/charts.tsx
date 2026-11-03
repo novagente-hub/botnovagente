@@ -96,7 +96,6 @@ function Sources({ basis, sources, asOf: when }: Provenance) {
     <p className="mt-3 text-xs text-muted-foreground">
       {unchecked ? (
         <span className="text-amber-700 dark:text-amber-400">
-          
           Do conhecimento próprio do Bot. Não verificado em uma fonte.
         </span>
       ) : null}
@@ -156,7 +155,6 @@ function formatNumber(value: unknown): string {
 function Empty() {
   return (
     <p className="py-10 text-center text-sm text-muted-foreground">
-      
       Não há dados para o gráfico.
     </p>
   );

@@ -96,7 +96,9 @@ export function SignInForm({ requestId }: { requestId: string }) {
 
   if (FINAL_SIGN_IN.includes(data.status))
     return (
-      <PageSection title={data.status === "signed_in" ? "Login feito" : "Fechado"}>
+      <PageSection
+        title={data.status === "signed_in" ? "Login feito" : "Fechado"}
+      >
         <p className="text-muted-foreground text-sm">
           {data.outcome ?? "Este login terminou."}
         </p>
@@ -124,7 +126,6 @@ export function SignInForm({ requestId }: { requestId: string }) {
           }}
         >
           <label className="flex flex-col gap-1 text-sm" htmlFor={`${id}-code`}>
-            
             Código de verificação
             <Input
               id={`${id}-code`}
@@ -155,7 +156,6 @@ export function SignInForm({ requestId }: { requestId: string }) {
               onClick={() => takeOver.mutate(requestId)}
             >
               <IconPointer />
-              
               Assumir para concluir
             </Button>
             <Button
@@ -165,7 +165,6 @@ export function SignInForm({ requestId }: { requestId: string }) {
               disabled={busy}
               onClick={() => cancel.mutate(requestId)}
             >
-              
               Cancelar
             </Button>
           </div>
@@ -187,7 +186,6 @@ export function SignInForm({ requestId }: { requestId: string }) {
               <Link to="/bot" search={{ agent: data.botId, watch: true }} />
             }
           >
-            
             Abrir o navegador do Bot
           </Button>
           <Button
@@ -203,7 +201,6 @@ export function SignInForm({ requestId }: { requestId: string }) {
             disabled={busy}
             onClick={() => cancel.mutate(requestId)}
           >
-            
             Cancelar
           </Button>
         </div>
@@ -250,7 +247,6 @@ export function SignInForm({ requestId }: { requestId: string }) {
                         })
                       }
                     >
-                      
                       Confirmar e entrar
                     </Button>
                   </ItemActions>
@@ -290,7 +286,6 @@ export function SignInForm({ requestId }: { requestId: string }) {
             className="flex flex-col gap-1 text-sm"
             htmlFor={`${id}-username`}
           >
-            
             Usuário ou e-mail
             <Input
               id={`${id}-username`}
@@ -304,7 +299,6 @@ export function SignInForm({ requestId }: { requestId: string }) {
             className="flex flex-col gap-1 text-sm"
             htmlFor={`${id}-password`}
           >
-            
             Senha
             <Input
               id={`${id}-password`}
@@ -326,7 +320,6 @@ export function SignInForm({ requestId }: { requestId: string }) {
                 checked={save}
                 onCheckedChange={(checked) => setSave(checked === true)}
               />
-              
               Salvar em Senhas
             </label>
           ) : null}
@@ -348,7 +341,6 @@ export function SignInForm({ requestId }: { requestId: string }) {
               onClick={() => takeOver.mutate(requestId)}
             >
               <IconPointer />
-              
               Assumir para entrar
             </Button>
             <Button
@@ -358,7 +350,6 @@ export function SignInForm({ requestId }: { requestId: string }) {
               disabled={busy}
               onClick={() => cancel.mutate(requestId)}
             >
-              
               Recusar
             </Button>
           </div>

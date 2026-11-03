@@ -213,7 +213,6 @@ function NewRulePage() {
                     )}
                     variant="outline"
                   >
-                    
                     Cancelar
                   </Button>
                   <Button
@@ -238,11 +237,9 @@ function NewRulePage() {
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="rule-description">
-                    
                     O que ela impede
                   </FieldLabel>
                   <FieldDescription>
-                    
                     Uma frase, mostrada abaixo do nome na lista.
                   </FieldDescription>
                   <Input
@@ -255,8 +252,9 @@ function NewRulePage() {
                 <Field>
                   <FieldLabel htmlFor="rule-expression">Regra</FieldLabel>
                   <FieldDescription>
-                    
-                    Escrita em CEL. Uma regra que não pode ser avaliada conta como correspondência, então um erro de digitação impede ações em vez de deixá-las passar.
+                    Escrita em CEL. Uma regra que não pode ser avaliada conta
+                    como correspondência, então um erro de digitação impede
+                    ações em vez de deixá-las passar.
                   </FieldDescription>
                   <Textarea
                     autoCapitalize="off"
@@ -273,7 +271,6 @@ function NewRulePage() {
                   />
                   {duplicate ? (
                     <p className="text-destructive text-sm">
-                      
                       Esta regra já está em vigor.
                     </p>
                   ) : null}
@@ -320,7 +317,6 @@ function RuleReference() {
   return (
     <details className="text-sm">
       <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-        
         O que uma regra pode verificar
       </summary>
       <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
@@ -334,9 +330,10 @@ function RuleReference() {
         ))}
       </dl>
       <p className="mt-3 text-muted-foreground">
-        
         Uma regra que cita algo que a ação não tem, como{" "}
-        <code className="font-mono text-xs">key</code>  em um clique, conta como correspondência. Cite a ferramenta primeiro para que o resto só seja verificado onde se aplica:{" "}
+        <code className="font-mono text-xs">key</code> em um clique, conta como
+        correspondência. Cite a ferramenta primeiro para que o resto só seja
+        verificado onde se aplica:{" "}
         <code className="font-mono text-xs">
           tool.name == "computer_key" && key == "Enter"
         </code>
@@ -350,8 +347,8 @@ function TestResult({ report }: { report: DryRunReport }) {
   if (report.scanned === 0) {
     return (
       <p className="mt-3 text-muted-foreground text-sm" role="status">
-        
-        Nenhuma ação registrada para testar ainda. A regra é válida; você verá o que ela impede depois que os Bots agirem.
+        Nenhuma ação registrada para testar ainda. A regra é válida; você verá o
+        que ela impede depois que os Bots agirem.
       </p>
     );
   }

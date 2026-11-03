@@ -121,7 +121,10 @@ test("search narrows the rows already loaded, and says how many match", async ()
   const view = await renderAudit();
   await userEvent
     .setup({ document })
-    .type(view.getByRole("searchbox", { name: "Pesquisar eventos" }), "save deal");
+    .type(
+      view.getByRole("searchbox", { name: "Pesquisar eventos" }),
+      "save deal",
+    );
   await waitFor(() => expect(whats(view.container)).toEqual(["click"]));
   expect(view.getByText("1 de 3 eventos")).toBeDefined();
 });

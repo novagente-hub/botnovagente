@@ -103,7 +103,9 @@ export async function supplySecret(
     } | null;
     return {
       ok: false,
-      error: body?.error ?? "Não foi possível digitar isso na página. Tente novamente.",
+      error:
+        body?.error ??
+        "Não foi possível digitar isso na página. Tente novamente.",
     };
   } catch {
     return {

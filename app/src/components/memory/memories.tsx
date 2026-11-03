@@ -63,7 +63,6 @@ export function RememberFact() {
         variant="ghost"
       >
         <IconPlus />
-        
         Lembrar um fato
       </Button>
       <Dialog onOpenChange={setOpen} open={open}>
@@ -89,7 +88,6 @@ export function RememberFact() {
             >
               <Field>
                 <FieldLabel htmlFor={`${formId}-content`}>
-                  
                   Algo que você quer que seus Bots saibam
                 </FieldLabel>
                 <Textarea
@@ -110,7 +108,6 @@ export function RememberFact() {
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button onClick={() => setOpen(false)} size="sm" variant="outline">
-              
               Cancelar
             </Button>
             <Button
@@ -119,7 +116,6 @@ export function RememberFact() {
               size="sm"
               type="submit"
             >
-              
               Lembrar
             </Button>
           </DialogFooter>
@@ -168,7 +164,6 @@ export function MemoryList({
         </PageRows>
       ) : (
         <PageEmpty icon={IconBrain} title="Nenhuma memória ainda">
-          
           Adicione uma com Lembrar um fato.
         </PageEmpty>
       )}
@@ -221,7 +216,6 @@ function MemoryRow({
         </ItemDescription>
         {memory.formedBy === "bot" && (
           <ItemDescription className="line-clamp-none">
-            
             De {memory.sourceApp ?? "a conversation"}
             {memory.observedAt
               ? `, read ${new Date(memory.observedAt).toLocaleString()}`
@@ -230,7 +224,6 @@ function MemoryRow({
               <>
                 {" · "}
                 <a href={memory.sourceLink} target="_blank" rel="noreferrer">
-                  
                   Abrir registro
                 </a>
               </>
@@ -248,7 +241,6 @@ function MemoryRow({
               size="sm"
               variant="outline"
             >
-              
               Editar
             </Button>
             {memory.reviewState === "unreviewed" && (
@@ -257,7 +249,6 @@ function MemoryRow({
                 variant="outline"
                 onClick={() => update({ reviewState: "confirmed" })}
               >
-                
                 Confirmar
               </Button>
             )}
@@ -267,7 +258,6 @@ function MemoryRow({
               disabled={forget.isPending}
               onClick={() => forget.mutate(memory.id)}
             >
-              
               Esquecer
             </Button>
           </div>
@@ -339,7 +329,6 @@ function EditMemoryDialog({
         <DialogBody className="mt-4">
           <Field>
             <FieldLabel className="sr-only" htmlFor={id}>
-              
               Memória
             </FieldLabel>
             <Textarea
@@ -359,7 +348,6 @@ function EditMemoryDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" variant="outline">
-            
             Cancelar
           </Button>
           <Button
@@ -367,7 +355,6 @@ function EditMemoryDialog({
             onClick={() => onSave(content)}
             size="sm"
           >
-            
             Salvar
           </Button>
         </DialogFooter>

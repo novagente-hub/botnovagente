@@ -133,9 +133,9 @@ test("the owner sees Sharing, and each row opens its own page", async () => {
   const view = draw(BOT);
   const sharing = (await view.findByText("Compartilhamento")).closest("a");
   expect(sharing?.getAttribute("href")).toBe("/bots/expenses/sharing");
-  expect(view.getByText("Configuração").closest("a")?.getAttribute("href")).toBe(
-    "/bots/expenses/setup",
-  );
+  expect(
+    view.getByText("Configuração").closest("a")?.getAttribute("href"),
+  ).toBe("/bots/expenses/setup");
   // Public and unpublished: everyone can already use it.
   expect(await view.findByText("Todos (público)")).toBeTruthy();
 });

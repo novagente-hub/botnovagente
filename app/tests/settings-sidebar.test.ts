@@ -7,7 +7,9 @@ describe("settings sidebar", () => {
     const browsers = SETTINGS_SIDEBAR_ITEMS[titles.indexOf("Navegadores")];
 
     expect(browsers?.linkOptions).toEqual({ to: "/settings/browsers" });
-    expect(titles.indexOf("Navegadores")).toBe(titles.indexOf("Aprovações") + 1);
+    expect(titles.indexOf("Navegadores")).toBe(
+      titles.indexOf("Aprovações") + 1,
+    );
   });
 
   test("Learning links to /settings/learning, right after Browsers", () => {
@@ -15,6 +17,8 @@ describe("settings sidebar", () => {
     const learning = SETTINGS_SIDEBAR_ITEMS[titles.indexOf("Aprendizado")];
 
     expect(learning?.linkOptions).toEqual({ to: "/settings/learning" });
-    expect(titles.indexOf("Aprendizado")).toBe(titles.indexOf("Navegadores") + 1);
+    expect(titles.indexOf("Aprendizado")).toBe(
+      titles.indexOf("Navegadores") + 1,
+    );
   });
 });

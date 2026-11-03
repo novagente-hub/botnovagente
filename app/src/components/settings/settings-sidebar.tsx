@@ -93,7 +93,6 @@ export function SettingsSidebar({
               render={(props) => (
                 <Link {...appLinkOptions} {...props}>
                   <IconArrowLeft className="mr-2 h-4 w-4" />
-                  
                   Voltar ao app
                 </Link>
               )}

@@ -115,9 +115,9 @@ async function uploaded(
 ) {
   await waitFor(() => {
     expect(queryByLabelText(`Remove ${name}`)).not.toBeNull();
-    expect((getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled).toBe(
-      false,
-    );
+    expect(
+      (getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled,
+    ).toBe(false);
   });
 }
 
@@ -279,9 +279,9 @@ test("a disabled composer takes no dropped file, and offers no way to pick one",
 
   // Visibly shut rather than merely ignored: a button that opens a picker whose file will be
   // dropped on the floor is worse than one that says it cannot.
-  expect((getByLabelText("Anexar um arquivo") as HTMLButtonElement).disabled).toBe(
-    true,
-  );
+  expect(
+    (getByLabelText("Anexar um arquivo") as HTMLButtonElement).disabled,
+  ).toBe(true);
   expect(
     (container.querySelector('input[type="file"]') as HTMLInputElement)
       .disabled,

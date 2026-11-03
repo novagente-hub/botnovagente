@@ -134,7 +134,10 @@ test("required and typed fields keep the form pending until corrected", async ()
   ).toBe("true");
   await fillForm(view);
   await user.clear(view.getByRole("textbox", { name: "E-mail de trabalho" }));
-  await user.type(view.getByRole("textbox", { name: "E-mail de trabalho" }), "invalid");
+  await user.type(
+    view.getByRole("textbox", { name: "E-mail de trabalho" }),
+    "invalid",
+  );
   await user.clear(view.getByRole("spinbutton", { name: "Seats" }));
   await user.type(view.getByRole("spinbutton", { name: "Seats" }), "21");
   await user.click(view.getByRole("button", { name: "Enviar respostas" }));

@@ -857,7 +857,9 @@ export function ComputerTools() {
       return (
         <ActionLine
           running={status !== "complete"}
-          label={args?.append === true ? "Adicionado ao arquivo" : "Arquivo salvo"}
+          label={
+            args?.append === true ? "Adicionado ao arquivo" : "Arquivo salvo"
+          }
           // Show the path, never file contents.
           detail={
             outcome.refused === true
@@ -929,7 +931,10 @@ export function ComputerTools() {
       if (!shot.frame)
         return {
           ok: false,
-          reason: shot.error ?? shot.notReady?.reason ?? "O computador ainda não está pronto.",
+          reason:
+            shot.error ??
+            shot.notReady?.reason ??
+            "O computador ainda não está pronto.",
         };
       if (toolCall?.id) SCREENSHOTS.set(toolCall.id, shot.frame.base64);
       return {

@@ -164,9 +164,7 @@ function AdminAction({
       (access.unavailable === null || access.unavailable === "absent"));
   if (oneClick) {
     const disabled = access.state === "disabled";
-    const label = disabled
-      ? `Ativar e dar para ${bot}`
-      : `Dar para ${bot}`;
+    const label = disabled ? `Ativar e dar para ${bot}` : `Dar para ${bot}`;
     // The card names the app beside the button; on its own, the button has to.
     const spoken = disabled
       ? `Ativar ${name} e dar para ${bot}`
@@ -211,7 +209,10 @@ function AdminAction({
       ? ["Configurar", `Set up ${name}`]
       : access.requestKind
         ? ["Conectar a conta da equipe", `Conectar a conta ${name} da equipe`]
-        : ["Reconectar a conta da equipe", `Reconectar a conta ${name} da equipe`];
+        : [
+            "Reconectar a conta da equipe",
+            `Reconectar a conta ${name} da equipe`,
+          ];
   return (
     <Button
       render={
@@ -294,7 +295,6 @@ function OwnerGiveAction({
         size="sm"
         variant="outline"
       >
-        
         Conectar
       </Button>
     );
@@ -309,7 +309,6 @@ function OwnerGiveAction({
       ) : null}
       {tab.blockedUrl ? (
         <p className="text-xs" role="status">
-          
           Este navegador bloqueou a aba.{" "}
           <a
             className="underline underline-offset-2"
@@ -317,14 +316,12 @@ function OwnerGiveAction({
             rel="noreferrer"
             target="_blank"
           >
-            
             Abrir {name}: login
           </a>
           .
         </p>
       ) : waiting ? (
         <p className="text-muted-foreground text-xs" role="status">
-          
           Termine na aba que abriu.
         </p>
       ) : null}
@@ -419,7 +416,6 @@ function ConnectAction({ access }: { access: AppAccess }) {
       ) : null}
       {tab.blockedUrl ? (
         <p className="text-xs" role="status">
-          
           Este navegador bloqueou a aba.{" "}
           <a
             className="underline underline-offset-2"
@@ -427,14 +423,12 @@ function ConnectAction({ access }: { access: AppAccess }) {
             rel="noreferrer"
             target="_blank"
           >
-            
             Abrir {access.displayName}: login
           </a>
           .
         </p>
       ) : waiting ? (
         <p className="text-muted-foreground text-xs" role="status">
-          
           Termine na aba que abriu.
         </p>
       ) : null}
@@ -509,7 +503,6 @@ function RequestAction({
       {access.request ? (
         <>
           <span className="text-muted-foreground text-xs" role="status">
-            
             Solicitado
           </span>
           <Button

@@ -168,7 +168,9 @@ function RoutineRuns({ routine }: { routine: RoutineRecord }) {
       </p>
     );
   if (!runs.data?.length)
-    return <p className="text-muted-foreground text-xs">Nenhuma execução ainda.</p>;
+    return (
+      <p className="text-muted-foreground text-xs">Nenhuma execução ainda.</p>
+    );
   return (
     <ul className="flex w-full flex-col gap-1.5">
       {runs.data.map((run) => {
@@ -201,7 +203,6 @@ function RoutineRuns({ routine }: { routine: RoutineRecord }) {
                 params={{ channelId: routine.channel.id }}
                 to="/channel/$channelId"
               >
-                
                 Abrir conversa
               </Link>
             )}
@@ -260,7 +261,6 @@ export function RoutinesList({
       {noWorker ? (
         <p className="mt-4 text-muted-foreground text-sm" role="alert">
           <span className="font-medium text-amber-600 dark:text-amber-500">
-            
             As rotinas não estão em execução.
           </span>{" "}
           {sweep?.lastSweptAt
@@ -272,13 +272,16 @@ export function RoutinesList({
       {/* Pending renders nothing: the empty-state sentence would otherwise flash for the fetch. */}
       {routines.isPending ? null : routines.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar suas rotinas. Recarregue a página.
         </p>
       ) : rows.length === 0 ? (
         <PageEmpty
           icon={IconClock}
-          title={agentId ? "Nenhuma rotina para este Bot ainda" : "Nenhuma rotina ainda"}
+          title={
+            agentId
+              ? "Nenhuma rotina para este Bot ainda"
+              : "Nenhuma rotina ainda"
+          }
         >
           {agentId
             ? 'Peça algo como "todo dia útil às 9, me envie…" e ela aparece aqui.'
@@ -335,7 +338,6 @@ export function RoutinesList({
                     >
                       {routine.channel.gone ? (
                         <Chip className="border-destructive/40 text-destructive">
-                          
                           Conversa excluída
                         </Chip>
                       ) : (
@@ -371,12 +373,10 @@ export function RoutinesList({
                          */
                         <Chip className="text-amber-600 dark:text-amber-500">
                           <span className="size-1.5 animate-pulse rounded-full bg-amber-500" />
-                          
                           Prevista
                         </Chip>
                       ) : (
                         <Chip className="text-muted-foreground">
-                          
                           Próxima {relativeTime(routine.nextRunAt)}
                         </Chip>
                       )}
@@ -408,7 +408,6 @@ export function RoutinesList({
                         variant="outline"
                       >
                         <IconPlayerPlay />
-                        
                         Executar agora
                       </Button>
                       <Button
@@ -424,7 +423,6 @@ export function RoutinesList({
                         variant="ghost"
                       >
                         <IconHistory />
-                        
                         Histórico
                       </Button>
                       <Button
@@ -438,7 +436,6 @@ export function RoutinesList({
                         variant="ghost"
                       >
                         <IconTrash />
-                        
                         Excluir
                       </Button>
                     </div>
@@ -473,7 +470,6 @@ export function RoutinesList({
           <DialogHeader>
             <DialogTitle>Excluir "{confirming?.schedule}"?</DialogTitle>
             <DialogDescription>
-              
               Esta rotina para de vez. Não é possível desfazer.
             </DialogDescription>
           </DialogHeader>
@@ -491,7 +487,6 @@ export function RoutinesList({
               type="button"
               variant="outline"
             >
-              
               Cancelar
             </Button>
             <Button

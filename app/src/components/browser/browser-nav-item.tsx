@@ -210,7 +210,6 @@ function OpenWindowButton({ activity }: { activity?: RecorderActivity }) {
       <BrowserLabel>
         {opening ? (
           <span className="ml-auto text-xs text-muted-foreground">
-            
             Abrindo…
           </span>
         ) : recording ? (

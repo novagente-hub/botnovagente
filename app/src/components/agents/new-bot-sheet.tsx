@@ -364,7 +364,6 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
               />
             </motion.div>
             <SheetTitle className="text-2xl font-semibold tracking-tight">
-              
               Novo Bot
             </SheetTitle>
           </div>
@@ -408,8 +407,8 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
                 />
                 {!builtInAvailable && (
                   <p className="mt-3 text-sm text-muted-foreground">
-                    
-                    Um administrador precisa ativar a hospedagem integrada antes de você executar um Bot aqui.
+                    Um administrador precisa ativar a hospedagem integrada antes
+                    de você executar um Bot aqui.
                   </p>
                 )}
               </>
@@ -452,7 +451,6 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
           <SheetClose
             render={<Button className="px-4" size="lg" variant="ghost" />}
           >
-            
             Cancelar
           </SheetClose>
         ) : (
@@ -464,7 +462,6 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
             type="button"
             variant="ghost"
           >
-            
             Voltar
           </Button>
         )}
@@ -487,7 +484,6 @@ function NewBotFlow({ onCreated }: { onCreated: (agentId: string) => void }) {
               }}
             >
               <IconPlugConnected className="size-4" />
-              
               Conectar um agente personalizado
             </Button>
           )}
@@ -564,9 +560,11 @@ function CreatedView({ name }: { name: string }) {
         transition={{ delay: 0.3, duration: 0.35, ease: "easeOut" }}
       >
         <h2 className="break-words font-semibold text-xl tracking-tight">
-          {name}  está pronto
+          {name} está pronto
         </h2>
-        <p className="mt-1 text-muted-foreground text-sm">Levando você até ele…</p>
+        <p className="mt-1 text-muted-foreground text-sm">
+          Levando você até ele…
+        </p>
       </motion.div>
     </div>
   );
@@ -653,7 +651,6 @@ function AboutStep({
       </Field>
       <Field>
         <FieldLabel htmlFor="new-bot-instructions">
-          
           Instruções
           <span className="font-normal text-muted-foreground">Opcional</span>
         </FieldLabel>
@@ -699,7 +696,6 @@ function AboutStep({
         <FieldSet>
           <FieldLegend variant="label">Apps que ele pode usar</FieldLegend>
           <FieldDescription>
-            
             Ele sempre usa a conta de quem está pedindo.
           </FieldDescription>
           <div className="grid gap-2 sm:grid-cols-2">
@@ -786,7 +782,6 @@ function IsolatedOption({
               )}
               htmlFor="new-bot-isolated"
             >
-              
               Isolado
             </label>
             <Tooltip>
@@ -844,7 +839,6 @@ function RuntimeStep({ onChoose }: { onChoose: (runtime: Runtime) => void }) {
         ref={heading}
         tabIndex={-1}
       >
-        
         Conectar um agente personalizado
       </h2>
 
@@ -910,7 +904,6 @@ function EndpointStep({
           </span>
         ) : null}
         <h2 className="break-words font-semibold text-lg tracking-tight">
-          
           Onde ele pode ser acessado?
         </h2>
       </div>
@@ -935,14 +928,13 @@ function EndpointStep({
             />
           ) : (
             <FieldDescription>
-              
-              Qualquer agente que fale AG-UI funciona. O OpenBot se conecta a ele, então ele precisa estar acessível pelo servidor do OpenBot.
+              Qualquer agente que fale AG-UI funciona. O OpenBot se conecta a
+              ele, então ele precisa estar acessível pelo servidor do OpenBot.
             </FieldDescription>
           )}
         </Field>
         <Field>
           <FieldLabel htmlFor="new-bot-key">
-            
             Chave
             <span className="font-normal text-muted-foreground">Opcional</span>
           </FieldLabel>
@@ -955,8 +947,8 @@ function EndpointStep({
             value={secret}
           />
           <FieldDescription>
-            
-            Enviada como um cabeçalho <code>Authorization</code>  em cada requisição, e armazenada criptografada.
+            Enviada como um cabeçalho <code>Authorization</code> em cada
+            requisição, e armazenada criptografada.
           </FieldDescription>
         </Field>
       </FieldGroup>

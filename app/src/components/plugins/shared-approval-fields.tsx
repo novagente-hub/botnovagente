@@ -42,7 +42,6 @@ export function SharedApprovalFields({
   return (
     <fieldset className="space-y-2 text-sm">
       <legend className="font-medium">
-        
         Quem pode usar a conta compartilhada por meio deste Bot
       </legend>
       {options.map((option) => (
@@ -70,7 +69,6 @@ export function SharedApprovalFields({
           }
           type="checkbox"
         />
-        
         Mensagens de fora (e-mail, Slack, webhooks) podem usá-la
       </label>
     </fieldset>

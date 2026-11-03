@@ -1355,7 +1355,9 @@ export function Composer({
     </Button>
   ) : callAction ? (
     <Button
-      aria-label={callAction.active ? "Mostrar chamada de voz" : "Iniciar chamada de voz"}
+      aria-label={
+        callAction.active ? "Mostrar chamada de voz" : "Iniciar chamada de voz"
+      }
       title={
         callAction.supported
           ? callAction.active

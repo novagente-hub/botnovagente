@@ -162,16 +162,21 @@ function ComputersPage() {
       {isolation === "shared" ? (
         <p className="mt-4 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm">
           <span className="font-medium">
-            
             Os Bots de cada pessoa rodam em um computador.
           </span>{" "}
-          
-          Cada pessoa mantém o próprio perfil de navegador e pasta para cada Bot, então os logins não são compartilhados. Um comando executado por um Bot ainda pode ler os arquivos de outro. Defina <code>COMPUTER_SUPERVISOR_URL</code>  para dar a cada pessoa um computador próprio.
+          Cada pessoa mantém o próprio perfil de navegador e pasta para cada
+          Bot, então os logins não são compartilhados. Um comando executado por
+          um Bot ainda pode ler os arquivos de outro. Defina{" "}
+          <code>COMPUTER_SUPERVISOR_URL</code> para dar a cada pessoa um
+          computador próprio.
         </p>
       ) : isolation === "per-person" ? (
         <p className="mt-4 rounded-md border border-border bg-muted/40 px-3 py-2 text-muted-foreground text-sm">
-          
-          Cada pessoa tem o próprio computador, e todos os Bots que ela usa rodam nele, incluindo Bots públicos feitos por outras pessoas. Cada Bot mantém ali o próprio perfil de navegador e pasta, mas um comando executado por um Bot pode acessar qualquer outra coisa no computador dessa pessoa. Um Bot isolado tem um computador próprio.
+          Cada pessoa tem o próprio computador, e todos os Bots que ela usa
+          rodam nele, incluindo Bots públicos feitos por outras pessoas. Cada
+          Bot mantém ali o próprio perfil de navegador e pasta, mas um comando
+          executado por um Bot pode acessar qualquer outra coisa no computador
+          dessa pessoa. Um Bot isolado tem um computador próprio.
         </p>
       ) : null}
 
@@ -209,10 +214,12 @@ function ComputersPage() {
           </p>
         ) : null}
         {computers === null && problem ? (
-          <PageEmpty icon={IconAlertTriangle} title="Não foi possível carregar a lista" />
+          <PageEmpty
+            icon={IconAlertTriangle}
+            title="Não foi possível carregar a lista"
+          />
         ) : computers === null ? null : computers.length === 0 ? (
           <PageEmpty icon={IconDeviceDesktop} title="Nenhum computador ainda">
-            
             Um aparece na primeira vez que um Bot abre uma página.
           </PageEmpty>
         ) : (
@@ -236,7 +243,9 @@ function ComputersPage() {
                         : computer.egress === null
                           ? "Sai diretamente"
                           : `Leaves through ${computer.egress}`}
-                      {computer.updateAvailable ? " · Atualização disponível" : ""}
+                      {computer.updateAvailable
+                        ? " · Atualização disponível"
+                        : ""}
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions>
@@ -247,7 +256,6 @@ function ComputersPage() {
                         size="sm"
                         variant="outline"
                       >
-                        
                         Atualizar computador
                       </Button>
                     ) : null}
@@ -257,7 +265,9 @@ function ComputersPage() {
                       size="sm"
                       variant="outline"
                     >
-                      {busy === rowId(computer) ? "Processando…" : "Parar navegador"}
+                      {busy === rowId(computer)
+                        ? "Processando…"
+                        : "Parar navegador"}
                     </Button>
                     <Button
                       disabled={busy === rowId(computer)}
@@ -265,7 +275,6 @@ function ComputersPage() {
                       size="sm"
                       variant="outline"
                     >
-                      
                       Redefinir
                     </Button>
                   </ItemActions>
@@ -292,14 +301,12 @@ function ComputersPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              
               Redefinir {confirming ? titleOf(confirming) : ""}?
             </DialogTitle>
             <DialogDescription>
               {confirming?.kind === "person" && !confirming.botId
                 ? "O perfil de todos os Bots no computador desta pessoa é excluído. Cada um é desconectado de todos os serviços e começa do zero."
                 : "O perfil é excluído. O Bot é desconectado de todos os serviços e começa do zero."}{" "}
-              
               Não é possível desfazer.
             </DialogDescription>
           </DialogHeader>
@@ -309,7 +316,6 @@ function ComputersPage() {
               size="sm"
               variant="ghost"
             >
-              
               Cancelar
             </Button>
             <Button
@@ -337,12 +343,12 @@ function ComputersPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              
               Atualizar {confirmingUpdate ? titleOf(confirmingUpdate) : ""}?
             </DialogTitle>
             <DialogDescription>
-              
-              Ele passa para a imagem de computador que esta implantação usa agora. Os arquivos e logins são mantidos. Se estiver em execução, ele reinicia e para o que estiver fazendo.
+              Ele passa para a imagem de computador que esta implantação usa
+              agora. Os arquivos e logins são mantidos. Se estiver em execução,
+              ele reinicia e para o que estiver fazendo.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -351,7 +357,6 @@ function ComputersPage() {
               size="sm"
               variant="ghost"
             >
-              
               Cancelar
             </Button>
             <Button
@@ -372,10 +377,13 @@ function ComputersPage() {
       </Dialog>
 
       <p className="mt-4 text-muted-foreground text-sm">
-        <strong>Parar</strong>  fecha os navegadores do computador e mantém os logins. Ele liga de novo na próxima vez que um Bot precisar.{" "}
-        <strong>Redefinir</strong>  exclui os perfis e desconecta todos os Bots dele de tudo. <strong>Atualizar computador</strong>  aparece quando um computador usa uma imagem antiga. Ele passa o computador para a nova e mantém os arquivos e logins. Os três aparecem em{" "}
+        <strong>Parar</strong> fecha os navegadores do computador e mantém os
+        logins. Ele liga de novo na próxima vez que um Bot precisar.{" "}
+        <strong>Redefinir</strong> exclui os perfis e desconecta todos os Bots
+        dele de tudo. <strong>Atualizar computador</strong> aparece quando um
+        computador usa uma imagem antiga. Ele passa o computador para a nova e
+        mantém os arquivos e logins. Os três aparecem em{" "}
         <Link className="underline" to="/admin/audit">
-          
           Auditoria
         </Link>
         .
@@ -439,14 +447,13 @@ function HostFoldersSection({
 
       {!connected && !loading ? (
         <p className="mb-3 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm">
-          
-          O app de desktop está offline. Abra-o para aprovar pastas ou executar comandos.
+          O app de desktop está offline. Abra-o para aprovar pastas ou executar
+          comandos.
         </p>
       ) : null}
 
       {loading ? null : botIds.length === 0 ? (
         <PageEmpty icon={IconRobot} title="Nenhum Bot ainda">
-          
           Crie um e depois escolha as pastas dele.
         </PageEmpty>
       ) : (
@@ -474,7 +481,9 @@ function HostFoldersSection({
                     size="sm"
                     variant="outline"
                   >
-                    {requestingBotId === botId ? "Aguardando…" : "Escolher pasta"}
+                    {requestingBotId === botId
+                      ? "Aguardando…"
+                      : "Escolher pasta"}
                   </Button>
                 </ItemActions>
               </Item>
@@ -486,8 +495,8 @@ function HostFoldersSection({
 
       <div className="mt-3 flex flex-wrap items-center justify-between gap-3 text-muted-foreground text-sm">
         <p>
-          
-          As pastas são somente leitura. Quando um Bot precisa gravar, o app de desktop pergunta a você antes.
+          As pastas são somente leitura. Quando um Bot precisa gravar, o app de
+          desktop pergunta a você antes.
         </p>
         <div className="flex items-center gap-3">
           <Button
@@ -499,7 +508,6 @@ function HostFoldersSection({
             {stopping ? "Parando…" : "Interromper acesso à pasta"}
           </Button>
           <Link className="underline" to="/admin/audit">
-            
             Ver auditoria
           </Link>
         </div>
@@ -538,7 +546,7 @@ function FolderGrantList({
           <div className="min-w-0">
             <p className="truncate font-medium text-sm">{grant.displayName}</p>
             <p className="text-muted-foreground text-xs">
-              {ownerLabel(grant)}  · Somente leitura
+              {ownerLabel(grant)} · Somente leitura
             </p>
           </div>
           <Button
@@ -575,9 +583,13 @@ function summaryFor(
   const waiting = pending.filter((request) => request.botId === botId).length;
   const parts = [];
   if (active > 0)
-    parts.push(`${active} ${active === 1 ? "pasta somente leitura" : "pastas somente leitura"}`);
+    parts.push(
+      `${active} ${active === 1 ? "pasta somente leitura" : "pastas somente leitura"}`,
+    );
   if (waiting > 0)
-    parts.push(`${waiting} ${waiting === 1 ? "solicitação pendente" : "solicitações pendentes"}`);
+    parts.push(
+      `${waiting} ${waiting === 1 ? "solicitação pendente" : "solicitações pendentes"}`,
+    );
   return parts.length > 0 ? parts.join(" · ") : "Nenhuma pasta aprovada.";
 }
 

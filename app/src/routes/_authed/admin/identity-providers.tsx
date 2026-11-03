@@ -102,7 +102,6 @@ function IdentityProvidersPage() {
     <PageShell
       action={
         <Button onClick={() => setOpen(true)} size="lg">
-          
           Adicionar provedor
         </Button>
       }
@@ -120,21 +119,19 @@ function IdentityProvidersPage() {
         ) : null}
         {providers.isPending ? null : providers.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            
-            Não foi possível carregar os provedores de identidade. Recarregue a página.
+            Não foi possível carregar os provedores de identidade. Recarregue a
+            página.
           </p>
         ) : providers.data?.length === 0 ? (
           <PageEmpty
             action={
               <Button onClick={() => setOpen(true)} size="sm" variant="outline">
-                
                 Adicionar provedor
               </Button>
             }
             icon={IconBuildingBank}
             title="Nenhum provedor de identidade ainda"
           >
-            
             Use os metadados da sua equipe de identidade.
           </PageEmpty>
         ) : (
@@ -160,7 +157,6 @@ function IdentityProvidersPage() {
                       variant="destructive"
                     >
                       <IconTrash />
-                      
                       Remover
                     </Button>
                   </ItemActions>
@@ -223,8 +219,8 @@ function IdentityProvidersPage() {
                 />
                 {/* Said out loud because it is the field that decides who this applies to. */}
                 <p className="text-muted-foreground text-xs">
-                  
-                  Qualquer pessoa com endereço neste domínio entra por aqui. Separe vários com vírgulas.
+                  Qualquer pessoa com endereço neste domínio entra por aqui.
+                  Separe vários com vírgulas.
                 </p>
               </div>
 
@@ -271,8 +267,8 @@ function IdentityProvidersPage() {
                       value={draft.metadata}
                     />
                     <p className="text-muted-foreground text-xs">
-                      
-                      O arquivo da sua equipe de identidade. Inclui o certificado de assinatura.
+                      O arquivo da sua equipe de identidade. Inclui o
+                      certificado de assinatura.
                     </p>
                   </div>
                 </>
@@ -322,7 +318,6 @@ function IdentityProvidersPage() {
               type="button"
               variant="outline"
             >
-              
               Cancelar
             </Button>
             <Button

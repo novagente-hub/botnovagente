@@ -409,9 +409,7 @@ describe("OpenDots frame", () => {
       ]) {
         expect(links).toContain(href);
       }
-      expect(
-        within(drawer).getByRole("button", { name: "Sair" }),
-      ).toBeTruthy();
+      expect(within(drawer).getByRole("button", { name: "Sair" })).toBeTruthy();
     } finally {
       viewport.setViewport({ width: 1024, height: 768 });
     }
@@ -423,7 +421,9 @@ describe("OpenDots frame", () => {
     for (const chrome of [
       view.getByRole("navigation", { name: "Navegação do workspace" }),
       view.getByRole("complementary", { name: "Barra lateral" }),
-      view.getByRole("navigation", { name: "Trilha de navegação" }).closest("header"),
+      view
+        .getByRole("navigation", { name: "Trilha de navegação" })
+        .closest("header"),
     ]) {
       expect(chrome?.hasAttribute("data-opendots-chrome")).toBe(true);
     }
@@ -466,7 +466,9 @@ describe("OpenDots frame", () => {
         .map((link) => link.getAttribute("href"))
         .filter((href) => NAVIGATION.some((item) => item.to === href));
       expect(railDestinations).toEqual(expected.map((item) => item.to));
-      const sidebar = view.getByRole("complementary", { name: "Barra lateral" });
+      const sidebar = view.getByRole("complementary", {
+        name: "Barra lateral",
+      });
       for (const item of expected) {
         expect(hrefs(sidebar)).toContain(item.to);
       }
@@ -508,7 +510,9 @@ describe("OpenDots frame", () => {
 
   test("on a conversation, the computer toggle opens the conversation's own computer pane", async () => {
     const { view, router, user } = draw("/channel/trip");
-    const toggle = await view.findByRole("button", { name: "Mostrar computador" });
+    const toggle = await view.findByRole("button", {
+      name: "Mostrar computador",
+    });
     await user.click(toggle);
     await waitFor(() =>
       expect(router.state.location.search).toMatchObject({ watch: true }),

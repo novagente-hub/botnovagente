@@ -203,8 +203,9 @@ export function LinkedAccountSection({
     return (
       <PageSection title="Sua conta">
         <PageEmpty icon={IconLink} title="Ainda não configurado">
-          
-          Você ainda não pode vincular uma conta {linkableProviderTitle(provider)}  . Um administrador precisa configurar primeiro.
+          Você ainda não pode vincular uma conta{" "}
+          {linkableProviderTitle(provider)} . Um administrador precisa
+          configurar primeiro.
         </PageEmpty>
       </PageSection>
     );
@@ -248,26 +249,22 @@ export function LinkedAccountSection({
       ) : null}
       {state.error ? (
         <p className="mt-2 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar sua conta: {state.error}
         </p>
       ) : null}
       {state.providersError ? (
         <p className="mt-2 text-destructive text-sm" role="alert">
-          
           Não foi possível verificar se você pode vincular esta conta:{" "}
           {state.providersError}
         </p>
       ) : null}
       {issueCode.error ? (
         <p className="mt-2 text-destructive text-sm" role="alert">
-          
           Não foi possível criar um código do Slack: {issueCode.error.message}
         </p>
       ) : null}
       {connectGithub.error ? (
         <p className="mt-2 text-destructive text-sm" role="alert">
-          
           Não foi possível conectar o GitHub: {connectGithub.error.message}
         </p>
       ) : null}
@@ -306,12 +303,11 @@ export function LinkedAccountSection({
                 </div>
                 {copyFailed ? (
                   <p className="text-destructive" role="alert">
-                    
-                    Não foi possível copiar. Selecione o código e copie você mesmo.
+                    Não foi possível copiar. Selecione o código e copie você
+                    mesmo.
                   </p>
                 ) : null}
                 <p className="text-muted-foreground">
-                  
                   O código funciona uma vez e expira em 10 minutos.
                 </p>
               </div>
@@ -319,7 +315,6 @@ export function LinkedAccountSection({
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button size="sm" onClick={closeDialog}>
-              
               Concluído
             </Button>
           </DialogFooter>
@@ -359,7 +354,6 @@ function AvailableAccountRow({
           disabled={pending}
           onClick={onConnect}
         >
-          
           Conectar
         </Button>
       </ItemActions>
@@ -392,14 +386,12 @@ function LinkedAccountRow({ account }: { account: LinkedAccount }) {
             disabled={unlink.isPending}
             onClick={() => unlink.mutate(account.id)}
           >
-            
             Desconectar
           </Button>
         </ItemActions>
       </Item>
       {unlink.error ? (
         <p className="px-3 pb-2 text-destructive text-sm" role="alert">
-          
           Não foi possível desconectar {account.title}: {unlink.error.message}
         </p>
       ) : null}

@@ -123,7 +123,8 @@ function LiveAppAccessCard({
             </p>
           ) : (
             <p className="text-muted-foreground text-sm" role="alert">
-              {name}: não foi possível carregar o status. Tente novamente em instantes.
+              {name}: não foi possível carregar o status. Tente novamente em
+              instantes.
             </p>
           )}
         </div>
@@ -135,7 +136,6 @@ function LiveAppAccessCard({
       ) : offer ? (
         <div className="flex justify-end">
           <Button onClick={offer} size="sm">
-            
             Continuar
           </Button>
         </div>

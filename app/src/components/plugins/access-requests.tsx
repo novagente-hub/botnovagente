@@ -58,7 +58,6 @@ export function AccessRequestsSection({ app }: { app?: string }) {
     return (
       <PageSection title="Pedidos">
         <p className="mt-4 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar os pedidos de acesso. Recarregue a página.
         </p>
       </PageSection>
@@ -181,8 +180,8 @@ function GrantNote({ request }: { request: AppAccessRequest }) {
     );
   return (
     <>
-      Aprovar dá a {bot} apenas as ações somente leitura de {request.appTitle}. Escolha outras na{" "}
-      {page}.
+      Aprovar dá a {bot} apenas as ações somente leitura de {request.appTitle}.
+      Escolha outras na {page}.
     </>
   );
 }

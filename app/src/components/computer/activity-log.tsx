@@ -106,8 +106,8 @@ export function ActivityLog({ computerId }: { computerId: string }) {
       <Empty className="h-[180px] border border-dashed">
         <EmptyHeader>
           <EmptyTitle className="text-muted-foreground">
-            
-            Nada ainda. Os comandos que o Bot executa e os arquivos que ele lê aparecem aqui.
+            Nada ainda. Os comandos que o Bot executa e os arquivos que ele lê
+            aparecem aqui.
           </EmptyTitle>
         </EmptyHeader>
       </Empty>

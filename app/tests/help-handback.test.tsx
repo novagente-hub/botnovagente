@@ -366,11 +366,17 @@ test("a help request is drawn in the conversation, and after the hand-back the B
   const user = await askForHelp(view);
   // While it is open: the Bot's screen, saying what it needs, with the wheel.
   expect(await view.findByText(ASKED, { exact: false })).toBeTruthy();
-  await user.click(await view.findByRole("button", { name: "Assumir controle" }));
+  await user.click(
+    await view.findByRole("button", { name: "Assumir controle" }),
+  );
   await waitFor(() => expect(control.holder).toBe("human"));
   await user.keyboard("{Escape}");
   await user.click(
-    await view.findByRole("button", { name: "Devolver controle" }, { timeout: 3000 }),
+    await view.findByRole(
+      "button",
+      { name: "Devolver controle" },
+      { timeout: 3000 },
+    ),
   );
 
   // The Bot's next run carries what happened and asks for the next step said out loud.
@@ -447,7 +453,11 @@ test("leaving the conversation while holding control: back in it, the hand-back'
     release = resolve;
   });
   await user.click(
-    await view.findByRole("button", { name: "Devolver controle" }, { timeout: 5000 }),
+    await view.findByRole(
+      "button",
+      { name: "Devolver controle" },
+      { timeout: 5000 },
+    ),
   );
   // The waiting call has its answer and the Bot is working on it: nothing here is paused, and the step says so.
   await waitFor(() => expect(runs).toHaveLength(2), { timeout: 5000 });

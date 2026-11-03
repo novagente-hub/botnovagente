@@ -71,7 +71,6 @@ export function TeamApprovalSettings() {
               </ItemMedia>
               <ItemContent>
                 <ItemTitle id="enforce-auto-review-title">
-                  
                   Exigir revisão automática para todos
                 </ItemTitle>
               </ItemContent>
@@ -93,7 +92,6 @@ export function TeamApprovalSettings() {
               </ItemMedia>
               <ItemContent>
                 <ItemTitle id="custom-rules-title">
-                  
                   Permitir que membros definam regras pessoais
                 </ItemTitle>
               </ItemContent>
@@ -114,10 +112,12 @@ export function TeamApprovalSettings() {
                 <IconTerminal2 />
               </ItemMedia>
               <ItemContent>
-                <ItemTitle>Comandos nos computadores dos membros, no máximo</ItemTitle>
+                <ItemTitle>
+                  Comandos nos computadores dos membros, no máximo
+                </ItemTitle>
                 <ItemDescription>
-                  
-                  Uma configuração mais rígida do próprio membro continua valendo.
+                  Uma configuração mais rígida do próprio membro continua
+                  valendo.
                 </ItemDescription>
               </ItemContent>
               <ItemActions>

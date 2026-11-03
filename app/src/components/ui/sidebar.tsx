@@ -215,7 +215,9 @@ function Sidebar({
         >
           <SheetHeader className="sr-only">
             <SheetTitle>Barra lateral</SheetTitle>
-            <SheetDescription>Mostra a barra lateral no celular.</SheetDescription>
+            <SheetDescription>
+              Mostra a barra lateral no celular.
+            </SheetDescription>
           </SheetHeader>
           <div className="flex h-full w-full flex-col">{children}</div>
         </SheetContent>

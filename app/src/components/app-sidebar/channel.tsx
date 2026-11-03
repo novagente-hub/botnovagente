@@ -120,7 +120,6 @@ export const Channel = memo(function Channel({
             onClick={() => setConfirming(true)}
           >
             <IconTrash />
-            
             Excluir conversa…
           </ContextMenuItem>
         </ContextMenuContent>

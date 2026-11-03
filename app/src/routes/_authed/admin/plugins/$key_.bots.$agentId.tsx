@@ -216,7 +216,6 @@ function RouteComponent() {
         title={appTitle}
       >
         <PageEmpty icon={IconPlugOff} title="Este app está desativado">
-          
           Nada para dar a um Bot aqui.
         </PageEmpty>
       </PageShell>
@@ -237,7 +236,6 @@ function RouteComponent() {
         title="Plugins"
       >
         <p className="mt-12 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar os plugins. Recarregue a página.
         </p>
       </PageShell>
@@ -264,7 +262,6 @@ function RouteComponent() {
         title="Não é um Bot"
       >
         <PageEmpty icon={IconRobot} title="Bot não encontrado">
-          
           Ele pode ter sido excluído depois que você abriu esta página.
         </PageEmpty>
       </PageShell>
@@ -362,10 +359,7 @@ function RouteComponent() {
                * say about this row is that what it changes does not come back.
                */}
               {tool.destructive ? (
-                <span className="text-destructive text-xs">
-                  
-                  destrói coisas
-                </span>
+                <span className="text-destructive text-xs">destrói coisas</span>
               ) : null}
               {/*
                * Binary and immediate, which is what a Switch is for: it takes effect when switched
@@ -435,7 +429,8 @@ function RouteComponent() {
 
       {server.tools.length === 0 ? (
         <PageEmpty icon={IconTool} title="Nenhuma ação listada">
-          {server.lastError ?? "Atualize as ferramentas para verificar de novo."}
+          {server.lastError ??
+            "Atualize as ferramentas para verificar de novo."}
         </PageEmpty>
       ) : (
         <>
@@ -485,7 +480,9 @@ function RouteComponent() {
             {reads.length === 0 ? (
               <PageEmpty
                 icon={needle ? IconSearch : IconListDetails}
-                title={needle ? "Nenhum resultado" : "Nenhuma ação somente leitura"}
+                title={
+                  needle ? "Nenhum resultado" : "Nenhuma ação somente leitura"
+                }
               >
                 {needle
                   ? `Nada que só lê corresponde a "${search.trim()}".`
@@ -506,7 +503,9 @@ function RouteComponent() {
             {writes.length === 0 ? (
               <PageEmpty
                 icon={needle ? IconSearch : IconListDetails}
-                title={needle ? "Nenhum resultado" : "Nenhuma ação que altera coisas"}
+                title={
+                  needle ? "Nenhum resultado" : "Nenhuma ação que altera coisas"
+                }
               >
                 {needle
                   ? `Nada que altera coisas corresponde a "${search.trim()}".`
@@ -531,8 +530,7 @@ function RouteComponent() {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>
-                  
-                  Permitir que {botName}  use a conta compartilhada {appTitle}  ?
+                  Permitir que {botName} use a conta compartilhada {appTitle} ?
                 </DialogTitle>
               </DialogHeader>
               <DialogBody className="mt-4">
@@ -554,7 +552,6 @@ function RouteComponent() {
                   size="sm"
                   variant="outline"
                 >
-                  
                   Cancelar
                 </Button>
                 <Button

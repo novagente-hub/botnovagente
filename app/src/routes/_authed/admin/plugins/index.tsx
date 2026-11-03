@@ -146,7 +146,6 @@ function RouteComponent() {
       {/* Pending, error, empty, rows — pending first, so no sentence asserts anything mid-fetch. */}
       {plugins.isPending ? null : plugins.error ? (
         <p className="mt-12 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar os plugins. Recarregue a página.
         </p>
       ) : (
@@ -163,7 +162,6 @@ function RouteComponent() {
           >
             {plugins.data?.servers.length === 0 ? (
               <PageEmpty icon={IconPlug} title="Nada conectado ainda">
-                
                 Escolha um da lista abaixo.
               </PageEmpty>
             ) : (
@@ -235,7 +233,6 @@ function RouteComponent() {
           >
             {explore.length === 0 ? (
               <PageEmpty icon={IconCircleCheck} title="Todos conectados">
-                
                 Todos os plugins do catálogo estão conectados.
               </PageEmpty>
             ) : (
@@ -266,7 +263,6 @@ function RouteComponent() {
                             count={requestCounts?.byApp[entry.key] ?? 0}
                           />
                           <span className="text-muted-foreground text-xs">
-                            
                             Não adicionado
                           </span>
                           <IconChevronRight className="size-4 shrink-0 text-muted-foreground" />

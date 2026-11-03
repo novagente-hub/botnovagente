@@ -32,8 +32,8 @@ export function BotSubpage({
     >
       {agent.isPending ? null : agent.error ? (
         <p className="mt-6 text-destructive text-sm" role="alert">
-          
-          Não foi possível abrir este Bot. Talvez ele não esteja compartilhado com você.
+          Não foi possível abrir este Bot. Talvez ele não esteja compartilhado
+          com você.
         </p>
       ) : (
         children(agent.data)

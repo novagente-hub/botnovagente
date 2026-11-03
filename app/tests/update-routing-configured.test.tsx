@@ -69,7 +69,9 @@ const disabled = (element: HTMLElement) =>
 test("channels the deployment has not set up are off, disabled and say so", async () => {
   serving({ slack: false, teams: false, sms: false, push: true });
   const view = draw();
-  const slack = await view.findByRole("switch", { name: "Progresso por Slack" });
+  const slack = await view.findByRole("switch", {
+    name: "Progresso por Slack",
+  });
   expect(checked(slack)).toBe(false);
   expect(disabled(slack)).toBe(true);
   expect(view.getAllByText("Não configurado").length).toBe(9);
@@ -81,7 +83,9 @@ test("channels the deployment has not set up are off, disabled and say so", asyn
 test("a configured channel shows the person's preference", async () => {
   serving({ slack: true, teams: true, sms: true, push: true });
   const view = draw();
-  const slack = await view.findByRole("switch", { name: "Progresso por Slack" });
+  const slack = await view.findByRole("switch", {
+    name: "Progresso por Slack",
+  });
   expect(checked(slack)).toBe(true);
   expect(view.queryByText("Não configurado")).toBeNull();
 });

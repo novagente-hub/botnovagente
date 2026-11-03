@@ -277,7 +277,9 @@ async function uploaded(view: RenderResult, names: readonly string[]) {
       expect(view.queryByLabelText(`Remove ${name}`)).not.toBeNull();
     }
     const button = (view.queryByLabelText("Enviar mensagem") ??
-      view.queryByLabelText("Colocar mensagem na fila")) as HTMLButtonElement | null;
+      view.queryByLabelText(
+        "Colocar mensagem na fila",
+      )) as HTMLButtonElement | null;
     expect(button?.disabled).toBe(false);
   });
 }
@@ -321,10 +323,7 @@ test("a drained turn whose send fails keeps the rows behind the message the tran
   const view = await mounted();
   const user = userEvent.setup({ document: view.container.ownerDocument });
 
-  await user.type(
-    view.getByRole("textbox", { name: "Mensagem" }),
-    "Começar",
-  );
+  await user.type(view.getByRole("textbox", { name: "Mensagem" }), "Começar");
   await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   await waitFor(() => expect(runs).toHaveLength(1));
 
@@ -335,7 +334,9 @@ test("a drained turn whose send fails keeps the rows behind the message the tran
     view.getByRole("textbox", { name: "Mensagem" }),
     "Use the attached plan",
   );
-  await user.click(view.getByRole("button", { name: "Colocar mensagem na fila" }));
+  await user.click(
+    view.getByRole("button", { name: "Colocar mensagem na fila" }),
+  );
   await waitFor(() =>
     expect(
       view.container.querySelector("[aria-label^='Remove queued message']"),
@@ -474,10 +475,7 @@ test("the next turn carries a restored message, with its file, ahead of the newe
   const view = await mounted();
   const user = userEvent.setup({ document: view.container.ownerDocument });
 
-  await user.type(
-    view.getByRole("textbox", { name: "Mensagem" }),
-    "Começar",
-  );
+  await user.type(view.getByRole("textbox", { name: "Mensagem" }), "Começar");
   await user.click(view.getByRole("button", { name: "Enviar mensagem" }));
   await waitFor(() => expect(runs).toHaveLength(1));
 
@@ -487,7 +485,9 @@ test("the next turn carries a restored message, with its file, ahead of the newe
     view.getByRole("textbox", { name: "Mensagem" }),
     "Use the attached plan",
   );
-  await user.click(view.getByRole("button", { name: "Colocar mensagem na fila" }));
+  await user.click(
+    view.getByRole("button", { name: "Colocar mensagem na fila" }),
+  );
 
   // The turn ends, the queue drains, and the drained send fails.
   firstRun.settle(finished(runs[0] as RunAgentInput));

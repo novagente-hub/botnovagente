@@ -146,7 +146,9 @@ test("an administrator adds a team rule for every Bot", async () => {
   const view = draw();
   await view.findByText("Adicionar regra da equipe");
   const user = userEvent.setup({ document });
-  await user.click(view.getByRole("button", { name: /Adicionar regra da equipe/ }));
+  await user.click(
+    view.getByRole("button", { name: /Adicionar regra da equipe/ }),
+  );
   await user.type(
     await view.findByRole("textbox", { name: "Ferramenta ou app" }),
     "mcp/slack/*",

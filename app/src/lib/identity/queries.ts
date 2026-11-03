@@ -59,7 +59,8 @@ export function linkedAccountsQueryOptions() {
 /** Which account types this deployment can link a person to. */
 export type IdentityProviders = { slack: boolean; github: boolean };
 
-const PROVIDERS_FALLBACK = "Não foi possível carregar os tipos de conta que você pode vincular";
+const PROVIDERS_FALLBACK =
+  "Não foi possível carregar os tipos de conta que você pode vincular";
 
 /** The tagged 503 means no identity store, so nothing is linkable; other failures throw. */
 export async function providersFromResponse(

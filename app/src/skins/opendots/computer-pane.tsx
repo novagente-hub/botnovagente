@@ -54,7 +54,6 @@ export function ComputerPane({
       </div>
       {agents.isPending ? null : !bot ? (
         <p className="px-[18px] py-3.5 text-[13px] text-(--opendots-muted)">
-          
           Crie um Bot para dar um computador a ele.
         </p>
       ) : (

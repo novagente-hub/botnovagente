@@ -63,7 +63,9 @@ test("an administrator excludes a Bot and saves without losing the default or pa
   const view = page();
   const participation = await view.findByLabelText("bot participation");
   fireEvent.change(participation, { target: { value: "exclude" } });
-  fireEvent.click(view.getByRole("button", { name: "Salvar configurações de Aprendizado" }));
+  fireEvent.click(
+    view.getByRole("button", { name: "Salvar configurações de Aprendizado" }),
+  );
   await waitFor(() =>
     expect(saved).toEqual({
       enabled: false,
@@ -180,7 +182,9 @@ test("a deployment that chose its own container hears nothing about automatic as
   const view = page();
   await view.findByLabelText("ID do container (Padrão)");
   await waitFor(() =>
-    expect(view.queryByText("Carregando configurações de Aprendizado…")).toBeNull(),
+    expect(
+      view.queryByText("Carregando configurações de Aprendizado…"),
+    ).toBeNull(),
   );
   expect(view.queryByText("OpenBot assigned", { exact: false })).toBeNull();
   expect(
@@ -238,7 +242,9 @@ test("a missing container shows exactly what to run, and a Create button only wh
   fireEvent.click(
     await can.findByRole("button", { name: "Criar o container openbot" }),
   );
-  await can.findByText("atribuiu automaticamente o container", { exact: false });
+  await can.findByText("atribuiu automaticamente o container", {
+    exact: false,
+  });
   expect(created).toBe(1);
   // Let the refetch the creation started settle before the DOM is torn down.
   await waitFor(() =>

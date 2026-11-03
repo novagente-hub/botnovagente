@@ -1080,8 +1080,8 @@ export function ChannelChat({
                 />
                 {voiceArchive.error && (
                   <p className="pb-2 text-sm text-destructive" role="alert">
-                    
-                    Não foi possível carregar as conversas de voz. Recarregue a página.
+                    Não foi possível carregar as conversas de voz. Recarregue a
+                    página.
                   </p>
                 )}
                 {voiceContextNotice && (
@@ -1105,8 +1105,8 @@ export function ChannelChat({
                     className="pb-2 text-sm text-muted-foreground"
                     role="status"
                   >
-                    
-                    Este Bot foi excluído. Você ainda pode ler esta conversa, mas o Bot não pode responder.
+                    Este Bot foi excluído. Você ainda pode ler esta conversa,
+                    mas o Bot não pode responder.
                   </p>
                 )}
               </>

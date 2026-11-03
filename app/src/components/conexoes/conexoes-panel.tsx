@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { agentListQueryOptions } from "@/lib/agents/queries";
 import { client } from "@/lib/client";
 
@@ -28,17 +28,17 @@ export function ConexoesPanel() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  async function reload() {
+  const reload = useCallback(async () => {
     const found = await client<Application[]>(endpoint, "applications");
     setApplications(found);
     return found;
-  }
+  }, []);
 
   useEffect(() => {
     void reload().catch((cause: unknown) =>
       setError(cause instanceof Error ? cause.message : String(cause)),
     );
-  }, []);
+  }, [reload]);
 
   async function action(callback: () => Promise<void>) {
     setPending(true);

@@ -199,7 +199,6 @@ function ChannelBody({
   if (hasError || !channel) {
     return (
       <p className="p-8 text-sm text-destructive" role="alert">
-        
         Não foi possível carregar esta conversa. Recarregue a página.
       </p>
     );

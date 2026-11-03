@@ -98,7 +98,9 @@ for (const variant of ["compact", "default"] as const) {
         fireEvent.click(
           view.getByRole("button", {
             name:
-              action === "stop" ? "Parar e transcrever" : "Transcrever e enviar",
+              action === "stop"
+                ? "Parar e transcrever"
+                : "Transcrever e enviar",
           }),
         );
         await waitFor(() => expect(transcribe).toHaveBeenCalledTimes(1));

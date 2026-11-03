@@ -44,7 +44,9 @@ export const memoriesQueryOptions = () =>
   queryOptions({
     queryKey: memoryKeys.all,
     queryFn: (): Promise<MemoryRecord[]> =>
-      client("/api/memory", "memories", { fallback: "Não foi possível carregar a memória" }),
+      client("/api/memory", "memories", {
+        fallback: "Não foi possível carregar a memória",
+      }),
   });
 export const memorySourcesQueryOptions = () =>
   queryOptions({

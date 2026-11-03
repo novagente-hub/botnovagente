@@ -209,9 +209,7 @@ export class VoiceSession {
       return true;
     } catch (error) {
       this.fail(
-        error instanceof Error
-          ? error.message
-          : "A conexão de voz caiu.",
+        error instanceof Error ? error.message : "A conexão de voz caiu.",
       );
       return false;
     }

@@ -450,7 +450,9 @@ test("on OpenBot Desktop Record starts a recording named for the task, which sho
       body: { action: "stop" },
     }),
   );
-  expect(await view.findByRole("textbox", { name: "Nome da tarefa" })).toBeTruthy();
+  expect(
+    await view.findByRole("textbox", { name: "Nome da tarefa" }),
+  ).toBeTruthy();
   // Stop says where the recording went and what it held, by its name, until the next one starts.
   const saved = await view.findByRole("status");
   expect(saved.textContent).toBe(
@@ -874,9 +876,7 @@ test("on hosted OpenBot narration whose speech service cannot be reached stays o
     ),
   ).toBeTruthy();
   expect(
-    view
-      .getByRole("switch", { name: "Narração" })
-      .getAttribute("aria-checked"),
+    view.getByRole("switch", { name: "Narração" }).getAttribute("aria-checked"),
   ).toBe("true");
 });
 
@@ -1679,7 +1679,9 @@ test("on hosted OpenBot Clear browser data asks first in one sentence, Cancel do
       .getAllByRole("tab")
       .map((tab) => tab.textContent);
 
-  await user.click(view.getByRole("button", { name: "Limpar dados do navegador" }));
+  await user.click(
+    view.getByRole("button", { name: "Limpar dados do navegador" }),
+  );
   const confirm = within(
     await view.findByRole("dialog", { name: "Limpar este navegador?" }),
   );
@@ -1697,7 +1699,9 @@ test("on hosted OpenBot Clear browser data asks first in one sentence, Cancel do
   expect(clears()).toEqual([]);
   expect(tabNames()).toEqual(["Example Domain", "Nova aba"]);
 
-  await user.click(view.getByRole("button", { name: "Limpar dados do navegador" }));
+  await user.click(
+    view.getByRole("button", { name: "Limpar dados do navegador" }),
+  );
   await user.click(
     within(
       await view.findByRole("dialog", { name: "Limpar este navegador?" }),

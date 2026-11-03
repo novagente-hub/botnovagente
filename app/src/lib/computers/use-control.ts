@@ -103,7 +103,8 @@ function createControlStore(computerId: string): ControlStore {
       publish({
         ...snapshot,
         busy: false,
-        problem: "Não foi possível acessar o computador. Tente de novo quando ele reconectar.",
+        problem:
+          "Não foi possível acessar o computador. Tente de novo quando ele reconectar.",
       });
       return false;
     } finally {

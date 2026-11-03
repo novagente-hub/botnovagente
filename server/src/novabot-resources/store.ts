@@ -19,8 +19,8 @@ function validate(title: string, content: string) {
   }
   if (content.length > RESOURCE_CONTENT_LIMIT) {
     throw new ResourceRefusedError(
-          "Content exceeds the 16,000-character limit.",
-        );
+      "Content exceeds the 16,000-character limit.",
+    );
   }
 }
 

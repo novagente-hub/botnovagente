@@ -145,7 +145,6 @@ export function SetupSections({ agent }: { agent: AgentProfile }) {
                 <ItemContent>
                   <ItemTitle>Do sistema</ItemTitle>
                   <ItemDescription>
-                    
                     Vem com o OpenBot. Não pertence a uma pessoa.
                   </ItemDescription>
                 </ItemContent>
@@ -364,7 +363,8 @@ function EditTextDialog({
     const parsed = schema.safeParse(draft);
     if (!parsed.success) {
       setError(
-        parsed.error.issues[0]?.message ?? "Verifique este campo e tente novamente.",
+        parsed.error.issues[0]?.message ??
+          "Verifique este campo e tente novamente.",
       );
       return;
     }
@@ -424,7 +424,6 @@ function EditTextDialog({
             size="sm"
             variant="outline"
           >
-            
             Cancelar
           </Button>
           <Button disabled={saving} onClick={() => void submit()} size="sm">

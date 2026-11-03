@@ -172,13 +172,12 @@ export function ReachingYou({ agentId: fixedBot }: { agentId?: string }) {
     <>
       {fixedBot === undefined ? (
         <p className="mt-6 text-muted-foreground text-sm">
-          
-          Seus dispositivos, entregas recentes e para onde vai cada tipo de atualização estão em{" "}
+          Seus dispositivos, entregas recentes e para onde vai cada tipo de
+          atualização estão em{" "}
           <Link
             className="underline underline-offset-4"
             to="/settings/notifications"
           >
-            
             Configurações → Notificações
           </Link>
           .
@@ -225,7 +224,6 @@ export function ReachingYou({ agentId: fixedBot }: { agentId?: string }) {
                         size="sm"
                         variant="outline"
                       >
-                        
                         Desconectar
                       </Button>
                     </ItemActions>
@@ -367,16 +365,13 @@ function ConnectDialog({
         <DialogHeader>
           <DialogTitle>{TRANSPORT[transport].link}</DialogTitle>
           <DialogDescription>
-            
-            Cada conta ou número de telefone funciona com uma conversa por vez. Vincular aqui o move da conversa à qual está vinculado agora.
+            Cada conta ou número de telefone funciona com uma conversa por vez.
+            Vincular aqui o move da conversa à qual está vinculado agora.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 grid gap-4 overflow-y-auto">
           <Field>
-            <FieldLabel htmlFor={`${formId}-conversation`}>
-              
-              Conversa
-            </FieldLabel>
+            <FieldLabel htmlFor={`${formId}-conversation`}>Conversa</FieldLabel>
             <Select
               items={Object.fromEntries(
                 conversations.map((channel) => [
@@ -434,7 +429,6 @@ function ConnectDialog({
               size="sm"
               variant="outline"
             >
-              
               Carregar mais conversas
             </Button>
           ) : null}
@@ -451,7 +445,6 @@ function ConnectDialog({
               >
                 <Field>
                   <FieldLabel htmlFor={`${formId}-phone`}>
-                    
                     Número de telefone
                   </FieldLabel>
                   <div className="flex items-center gap-2">
@@ -470,7 +463,6 @@ function ConnectDialog({
                       type="submit"
                       variant={challengeId ? "outline" : "default"}
                     >
-                      
                       Enviar código de verificação
                     </Button>
                   </div>
@@ -494,7 +486,6 @@ function ConnectDialog({
                 >
                   <Field>
                     <FieldLabel htmlFor={`${formId}-code`}>
-                      
                       Código de verificação
                     </FieldLabel>
                     <div className="flex items-center gap-2">
@@ -510,7 +501,6 @@ function ConnectDialog({
                         size="sm"
                         type="submit"
                       >
-                        
                         Confirmar telefone
                       </Button>
                     </div>
@@ -522,12 +512,11 @@ function ConnectDialog({
             <Item size="sm" variant="muted">
               <ItemContent>
                 <ItemDescription className="line-clamp-none">
-                  
                   Envie esta mensagem para o app OpenBot em até{" "}
                   {linked.platform === "teams" ? "Microsoft Teams" : "Slack"}{" "}
                   within {Math.ceil((linked.expiresAt - Date.now()) / 60_000)}{" "}
-                  
-                  minutos. Isso vincula aquela conta a esta conversa e a este Bot.
+                  minutos. Isso vincula aquela conta a esta conversa e a este
+                  Bot.
                 </ItemDescription>
                 <ItemTitle className="break-all font-mono">
                   {linked.command}
@@ -555,7 +544,6 @@ function ConnectDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" variant="outline">
-            
             Fechar
           </Button>
           {/* A phone's two steps each submit their own field, beside it. */}

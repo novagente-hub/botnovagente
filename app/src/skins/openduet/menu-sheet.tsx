@@ -155,7 +155,6 @@ export function MenuSheet({
                   className="openduet-type-sub px-3 py-2 text-openduet-problem"
                   role="alert"
                 >
-                  
                   Não foi possível carregar suas conversas. Recarregue a página.
                 </p>
               ) : conversations.length > 0 ? (
@@ -187,7 +186,6 @@ export function MenuSheet({
               to="/channel/new"
             >
               <IconPlus size={22} stroke={1.8} />
-              
               Nova conversa
             </Link>
           </div>
@@ -211,7 +209,6 @@ export function MenuSheet({
                   size={22}
                   stroke={1.8}
                 />
-                
                 Gerenciar
                 {/* Closed, the group would hide what waits on the person, so Manage carries it. */}
                 {manageOpen ? null : <AccentBadge />}
@@ -415,7 +412,6 @@ function ConversationRow({
             variant="destructive"
           >
             <IconTrash />
-            
             Excluir conversa…
           </ContextMenuItem>
         </ContextMenuContent>

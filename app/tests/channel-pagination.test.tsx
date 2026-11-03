@@ -257,7 +257,9 @@ test("scrolling requests the cursor once, appends older rows, and stops at the f
     observer.intersect();
     observer.intersect();
   });
-  await view.findByRole("button", { name: "Carregando conversas mais antigas…" });
+  await view.findByRole("button", {
+    name: "Carregando conversas mais antigas…",
+  });
   expect(requests).toEqual(["/api/channels?cursor=older%2Fpage"]);
   pending.resolve(
     Response.json({

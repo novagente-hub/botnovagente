@@ -205,7 +205,6 @@ function SignScreen() {
         >
           {options?.ssoRequired ? (
             <p className="mb-3 text-center text-sm text-muted-foreground">
-              
               Sua organização exige que você entre com a conta da empresa.
             </p>
           ) : null}
@@ -213,8 +212,8 @@ function SignScreen() {
             providerButtons
           ) : options?.sso || options?.ssoRequired ? null : (
             <p className="text-center text-sm text-muted-foreground">
-              
-              O login ainda não está configurado. Um administrador precisa configurá-lo primeiro.
+              O login ainda não está configurado. Um administrador precisa
+              configurá-lo primeiro.
             </p>
           )}
           {/*
@@ -257,7 +256,6 @@ function SignScreen() {
           {options?.ssoRequired && providers.length > 0 ? (
             <details className="mt-4 text-sm">
               <summary className="cursor-pointer text-center text-muted-foreground">
-                
                 Login de administrador
               </summary>
               <div className="mt-3">{providerButtons}</div>

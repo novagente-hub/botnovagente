@@ -87,9 +87,9 @@ export const connectWebRtc: ConnectVoice = async ({
     }
     channel = peer.createDataChannel("oai-events");
     channel.onopen = () => ready.resolve();
-    channel.onerror = () =>
-      fail("A conexão de voz falhou. Ligue novamente.");
-    channel.onclose = () => fail("A chamada de voz terminou. Você pode ligar novamente.");
+    channel.onerror = () => fail("A conexão de voz falhou. Ligue novamente.");
+    channel.onclose = () =>
+      fail("A chamada de voz terminou. Você pode ligar novamente.");
     channel.onmessage = ({ data }) => {
       if (closed) return;
       try {
@@ -103,9 +103,7 @@ export const connectWebRtc: ConnectVoice = async ({
           onEvent(event as VoiceEvent);
         }
       } catch {
-        fail(
-          "O serviço de voz retornou um evento ilegível. Ligue novamente.",
-        );
+        fail("O serviço de voz retornou um evento ilegível. Ligue novamente.");
       }
     };
     const offer = await peer.createOffer();

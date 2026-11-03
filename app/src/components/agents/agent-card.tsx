@@ -58,7 +58,6 @@ export function AgentCard({
           className="-ml-2 text-muted-foreground after:absolute after:inset-0"
           render={<Link params={{ agentId: agent.id }} to="/bots/$agentId" />}
         >
-          
           Detalhes
         </Button>
         <IconArrowRight

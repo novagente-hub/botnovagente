@@ -65,7 +65,6 @@ export function ComponentPreview({
     if (!sandboxed.published || sandboxed.publishedHtml === null) {
       return (
         <PreviewNotice>
-          
           Publique no playground para ver uma prévia.
         </PreviewNotice>
       );

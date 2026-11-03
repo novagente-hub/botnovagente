@@ -79,7 +79,6 @@ export function GrantList({
     return (
       <PageSection title="Ações">
         <p className="text-destructive text-sm" role="alert">
-          
           Não foi possível ler o que esta conta permite agora.{" "}
           <Button
             onClick={() => grants.refetch()}
@@ -87,7 +86,6 @@ export function GrantList({
             type="button"
             variant="outline"
           >
-            
             Tentar de novo
           </Button>
         </p>
@@ -103,7 +101,6 @@ export function GrantList({
         {/* Not an action: the entry's label is the toolkit's own name, which a person must not
             see in their grant list as if it were one. */}
         <p data-could-not-read="" role="status" className="text-sm">
-          
           Não foi possível ler o que esta conta permite agora.
           {only?.state === "unknown" ? ` ${only.reason}` : null}{" "}
           <Button
@@ -112,7 +109,6 @@ export function GrantList({
             type="button"
             variant="outline"
           >
-            
             Tentar de novo
           </Button>
         </p>
@@ -200,7 +196,6 @@ export function GrantList({
                       type="button"
                       variant="outline"
                     >
-                      
                       Autorizar
                     </Button>
                   ) : null}
@@ -211,7 +206,6 @@ export function GrantList({
                       type="button"
                       variant="outline"
                     >
-                      
                       Tentar de novo
                     </Button>
                   ) : null}
@@ -223,12 +217,15 @@ export function GrantList({
       ))}
       {hidden > 0 ? (
         <p className="text-muted-foreground text-sm">
-          Mais {hidden} {hidden === 1 ? "ação ainda não autorizada" : "ações ainda não autorizadas"}. Pesquise para encontrar.
+          Mais {hidden}{" "}
+          {hidden === 1
+            ? "ação ainda não autorizada"
+            : "ações ainda não autorizadas"}
+          . Pesquise para encontrar.
         </p>
       ) : null}
       {term.length > 0 && groups.length === 0 ? (
         <p className="text-muted-foreground text-sm">
-          
           Nenhuma ação corresponde a essa busca.
         </p>
       ) : null}
@@ -277,11 +274,9 @@ function ConsentNotice({
           type="button"
           variant="outline"
         >
-          
           Continuar para o consentimento
         </Button>
         <Button onClick={onCancel} size="sm" type="button" variant="ghost">
-          
           Cancelar
         </Button>
       </div>

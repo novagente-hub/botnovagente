@@ -78,7 +78,9 @@ test("a reconnect that shows the screen again restores the whole retry budget", 
     await r.sockets[i + 1]?.onopen?.();
   }
   expect(r.timers.map((t) => t.delay)).toEqual([500, 500, 500, 500, 500, 500]);
-  expect(r.statuses.some((status) => status.includes("Tente de novo"))).toBe(false);
+  expect(r.statuses.some((status) => status.includes("Tente de novo"))).toBe(
+    false,
+  );
   // A reconnect still asks who holds the computer before input is ready.
   expect(r.statuses.at(-1)).toBe("blocked");
   r.control.stop();

@@ -46,7 +46,6 @@ export function TeamBotConsents() {
               size="sm"
               variant="outline"
             >
-              
               Redefinir
             </Button>
           </ItemActions>

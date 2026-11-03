@@ -972,7 +972,9 @@ export function BrokeredAccountRow({
                * at it twice. A button that cannot work is worse than no button — it invites the
                * second press that files a record of an act that did not happen.
                */
-              <span className="text-muted-foreground text-xs">Chave ausente</span>
+              <span className="text-muted-foreground text-xs">
+                Chave ausente
+              </span>
             ) : account.connected ? (
               <>
                 {/* Decorative: the word beside it already says which. */}
@@ -1026,7 +1028,6 @@ export function BrokeredAccountRow({
                   type="button"
                   variant="outline"
                 >
-                  
                   Desconectar
                 </Button>
               </>
@@ -1045,7 +1046,6 @@ export function BrokeredAccountRow({
                * state is the branch above, which this one is reached only by failing.
                */
               <span className="text-muted-foreground text-xs">
-                
                 Aprovado por ação
               </span>
             ) : (
@@ -1069,7 +1069,6 @@ export function BrokeredAccountRow({
                 type="button"
                 variant="outline"
               >
-                
                 Conectar
                 <IconArrowUpRight />
               </Button>
@@ -1122,7 +1121,6 @@ export function BrokeredAccountRow({
               />
             ) : account.requestingFields ? (
               <p className="text-muted-foreground text-sm">
-                
                 Verificando o que o app precisa…
               </p>
             ) : (
@@ -1135,8 +1133,8 @@ export function BrokeredAccountRow({
                * on a second open and not only on a first.
                */
               <p className="text-muted-foreground text-sm">
-                
-                Não foi possível descobrir o que este app precisa. Feche e tente novamente.
+                Não foi possível descobrir o que este app precisa. Feche e tente
+                novamente.
               </p>
             )}
             {/*

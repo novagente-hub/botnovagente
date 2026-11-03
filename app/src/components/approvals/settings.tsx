@@ -85,10 +85,8 @@ export function ApprovalSettings() {
       ) : null}
       {me?.role === "admin" ? (
         <p className="mt-6 text-muted-foreground text-sm">
-          
           Configurações da equipe e pedidos de contas compartilhadas estão em{" "}
           <Link className="underline underline-offset-4" to="/admin/approvals">
-            
             Admin → Aprovações
           </Link>
           .
@@ -103,8 +101,8 @@ export function ApprovalSettings() {
             <ItemContent>
               <ItemTitle>Perguntar antes de fazer alterações</ItemTitle>
               <ItemDescription>
-                
-                Revisar alterações de um Bot em sites, apps conectados e arquivos.
+                Revisar alterações de um Bot em sites, apps conectados e
+                arquivos.
               </ItemDescription>
             </ItemContent>
             <ItemActions>
@@ -124,14 +122,18 @@ export function ApprovalSettings() {
                   <IconEyeCheck />
                 </ItemMedia>
                 <ItemContent>
-                  <ItemTitle id="auto-review-title">Revisão automática</ItemTitle>
+                  <ItemTitle id="auto-review-title">
+                    Revisão automática
+                  </ItemTitle>
                   <ItemDescription
                     className="line-clamp-none"
                     id="auto-review-description"
                   >
                     {enforced ? "Um administrador exige isto. " : ""}
-                    
-                    Antes de um Bot fazer algo que possa afetar suas contas ou compartilhar informações, o OpenBot verifica isso com o seu pedido e as suas regras. Se não tiver certeza, ele pergunta a você.
+                    Antes de um Bot fazer algo que possa afetar suas contas ou
+                    compartilhar informações, o OpenBot verifica isso com o seu
+                    pedido e as suas regras. Se não tiver certeza, ele pergunta
+                    a você.
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
@@ -161,8 +163,8 @@ export function ApprovalSettings() {
                       inbox.data.preferences.hostCommands
                       ? `Um administrador limita isto a "${HOST_LABELS[inbox.data.hostCommands]}". `
                       : ""}
-                    
-                    O app de desktop do OpenBot ainda mostra cada comando antes de executá-lo.
+                    O app de desktop do OpenBot ainda mostra cada comando antes
+                    de executá-lo.
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
@@ -184,10 +186,11 @@ export function ApprovalSettings() {
       <PageSection
         description={
           <>
-            
-            A regra correspondente mais rígida vence. Uma regra "perguntar" vence uma regra "permitir". As regras da equipe são bloqueadas. Senhas, configurações de segurança e pagamentos sempre ficam com você. As regras de um Bot ficam na{" "}
+            A regra correspondente mais rígida vence. Uma regra "perguntar"
+            vence uma regra "permitir". As regras da equipe são bloqueadas.
+            Senhas, configurações de segurança e pagamentos sempre ficam com
+            você. As regras de um Bot ficam na{" "}
             <Link className="underline underline-offset-4" to="/bots">
-              
               página desse Bot
             </Link>
             .
@@ -233,7 +236,11 @@ export function ApprovalSettings() {
             {canAdd ? (
               <>
                 {saved > 0 ? <Separator /> : null}
-                <RuleForm botField={false} label="Adicionar regra" save={addRule} />
+                <RuleForm
+                  botField={false}
+                  label="Adicionar regra"
+                  save={addRule}
+                />
               </>
             ) : null}
           </PageRows>

@@ -61,7 +61,6 @@ export function DeleteConversationDialog({
         <DialogHeader>
           <DialogTitle>Excluir {name}?</DialogTitle>
           <DialogDescription>
-            
             Ela some para todos na conversa.
           </DialogDescription>
         </DialogHeader>
@@ -72,7 +71,6 @@ export function DeleteConversationDialog({
         ) : null}
         <DialogFooter>
           <Button onClick={() => onOpenChange(false)} size="sm" variant="ghost">
-            
             Cancelar
           </Button>
           <Button

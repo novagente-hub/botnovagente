@@ -136,9 +136,9 @@ async function uploaded(
 ) {
   await waitFor(() => {
     expect(queryByLabelText(`Remove ${name}`)).not.toBeNull();
-    expect((getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled).toBe(
-      false,
-    );
+    expect(
+      (getByLabelText("Enviar mensagem") as HTMLButtonElement).disabled,
+    ).toBe(false);
   });
 }
 

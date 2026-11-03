@@ -34,7 +34,6 @@ function RouteComponent() {
     >
       {components.isPending ? null : components.error ? (
         <p className="mt-12 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar os componentes. Recarregue a página.
         </p>
       ) : published?.length === 0 ? (
@@ -42,8 +41,8 @@ function RouteComponent() {
           <EmptyHeader>
             <EmptyTitle>Nada publicado ainda</EmptyTitle>
             <EmptyDescription className="text-pretty">
-              
-              Quando um administrador publicar um componente, ele aparecerá aqui.
+              Quando um administrador publicar um componente, ele aparecerá
+              aqui.
             </EmptyDescription>
           </EmptyHeader>
         </Empty>

@@ -87,8 +87,8 @@ export function NewResponsibilityDialog({
         <DialogHeader>
           <DialogTitle>Nova responsabilidade</DialogTitle>
           <DialogDescription>
-            
-            Um objetivo contínuo. O Bot trabalha nele na conversa que você escolher.
+            Um objetivo contínuo. O Bot trabalha nele na conversa que você
+            escolher.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 overflow-y-auto">
@@ -116,7 +116,6 @@ export function NewResponsibilityDialog({
               <FieldGroup className="sm:grid sm:grid-cols-2">
                 <Field>
                   <FieldLabel htmlFor={`${formId}-conversation`}>
-                    
                     Conversa
                   </FieldLabel>
                   <Select
@@ -181,7 +180,6 @@ export function NewResponsibilityDialog({
                   type="button"
                   variant="outline"
                 >
-                  
                   Carregar mais conversas
                 </Button>
               )}
@@ -203,7 +201,6 @@ export function NewResponsibilityDialog({
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${formId}-instruction`}>
-                  
                   Instrução
                 </FieldLabel>
                 <Textarea
@@ -216,7 +213,6 @@ export function NewResponsibilityDialog({
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${formId}-criteria`}>
-                  
                   Critérios de sucesso
                 </FieldLabel>
                 <Textarea
@@ -231,7 +227,6 @@ export function NewResponsibilityDialog({
               <FieldGroup className="sm:grid sm:grid-cols-2">
                 <Field>
                   <FieldLabel htmlFor={`${formId}-source`}>
-                    
                     Origem dos eventos
                   </FieldLabel>
                   <Select
@@ -256,7 +251,6 @@ export function NewResponsibilityDialog({
                   </Select>
                   {source === "github" && (
                     <FieldDescription>
-                      
                       Os eventos vêm dos repositórios que você conectou em{" "}
                       <Link to="/connections">Conexões</Link>.
                     </FieldDescription>
@@ -265,7 +259,6 @@ export function NewResponsibilityDialog({
                 {source !== "none" && (
                   <Field>
                     <FieldLabel htmlFor={`${formId}-event`}>
-                      
                       Tipo de evento
                     </FieldLabel>
                     <Input
@@ -291,7 +284,6 @@ export function NewResponsibilityDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            
             Cancelar
           </Button>
           <Button

@@ -473,7 +473,8 @@ export function connectionSiblingsQueryOptions(serverId: string) {
       const response = await client(
         `/api/plugins/servers/${encodeURIComponent(serverId)}/connection/siblings`,
         {
-          fallback: "Não foi possível ler quais outros apps compartilham esta conexão.",
+          fallback:
+            "Não foi possível ler quais outros apps compartilham esta conexão.",
         },
       );
       const body: Partial<ConnectionSiblings> = await response.json();

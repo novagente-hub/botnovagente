@@ -77,9 +77,7 @@ test("settings saves only the display name and refreshes the current user", asyn
   await user.type(view.getByLabelText("Nome"), " Samuel ");
   fireEvent.click(view.getByRole("button", { name: "Salvar nome" }));
   await waitFor(() =>
-    expect(view.getByRole("status").textContent).toBe(
-      "Seu nome foi salvo.",
-    ),
+    expect(view.getByRole("status").textContent).toBe("Seu nome foi salvo."),
   );
   expect(sent).toEqual({ name: "Samuel" });
   expect(query.getQueryState(authKeys.currentUser())?.isInvalidated).toBe(true);

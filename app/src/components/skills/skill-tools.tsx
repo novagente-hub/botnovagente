@@ -82,13 +82,12 @@ export function SkillTools({
 
       {plugins.isPending ? null : plugins.error ? (
         <p className="text-destructive text-xs" role="alert">
-          
           Não foi possível carregar as ferramentas. Recarregue a página.
         </p>
       ) : servers.length === 0 ? (
         <p className="text-muted-foreground text-xs">
-          
-          Nenhum app oferece ferramentas ainda. Você ainda pode escrever a habilidade. A maioria das habilidades são só instruções.
+          Nenhum app oferece ferramentas ainda. Você ainda pode escrever a
+          habilidade. A maioria das habilidades são só instruções.
         </p>
       ) : (
         <div className="flex flex-col gap-3">
@@ -137,7 +136,9 @@ export function SkillTools({
 
       {plugins.data ? (
         <div className="flex flex-col gap-1.5">
-          <p className="text-muted-foreground text-xs">Pesquisa na web pública</p>
+          <p className="text-muted-foreground text-xs">
+            Pesquisa na web pública
+          </p>
           <div className="flex flex-wrap gap-2">
             {RESEARCH_ROLES.map((role) => (
               <Button
@@ -177,15 +178,16 @@ export function SkillTools({
             ))}
           </div>
           <p className="text-muted-foreground text-xs">
-            
-            Esta habilidade pede estas ferramentas, mas nenhum app aqui as oferece. Elas não fazem nada até um administrador adicionar o app. Clique em uma para removê-la.
+            Esta habilidade pede estas ferramentas, mas nenhum app aqui as
+            oferece. Elas não fazem nada até um administrador adicionar o app.
+            Clique em uma para removê-la.
           </p>
         </div>
       ) : null}
 
       <p className="text-muted-foreground text-xs">
-        
-        Usar esta habilidade carrega estas ferramentas para aquela resposta. Não dá acesso. Um Bot só pode usar ferramentas que já tem.
+        Usar esta habilidade carrega estas ferramentas para aquela resposta. Não
+        dá acesso. Um Bot só pode usar ferramentas que já tem.
       </p>
     </Field>
   );

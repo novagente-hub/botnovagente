@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { agentListQueryOptions } from "@/lib/agents/queries";
 import { client } from "@/lib/client";
 
@@ -30,17 +30,17 @@ export function SharedResourcesPanel() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function refresh() {
+  const refresh = useCallback(async () => {
     const rows = await client<Resource[]>(root, "resources");
     setResources(rows);
     return rows;
-  }
+  }, []);
 
   useEffect(() => {
     void refresh().catch((failure: unknown) =>
       setError(failure instanceof Error ? failure.message : String(failure)),
     );
-  }, []);
+  }, [refresh]);
 
   async function choose(id: string | null) {
     setError(null);

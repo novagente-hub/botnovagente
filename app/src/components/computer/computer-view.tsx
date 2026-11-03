@@ -96,10 +96,6 @@ async function preloadFrame(base64: string): Promise<void> {
   }
 }
 
-function capitalise(text: string): string {
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
-
 /**
  * How long a computer may go without a frame before that is worth telling anybody.
  *

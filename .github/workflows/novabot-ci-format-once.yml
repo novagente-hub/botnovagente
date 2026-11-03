@@ -1,0 +1,42 @@
+name: NovaBot CI format - one time
+
+on:
+  push:
+    branches:
+      - fix/novabot-ci-estabilizacao-20261103
+    paths:
+      - .github/workflows/novabot-ci-format-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    if: github.repository == 'novagente-hub/botnovagente'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+      - name: Install pinned formatter only
+        run: npm install --prefix "$RUNNER_TEMP/novabot-format" --ignore-scripts --no-save --no-package-lock --silent @biomejs/biome@2.5.10
+      - name: Normalize all tracked source formatting
+        run: |
+          "$RUNNER_TEMP/novabot-format/node_modules/.bin/biome" format --write .
+          "$RUNNER_TEMP/novabot-format/node_modules/.bin/biome" format .
+          git diff --check
+      - name: Commit formatting only to this branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -u
+          if git diff --cached --quiet; then
+            echo "No formatting differences to commit."
+          else
+            git commit -m "style: normalize repository formatting with Biome 2.5.10"
+            git push origin "HEAD:refs/heads/${GITHUB_REF_NAME}"
+          fi

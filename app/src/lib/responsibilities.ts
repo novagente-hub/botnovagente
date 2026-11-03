@@ -136,7 +136,10 @@ export function createGithubBinding(repository: string, secret: string) {
 export function removeGithubBinding(id: string) {
   return client(
     `/api/responsibilities/sources/github/${encodeURIComponent(id)}`,
-    { method: "DELETE", fallback: "Não foi possível desconectar os eventos do GitHub" },
+    {
+      method: "DELETE",
+      fallback: "Não foi possível desconectar os eventos do GitHub",
+    },
   );
 }
 
@@ -199,7 +202,11 @@ export async function createTrigger(
 ) {
   const response = await client(
     `/api/responsibilities/${encodeURIComponent(responsibilityId)}/triggers`,
-    { method: "POST", body: input, fallback: "Não foi possível adicionar o gatilho" },
+    {
+      method: "POST",
+      body: input,
+      fallback: "Não foi possível adicionar o gatilho",
+    },
   );
   return (await response.json()) as {
     trigger: TriggerRecord;

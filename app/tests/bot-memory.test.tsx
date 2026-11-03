@@ -159,14 +159,18 @@ test("reopening Add source after a failure keeps the draft but not the failure",
   const user = await openAddSource(view);
   await user.type(view.getByLabelText("Nome da fonte"), "Invoices");
   refuseWrite = "That folder cannot be read.";
-  await user.click(view.getByRole("button", { name: "Adicionar e sincronizar fonte" }));
+  await user.click(
+    view.getByRole("button", { name: "Adicionar e sincronizar fonte" }),
+  );
   expect((await view.findByRole("alert")).textContent).toBe(
     "That folder cannot be read.",
   );
   await user.keyboard("{Escape}");
   await waitFor(() => expect(view.queryByRole("dialog")).toBeNull());
   await user.click(view.getByRole("button", { name: "Adicionar fonte" }));
-  const name = (await view.findByLabelText("Nome da fonte")) as HTMLInputElement;
+  const name = (await view.findByLabelText(
+    "Nome da fonte",
+  )) as HTMLInputElement;
   expect(name.value).toBe("Invoices");
   expect(view.queryByRole("alert")).toBeNull();
 });

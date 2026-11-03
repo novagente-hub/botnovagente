@@ -65,7 +65,6 @@ export function AgentProfile({
   if (agent.error || !agent.data) {
     return (
       <p className="p-8 text-sm text-destructive" role="alert">
-        
         Não foi possível carregar este Bot.
       </p>
     );
@@ -100,7 +99,6 @@ export function AgentProfile({
 
       <section className="grid gap-2">
         <h2 className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-          
           O que ele faz
         </h2>
         <p className="text-sm whitespace-pre-wrap text-pretty">
@@ -115,7 +113,6 @@ export function AgentProfile({
             void navigate({ search: { agent: agentId }, to: "/channel/new" })
           }
         >
-          
           Nova conversa
         </Button>
         <Button
@@ -125,7 +122,6 @@ export function AgentProfile({
           )}
           variant="outline"
         >
-          
           Abrir {profile.name}
         </Button>
       </div>

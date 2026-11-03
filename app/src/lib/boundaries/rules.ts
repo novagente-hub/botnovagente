@@ -12,7 +12,8 @@ export type RuleTemplate = RuleLabel & { rule: string; cost: string };
 export const RULE_TEMPLATES: RuleTemplate[] = [
   {
     name: "Nunca enviar um formulário",
-    description: "Impede que um Bot clique em um botão de envio ou pressione Enter enquanto digita.",
+    description:
+      "Impede que um Bot clique em um botão de envio ou pressione Enter enquanto digita.",
     // `key` is guarded by tool name so the clause short-circuits before it on actions that have no
     // keypress in them. Both tools that can press Enter are named: `computer_type` takes a `submit`
     // flag that presses it once the text is in, and a rule naming only `computer_key` left that door
@@ -38,8 +39,7 @@ export const RULE_TEMPLATES: RuleTemplate[] = [
 export const RULE_ATTRIBUTES: { name: string; meaning: string }[] = [
   {
     name: "tool.name",
-    meaning:
-      "A ação, como computer_click, computer_type ou computer_key.",
+    meaning: "A ação, como computer_click, computer_type ou computer_key.",
   },
   {
     name: "intent",

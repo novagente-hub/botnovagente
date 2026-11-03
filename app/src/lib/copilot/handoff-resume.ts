@@ -89,7 +89,9 @@ export async function resumeHandoffTask(
       m.toolCalls?.some((c) => c.id === pending.toolCallId),
   );
   if (!hasCall)
-    throw new Error("A chamada de ferramenta do repasse não está nesta conversa.");
+    throw new Error(
+      "A chamada de ferramenta do repasse não está nesta conversa.",
+    );
   if (!findPendingTool(agent.messages, pending))
     throw new Error("Esta chamada de ferramenta já foi respondida.");
   if (agent.isRunning || hasActiveHandoff(botId, pending.requestId))
@@ -99,7 +101,8 @@ export async function resumeHandoffTask(
   if (result.reconnecting || result.snapshotRequired)
     throw new Error(
       String(
-        result.reason ?? "Não foi possível acessar o computador. Tente de novo para retomar.",
+        result.reason ??
+          "Não foi possível acessar o computador. Tente de novo para retomar.",
       ),
     );
   // Another handler/tab may have supplied the result while we waited. Keep accepted work accepted.

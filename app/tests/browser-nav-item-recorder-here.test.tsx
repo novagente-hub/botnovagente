@@ -393,7 +393,9 @@ test("Record and Stop from the keyboard: Tab to the button, Enter opens the popo
   await user.keyboard("Book the flight{Enter}");
   await view.findByRole("dialog", { name: "Book the flight" });
   // Record gave way to Stop, the one control while it records, and the keyboard is on it rather than lost.
-  await waitFor(() => expect(document.activeElement?.textContent).toBe("Parar"));
+  await waitFor(() =>
+    expect(document.activeElement?.textContent).toBe("Parar"),
+  );
   await user.keyboard("{Escape}");
   await waitFor(() => expect(popover()).toBeNull());
   expect(document.activeElement).toBe(button);
@@ -404,7 +406,9 @@ test("Record and Stop from the keyboard: Tab to the button, Enter opens the popo
   ]);
   await user.keyboard(" ");
   await view.findByRole("dialog", { name: "Book the flight" });
-  await waitFor(() => expect(document.activeElement?.textContent).toBe("Parar"));
+  await waitFor(() =>
+    expect(document.activeElement?.textContent).toBe("Parar"),
+  );
   await user.keyboard("{Enter}");
   await view.findByRole("dialog", { name: "Gravar uma tarefa" });
   // And Stop gave way to the task name, ready for the next one.
@@ -533,7 +537,11 @@ test("with the Recorder here but not connected, one click connects it as Setting
 
   // The person clicks Connect on the Recorder's page; OpenBot hears of it within the 2 s it asks in while it waits.
   recorder.confirm();
-  await view.findByRole("dialog", { name: "Gravar uma tarefa" }, { timeout: 3000 });
+  await view.findByRole(
+    "dialog",
+    { name: "Gravar uma tarefa" },
+    { timeout: 3000 },
+  );
   // One connect, however long it waited.
   expect(sent(recorder, "openbot.connect").length).toBe(1);
   await user.type(
@@ -559,7 +567,9 @@ test("a Cancel on the Recorder's Connect page reaches the popover within a secon
     { timeout: 1500 },
   );
   // Connect again asks the Recorder again, and waits on its Connect page afresh.
-  await user.click(view.getByRole("button", { name: "Conectar este navegador" }));
+  await user.click(
+    view.getByRole("button", { name: "Conectar este navegador" }),
+  );
   await view.findByText("Confirme na aba do OpenBot Recorder que abriu.");
   expect(sent(recorder, "openbot.connect").length).toBe(2);
   recorder.closeTab();

@@ -71,7 +71,10 @@ export function parseJsonObject(raw: string, label: string): JsonObjectResult {
   } catch (thrown) {
     const reason =
       thrown instanceof SyntaxError ? thrown.message : "invalid JSON";
-    return { ok: false, message: `${label} precisam ser um JSON válido: ${reason}` };
+    return {
+      ok: false,
+      message: `${label} precisam ser um JSON válido: ${reason}`,
+    };
   }
 
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
@@ -89,7 +92,10 @@ export function validatePlaygroundDraft(draft: Draft): PlaygroundValidation {
     draft.argumentSchema,
     "Argumentos (JSON Schema)",
   );
-  const sample = parseJsonObject(draft.sampleArguments, "Argumentos de exemplo");
+  const sample = parseJsonObject(
+    draft.sampleArguments,
+    "Argumentos de exemplo",
+  );
   if (!schema.ok || !sample.ok) {
     return {
       ok: false,
@@ -168,7 +174,9 @@ function PlaygroundPage() {
     setNotice(null);
     const payload = input();
     if (!payload) return;
-    saveDraft.mutate(payload, { onSuccess: () => setNotice("Rascunho salvo.") });
+    saveDraft.mutate(payload, {
+      onSuccess: () => setNotice("Rascunho salvo."),
+    });
   };
 
   const publish = () => {
@@ -207,8 +215,8 @@ function PlaygroundPage() {
           <div>
             <h1 className="font-bold text-2xl">Playground</h1>
             <p className="mt-1 max-w-prose text-pretty text-muted-foreground text-sm leading-relaxed">
-              
-              Escreva um componente e publique sem reimplantar. Suas edições são um rascunho. As conversas só mostram o que está publicado.
+              Escreva um componente e publique sem reimplantar. Suas edições são
+              um rascunho. As conversas só mostram o que está publicado.
             </p>
           </div>
         </div>
@@ -220,7 +228,6 @@ function PlaygroundPage() {
             type="button"
             variant="outline"
           >
-            
             Salvar rascunho
           </Button>
           <Button
@@ -230,7 +237,6 @@ function PlaygroundPage() {
             size="sm"
             type="button"
           >
-            
             Publicar
           </Button>
         </div>
@@ -332,12 +338,10 @@ function PlaygroundPage() {
 
           <div className="rounded-lg border border-border bg-card">
             <div className="border-border border-b px-4 py-2 font-medium text-sm">
-              
               Salvo aqui
             </div>
             {(components ?? []).length === 0 ? (
               <p className="px-4 py-3 text-muted-foreground text-sm">
-                
                 Nada salvo ainda. Salve um rascunho para vê-lo aqui.
               </p>
             ) : (
@@ -365,7 +369,6 @@ function PlaygroundPage() {
                         type="button"
                         variant="outline"
                       >
-                        
                         Abrir
                       </Button>
                       <Button
@@ -374,7 +377,6 @@ function PlaygroundPage() {
                         type="button"
                         variant="ghost"
                       >
-                        
                         Excluir
                       </Button>
                     </div>
@@ -383,8 +385,8 @@ function PlaygroundPage() {
               </ul>
             )}
             <p className="border-border border-t px-4 py-2 text-muted-foreground text-xs">
-              
-              Publicar o torna disponível para todos os Bots. Desative para um Bot na página de componentes de interface.
+              Publicar o torna disponível para todos os Bots. Desative para um
+              Bot na página de componentes de interface.
             </p>
           </div>
         </div>
@@ -404,13 +406,12 @@ function PlaygroundPage() {
           <DialogHeader>
             <DialogTitle>Excluir {deleting}?</DialogTitle>
             <DialogDescription>
-              
-              Ele é removido desta implantação, e nenhum Bot pode desenhá-lo. Não é possível desfazer.
+              Ele é removido desta implantação, e nenhum Bot pode desenhá-lo.
+              Não é possível desfazer.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button onClick={() => setDeleting(null)} size="sm" variant="ghost">
-              
               Cancelar
             </Button>
             <Button
@@ -425,7 +426,6 @@ function PlaygroundPage() {
               size="sm"
               variant="destructive"
             >
-              
               Excluir
             </Button>
           </DialogFooter>

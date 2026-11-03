@@ -502,7 +502,10 @@ export function confirmBrokeredConnectionMutationOptions(
     ): Promise<BrokeredConnectionConfirmation> => {
       const response = await client(
         `/api/plugins/servers/${encodeURIComponent(serverId)}/connection/confirm`,
-        { method: "POST", fallback: "Não foi possível confirmar essa conexão." },
+        {
+          method: "POST",
+          fallback: "Não foi possível confirmar essa conexão.",
+        },
       );
       return response.json();
     },
@@ -701,7 +704,10 @@ export function recheckBrokeredConnectionMutationOptions(
     mutationFn: async (serverId: string): Promise<BrokeredKeyCheck> => {
       const response = await client(
         `/api/plugins/servers/${encodeURIComponent(serverId)}/connection/recheck`,
-        { method: "POST", fallback: "Não foi possível verificar essa conexão." },
+        {
+          method: "POST",
+          fallback: "Não foi possível verificar essa conexão.",
+        },
       );
       return response.json();
     },

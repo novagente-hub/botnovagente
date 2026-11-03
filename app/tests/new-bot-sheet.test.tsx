@@ -154,7 +154,10 @@ async function opened(onCreated: (id: string) => void = () => {}) {
 
 async function customFlow() {
   const result = await opened();
-  await result.user.type(result.view.getByLabelText("Nome"), "Revisão de despesas");
+  await result.user.type(
+    result.view.getByLabelText("Nome"),
+    "Revisão de despesas",
+  );
   await result.user.click(
     result.view.getByRole("button", { name: /^Connect a custom agent/ }),
   );
@@ -250,7 +253,9 @@ test("refuses an empty or unreachable custom endpoint without creating", async (
   verdict = { ok: false, reason: "Nothing answered at that address." };
   const { view, user } = await connected("");
   await user.click(view.getByRole("button", { name: "Criar Bot" }));
-  expect(await view.findByText("Insira o endereço do seu agente.")).toBeTruthy();
+  expect(
+    await view.findByText("Insira o endereço do seu agente."),
+  ).toBeTruthy();
   expect(dialled).toEqual([]);
   await user.type(
     view.getByLabelText("Endereço do agente"),
@@ -299,9 +304,9 @@ test("preserves every entry across back navigation and hosting switches", async 
     view.getByRole("button", { name: /^Connect a custom agent/ }),
   );
   await user.click(view.getByRole("button", { name: /LangGraph/ }));
-  expect((view.getByLabelText("Endereço do agente") as HTMLInputElement).value).toBe(
-    "https://agent.example.com/ag-ui",
-  );
+  expect(
+    (view.getByLabelText("Endereço do agente") as HTMLInputElement).value,
+  ).toBe("https://agent.example.com/ag-ui");
   expect((view.getByLabelText(/Key/) as HTMLInputElement).value).toBe(
     "Bearer secret",
   );
@@ -367,7 +372,9 @@ async function isolatedTooltip(
   view: Awaited<ReturnType<typeof named>>["view"],
   user: Awaited<ReturnType<typeof named>>["user"],
 ) {
-  await user.hover(view.getByRole("button", { name: "O que significa Isolado" }));
+  await user.hover(
+    view.getByRole("button", { name: "O que significa Isolado" }),
+  );
   return (await view.findByText(new RegExp(ISOLATED_EXPLAINED.slice(0, 30))))
     .textContent;
 }
@@ -379,7 +386,9 @@ test("Isolated is offered with what it means, and a public Bot is told who share
   expect(isolated.hasAttribute("data-disabled")).toBe(false);
   expect(await isolatedTooltip(view, user)).toBe(ISOLATED_EXPLAINED);
 
-  await user.unhover(view.getByRole("button", { name: "O que significa Isolado" }));
+  await user.unhover(
+    view.getByRole("button", { name: "O que significa Isolado" }),
+  );
   await user.click(view.getByRole("button", { name: /Public/ }));
   expect(await isolatedTooltip(view, user)).toBe(
     `${ISOLATED_EXPLAINED} ${ISOLATED_PUBLIC}`,
@@ -396,9 +405,7 @@ test("a ticked Isolated is sent with the Bot, and an unticked one says no", asyn
   cleanup();
   creates = [];
   const again = await named("Plain");
-  await again.user.click(
-    again.view.getByRole("button", { name: "Criar Bot" }),
-  );
+  await again.user.click(again.view.getByRole("button", { name: "Criar Bot" }));
   expect(await again.view.findByText("Plain is ready")).toBeTruthy();
   expect(creates[0]).toMatchObject({ name: "Plain", isolated: false });
 });

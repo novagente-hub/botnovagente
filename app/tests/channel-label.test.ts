@@ -17,9 +17,9 @@ describe("a conversation label", () => {
   });
 
   test("cuts a long title to the limit", () => {
-    expect(
-      conversationLabel({ name: "Geral", summary: "a".repeat(80) }),
-    ).toBe(`Geral: ${"a".repeat(60)}`);
+    expect(conversationLabel({ name: "Geral", summary: "a".repeat(80) })).toBe(
+      `Geral: ${"a".repeat(60)}`,
+    );
   });
 
   test("does not leave half a character when the cut lands on one", () => {
@@ -39,8 +39,6 @@ describe("a conversation label", () => {
 
   test("falls back to the name when there is no title", () => {
     expect(conversationLabel({ name: "Geral" })).toBe("Geral");
-    expect(conversationLabel({ name: "Geral", summary: "   " })).toBe(
-      "Geral",
-    );
+    expect(conversationLabel({ name: "Geral", summary: "   " })).toBe("Geral");
   });
 });

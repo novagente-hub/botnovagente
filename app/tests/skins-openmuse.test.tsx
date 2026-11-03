@@ -575,11 +575,13 @@ describe("the frame", () => {
     expect(
       tabs.getByRole("link", { name: "Atividade" }).getAttribute("href"),
     ).toBe("/s/activity");
-    expect(tabs.getByRole("link", { name: "Ideias" }).getAttribute("href")).toBe(
-      "/s/ideas",
-    );
     expect(
-      tabs.getByRole("link", { name: "Objetivos" }).getAttribute("aria-current"),
+      tabs.getByRole("link", { name: "Ideias" }).getAttribute("href"),
+    ).toBe("/s/ideas");
+    expect(
+      tabs
+        .getByRole("link", { name: "Objetivos" })
+        .getAttribute("aria-current"),
     ).toBe("page");
     expect(tabs.getByRole("link", { name: "Apps" }).getAttribute("href")).toBe(
       "/connections",
@@ -738,7 +740,9 @@ describe("the frame wears the deployment's brand, not OpenMuse's", () => {
       { preconnect: originalFetch.preconnect },
     );
     renderAt("/s/activity");
-    const centre = await page().findByRole("button", { name: "Escolha um Bot" });
+    const centre = await page().findByRole("button", {
+      name: "Escolha um Bot",
+    });
     await waitFor(() => expect(centre.textContent).toContain(PRODUCT));
     expect(readable()).not.toMatch(/openmuse/i);
     expect(capybaras()).toEqual([]);
@@ -876,7 +880,9 @@ describe("each tab is OpenBot's own sections for the centre Bot", () => {
     expect(
       page().getByRole("heading", { name: "Pesquisa em segundo plano" }),
     ).toBeTruthy();
-    fireEvent.click(page().getByRole("button", { name: "Iniciar como tarefa" }));
+    fireEvent.click(
+      page().getByRole("button", { name: "Iniciar como tarefa" }),
+    );
     await waitFor(() =>
       expect(
         calls.some(
@@ -917,7 +923,9 @@ describe("each tab is OpenBot's own sections for the centre Bot", () => {
     const calls = serve();
     renderAt("/s/goals");
     fireEvent.click(
-      await page().findByRole("button", { name: "Precisa de você, 1 aguardando" }),
+      await page().findByRole("button", {
+        name: "Precisa de você, 1 aguardando",
+      }),
     );
     const sheet = within(await page().findByRole("dialog"));
     expect(await sheet.findByText("Muse quer open url")).toBeTruthy();

@@ -58,13 +58,11 @@ export function HandoffTool() {
             {given?.task ? <p>{given.task}</p> : null}
             {given?.constraints ? (
               <p className="text-muted-foreground">
-                
                 Restrições: {given.constraints}
               </p>
             ) : null}
             {given?.expecting ? (
               <p className="text-muted-foreground">
-                
                 Retorno esperado: {given.expecting}
               </p>
             ) : null}

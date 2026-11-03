@@ -227,7 +227,9 @@ test("a connector's admin page says the plugin list failed, not that there is no
   await waitForFailedRead(client);
 
   expect(
-    await view.findByText("Não foi possível carregar os plugins. Recarregue a página."),
+    await view.findByText(
+      "Não foi possível carregar os plugins. Recarregue a página.",
+    ),
   ).toBeTruthy();
   expect(view.queryByText("Não é um plugin")).toBeNull();
   expect(view.queryByText("Nada para configurar.")).toBeNull();
@@ -240,7 +242,9 @@ test("a list that genuinely lacks the connector still says it is not a plugin", 
 
   expect(await view.findByText("Não é um plugin")).toBeTruthy();
   expect(
-    view.queryByText("Não foi possível carregar os plugins. Recarregue a página."),
+    view.queryByText(
+      "Não foi possível carregar os plugins. Recarregue a página.",
+    ),
   ).toBeNull();
 });
 
@@ -253,7 +257,9 @@ test("a tool's admin page says the plugin list failed, not that the connector is
   await waitForFailedRead(client);
 
   expect(
-    await view.findByText("Não foi possível carregar os plugins. Recarregue a página."),
+    await view.findByText(
+      "Não foi possível carregar os plugins. Recarregue a página.",
+    ),
   ).toBeTruthy();
   expect(view.queryByText("This connector isn't turned on.")).toBeNull();
   expect(
@@ -271,7 +277,9 @@ test("a list that genuinely lacks the connector still says it is not enabled, on
 
   expect(await view.findByText("Este conector está desativado")).toBeTruthy();
   expect(
-    view.queryByText("Não foi possível carregar os plugins. Recarregue a página."),
+    view.queryByText(
+      "Não foi possível carregar os plugins. Recarregue a página.",
+    ),
   ).toBeNull();
 });
 
@@ -281,5 +289,7 @@ test("a connected account's page says the plugin list failed, not that it is not
   await waitForFailedRead(client);
 
   expect(await view.findByRole("alert")).toBeTruthy();
-  expect(view.queryByText("Você não conecta este app por conta própria.")).toBeNull();
+  expect(
+    view.queryByText("Você não conecta este app por conta própria."),
+  ).toBeNull();
 });

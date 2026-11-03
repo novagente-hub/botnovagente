@@ -436,8 +436,8 @@ export function ClearBrowserDialog({
         <DialogHeader>
           <DialogTitle>Limpar este navegador?</DialogTitle>
           <DialogDescription>
-            
-            Cookies, senhas salvas e histórico são apagados. Você terá que entrar em tudo de novo.
+            Cookies, senhas salvas e histórico são apagados. Você terá que
+            entrar em tudo de novo.
           </DialogDescription>
         </DialogHeader>
         {clear.error ? (
@@ -453,7 +453,6 @@ export function ClearBrowserDialog({
             size="sm"
             variant="outline"
           >
-            
             Cancelar
           </Button>
           <Button

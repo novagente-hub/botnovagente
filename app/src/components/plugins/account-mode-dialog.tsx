@@ -62,7 +62,9 @@ export function AccountModeDialog({
         : "Nenhuma conta compartilhada está conectada."
       : `${count} ${count === 1 ? "conta pessoal será desconectada" : "contas pessoais serão desconectadas"}.`;
   const action =
-    target === "shared" ? `Tornar ${title} compartilhado` : `Tornar ${title} pessoal`;
+    target === "shared"
+      ? `Tornar ${title} compartilhado`
+      : `Tornar ${title} pessoal`;
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
@@ -80,7 +82,6 @@ export function AccountModeDialog({
         {target === "shared" ? (
           <div className="mt-4 space-y-3 text-sm">
             <p>
-              
               Todos que usarem um Bot com este app vão agir como esta conta.
             </p>
             {preview.data?.bots.length ? (
@@ -108,7 +109,6 @@ export function AccountModeDialog({
             size="sm"
             variant="outline"
           >
-            
             Cancelar
           </Button>
           <Button

@@ -182,17 +182,14 @@ function BotsSection({
           </IconAction>
         }
       >
-        
         BOTS
       </NavLabel>
       {agents.isPending ? null : agents.error ? (
         <p className="px-3.5 py-1.5 text-[12px] text-destructive" role="alert">
-          
           Não foi possível carregar seus Bots. Recarregue a página.
         </p>
       ) : dots.length === 0 ? (
         <p className="px-3.5 py-1.5 text-[12px] leading-relaxed text-(--opendots-faint)">
-          
           Nenhum Bot ainda. Use + para criar um.
         </p>
       ) : (
@@ -345,7 +342,6 @@ function ThreadRow({
             variant="destructive"
           >
             <IconTrash />
-            
             Excluir conversa…
           </ContextMenuItem>
         </ContextMenuContent>
@@ -413,7 +409,6 @@ function RecentChats({
         }
         className="mt-[18px]"
       >
-        
         CHATS RECENTES
       </NavLabel>
       {searching ? (
@@ -437,7 +432,6 @@ function RecentChats({
       >
         {channels.isPending ? null : channels.error ? (
           <p className="px-3.5 py-1.5 text-[12px] text-(--opendots-error-ink)">
-            
             Não foi possível carregar suas conversas. Recarregue a página.
           </p>
         ) : visible.length === 0 ? (

@@ -93,9 +93,8 @@ export function GroupChat({ channelId }: { channelId: string }) {
         <div className="mx-auto flex w-full max-w-2xl flex-col gap-5 py-6">
           {messages.length === 0 ? (
             <p className="text-sm text-muted-foreground">
-              
-              Diga algo para {bots.map((bot) => bot.name).join(" e ")}.
-              Cada Bot responde na sua vez; comece com @Nome para perguntar a só um.
+              Diga algo para {bots.map((bot) => bot.name).join(" e ")}. Cada Bot
+              responde na sua vez; comece com @Nome para perguntar a só um.
             </p>
           ) : null}
           {messages.map((message) => (
@@ -104,7 +103,8 @@ export function GroupChat({ channelId }: { channelId: string }) {
               message={message}
               name={
                 message.agentId
-                  ? (names.get(message.agentId) ?? "Um Bot que não está mais aqui")
+                  ? (names.get(message.agentId) ??
+                    "Um Bot que não está mais aqui")
                   : message.ownerUserId === me?.id
                     ? "Você"
                     : "Um colega"
@@ -193,7 +193,6 @@ function GroupLine({
             className="tool-line-running text-sm text-muted-foreground"
             role="status"
           >
-            
             Pensando
           </p>
         ) : message.status === "waiting" ? (
@@ -204,7 +203,6 @@ function GroupLine({
               params={{ agentId: message.agentId }}
               to="/bots/$agentId"
             >
-              
               Abrir {name}
             </Link>
           </p>
@@ -218,7 +216,6 @@ function GroupLine({
             />
           ) : (
             <p className="text-sm text-muted-foreground">
-              
               Pediu permissão a um colega para usar a própria conta{" "}
               {message.consent.serverId} account.
             </p>

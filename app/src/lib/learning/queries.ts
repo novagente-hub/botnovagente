@@ -25,7 +25,8 @@ export function personalLearningQueryOptions() {
     queryFn: async (): Promise<PersonalLearningSharing> =>
       (
         await client("/api/settings/learning", {
-          fallback: "Não foi possível carregar suas configurações de Aprendizado. Recarregue a página.",
+          fallback:
+            "Não foi possível carregar suas configurações de Aprendizado. Recarregue a página.",
         })
       ).json(),
   });
@@ -48,7 +49,10 @@ export function learningAutomaticQueryOptions() {
       (await client<LearningAutoAssignState | undefined>(
         "/api/admin/learning/settings",
         "automatic",
-        { fallback: "Não foi possível carregar as configurações de Aprendizado." },
+        {
+          fallback:
+            "Não foi possível carregar as configurações de Aprendizado.",
+        },
       )) ?? null,
   });
 }
@@ -73,7 +77,10 @@ export function learningDeliveryQueryOptions(agentId: string) {
       client(
         `/api/admin/learning/status/${encodeURIComponent(agentId)}`,
         "status",
-        { fallback: "Não foi possível carregar o status da entrega de habilidades." },
+        {
+          fallback:
+            "Não foi possível carregar o status da entrega de habilidades.",
+        },
       ),
   });
 }

@@ -253,7 +253,11 @@ const GMAIL: GrantState[] = [
     state: "needs-operator",
     missing: ["GOOGLE_CLIENT_SECRET"],
   },
-  { action: "Gmail.Flaky", state: "unknown", reason: "Tente novamente em instantes." },
+  {
+    action: "Gmail.Flaky",
+    state: "unknown",
+    reason: "Tente novamente em instantes.",
+  },
 ];
 
 function row(view: ReturnType<typeof render>, action: string): HTMLElement {
@@ -676,7 +680,9 @@ test("on screen, the N an approval approves leaves out every action that needs n
   expect(panel.textContent).toContain(
     `aprovar isto aprova todas as ${covered}.`,
   );
-  expect(row(view, "Tk.X").textContent).toContain("Não precisa de autorização.");
+  expect(row(view, "Tk.X").textContent).toContain(
+    "Não precisa de autorização.",
+  );
   const together = view.container.querySelector(
     '[data-grant-group="whole-app"]',
   );
@@ -701,7 +707,10 @@ test("the consent copy never promises that only the named action becomes usable"
     ],
   });
   const view = renderScreen();
-  await userEvent.type(await view.findByLabelText("Pesquisar ações"), "Github.");
+  await userEvent.type(
+    await view.findByLabelText("Pesquisar ações"),
+    "Github.",
+  );
   await waitFor(() => row(view, "Github.CountStargazers"));
   fireEvent.click(
     row(view, "Github.CountStargazers").querySelector("button") as HTMLElement,

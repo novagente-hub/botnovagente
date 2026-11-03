@@ -178,7 +178,6 @@ function NothingToSee({
               <span className="font-medium">{page.title || "Uma página"}</span>
               <span className="break-all">{hostOf(page.url)}</span>
               <span>
-                
                 Aberto durante este turno. A tela já mudou desde então.
               </span>
             </>
@@ -192,20 +191,24 @@ function NothingToSee({
         </>
       ) : problem ? (
         <>
-          <span className="font-medium">Não é possível mostrar a tela agora</span>
+          <span className="font-medium">
+            Não é possível mostrar a tela agora
+          </span>
           <span>{problem}</span>
           <span>
-            
-            O Bot ainda pode estar trabalhando. Se isso continuar, peça a um administrador para verificar o Computador dele.
+            O Bot ainda pode estar trabalhando. Se isso continuar, peça a um
+            administrador para verificar o Computador dele.
           </span>
         </>
       ) : waiting === "starting" ? (
         <span role="status">
-          Iniciando o computador {owner}. A primeira inicialização leva cerca de um minuto.
+          Iniciando o computador {owner}. A primeira inicialização leva cerca de
+          um minuto.
         </span>
       ) : waiting === "asleep" ? (
         <span role="status">
-          O computador {owner} está desligado. Ele liga quando o Bot usá-lo de novo.
+          O computador {owner} está desligado. Ele liga quando o Bot usá-lo de
+          novo.
         </span>
       ) : blankBrowser ? (
         <span>O Bot ainda não abriu nenhuma página.</span>
@@ -695,7 +698,6 @@ export function ComputerView({
               ) : null}
               {wheelHere ? (
                 <span className="rounded-full bg-white px-2.5 py-1 font-medium text-black text-xs shadow-sm">
-                  
                   Você está com o controle
                 </span>
               ) : null}
@@ -732,7 +734,6 @@ export function ComputerView({
               disabled={changingControl}
               onClick={() => void changeControl?.("cancel")}
             >
-              
               Cancelar pedido
             </button>
           </div>
@@ -750,13 +751,13 @@ export function ComputerView({
         */}
         {!settled && control?.recoveryRequired ? (
           <p className="px-3 py-2 text-sm">
-            
-            O Computador parou enquanto você estava com o controle. Assuma o controle para conferir a página e depois devolva ao Bot.
+            O Computador parou enquanto você estava com o controle. Assuma o
+            controle para conferir a página e depois devolva ao Bot.
           </p>
         ) : !settled && control?.request?.status === "interrupted" ? (
           <p className="px-3 py-2 text-sm text-muted-foreground">
-            
-            O Computador parou antes que alguém assumisse o controle. O Bot vai pedir de novo se ainda precisar de você.
+            O Computador parou antes que alguém assumisse o controle. O Bot vai
+            pedir de novo se ainda precisar de você.
           </p>
         ) : null}
         {/*
@@ -804,8 +805,8 @@ export function ComputerView({
               </button>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
-              
-              Isto vai direto para a página. Não aparece na conversa, e o Bot nunca vê.
+              Isto vai direto para a página. Não aparece na conversa, e o Bot
+              nunca vê.
             </p>
             {secretProblem ? (
               <p className="mt-1 text-xs text-destructive">{secretProblem}</p>
@@ -935,7 +936,6 @@ export function ComputerView({
                             role="status"
                             className="absolute top-2 left-2 rounded-full bg-black/60 px-2.5 py-1 font-medium text-white text-xs backdrop-blur-sm"
                           >
-                            
                             Reconectando…
                           </span>
                         ) : null}
@@ -956,7 +956,6 @@ export function ComputerView({
                                 setRetryKey((value) => value + 1);
                               }}
                             >
-                              
                               Tentar de novo
                             </button>
                           </div>
@@ -1008,19 +1007,16 @@ export function ComputerView({
                         ) : null}
                         {driving ? (
                           <span className="truncate text-muted-foreground lg:whitespace-normal">
-                            
                             Você está com o controle. Clique e digite na página.
                             {reason ? ` ${reason}` : null}
                           </span>
                         ) : someoneElse ? (
                           <span className="truncate text-muted-foreground lg:whitespace-normal">
-                            
                             Outra pessoa está com o controle.
                           </span>
                         ) : control?.requested ? (
                           <span className="truncate text-muted-foreground lg:whitespace-normal">
                             <strong className="font-medium text-foreground">
-                              
                               O Bot precisa de você.
                             </strong>{" "}
                             {reason}
@@ -1041,8 +1037,8 @@ export function ComputerView({
                     />
                   ) : botBrowser.error ? (
                     <p className="text-destructive text-sm" role="alert">
-                      
-                      Não foi possível carregar o navegador do Bot. Feche e abra de novo.
+                      Não foi possível carregar o navegador do Bot. Feche e abra
+                      de novo.
                     </p>
                   ) : null}
                 </WheelColumn>

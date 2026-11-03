@@ -103,7 +103,10 @@ export function approveBotAppMutationOptions(queryClient: QueryClient) {
     }> => {
       const response = await client(
         `/api/plugins/for/${encodeURIComponent(variables.agentId)}/apps/${encodeURIComponent(variables.app)}/approve`,
-        { method: "POST", fallback: "Não foi possível ativar esse app. Tente novamente." },
+        {
+          method: "POST",
+          fallback: "Não foi possível ativar esse app. Tente novamente.",
+        },
       );
       return response.json();
     },

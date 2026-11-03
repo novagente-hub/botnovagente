@@ -207,7 +207,6 @@ export function AuditTable({
       {events.length > 0 && rows.length === 0 ? (
         <div className="px-4">
           <PageEmpty icon={IconSearch} title="Nenhum resultado">
-            
             Nada carregado corresponde a esta busca e a estes filtros.
           </PageEmpty>
         </div>
@@ -292,7 +291,6 @@ function Facet({
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => onChange([])}>
-              
               Limpar filtro
             </DropdownMenuItem>
           </>
@@ -339,7 +337,6 @@ function auditColumns(
             onClick={column.getToggleSortingHandler()}
             type="button"
           >
-            
             Quando
             {sorted === "asc" ? (
               <IconArrowUp className="size-3.5" />
@@ -347,7 +344,9 @@ function auditColumns(
               <IconArrowDown className="size-3.5" />
             )}
             <span className="sr-only">
-              {sorted === "asc" ? ", mais antigos primeiro" : ", mais recentes primeiro"}
+              {sorted === "asc"
+                ? ", mais antigos primeiro"
+                : ", mais recentes primeiro"}
             </span>
           </button>
         );

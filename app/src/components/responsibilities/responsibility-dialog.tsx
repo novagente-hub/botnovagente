@@ -207,8 +207,8 @@ export function ResponsibilityDialog({
                   <ItemContent>
                     <ItemTitle>Executar agora</ItemTitle>
                     <ItemDescription>
-                      
-                      Executa agora, de verdade. O Bot faz o trabalho e pode publicar e agir.
+                      Executa agora, de verdade. O Bot faz o trabalho e pode
+                      publicar e agir.
                     </ItemDescription>
                   </ItemContent>
                 </Item>
@@ -236,7 +236,6 @@ export function ResponsibilityDialog({
                   <ItemContent>
                     <ItemTitle>Concluir</ItemTitle>
                     <ItemDescription>
-                      
                       Marcar como concluída. Nada a inicia depois disso.
                     </ItemDescription>
                   </ItemContent>
@@ -299,7 +298,6 @@ export function ResponsibilityDialog({
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${formId}-instruction`}>
-                  
                   Instrução
                 </FieldLabel>
                 <Textarea
@@ -312,7 +310,6 @@ export function ResponsibilityDialog({
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${formId}-criteria`}>
-                  
                   Critérios de sucesso
                 </FieldLabel>
                 <Textarea
@@ -376,7 +373,6 @@ export function ResponsibilityDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            
             Cancelar
           </Button>
           <Button
@@ -463,7 +459,6 @@ function Runs({
                     params={{ channelId }}
                     className="text-sm underline"
                   >
-                    
                     Abrir conversa
                   </Link>
                 </ItemActions>
@@ -471,7 +466,6 @@ function Runs({
                   <ItemFooter className="min-w-0 flex-col items-stretch">
                     {run.waiting && (
                       <p>
-                        
                         Aguardando {run.waiting.kind}. Responda no topo da
                         página deste Bot ou na conversa.
                       </p>

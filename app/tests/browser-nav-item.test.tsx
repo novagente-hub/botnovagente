@@ -526,9 +526,7 @@ test("the red dot shows while a recording starts as well, and its tooltip names 
       [...document.querySelectorAll("[data-slot=tooltip-content]")].map(
         (tooltip) => tooltip.textContent,
       ),
-    ).toEqual([
-      expect.stringMatching(/^Gravando: Submit the receipt, 1:2\d$/),
-    ]),
+    ).toEqual([expect.stringMatching(/^Gravando: Submit the receipt, 1:2\d$/)]),
   );
 });
 

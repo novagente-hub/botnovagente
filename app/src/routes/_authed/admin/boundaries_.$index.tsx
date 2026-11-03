@@ -60,7 +60,6 @@ function RulePage() {
     return (
       <PageShell backButton={BACK} title="Regra">
         <p className="text-muted-foreground text-sm">
-          
           Esta regra não está mais em vigor. Ela pode ter sido removida.
         </p>
       </PageShell>
@@ -98,8 +97,8 @@ function RuleDetail({ policy, rule }: { policy: ActionPolicy; rule: string }) {
     >
       {policy.mode === "dry-run" ? (
         <p className="text-amber-600 text-sm dark:text-amber-500">
-          
-          O modo de teste está ativado, então esta regra registra as ações correspondentes sem impedi-las.
+          O modo de teste está ativado, então esta regra registra as ações
+          correspondentes sem impedi-las.
         </p>
       ) : null}
 
@@ -121,8 +120,8 @@ function RuleDetail({ policy, rule }: { policy: ActionPolicy; rule: string }) {
           </p>
         ) : reach.data.scanned === 0 ? (
           <p className="mt-4 text-muted-foreground text-sm">
-            
-            Nenhuma ação registrada ainda. O que esta regra impedir aparecerá aqui depois que os Bots agirem.
+            Nenhuma ação registrada ainda. O que esta regra impedir aparecerá
+            aqui depois que os Bots agirem.
           </p>
         ) : (
           <>
@@ -150,7 +149,6 @@ function RuleDetail({ policy, rule }: { policy: ActionPolicy; rule: string }) {
           onClick={() => setRemoving(true)}
           variant="destructive"
         >
-          
           Remover regra
         </Button>
       </PageSection>
@@ -160,7 +158,6 @@ function RuleDetail({ policy, rule }: { policy: ActionPolicy; rule: string }) {
           <DialogHeader>
             <DialogTitle>Remover “{label.name}”?</DialogTitle>
             <DialogDescription>
-              
               Todos os Bots podem fazer isso de novo a partir da próxima ação.
             </DialogDescription>
           </DialogHeader>
@@ -175,7 +172,6 @@ function RuleDetail({ policy, rule }: { policy: ActionPolicy; rule: string }) {
               size="sm"
               variant="ghost"
             >
-              
               Cancelar
             </Button>
             <Button

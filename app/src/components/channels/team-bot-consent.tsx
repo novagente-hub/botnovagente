@@ -50,7 +50,6 @@ export function TeamBotConsentCard({
             onClick={() => choose("allow_once")}
             size="sm"
           >
-            
             Permitir uma vez
           </Button>
           <Button
@@ -59,7 +58,6 @@ export function TeamBotConsentCard({
             size="sm"
             variant="outline"
           >
-            
             Sempre permitir para este Bot
           </Button>
           <Button
@@ -68,7 +66,6 @@ export function TeamBotConsentCard({
             size="sm"
             variant="outline"
           >
-            
             Sempre permitir para todos os Bots da equipe
           </Button>
           <Button
@@ -77,7 +74,6 @@ export function TeamBotConsentCard({
             size="sm"
             variant="ghost"
           >
-            
             Pular
           </Button>
         </div>

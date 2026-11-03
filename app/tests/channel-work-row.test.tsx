@@ -153,7 +153,9 @@ test("comes back from the channel read after a reload", async () => {
   );
 
   await waitFor(() => {
-    expect(view.getByTestId("progress-row").textContent).toBe("Perguntando a Ana…");
+    expect(view.getByTestId("progress-row").textContent).toBe(
+      "Perguntando a Ana…",
+    );
   });
 
   // The socket then says the answer is being given, and the row goes.

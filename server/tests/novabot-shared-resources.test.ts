@@ -186,13 +186,21 @@ describe("NovaBot private shared resources", () => {
     const write = tools.find((t) => t.name === "shared_resource_write");
     expect(String(await read?.execute({ id: sampleId }))).toContain("Refused.");
     await f.store.grant("alice", sampleId, "jojo", "read");
-    expect(String(await read?.execute({ id: sampleId }))).toContain("Texto privado");
-    expect(String(await write?.execute({ id: sampleId, content: "Mudança" }))).toContain("Refused.");
+    expect(String(await read?.execute({ id: sampleId }))).toContain(
+      "Texto privado",
+    );
+    expect(
+      String(await write?.execute({ id: sampleId, content: "Mudança" })),
+    ).toContain("Refused.");
     await f.store.grant("alice", sampleId, "jojo", "write");
-    expect(String(await write?.execute({ id: sampleId, content: "Mudança" }))).toContain(sampleId);
+    expect(
+      String(await write?.execute({ id: sampleId, content: "Mudança" })),
+    ).toContain(sampleId);
     await f.store.revoke("alice", sampleId, "jojo");
     expect(String(await read?.execute({ id: sampleId }))).toContain("Refused.");
-    expect(String(await write?.execute({ id: sampleId, content: "Outra" }))).toContain("Refused.");
+    expect(
+      String(await write?.execute({ id: sampleId, content: "Outra" })),
+    ).toContain("Refused.");
   });
   it("a grant never gives a Bot access when acting for another person", async () => {
     const f = fixture();

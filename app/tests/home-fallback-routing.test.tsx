@@ -82,7 +82,9 @@ async function submitHomeMessage(
 ) {
   const user = userEvent.setup({ document: view.container.ownerDocument });
   await user.type(await view.findByRole("textbox", { name: "Mensagem" }), text);
-  await user.click(await view.findByRole("button", { name: "Enviar mensagem" }));
+  await user.click(
+    await view.findByRole("button", { name: "Enviar mensagem" }),
+  );
 }
 
 function installHomeRoutingFetch(options: {

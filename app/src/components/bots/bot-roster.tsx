@@ -51,7 +51,6 @@ export function BotRoster() {
   if (agents.data === undefined) {
     return (
       <p className="mt-6 text-destructive text-sm" role="alert">
-        
         Não foi possível carregar seus Bots. Recarregue a página.
       </p>
     );
@@ -93,7 +92,6 @@ export function BotRoster() {
                   variant="outline"
                 >
                   <IconPlus />
-                  
                   Novo Bot
                 </Button>
               )
@@ -120,7 +118,6 @@ export function BotRoster() {
           <RosterRows agents={shared} byId={byId} />
         ) : (
           <PageEmpty icon={IconShare} title="Nada compartilhado ainda">
-            
             Bots que alguém compartilhar com você aparecem aqui.
           </PageEmpty>
         )}

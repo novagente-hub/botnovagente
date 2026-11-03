@@ -111,7 +111,6 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
           variant="ghost"
         >
           <IconPlus />
-          
           Adicionar fonte
         </Button>
       }
@@ -136,14 +135,12 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
               variant="outline"
             >
               <IconPlus />
-              
               Adicionar fonte
             </Button>
           }
           icon={IconPlugConnected}
           title="Nenhuma fonte ainda"
         >
-          
           Os apps de onde este Bot pode ler aparecem aqui.
         </PageEmpty>
       ) : (
@@ -183,7 +180,6 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                           action.mutate({ sourceId: source.id, name: "sync" })
                         }
                       >
-                        
                         Sincronizar agora
                       </Button>
                       <Button
@@ -193,7 +189,6 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                           action.mutate({ sourceId: source.id, name: "remove" })
                         }
                       >
-                        
                         Remover
                       </Button>
                     </div>
@@ -228,8 +223,8 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
           <DialogHeader>
             <DialogTitle>Adicionar uma fonte</DialogTitle>
             <DialogDescription>
-              
-              O OpenBot lê agora e depois a cada 15 minutos enquanto estiver ativa.
+              O OpenBot lê agora e depois a cada 15 minutos enquanto estiver
+              ativa.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4 overflow-y-auto">
@@ -250,7 +245,9 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
                     ) {
                       const number = Number(value);
                       if (!Number.isFinite(number))
-                        throw new Error(`Insira um número para ${setting.name}.`);
+                        throw new Error(
+                          `Insira um número para ${setting.name}.`,
+                        );
                       values[setting.name] = number;
                     } else if (setting.schema.type === "boolean")
                       values[setting.name] = value === "true";
@@ -424,7 +421,6 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
               size="sm"
               variant="outline"
             >
-              
               Cancelar
             </Button>
             <Button
@@ -433,7 +429,9 @@ export function MemorySources({ agentId: fixedBot }: { agentId?: string }) {
               size="sm"
               type="submit"
             >
-              {add.isPending ? "Lendo a fonte…" : "Adicionar e sincronizar fonte"}
+              {add.isPending
+                ? "Lendo a fonte…"
+                : "Adicionar e sincronizar fonte"}
             </Button>
           </DialogFooter>
         </DialogContent>

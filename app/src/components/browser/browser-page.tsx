@@ -61,7 +61,6 @@ export function BrowserPage() {
     return (
       <PageShell title={TITLE}>
         <p className="mt-6 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar seu navegador. Recarregue a página.
         </p>
       </PageShell>
@@ -111,7 +110,6 @@ function OpenedBrowser({ state }: { state: BrowserApiState }) {
             </p>
             {open.error ? (
               <Button onClick={() => open.mutate()} size="sm" variant="outline">
-                
                 Tentar novamente
               </Button>
             ) : null}
@@ -197,7 +195,10 @@ function NativeBrowser({
           </p>
         ) : null}
       </PageSection>
-      <PageSection title="Gravar uma tarefa" description={RECORDING_DESCRIPTION}>
+      <PageSection
+        title="Gravar uma tarefa"
+        description={RECORDING_DESCRIPTION}
+      >
         <PageRows>
           <RecordingRow recording={recording} />
           {recording.stopped ? (

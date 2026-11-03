@@ -78,7 +78,6 @@ function RouteComponent() {
     return (
       <PageShell backButton={BACK} title="Galeria de componentes">
         <p className="mt-8 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar os componentes. Recarregue a página.
         </p>
       </PageShell>
@@ -104,7 +103,6 @@ function RouteComponent() {
           <EmptyHeader>
             <EmptyTitle>{name}</EmptyTitle>
             <EmptyDescription className="text-pretty">
-              
               Ele pode ter sido removido ou despublicado.
             </EmptyDescription>
           </EmptyHeader>
@@ -113,7 +111,6 @@ function RouteComponent() {
             size="sm"
             variant="outline"
           >
-            
             Voltar à galeria
           </Button>
         </Empty>

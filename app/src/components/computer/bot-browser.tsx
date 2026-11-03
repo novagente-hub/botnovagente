@@ -352,8 +352,8 @@ function RecordPanel({
     <section aria-label="Gravar uma tarefa">
       <h2 className="font-semibold text-sm">Gravar uma tarefa</h2>
       <p className="mt-1 text-pretty text-muted-foreground text-sm">
-        
-        Faça a tarefa no navegador do Bot enquanto estiver com o controle. Só o que você faz é gravado, e vai para o seu próprio espaço de Aprendizado.{" "}
+        Faça a tarefa no navegador do Bot enquanto estiver com o controle. Só o
+        que você faz é gravado, e vai para o seu próprio espaço de Aprendizado.{" "}
         {RECORDER_COLLECTS_SHORT}
       </p>
       <PageRows className="mt-3">
@@ -364,7 +364,9 @@ function RecordPanel({
             </ItemMedia>
             <ItemContent>
               <ItemTitle>Alguém está gravando</ItemTitle>
-              <ItemDescription>Você pode gravar quando a pessoa parar.</ItemDescription>
+              <ItemDescription>
+                Você pode gravar quando a pessoa parar.
+              </ItemDescription>
             </ItemContent>
           </Item>
         ) : (

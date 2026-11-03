@@ -105,7 +105,6 @@ export function ConnectAppCard({
           </p>
           {offer ? (
             <Button onClick={offer} size="sm">
-              
               Continuar
             </Button>
           ) : null}
@@ -130,13 +129,11 @@ export function ConnectAppCard({
           </Button>
           {waiting ? (
             <p className="text-muted-foreground text-sm" role="status">
-              
               Termine na aba que abriu e depois volte aqui.
             </p>
           ) : null}
           {blockedUrl ? (
             <p className="text-sm" role="status">
-              
               Este navegador bloqueou a aba.{" "}
               <a
                 className="underline underline-offset-2"

@@ -116,7 +116,9 @@ test("three choices, each with one plain line saying who sees what", async () =>
     view.getByText("Só os Bots que você usa aproveitam suas Habilidades."),
   ).toBeTruthy();
   expect(
-    view.getByText("Todos os Bots do OpenBot aproveitam todas as suas Habilidades."),
+    view.getByText(
+      "Todos os Bots do OpenBot aproveitam todas as suas Habilidades.",
+    ),
   ).toBeTruthy();
 });
 

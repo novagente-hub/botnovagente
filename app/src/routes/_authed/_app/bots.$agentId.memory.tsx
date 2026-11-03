@@ -18,13 +18,11 @@ function MemoryPage() {
       {(agent) => (
         <>
           <p className="mt-6 text-muted-foreground text-sm">
-            
             O que seus Bots lembram sobre você está em{" "}
             <Link
               className="underline underline-offset-4"
               to="/capabilities/memory"
             >
-              
               Capacidades
             </Link>
             .

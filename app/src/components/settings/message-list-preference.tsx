@@ -37,7 +37,6 @@ export function MessageListPreference() {
         <ItemContent>
           <ItemTitle>Destaque da lista de mensagens</ItemTitle>
           <ItemDescription>
-            
             Escolha qual linha se destaca na barra lateral.
           </ItemDescription>
         </ItemContent>
@@ -77,7 +76,6 @@ export function MessageListPreference() {
             size="sm"
             onClick={() => void preferences.refetch()}
           >
-            
             Tentar novamente
           </Button>
         </div>
@@ -89,7 +87,6 @@ export function MessageListPreference() {
       ) : null}
       {save.isPending ? (
         <p role="status" className="px-3 text-sm text-muted-foreground">
-          
           Salvando…
         </p>
       ) : null}

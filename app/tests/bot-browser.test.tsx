@@ -491,7 +491,9 @@ test("where the Bots share one computer, the screen says why it cannot record, a
     "This OpenBot can't record in a Bot's browser, because its Bots share one computer.";
   control = heldBy(ME);
   const { dialog } = await openScreen();
-  const panel = within(dialog.getByRole("region", { name: "Gravar uma tarefa" }));
+  const panel = within(
+    dialog.getByRole("region", { name: "Gravar uma tarefa" }),
+  );
   expect(panel.getByText("A gravação não está disponível aqui")).toBeTruthy();
   expect(panel.getByText(recordRefused)).toBeTruthy();
   expect(panel.queryByRole("button", { name: "Gravar" })).toBeNull();
@@ -586,9 +588,7 @@ test("Record names the task, runs while the person holds the wheel, and Stop say
     ]),
   );
   expect(
-    (await dialog.findByRole("timer")).textContent?.match(
-      /^0:4\d · 7 ações$/,
-    ),
+    (await dialog.findByRole("timer")).textContent?.match(/^0:4\d · 7 ações$/),
   ).toBeTruthy();
   expect(dialog.getByText("Submit the taxi receipt")).toBeTruthy();
 
@@ -606,7 +606,9 @@ test("Record names the task, runs while the person holds the wheel, and Stop say
         .getAllByRole("status")
         .map((status) => status.textContent)
         .find((text) => text?.includes("Salvo")),
-    ).toBe("Submit the taxi receiptSalvo no seu espaço de Aprendizado: 7 ações."),
+    ).toBe(
+      "Submit the taxi receiptSalvo no seu espaço de Aprendizado: 7 ações.",
+    ),
   );
   expect(dialog.getByRole("textbox", { name: "Nome da tarefa" })).toBeTruthy();
   expect(dialog.queryByRole("alert")).toBeNull();
@@ -813,7 +815,9 @@ test("when someone else holds the wheel the row says so, offers no Hand back, an
   const { view, dialog } = await openScreen();
   // The wheel's row in the view, and Record's sentence under it.
   await waitFor(() =>
-    expect(dialog.getAllByText("Outra pessoa está com o controle.").length).toBe(2),
+    expect(
+      dialog.getAllByText("Outra pessoa está com o controle.").length,
+    ).toBe(2),
   );
   expect(view.queryByText(/Você está com o controle/)).toBeNull();
   expect(view.queryByRole("button", { name: "Devolver controle" })).toBeNull();
@@ -830,7 +834,9 @@ test("when someone else holds the wheel the row says so, offers no Hand back, an
   control = heldBy(ME);
   await waitFor(
     () =>
-      expect(dialog.getByRole("button", { name: "Devolver controle" })).toBeTruthy(),
+      expect(
+        dialog.getByRole("button", { name: "Devolver controle" }),
+      ).toBeTruthy(),
     { timeout: 3000 },
   );
   expect(dialog.queryByText("Outra pessoa está com o controle.")).toBeNull();
@@ -1303,7 +1309,9 @@ test("Clear browser data is the wheel holder's: a short confirmation, Cancel doe
 test("a clear the server refuses says why in the confirmation, and wipes nothing", async () => {
   control = heldBy(ME);
   const { view, dialog, user } = await openScreen();
-  const button = dialog.getByRole("button", { name: "Limpar dados do navegador" });
+  const button = dialog.getByRole("button", {
+    name: "Limpar dados do navegador",
+  });
   await waitFor(() => expect(disabled(button)).toBe(false));
   await user.click(button);
   // The wheel goes back to the Bot while the question is open.

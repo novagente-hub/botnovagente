@@ -45,7 +45,6 @@ export function NativeDevices() {
       {reach.isPending || !reach.data ? null : reach.data.devices.length ===
         0 ? (
         <PageEmpty icon={IconDevices} title="Nenhum dispositivo ainda">
-          
           Celulares e computadores em que você entrar aparecem aqui.
         </PageEmpty>
       ) : (
@@ -67,7 +66,6 @@ export function NativeDevices() {
                     size="sm"
                     variant="outline"
                   >
-                    
                     Remover
                   </Button>
                 </ItemActions>
@@ -93,7 +91,6 @@ export function RecentDeliveries() {
       {reach.isPending || !reach.data ? null : reach.data.deliveries.length ===
         0 ? (
         <PageEmpty icon={IconSend} title="Nenhuma entrega ainda">
-          
           As notificações enviadas aos seus dispositivos aparecem aqui.
         </PageEmpty>
       ) : (

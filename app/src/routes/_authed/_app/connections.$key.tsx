@@ -343,8 +343,8 @@ function AppConnectionPage() {
     return (
       <PageShell backButton={back} title={server?.title ?? key}>
         <p className="mt-12 text-destructive text-sm" role="alert">
-          
-          Não foi possível carregar esta conexão. Recarregue a página ou fale com um administrador se continuar acontecendo.
+          Não foi possível carregar esta conexão. Recarregue a página ou fale
+          com um administrador se continuar acontecendo.
         </p>
       </PageShell>
     );
@@ -359,8 +359,8 @@ function AppConnectionPage() {
     return (
       <PageShell backButton={back} title={key}>
         <p className="mt-12 text-destructive text-sm" role="alert">
-          
-          Não foi possível carregar este app. Recarregue a página ou fale com um administrador se continuar acontecendo.
+          Não foi possível carregar este app. Recarregue a página ou fale com um
+          administrador se continuar acontecendo.
         </p>
       </PageShell>
     );
@@ -377,8 +377,8 @@ function AppConnectionPage() {
     return (
       <PageShell backButton={back} title={server.title}>
         <PageEmpty icon={IconPlugOff} title="Ainda não configurado">
-          
-          Um administrador precisa ativar {server.title}  antes que alguém possa conectá-lo.
+          Um administrador precisa ativar {server.title} antes que alguém possa
+          conectá-lo.
         </PageEmpty>
       </PageShell>
     );
@@ -420,8 +420,8 @@ function AppConnectionPage() {
               <ItemContent>
                 <ItemTitle>Conta da equipe</ItemTitle>
                 <ItemDescription>
-                  
-                  Compartilhada pela sua organização. Os Bots agem como a conta da equipe.
+                  Compartilhada pela sua organização. Os Bots agem como a conta
+                  da equipe.
                 </ItemDescription>
               </ItemContent>
             </Item>
@@ -584,7 +584,6 @@ function AppConnectionPage() {
                           aria-hidden="true"
                           className="size-1.5 rounded-full bg-emerald-500"
                         />
-                        
                         Conectado
                         <IconChevronDown />
                       </Button>
@@ -614,7 +613,6 @@ function AppConnectionPage() {
                       className="whitespace-nowrap"
                       variant="destructive"
                     >
-                      
                       Desconectar sua conta {entry.title} account
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -634,7 +632,6 @@ function AppConnectionPage() {
                   type="button"
                   variant="outline"
                 >
-                  
                   Conectar
                   <IconArrowUpRight />
                 </Button>

@@ -83,7 +83,6 @@ export function MenuSheet({ onClose }: { onClose: () => void }) {
           primary
           render={<NewChatLink agentId={bot?.id} onClick={onClose} />}
         >
-          
           Novo chat
         </MuseLinkButton>
         <div className="mt-3 flex items-center justify-between">
@@ -93,7 +92,6 @@ export function MenuSheet({ onClose }: { onClose: () => void }) {
             render={<Link onClick={onClose} to="/channel/new" />}
             small
           >
-            
             Novo grupo
           </MuseLinkButton>
         </div>
@@ -135,8 +133,8 @@ export function MenuSheet({ onClose }: { onClose: () => void }) {
           searching={searching}
         />
         <p className={museText.small}>
-          
-          Uma conversa fica com os Bots que estão nela. Fixe uma para mantê-la no topo.
+          Uma conversa fica com os Bots que estão nela. Fixe uma para mantê-la
+          no topo.
         </p>
         <Divider className="my-1.5" />
         <div>
@@ -167,7 +165,6 @@ export function MenuSheet({ onClose }: { onClose: () => void }) {
           }}
           small
         >
-          
           Sair
         </MuseButton>
         <ErrorNotice error={signOut.error?.message} />
@@ -199,9 +196,7 @@ function ConversationRow({
   const unread = isUnread(channel, openId);
   const busy = channel.busy || (channel.work?.length ?? 0) > 0;
   const title =
-    channel.summary?.trim() ||
-    channel.lastMessage?.trim() ||
-    "Nova conversa";
+    channel.summary?.trim() || channel.lastMessage?.trim() || "Nova conversa";
   const who = group
     ? channel.agentIds
         .map((id) => agents.data?.find((agent) => agent.id === id)?.name)
@@ -250,7 +245,6 @@ function ConversationRow({
             </span>
             {busy ? (
               <span className="shrink-0 text-[var(--openmuse-accent)]">
-                
                 · trabalhando
               </span>
             ) : null}
@@ -282,7 +276,6 @@ function ConversationRow({
           {channel.pinned ? "Desafixar" : "Fixar"}
         </MuseButton>
         <MuseButton icon={IconTrash} onClick={() => setConfirming(true)} small>
-          
           Excluir
         </MuseButton>
       </div>

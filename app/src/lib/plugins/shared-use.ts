@@ -53,7 +53,8 @@ export function sharedUseRequestsQueryOptions(enabled: boolean) {
     queryKey: sharedUseKeys.requests(),
     queryFn: () =>
       client<SharedUseRequest[]>("/api/approvals/shared-use", "requests", {
-        fallback: "Não foi possível carregar os pedidos de contas compartilhadas.",
+        fallback:
+          "Não foi possível carregar os pedidos de contas compartilhadas.",
       }),
     enabled,
     refetchInterval: 10_000,
@@ -66,7 +67,10 @@ export function botSharedAppsQueryOptions(botId: string) {
     queryFn: async (): Promise<BotSharedApps> => {
       const response = await client(
         `/api/approvals/shared-use/bot/${encodeURIComponent(botId)}`,
-        { fallback: "Não foi possível carregar os apps compartilhados deste Bot." },
+        {
+          fallback:
+            "Não foi possível carregar os apps compartilhados deste Bot.",
+        },
       );
       return response.json();
     },

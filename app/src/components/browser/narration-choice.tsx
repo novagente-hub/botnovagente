@@ -103,28 +103,28 @@ export function NarrationChoiceDialog({
         <DialogHeader>
           <DialogTitle>Narrar enquanto grava?</DialogTitle>
           <DialogDescription>
-            
-            Fale sobre a tarefa enquanto a faz, e a gravação guarda o que você diz como texto, para que seus Bots entendam por que você fez cada passo.
+            Fale sobre a tarefa enquanto a faz, e a gravação guarda o que você
+            diz como texto, para que seus Bots entendam por que você fez cada
+            passo.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 text-muted-foreground text-sm">
           <p>
-            
-            Seu navegador transforma sua fala em texto no seu próprio computador. Sua voz nunca sai dele, e nenhuma gravação dela é guardada.
+            Seu navegador transforma sua fala em texto no seu próprio
+            computador. Sua voz nunca sai dele, e nenhuma gravação dela é
+            guardada.
           </p>
           <p className="mt-2">
-            
-            O OpenBot guarda sua resposta para todas as gravações. Você pode mudá-la quando quiser com a chave Narração nesta página.
+            O OpenBot guarda sua resposta para todas as gravações. Você pode
+            mudá-la quando quiser com a chave Narração nesta página.
           </p>
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={() => onAnswer(false)} size="sm" variant="outline">
-            
             Gravar sem narração
           </Button>
           <Button onClick={() => onAnswer(true)} size="sm">
             <IconMicrophone data-icon="inline-start" />
-            
             Gravar com narração
           </Button>
         </DialogFooter>

@@ -54,7 +54,8 @@ test("a Composio deployment keeps today's exact wording", () => {
   );
   expect(moreAppsRow("composio", true)).toEqual({
     title: "Explorar Composio",
-    description: "Algumas centenas de apps. Cada pessoa conecta a própria conta.",
+    description:
+      "Algumas centenas de apps. Cada pessoa conecta a própria conta.",
     linked: true,
   });
   expect(moreAppsRow("composio", false)).toEqual({

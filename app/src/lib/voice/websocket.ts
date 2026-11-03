@@ -276,7 +276,9 @@ export const connectWebSocket: ConnectVoice = async ({
     capture.port.onmessage = ({ data }: MessageEvent<ArrayBuffer>) => {
       if (closed || !configured || ws.readyState !== WebSocket.OPEN) return;
       if (ws.bufferedAmount > 1024 * 1024) {
-        fail("Sua conexão está lenta demais para áudio ao vivo. Ligue novamente.");
+        fail(
+          "Sua conexão está lenta demais para áudio ao vivo. Ligue novamente.",
+        );
         return;
       }
       send({ type: "input_audio_buffer.append", audio: encodePcm(data) });

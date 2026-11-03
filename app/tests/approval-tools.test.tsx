@@ -272,7 +272,10 @@ test("a gate that cannot be reached, or answers with no result, is still a resul
   });
   expect(
     await clickAgainstGate(async () => Response.json({}, { status: 200 })),
-  ).toEqual({ ok: false, reason: "A ação do computador não retornou resultado." });
+  ).toEqual({
+    ok: false,
+    reason: "A ação do computador não retornou resultado.",
+  });
 });
 
 /*

@@ -80,7 +80,6 @@ export function FormCard(props: Record<string, unknown>) {
     return (
       <GalleryFrame title="Preparando seu formulário…">
         <p className="text-sm text-muted-foreground">
-          
           O Bot está montando as perguntas.
         </p>
       </GalleryFrame>
@@ -143,7 +142,6 @@ function InvalidForm({
       </p>
       {failed && (
         <Button className="mt-3" size="sm" onClick={() => void returnToBot()}>
-          
           Voltar ao Bot
         </Button>
       )}
@@ -260,8 +258,8 @@ function FormEntry({
             </dl>
           ) : (
             <p className="text-sm text-muted-foreground">
-              
-              Este formulário foi preenchido. As respostas salvas não estão disponíveis.
+              Este formulário foi preenchido. As respostas salvas não estão
+              disponíveis.
             </p>
           )}
         </div>
@@ -276,8 +274,8 @@ function FormEntry({
           className="space-y-4"
         >
           <p className="text-xs text-muted-foreground">
-            
-            Campos marcados com * são obrigatórios. Suas respostas serão compartilhadas com o Bot.
+            Campos marcados com * são obrigatórios. Suas respostas serão
+            compartilhadas com o Bot.
           </p>
           {args.fields.map((field) => {
             const id = `${prefix}-${field.id}`;
@@ -368,7 +366,6 @@ function FormEntry({
           })}
           {failure && (
             <p role="alert" className="text-sm text-destructive">
-              
               Não foi possível enviar suas respostas. Tente novamente.
             </p>
           )}
@@ -396,10 +393,16 @@ export const GALLERY: GalleryComponent[] = [
       status: "executing",
       args: {
         title: "Planeje seu próximo projeto",
-        description: "Informe alguns detalhes para ajudar a preparar seu primeiro rascunho.",
+        description:
+          "Informe alguns detalhes para ajudar a preparar seu primeiro rascunho.",
         fields: [
           { id: "team", label: "Nome da equipe", type: "text", required: true },
-          { id: "email", label: "E-mail de trabalho", type: "email", required: true },
+          {
+            id: "email",
+            label: "E-mail de trabalho",
+            type: "email",
+            required: true,
+          },
           {
             id: "priority",
             label: "Prioridade",

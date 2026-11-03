@@ -134,7 +134,6 @@ export function SuggestionsInbox({
                               target="_blank"
                               rel="noreferrer"
                             >
-                              
                               Abrir registro
                             </a>
                           </>
@@ -152,7 +151,6 @@ export function SuggestionsInbox({
                           act.mutate({ id: suggestion.id, action: "start" })
                         }
                       >
-                        
                         Iniciar como tarefa
                       </Button>
                       <Button
@@ -163,7 +161,6 @@ export function SuggestionsInbox({
                           act.mutate({ id: suggestion.id, action: "dismiss" })
                         }
                       >
-                        
                         Dispensar
                       </Button>
                     </div>
@@ -182,7 +179,6 @@ export function SuggestionsInbox({
               >
                 <ItemContent>
                   <ItemTitle className="text-muted-foreground">
-                    
                     Mostrar mais {hidden}
                   </ItemTitle>
                 </ItemContent>
@@ -195,8 +191,8 @@ export function SuggestionsInbox({
         </PageRows>
       ) : (
         <PageEmpty icon={IconBulb} title="Nenhuma sugestão no momento">
-          
-          Bots com pesquisa em segundo plano ativada vão sugerir próximos passos aqui.
+          Bots com pesquisa em segundo plano ativada vão sugerir próximos passos
+          aqui.
         </PageEmpty>
       )}
       {act.error && (
@@ -231,7 +227,6 @@ export function ProactiveResearchSettings({
       action={
         <Button onClick={() => setAdding(true)} size="sm" variant="ghost">
           <IconPlus />
-          
           Ativar pesquisa
         </Button>
       }
@@ -247,7 +242,6 @@ export function ProactiveResearchSettings({
           action={
             <Button onClick={() => setAdding(true)} size="sm" variant="outline">
               <IconPlus />
-              
               Ativar pesquisa
             </Button>
           }
@@ -306,8 +300,8 @@ function TurnOnResearchDialog({
         <DialogHeader>
           <DialogTitle>Ativar pesquisa em segundo plano</DialogTitle>
           <DialogDescription>
-            
-            Ele lê de acordo com uma agenda e entrega o que sugere em um canal do qual participa.
+            Ele lê de acordo com uma agenda e entrega o que sugere em um canal
+            do qual participa.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 overflow-y-auto">
@@ -354,7 +348,6 @@ function TurnOnResearchDialog({
               ) : null}
               <Field>
                 <FieldLabel htmlFor={`${id}-channel`}>
-                  
                   Entregar sugestões em
                 </FieldLabel>
                 <Select
@@ -379,7 +372,9 @@ function TurnOnResearchDialog({
                 </Select>
               </Field>
               <Field>
-                <FieldLabel htmlFor={`${id}-interval`}>Com que frequência</FieldLabel>
+                <FieldLabel htmlFor={`${id}-interval`}>
+                  Com que frequência
+                </FieldLabel>
                 <Select
                   items={intervalItems}
                   onValueChange={(value) => {
@@ -404,7 +399,6 @@ function TurnOnResearchDialog({
               </Field>
               <Field>
                 <FieldLabel htmlFor={`${id}-focus`}>
-                  
                   O que procurar (opcional)
                 </FieldLabel>
                 <Input
@@ -425,7 +419,6 @@ function TurnOnResearchDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" variant="outline">
-            
             Cancelar
           </Button>
           <Button
@@ -434,7 +427,6 @@ function TurnOnResearchDialog({
             size="sm"
             type="submit"
           >
-            
             Ativar pesquisa em segundo plano
           </Button>
         </DialogFooter>
@@ -524,8 +516,8 @@ function SettingRow({
                 <ItemTitle>{researchStatus(setting)}</ItemTitle>
                 {setting.lastRunAt && (
                   <ItemDescription>
-                    
-                    Última execução {new Date(setting.lastRunAt).toLocaleString()}
+                    Última execução{" "}
+                    {new Date(setting.lastRunAt).toLocaleString()}
                     {setting.lastStatus === "succeeded"
                       ? ""
                       : ` (${setting.lastStatus})`}
@@ -539,7 +531,9 @@ function SettingRow({
               </p>
             )}
             <Field>
-              <FieldLabel htmlFor={`${id}-interval`}>Com que frequência</FieldLabel>
+              <FieldLabel htmlFor={`${id}-interval`}>
+                Com que frequência
+              </FieldLabel>
               {/* Writes on pick: one value, no draft worth holding. */}
               <Select
                 disabled={change.isPending}
@@ -583,7 +577,6 @@ function SettingRow({
                 )
               }
             >
-              
               Remover
             </Button>
             <Button
@@ -603,7 +596,6 @@ function SettingRow({
                 change.mutate({ setting, change: { kind: "run" } })
               }
             >
-              
               Executar agora
             </Button>
           </DialogFooter>

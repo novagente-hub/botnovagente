@@ -30,7 +30,6 @@ export function GoalsScreen() {
               "text-[var(--openmuse-green-text)]",
             )}
           >
-            
             Rotinas
           </h2>
         </div>

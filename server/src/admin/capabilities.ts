@@ -45,7 +45,8 @@ export const CAPABILITY_LABELS: Record<
 > = {
   useBots: {
     title: "Usar Bots",
-    description: "Conversar com Bots e deixá-los trabalhar em nome desta pessoa.",
+    description:
+      "Conversar com Bots e deixá-los trabalhar em nome desta pessoa.",
   },
   cloudBrowser: {
     title: "Uso do navegador na nuvem",
@@ -68,15 +69,18 @@ export const CAPABILITY_LABELS: Record<
   },
   customRules: {
     title: "Regras personalizadas",
-    description: "As pessoas podem salvar suas próprias regras de sempre permitir e perguntar antes.",
+    description:
+      "As pessoas podem salvar suas próprias regras de sempre permitir e perguntar antes.",
   },
   passwordManager: {
     title: "Gerenciador de senhas",
-    description: "As pessoas podem salvar logins e repassá-los ao navegador de um Bot.",
+    description:
+      "As pessoas podem salvar logins e repassá-los ao navegador de um Bot.",
   },
   slackTeams: {
     title: "Adicionar Bots ao Slack e ao Teams",
-    description: "As pessoas podem conectar um Bot a uma conversa do Slack ou do Teams.",
+    description:
+      "As pessoas podem conectar um Bot a uma conversa do Slack ou do Teams.",
   },
   teamBots: {
     title: "Bots da equipe",

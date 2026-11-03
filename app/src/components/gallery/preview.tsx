@@ -48,7 +48,9 @@ export function GalleryPreview({
 }) {
   if (!available) {
     return (
-      <p className="text-muted-foreground text-sm">Carregando o que ele pode desenhar…</p>
+      <p className="text-muted-foreground text-sm">
+        Carregando o que ele pode desenhar…
+      </p>
     );
   }
 
@@ -62,7 +64,6 @@ export function GalleryPreview({
   if (shown.length === 0) {
     return (
       <p className="text-muted-foreground text-sm">
-        
         Este Bot ainda não pode usar componentes. Ele responde em texto.
       </p>
     );
@@ -118,8 +119,8 @@ function PreviewOf({ name }: { name: string }) {
      */
     return (
       <p className="text-muted-foreground text-sm">
-        
-        Mostra os registros do próprio OpenBot. Não há nada para mostrar até um Bot pedir.
+        Mostra os registros do próprio OpenBot. Não há nada para mostrar até um
+        Bot pedir.
       </p>
     );
   }

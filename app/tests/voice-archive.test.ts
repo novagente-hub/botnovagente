@@ -123,7 +123,9 @@ test("a save answered by a page that is not JSON reads as a failed save, not a p
       (entry) => entry.id === id,
     );
     expect(record?.saveState).toBe("unsaved");
-    expect(record?.saveError).toStartWith("Não foi possível salvar este chat de voz.");
+    expect(record?.saveError).toStartWith(
+      "Não foi possível salvar este chat de voz.",
+    );
     mock.restore();
     queryClient.clear();
   }

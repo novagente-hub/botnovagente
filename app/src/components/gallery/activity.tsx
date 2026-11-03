@@ -90,7 +90,9 @@ export function ActivityReportCard({
           : {
               status: "refused",
               reason:
-                result.reason ?? result.error ?? "Não foi possível ler esses dados.",
+                result.reason ??
+                result.error ??
+                "Não foi possível ler esses dados.",
             },
       );
     });
@@ -103,7 +105,9 @@ export function ActivityReportCard({
   if (!report) {
     return (
       <GalleryFrame title="Relatório">
-        <p className="text-sm text-muted-foreground">Escolhendo um relatório…</p>
+        <p className="text-sm text-muted-foreground">
+          Escolhendo um relatório…
+        </p>
       </GalleryFrame>
     );
   }
@@ -154,7 +158,6 @@ function ActivityChart({
     return (
       <GalleryFrame title={title ?? "Atividade dos Bots"}>
         <p className="text-sm text-muted-foreground">
-          
           Nenhum Bot fez nada nos últimos {data?.days ?? 7} days.
         </p>
       </GalleryFrame>
@@ -177,7 +180,6 @@ function ActivityChart({
             size="sm"
             variant="outline"
           >
-            
             Perguntar sobre o mais ativo
           </Button>
         ) : undefined
@@ -225,7 +227,6 @@ function RefusalList({
     return (
       <GalleryFrame title={title ?? "Recusas recentes"}>
         <p className="text-sm text-muted-foreground">
-          
           O OpenBot não recusou nada.
         </p>
       </GalleryFrame>
@@ -245,7 +246,6 @@ function RefusalList({
             size="sm"
             variant="outline"
           >
-            
             Explicar o mais recente
           </Button>
         ) : undefined

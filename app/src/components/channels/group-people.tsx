@@ -67,8 +67,8 @@ export function GroupPeopleButton({ channelId }: { channelId: string }) {
           <DialogHeader>
             <DialogTitle>Pessoas neste grupo</DialogTitle>
             <DialogDescription>
-              
-              Todos aqui veem a conversa inteira. Todos os Bots nela respondem a eles.
+              Todos aqui veem a conversa inteira. Todos os Bots nela respondem a
+              eles.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4 grid gap-4 overflow-y-auto">
@@ -132,7 +132,6 @@ export function GroupPeopleButton({ channelId }: { channelId: string }) {
                 size="sm"
                 type="submit"
               >
-                
                 Adicionar
               </Button>
             </form>

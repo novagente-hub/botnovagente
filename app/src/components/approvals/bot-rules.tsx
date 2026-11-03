@@ -47,13 +47,12 @@ export function BotApprovalRules({ agentId }: { agentId: string }) {
     <PageSection
       description={
         <>
-          
-          A regra correspondente mais rígida vence. Uma regra "perguntar" vence uma regra "permitir". As regras de todos os Bots estão em{" "}
+          A regra correspondente mais rígida vence. Uma regra "perguntar" vence
+          uma regra "permitir". As regras de todos os Bots estão em{" "}
           <Link
             className="underline underline-offset-4"
             to="/settings/approvals"
           >
-            
             Configurações → Aprovações
           </Link>
           .

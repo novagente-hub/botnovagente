@@ -63,7 +63,6 @@ export function ProfileNameForm({
       )}
       {save.isSuccess && !firstRun && (
         <p role="status" className="text-sm text-muted-foreground">
-          
           Seu nome foi salvo.
         </p>
       )}
@@ -106,12 +105,11 @@ export function OnboardingNameStep({
     <div className="mx-auto flex w-full max-w-md flex-col items-center gap-6">
       <AgentOrb size="64px" state="listening" />
       <h1 className="text-center text-3xl font-semibold tracking-tight">
-        
         Vamos começar.
       </h1>
       <p className="text-center text-muted-foreground">
-        
-        Como devemos chamar você? Você pode mudar seu nome depois em Configurações.
+        Como devemos chamar você? Você pode mudar seu nome depois em
+        Configurações.
       </p>
       <ProfileNameForm
         initialName={user?.needsName ? "" : (user?.name ?? "")}

@@ -75,7 +75,6 @@ function TargetFields({
         />
       </label>
       <label className="grid gap-2 text-sm" htmlFor={`${fieldId}-revision`}>
-        
         Revisão exata (opcional)
         <Input
           id={`${fieldId}-revision`}
@@ -128,7 +127,6 @@ function ContainerSetup({
               : `Criar o container ${automatic.containerId}`}
           </Button>
           <span className="text-muted-foreground">
-            
             Usa a credencial desta implantação, não a chave do runtime.
           </span>
         </div>
@@ -225,7 +223,6 @@ export function LearningPage() {
                   change({ ...settings, enabled: event.target.checked })
                 }
               />
-              
               Ativar aprendizado automático e entrega de habilidades
             </label>
             <TargetFields
@@ -244,18 +241,16 @@ export function LearningPage() {
               <ContainerSetup automatic={automatic.data} />
             )}
             <p className="text-muted-foreground text-sm">
-              
-              Sem um padrão, Bots sem container próprio ficam de fora. IDs têm de 1 a 64 letras minúsculas, números e hifens simples. Deixe a revisão vazia para usar as últimas habilidades publicadas.
+              Sem um padrão, Bots sem container próprio ficam de fora. IDs têm
+              de 1 a 64 letras minúsculas, números e hifens simples. Deixe a
+              revisão vazia para usar as últimas habilidades publicadas.
             </p>
             <fieldset className="grid gap-4">
-              <legend className="mb-3 font-medium">
-                
-                Participação por Bot
-              </legend>
+              <legend className="mb-3 font-medium">Participação por Bot</legend>
               {(agents.error || hiddenAgents.error) && (
                 <p role="alert" className="text-destructive">
-                  
-                  Não foi possível carregar a lista de Bots. As configurações salvas de cada Bot estão abaixo.
+                  Não foi possível carregar a lista de Bots. As configurações
+                  salvas de cada Bot estão abaixo.
                 </p>
               )}
               {botIds.map((id) => {
@@ -288,10 +283,13 @@ export function LearningPage() {
                           change({ ...settings, agents: mappings });
                         }}
                       >
-                        <option value="inherit">Usar o padrão da implantação</option>
-                        <option value="exclude">Deixar fora do Aprendizado</option>
+                        <option value="inherit">
+                          Usar o padrão da implantação
+                        </option>
+                        <option value="exclude">
+                          Deixar fora do Aprendizado
+                        </option>
                         <option value="container">
-                          
                           Usar um container específico
                         </option>
                       </select>
@@ -317,11 +315,12 @@ export function LearningPage() {
             </fieldset>
             <div className="flex items-center gap-3">
               <Button type="submit" disabled={save.isPending}>
-                {save.isPending ? "Salvando…" : "Salvar configurações de Aprendizado"}
+                {save.isPending
+                  ? "Salvando…"
+                  : "Salvar configurações de Aprendizado"}
               </Button>
               {saved && (
                 <p role="status" className="text-sm">
-                  
                   Configurações salvas.
                 </p>
               )}
@@ -340,7 +339,6 @@ export function LearningPage() {
       >
         <div className="grid gap-4">
           <label className="grid gap-2 text-sm">
-            
             Mostrar o container de
             <select
               className={selectClass}
@@ -355,7 +353,9 @@ export function LearningPage() {
               ))}
             </select>
           </label>
-          {overview.isPending && <p role="status">Verificando o Intelligence…</p>}
+          {overview.isPending && (
+            <p role="status">Verificando o Intelligence…</p>
+          )}
           {overview.error && (
             <p role="alert" className="text-destructive">
               {overview.error.message}
@@ -381,7 +381,6 @@ export function LearningPage() {
                 </div>
                 <div>
                   <dt className="text-muted-foreground">
-                    
                     Candidatas para revisar
                   </dt>
                   <dd className="font-semibold text-xl">
@@ -389,7 +388,9 @@ export function LearningPage() {
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-muted-foreground">Habilidades publicadas</dt>
+                  <dt className="text-muted-foreground">
+                    Habilidades publicadas
+                  </dt>
                   <dd className="font-semibold text-xl">
                     {snapshot.publishedSkillCount}
                   </dd>
@@ -414,7 +415,6 @@ export function LearningPage() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  
                   Gerenciar Aprendizado no Intelligence
                 </a>
                 {snapshot.links.candidates && (
@@ -423,7 +423,6 @@ export function LearningPage() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    
                     Revisar candidatas a habilidade
                   </a>
                 )}
@@ -433,7 +432,6 @@ export function LearningPage() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    
                     Ver execuções de análise
                   </a>
                 )}
@@ -464,7 +462,6 @@ export function LearningPage() {
                     )}
                     {delivery.data.lastCheckedAt && (
                       <p>
-                        
                         Última verificação:{" "}
                         {new Date(delivery.data.lastCheckedAt).toLocaleString()}
                       </p>
@@ -486,12 +483,14 @@ export function LearningPage() {
               if (selected) void delivery.refetch();
             }}
           >
-            
             Atualizar status
           </Button>
           <p className="text-muted-foreground text-sm">
-            
-            Gerenciar o Aprendizado exige sua conta do Intelligence e acesso ao projeto. O OpenBot mantém as credenciais do projeto no servidor. Desativar o Aprendizado aqui mantém as configurações e as atribuições de conversas. Agendas e publicação ficam no Intelligence.
+            Gerenciar o Aprendizado exige sua conta do Intelligence e acesso ao
+            projeto. O OpenBot mantém as credenciais do projeto no servidor.
+            Desativar o Aprendizado aqui mantém as configurações e as
+            atribuições de conversas. Agendas e publicação ficam no
+            Intelligence.
           </p>
         </div>
       </PageSection>

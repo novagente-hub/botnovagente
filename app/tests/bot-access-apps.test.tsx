@@ -260,9 +260,7 @@ test("on somebody else's Team Bot, an app on its owner's account says so, and an
   const view = draw();
   const gmail = await row(view, "composio-gmail");
   expect(
-    gmail.getByText(
-      /^Pronto para usar\. Este Bot usa a conta Gmail do dono\./,
-    ),
+    gmail.getByText(/^Pronto para usar\. Este Bot usa a conta Gmail do dono\./),
   ).toBeTruthy();
   const notion = await row(view, "notion");
   expect(

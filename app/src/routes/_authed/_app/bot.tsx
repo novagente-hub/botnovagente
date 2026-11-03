@@ -70,7 +70,8 @@ async function loadExplicitBot(agentId: string): Promise<BotDetailLookup> {
   if (!response.ok) throw new Error("Não foi possível carregar este Bot.");
 
   const body: unknown = await response.json().catch(() => null);
-  if (!isAgentEnvelope(body)) throw new Error("Não foi possível carregar este Bot.");
+  if (!isAgentEnvelope(body))
+    throw new Error("Não foi possível carregar este Bot.");
   return { bot: body.agent, status: "found" };
 }
 
@@ -106,7 +107,6 @@ function RouteComponent() {
     return (
       <div className="flex h-screen items-center justify-center p-6">
         <p className="text-destructive text-sm" role="alert">
-          
           Não foi possível carregar seus Bots. Recarregue a página.
         </p>
       </div>
@@ -116,7 +116,6 @@ function RouteComponent() {
     return (
       <div className="flex h-screen items-center justify-center p-6">
         <p className="text-destructive text-sm" role="alert">
-          
           Não foi possível carregar este Bot. Recarregue a página.
         </p>
       </div>
@@ -126,9 +125,7 @@ function RouteComponent() {
     return (
       <div className="flex h-screen items-center justify-center p-6">
         <p className="text-muted-foreground text-sm">
-          {agent
-            ? `Não existe Bot chamado "${agent}".`
-            : "Ainda não há Bots."}
+          {agent ? `Não existe Bot chamado "${agent}".` : "Ainda não há Bots."}
         </p>
       </div>
     );
@@ -199,13 +196,11 @@ function BotChat({ agentId, name }: { agentId: string; name: string }) {
               />
               <Button onClick={startNew} size="sm" variant="ghost">
                 <IconPlus />
-                
                 Novo chat
               </Button>
             </div>
           </div>
           <p className="text-sm text-muted-foreground">
-            
             Peça para ele abrir uma página e veja-o trabalhar.
           </p>
         </header>
@@ -220,8 +215,8 @@ function BotChat({ agentId, name }: { agentId: string; name: string }) {
             data-testid="bot-chat-history-unavailable"
             role="alert"
           >
-            
-            Não foi possível carregar mensagens anteriores. O Bot está respondendo sem elas.
+            Não foi possível carregar mensagens anteriores. O Bot está
+            respondendo sem elas.
           </p>
         ) : null}
         {/*

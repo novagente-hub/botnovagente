@@ -155,7 +155,6 @@ export function LiveWaveform({
       <canvas ref={canvasRef} className="block size-full" />
       {unavailable && (
         <span className="absolute inset-0 flex items-center bg-card text-xs text-muted-foreground">
-          
           Gravação · forma de onda indisponível
         </span>
       )}

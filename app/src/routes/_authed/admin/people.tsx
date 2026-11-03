@@ -109,9 +109,10 @@ function PeoplePage() {
         ) : null}
         {terminate.data ? (
           <p className="mt-4 text-muted-foreground text-sm" role="status">
-            
             Parado {terminate.data.stopped.length}{" "}
-            {terminate.data.stopped.length === 1 ? "computador" : "computadores"}
+            {terminate.data.stopped.length === 1
+              ? "computador"
+              : "computadores"}
             {terminate.data.failed.length > 0
               ? `. ${terminate.data.failed.length} não puderam ser parados`
               : ""}
@@ -132,7 +133,6 @@ function PeoplePage() {
 
         {people.isPending ? null : people.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            
             Não foi possível carregar as pessoas. Recarregue a página.
           </p>
         ) : rows.length === 0 ? (
@@ -181,7 +181,6 @@ function PeoplePage() {
                         size="sm"
                         variant="outline"
                       >
-                        
                         Parar computadores
                       </Button>
                       <Button

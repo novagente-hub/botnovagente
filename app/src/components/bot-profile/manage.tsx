@@ -53,7 +53,11 @@ function resetLines(plan: ResetPlan): string[] {
     [plan.responsibilities, "responsabilidade", "responsabilidades"],
     [plan.followUps, "acompanhamento agendado", "acompanhamentos agendados"],
     [plan.formedMemories, "memória que ele formou", "memórias que ele formou"],
-    [plan.backgroundResearch, "pesquisa em segundo plano", "pesquisas em segundo plano"],
+    [
+      plan.backgroundResearch,
+      "pesquisa em segundo plano",
+      "pesquisas em segundo plano",
+    ],
     [plan.standingApprovals, "standing permission", "standing permissions"],
   ];
   return lines
@@ -82,18 +86,20 @@ function ResetDialog({
         <DialogHeader>
           <DialogTitle>Redefinir {agent.name}?</DialogTitle>
           <DialogDescription>
-            
-            Isso exclui o que {agent.name}  tem com você. As conversas e dados de outras pessoas permanecem. Não é possível desfazer.
+            Isso exclui o que {agent.name} tem com você. As conversas e dados de
+            outras pessoas permanecem. Não é possível desfazer.
           </DialogDescription>
         </DialogHeader>
         <DialogBody className="mt-4 overflow-y-auto">
           {plan.isPending ? null : plan.error ? (
             <p className="text-destructive text-sm" role="alert">
-              
-              Não foi possível verificar o que a redefinição excluiria. Tente novamente.
+              Não foi possível verificar o que a redefinição excluiria. Tente
+              novamente.
             </p>
           ) : reset.isSuccess ? (
-            <p className="text-sm">Pronto. {agent.name}  começa do zero com você.</p>
+            <p className="text-sm">
+              Pronto. {agent.name} começa do zero com você.
+            </p>
           ) : (
             <div className="grid gap-2 text-sm">
               {lines.length === 0 ? (
@@ -111,13 +117,13 @@ function ResetDialog({
               {plan.data.sharedConversationsKept > 0 ? (
                 <p className="text-muted-foreground">
                   {plan.data.sharedConversationsKept}{" "}
-                  {plan.data.sharedConversationsKept === 1 ? "conversa é" : "conversas são"}{" "}
-                  
+                  {plan.data.sharedConversationsKept === 1
+                    ? "conversa é"
+                    : "conversas são"}{" "}
                   compartilhado com outras pessoas ou Bots e será mantido.
                 </p>
               ) : null}
               <p className="text-muted-foreground">
-                
                 Memórias que você mesmo contou a um Bot são mantidas.
               </p>
             </div>
@@ -258,8 +264,8 @@ export function ManageSection({
           <ItemContent>
             <ItemTitle>Duplicar</ItemTitle>
             <ItemDescription>
-              
-              Crie sua própria cópia. As conversas e chaves dele não são copiadas.
+              Crie sua própria cópia. As conversas e chaves dele não são
+              copiadas.
             </ItemDescription>
           </ItemContent>
         </Item>
@@ -274,8 +280,8 @@ export function ManageSection({
           <ItemContent>
             <ItemTitle>Redefinir</ItemTitle>
             <ItemDescription>
-              
-              Exclua suas conversas com ele, o que ele lembra sobre você e as tarefas agendadas dele. Você verá a lista antes.
+              Exclua suas conversas com ele, o que ele lembra sobre você e as
+              tarefas agendadas dele. Você verá a lista antes.
             </ItemDescription>
           </ItemContent>
           <ItemActions>
@@ -297,7 +303,6 @@ export function ManageSection({
               <ItemContent>
                 <ItemTitle>Excluir</ItemTitle>
                 <ItemDescription>
-                  
                   Exclui para todos. Não é possível desfazer.
                 </ItemDescription>
               </ItemContent>
@@ -314,7 +319,6 @@ export function ManageSection({
           <DialogHeader>
             <DialogTitle>Excluir {agent.name}?</DialogTitle>
             <DialogDescription>
-              
               Foi excluído para todos. Não é possível desfazer.
             </DialogDescription>
           </DialogHeader>
@@ -331,7 +335,6 @@ export function ManageSection({
               size="sm"
               variant="outline"
             >
-              
               Cancelar
             </Button>
             <Button

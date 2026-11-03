@@ -41,9 +41,9 @@ export function SkinPicker() {
         <ItemContent>
           <ItemTitle>Tema visual</ItemTitle>
           <ItemDescription>
-            
-            Mude como o {appConfig.brand.productName}  aparece para você, em todos os dispositivos. Todo tema visual mantém tudo {appConfig.brand.productName}{" "}
-            does.
+            Mude como o {appConfig.brand.productName} aparece para você, em
+            todos os dispositivos. Todo tema visual mantém tudo{" "}
+            {appConfig.brand.productName} does.
           </ItemDescription>
         </ItemContent>
         <ItemActions>
@@ -80,8 +80,8 @@ export function SkinPicker() {
       </Item>
       {save.isError ? (
         <p className="px-3 pb-3 text-sm text-destructive" role="alert">
-          
-          Não foi possível salvar esse tema visual na sua conta, então o {SKINS[skin].name}  voltou. Tente novamente.
+          Não foi possível salvar esse tema visual na sua conta, então o{" "}
+          {SKINS[skin].name} voltou. Tente novamente.
         </p>
       ) : null}
     </>

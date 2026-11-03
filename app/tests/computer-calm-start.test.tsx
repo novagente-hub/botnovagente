@@ -216,7 +216,9 @@ test("a computer the server cannot reach is a problem straight away", async () =
   );
 
   expect(
-    await view.findByText("O computador de Vendas não pode ser acessado agora."),
+    await view.findByText(
+      "O computador de Vendas não pode ser acessado agora.",
+    ),
   ).toBeDefined();
   // The provider's own words are for an admin, not this screen.
   expect(view.queryByText(/supervisor down/)).toBeNull();

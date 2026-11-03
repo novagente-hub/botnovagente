@@ -37,8 +37,8 @@ function RouteComponent() {
   if (plugins.isError) {
     return (
       <p className="m-4 text-destructive text-sm" role="alert">
-        
-        Não foi possível carregar as configurações do plugin. Recarregue a página.
+        Não foi possível carregar as configurações do plugin. Recarregue a
+        página.
       </p>
     );
   }

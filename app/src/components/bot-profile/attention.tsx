@@ -14,14 +14,19 @@ export function needsInput(bot: BotAttention): number {
 export function attentionSummary(bot: BotAttention): string {
   const parts: string[] = [];
   if (bot.questions)
-    parts.push(`${bot.questions} ${bot.questions === 1 ? "pergunta" : "perguntas"}`);
+    parts.push(
+      `${bot.questions} ${bot.questions === 1 ? "pergunta" : "perguntas"}`,
+    );
   if (bot.approvals)
-    parts.push(`${bot.approvals} ${bot.approvals === 1 ? "aprovação" : "aprovações"}`);
+    parts.push(
+      `${bot.approvals} ${bot.approvals === 1 ? "aprovação" : "aprovações"}`,
+    );
   if (bot.handoffs)
     parts.push(
       `${bot.handoffs} ${bot.handoffs === 1 ? "repasse parado" : "repasses parados"}`,
     );
-  if (bot.unread) parts.push(`${bot.unread} ${bot.unread === 1 ? "não lida" : "não lidas"}`);
+  if (bot.unread)
+    parts.push(`${bot.unread} ${bot.unread === 1 ? "não lida" : "não lidas"}`);
   return parts.join(", ");
 }
 

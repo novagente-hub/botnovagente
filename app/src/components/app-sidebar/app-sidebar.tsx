@@ -388,7 +388,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   variant="destructive"
                 >
                   <IconLogout />
-                  
                   Sair
                 </DropdownMenuItem>
               </DropdownMenuContent>

@@ -30,7 +30,9 @@ export async function startRecording(
     (type) => MediaRecorder.isTypeSupported(type),
   );
   if (!mimeType)
-    throw new Error("Este navegador não consegue gravar em um formato de áudio compatível.");
+    throw new Error(
+      "Este navegador não consegue gravar em um formato de áudio compatível.",
+    );
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const release = () => {
     for (const track of stream.getTracks()) track.stop();
@@ -58,7 +60,9 @@ export async function startRecording(
     size += event.data.size;
     if (size > MAX_DICTATION_BYTES) {
       cancel();
-      onError(new Error("A gravação é grande demais. Tente uma mensagem mais curta."));
+      onError(
+        new Error("A gravação é grande demais. Tente uma mensagem mais curta."),
+      );
       return;
     }
     if (event.data.size) chunks.push(event.data);
@@ -92,9 +96,7 @@ export async function startRecording(
       done = Promise.withResolvers<Blob>();
       if (recorder.state === "inactive") {
         release();
-        done.reject(
-          new Error("A gravação parou antes de capturar o áudio."),
-        );
+        done.reject(new Error("A gravação parou antes de capturar o áudio."));
       } else {
         recorder.stop();
         release();

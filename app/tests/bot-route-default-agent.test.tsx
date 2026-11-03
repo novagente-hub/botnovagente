@@ -193,7 +193,9 @@ test("/bot reports a failed initial roster load instead of claiming there are no
   const view = renderBot(queryClientWithFailingAgents());
 
   expect(
-    await view.findByText("Não foi possível carregar seus Bots. Recarregue a página."),
+    await view.findByText(
+      "Não foi possível carregar seus Bots. Recarregue a página.",
+    ),
   ).toBeTruthy();
   expect(view.queryByText("Ainda não há Bots.")).toBeNull();
 });

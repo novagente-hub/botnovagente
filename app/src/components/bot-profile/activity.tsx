@@ -129,7 +129,8 @@ function ActivityRow({
       <ItemContent>
         <ItemTitle>{item.title}</ItemTitle>
         <ItemDescription>
-          {KIND_LABEL[item.kind]} · {item.needsYou ? "precisa de você" : item.status}
+          {KIND_LABEL[item.kind]} ·{" "}
+          {item.needsYou ? "precisa de você" : item.status}
           {when ? ` · ${when}` : ""}
           {item.detail ? ` · ${item.detail}` : ""}
         </ItemDescription>
@@ -147,7 +148,6 @@ function ActivityRow({
         <ItemActions>
           {link ? (
             <Button render={link} size="sm" variant="ghost">
-              
               Abrir
             </Button>
           ) : null}
@@ -258,7 +258,9 @@ export function activitySummary(activity: BotActivity): string {
     activity.inProgress.length
       ? `${activity.inProgress.length} em andamento`
       : null,
-    activity.scheduled.length ? `${activity.scheduled.length} ${activity.scheduled.length === 1 ? "agendada" : "agendadas"}` : null,
+    activity.scheduled.length
+      ? `${activity.scheduled.length} ${activity.scheduled.length === 1 ? "agendada" : "agendadas"}`
+      : null,
   ].filter(Boolean);
   if (parts.length) return parts.join(" · ");
   return activity.completed.length
@@ -274,7 +276,6 @@ export function BotActivitySections({ agentId }: { agentId: string }) {
     return (
       <PageSection title="Atividade">
         <p className="mt-4 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar a atividade deste Bot. Recarregue a página.
         </p>
       </PageSection>

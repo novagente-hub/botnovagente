@@ -198,7 +198,6 @@ function SignInCard({
         <div>
           <Button size="sm" onClick={() => setOpen(true)}>
             <IconLock />
-            
             Abrir login privado
           </Button>
           <Dialog open={open} onOpenChange={setOpen}>
@@ -206,7 +205,6 @@ function SignInCard({
               <DialogHeader>
                 <DialogTitle>Entrar em {site}</DialogTitle>
                 <DialogDescription>
-                  
                   Vai para o navegador do seu Bot, não para esta conversa.
                 </DialogDescription>
               </DialogHeader>

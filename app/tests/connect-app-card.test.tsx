@@ -259,7 +259,11 @@ test("says connected when the press records an account the vendor already held",
   press(card);
 
   await waitFor(() =>
-    expect(card.view.getByText(/Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./)).toBeTruthy(),
+    expect(
+      card.view.getByText(
+        /Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./,
+      ),
+    ).toBeTruthy(),
   );
   expect(card.view.queryByText(/needs a key from you/)).toBeNull();
   // Nothing to visit: the claimed tab is let go without ever being pointed anywhere.
@@ -285,7 +289,11 @@ test("says so once the account is actually listed, rather than once they return"
   });
 
   await waitFor(() =>
-    expect(card.view.getByText(/Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./)).toBeTruthy(),
+    expect(
+      card.view.getByText(
+        /Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./,
+      ),
+    ).toBeTruthy(),
   );
   // No button to press any more: the next step is to ask the Bot again.
   expect(card.view.queryByRole("button", { name: /^Conectar$/ })).toBeNull();
@@ -303,7 +311,11 @@ test("does not read a withdrawn credential as a connected account", async () => 
   await waitFor(() =>
     expect(card.view.getByRole("button", { name: /^Conectar$/ })).toBeTruthy(),
   );
-  expect(card.view.queryByText(/Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./)).toBeNull();
+  expect(
+    card.view.queryByText(
+      /Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./,
+    ),
+  ).toBeNull();
 });
 
 test("does not read a Shared app's deployment account as this person's", async () => {
@@ -314,7 +326,11 @@ test("does not read a Shared app's deployment account as this person's", async (
   await waitFor(() =>
     expect(card.view.getByRole("button", { name: /^Conectar$/ })).toBeTruthy(),
   );
-  expect(card.view.queryByText(/Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./)).toBeNull();
+  expect(
+    card.view.queryByText(
+      /Notion está conectado\. Peça de novo e o Bot poderá usá-lo\./,
+    ),
+  ).toBeNull();
 });
 
 test("once connected in front of the person, the conversation carries on by itself, once", async () => {

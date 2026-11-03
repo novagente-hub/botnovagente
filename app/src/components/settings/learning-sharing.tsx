@@ -50,7 +50,8 @@ export const SHARING_CHOICES: {
     mode: "open",
     icon: IconUsersGroup,
     title: "Bots de todos",
-    description: "Todos os Bots do OpenBot aproveitam todas as suas Habilidades.",
+    description:
+      "Todos os Bots do OpenBot aproveitam todas as suas Habilidades.",
   },
   {
     mode: "choose",

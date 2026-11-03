@@ -209,32 +209,32 @@ export function SharedResourcesPanel() {
                 {(agents.data ?? [])
                   .filter((agent) => agent.systemOwned || agent.mine)
                   .map((agent) => (
-                  <div
-                    key={agent.id}
-                    className="flex flex-wrap items-center justify-between gap-2 rounded-md border p-2"
-                  >
-                    <span className="text-sm">{agent.name}</span>
-                    <select
-                      aria-label={`Permissão de ${agent.name}`}
-                      disabled={busy}
-                      className="rounded-md border bg-background p-1 text-xs"
-                      value={
-                        grants.find((grant) => grant.botId === agent.id)
-                          ?.permission ?? "none"
-                      }
-                      onChange={(event) =>
-                        void changeGrant(
-                          agent.id,
-                          event.target.value as "read" | "write" | "none",
-                        )
-                      }
+                    <div
+                      key={agent.id}
+                      className="flex flex-wrap items-center justify-between gap-2 rounded-md border p-2"
                     >
-                      <option value="none">Sem acesso</option>
-                      <option value="read">Pode ler</option>
-                      <option value="write">Pode ler e editar</option>
-                    </select>
-                  </div>
-                ))}
+                      <span className="text-sm">{agent.name}</span>
+                      <select
+                        aria-label={`Permissão de ${agent.name}`}
+                        disabled={busy}
+                        className="rounded-md border bg-background p-1 text-xs"
+                        value={
+                          grants.find((grant) => grant.botId === agent.id)
+                            ?.permission ?? "none"
+                        }
+                        onChange={(event) =>
+                          void changeGrant(
+                            agent.id,
+                            event.target.value as "read" | "write" | "none",
+                          )
+                        }
+                      >
+                        <option value="none">Sem acesso</option>
+                        <option value="read">Pode ler</option>
+                        <option value="write">Pode ler e editar</option>
+                      </select>
+                    </div>
+                  ))}
                 {agents.isError ? (
                   <p className="text-sm text-destructive">
                     Não foi possível carregar a lista de Bots.

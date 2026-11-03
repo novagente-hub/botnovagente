@@ -94,7 +94,6 @@ export function SkillFields({
                       "Não é possível alterar um comando. Para renomear esta habilidade, escreva uma nova e exclua esta."
                     ) : (
                       <>
-                        
                         O que você digita depois de uma barra.{" "}
                         <code>
                           /{"{"}command{"}"}
@@ -138,7 +137,9 @@ export function SkillFields({
               field.state.meta.isTouched && !field.state.meta.isValid;
             return (
               <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Resumo de uma linha</FieldLabel>
+                <FieldLabel htmlFor={field.name}>
+                  Resumo de uma linha
+                </FieldLabel>
                 <Input
                   aria-invalid={isInvalid}
                   id={field.name}
@@ -152,9 +153,8 @@ export function SkillFields({
                   <FieldError errors={field.state.meta.errors} />
                 ) : (
                   <p className="text-muted-foreground text-xs">
-                    
                     Mostrado ao lado do comando nesta lista e no menu{" "}
-                    <code>/</code>  . Opcional.
+                    <code>/</code> . Opcional.
                   </p>
                 )}
               </Field>
@@ -183,8 +183,8 @@ export function SkillFields({
                   <FieldError errors={field.state.meta.errors} />
                 ) : (
                   <p className="text-muted-foreground text-xs">
-                    
-                    O que o Bot recebe quando você usa o comando. Escreva como instruções para o Bot.
+                    O que o Bot recebe quando você usa o comando. Escreva como
+                    instruções para o Bot.
                   </p>
                 )}
               </Field>
@@ -229,7 +229,6 @@ export function SkillFields({
         </form.Subscribe>
         {onCancel ? (
           <Button onClick={onCancel} type="button" variant="outline">
-            
             Cancelar
           </Button>
         ) : null}

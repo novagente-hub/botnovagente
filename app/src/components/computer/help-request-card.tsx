@@ -62,7 +62,8 @@ function endedAs(outcome: HelpOutcome): {
 } {
   if (outcome.handoffStatus === "completed")
     return { title: "Assumido e devolvido", done: true };
-  if (outcome.stopped) return { title: "Parou de esperar por você", done: false };
+  if (outcome.stopped)
+    return { title: "Parou de esperar por você", done: false };
   switch (outcome.handoffStatus) {
     case "cancelled":
       return { title: "Ninguém assumiu", done: false };
@@ -160,7 +161,6 @@ export function HelpRequestCard({
                 aria-hidden="true"
                 className="mr-1 inline size-3.5 align-[-2px]"
               />
-              
               O Bot perguntou: “{asked}”
             </>
           ) : (
@@ -168,15 +168,12 @@ export function HelpRequestCard({
           )}
           {ended.detail ? ` ${ended.detail}` : null}
           {handedBackHere ? " O Bot está continuando." : null}
-          {silent
-            ? " O Bot parou aqui sem dizer o que faz a seguir."
-            : null}
+          {silent ? " O Bot parou aqui sem dizer o que faz a seguir." : null}
         </ItemDescription>
       </ItemContent>
       {silent ? (
         <ItemActions>
           <Button onClick={() => ask?.("Pode continuar.")} size="sm">
-            
             Continuar
           </Button>
         </ItemActions>

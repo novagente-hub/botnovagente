@@ -32,7 +32,6 @@ export function ComputerControlButton({
       </Button>
       {control?.transitioning ? (
         <span className="text-xs text-muted-foreground" role="status">
-          
           Concluindo a ação atual…
         </span>
       ) : null}

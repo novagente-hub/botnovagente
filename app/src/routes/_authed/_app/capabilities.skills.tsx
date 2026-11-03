@@ -124,14 +124,14 @@ function SkillsPage() {
               variant="ghost"
             >
               <IconPlus />
-              
               Nova habilidade
             </Button>
           }
           description={
             <>
-              
-              Digite <code>/</code>  e o nome de uma habilidade para dar essa instrução a um Bot. Só você vê as suas, e elas funcionam nos Bots que são seus.
+              Digite <code>/</code> e o nome de uma habilidade para dar essa
+              instrução a um Bot. Só você vê as suas, e elas funcionam nos Bots
+              que são seus.
             </>
           }
           title="Suas habilidades"
@@ -147,14 +147,12 @@ function SkillsPage() {
            */}
           {loading ? null : !data ? (
             <p className="mt-4 text-destructive text-sm" role="alert">
-              
               Não foi possível carregar suas habilidades. Recarregue a página.
             </p>
           ) : mine.length === 0 ? (
             <Empty className="mt-4 h-[180px] border border-dashed">
               <EmptyHeader>
                 <EmptyTitle className="text-muted-foreground">
-                  
                   Nenhuma habilidade ainda. Escreva uma com Nova habilidade.
                 </EmptyTitle>
               </EmptyHeader>
@@ -197,7 +195,6 @@ function SkillsPage() {
                                 navigate({ search: { edit: skill.slug } })
                               }
                             >
-                              
                               Editar
                             </DropdownMenuItem>
                             {/*
@@ -213,7 +210,6 @@ function SkillsPage() {
                               }}
                               variant="destructive"
                             >
-                              
                               Excluir /{skill.slug}
                             </DropdownMenuItem>
                           </DropdownMenuGroup>

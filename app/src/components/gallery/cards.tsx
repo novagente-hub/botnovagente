@@ -302,7 +302,10 @@ export const GALLERY: GalleryComponent[] = [
       title: "O certificado expira em 30 dias",
       body: "O certificado do checkout agora tem um responsável, e este é o primeiro dos novos alertas.",
       tone: "caution",
-      points: ["Responsável: Plataforma", "Renova automaticamente quando aprovado"],
+      points: [
+        "Responsável: Plataforma",
+        "Renova automaticamente quando aprovado",
+      ],
     },
     confirmation: "The notice is now on screen for the person.",
   },

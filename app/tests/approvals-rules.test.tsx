@@ -189,7 +189,9 @@ test("a member changes a saved rule in place", async () => {
     }),
   );
   expect(
-    view.queryByRole("combobox", { name: "Comportamento para mcp/drive/share" }),
+    view.queryByRole("combobox", {
+      name: "Comportamento para mcp/drive/share",
+    }),
   ).toBeNull();
 });
 
@@ -247,7 +249,9 @@ test("a rule that is not saved keeps the dialog open, with what was typed and wh
     ).value,
   ).toBe("mcp/nowhere/*");
   // Saved the second time, the dialog closes.
-  await user.click(within(dialog).getByRole("button", { name: "Salvar regra" }));
+  await user.click(
+    within(dialog).getByRole("button", { name: "Salvar regra" }),
+  );
   await waitFor(() => expect(view.queryByRole("dialog")).toBeNull());
   expect(
     sent.filter((request) => request.path === "/api/approvals/rules"),
@@ -369,7 +373,9 @@ test("a pending change is drawn in the conversation where the action was, and de
     </QueryClientProvider>,
   );
   await view.findByRole("region", { name: "Aguardando sua aprovação" });
-  expect(view.getByText(/Isto precisa de você: click em shop.example/)).toBeTruthy();
+  expect(
+    view.getByText(/Isto precisa de você: click em shop.example/),
+  ).toBeTruthy();
   // Another call's line is left to its own renderer.
   expect(view.getByText("Filled in field")).toBeTruthy();
   expect(view.queryByText("Clicked on page")).toBeNull();

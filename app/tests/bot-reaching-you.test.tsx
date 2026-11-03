@@ -162,7 +162,9 @@ test("closing the dialog keeps the link code, so reopening the row shows it agai
   await user.keyboard("{Escape}");
   await waitFor(() => expect(view.queryByRole("dialog")).toBeNull());
   // The row says a code is waiting, and opening it shows that code without asking for another.
-  expect(view.getByText(/Seu código de vínculo está pronto para enviar/)).toBeTruthy();
+  expect(
+    view.getByText(/Seu código de vínculo está pronto para enviar/),
+  ).toBeTruthy();
   await user.click(view.getByRole("button", { name: /^Vincular Slack/ }));
   expect(await view.findByText("link abc")).toBeTruthy();
   // With the conversation it links, so "this conversation" still names one.
@@ -181,12 +183,16 @@ test("nothing can be linked until a conversation is chosen", async () => {
   const view = draw();
   const user = await openSlackLink(view);
   expect(
-    view.getByRole("button", { name: "Vincular Slack" }).hasAttribute("disabled"),
+    view
+      .getByRole("button", { name: "Vincular Slack" })
+      .hasAttribute("disabled"),
   ).toBe(true);
   await chooseConversation(view, user, "Finance desk");
   await waitFor(() =>
     expect(
-      view.getByRole("button", { name: "Vincular Slack" }).hasAttribute("disabled"),
+      view
+        .getByRole("button", { name: "Vincular Slack" })
+        .hasAttribute("disabled"),
     ).toBe(false),
   );
 });
@@ -227,7 +233,10 @@ test("a phone is verified for the chosen conversation, then asks for its code", 
       },
     }),
   );
-  await user.type(await view.findByLabelText("Código de verificação"), "123456");
+  await user.type(
+    await view.findByLabelText("Código de verificação"),
+    "123456",
+  );
   await user.click(view.getByRole("button", { name: "Confirmar telefone" }));
   await waitFor(() =>
     expect(writes).toContainEqual({

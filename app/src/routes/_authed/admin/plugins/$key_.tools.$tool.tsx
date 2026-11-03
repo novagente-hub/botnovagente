@@ -94,7 +94,6 @@ function RouteComponent() {
     return (
       <PageShell backButton={back} title={toolName}>
         <p className="mt-12 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar os plugins. Recarregue a página.
         </p>
       </PageShell>
@@ -114,7 +113,11 @@ function RouteComponent() {
          */}
         <PageEmpty
           icon={server ? IconTool : IconPlugOff}
-          title={server ? "Ferramenta não encontrada" : "Este conector está desativado"}
+          title={
+            server
+              ? "Ferramenta não encontrada"
+              : "Este conector está desativado"
+          }
         >
           {server
             ? "Ela pode ter sido removida desde a última atualização da lista de ferramentas."
@@ -169,8 +172,8 @@ function RouteComponent() {
             <ItemContent>
               <ItemTitle>Efeito</ItemTitle>
               <ItemDescription>
-                
-                Definido pelo conector, não pelo nome da ferramenta. Qualquer coisa desconhecida conta como gravação.
+                Definido pelo conector, não pelo nome da ferramenta. Qualquer
+                coisa desconhecida conta como gravação.
               </ItemDescription>
             </ItemContent>
             <ItemActions>
@@ -194,7 +197,6 @@ function RouteComponent() {
       >
         {bots.length === 0 ? (
           <PageEmpty icon={IconRobot} title="Nenhum Bot ainda">
-            
             Crie um para dar esta ferramenta a ele.
           </PageEmpty>
         ) : (

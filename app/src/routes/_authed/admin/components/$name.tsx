@@ -107,7 +107,6 @@ function RouteComponent() {
     return (
       <PageShell backButton={BACK} title="Componentes">
         <p className="mt-8 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar os componentes. Recarregue a página.
         </p>
       </PageShell>
@@ -129,8 +128,8 @@ function RouteComponent() {
           <EmptyHeader>
             <EmptyTitle>{name}</EmptyTitle>
             <EmptyDescription className="text-pretty">
-              
-              Ele pode ter sido renomeado, ou esta implantação não o inclui mais.
+              Ele pode ter sido renomeado, ou esta implantação não o inclui
+              mais.
             </EmptyDescription>
           </EmptyHeader>
           <Button
@@ -138,7 +137,6 @@ function RouteComponent() {
             size="sm"
             variant="outline"
           >
-            
             Voltar aos componentes
           </Button>
         </Empty>
@@ -294,7 +292,8 @@ function ComponentDetail({
     <PageShell
       backButton={BACK}
       description={
-        component.publishedDescription ?? "Não publicado. Nenhum Bot pode vê-lo."
+        component.publishedDescription ??
+        "Não publicado. Nenhum Bot pode vê-lo."
       }
       title={component.title}
     >
@@ -329,8 +328,8 @@ function ComponentDetail({
                 <ItemContent>
                   <ItemTitle>Não está nesta versão</ItemTitle>
                   <ItemDescription>
-                    
-                    O OpenBot não consegue desenhá-lo. As configurações abaixo não têm efeito.
+                    O OpenBot não consegue desenhá-lo. As configurações abaixo
+                    não têm efeito.
                   </ItemDescription>
                 </ItemContent>
               </Item>
@@ -432,8 +431,8 @@ function ComponentDetail({
           <DialogHeader>
             <DialogTitle>Descrição</DialogTitle>
             <DialogDescription>
-              
-              O que o modelo lê ao decidir usar isto. Não tem efeito até o componente ser publicado.
+              O que o modelo lê ao decidir usar isto. Não tem efeito até o
+              componente ser publicado.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4">
@@ -453,7 +452,6 @@ function ComponentDetail({
               size="sm"
               variant="ghost"
             >
-              
               Cancelar
             </Button>
             <Button
@@ -463,7 +461,6 @@ function ComponentDetail({
               }}
               size="sm"
             >
-              
               Salvar
             </Button>
           </DialogFooter>
@@ -479,8 +476,8 @@ function ComponentDetail({
           <DialogHeader>
             <DialogTitle>Disponível para</DialogTitle>
             <DialogDescription>
-              
-              Desative um Bot e ele nunca saberá que este componente existe. As alterações valem na hora.
+              Desative um Bot e ele nunca saberá que este componente existe. As
+              alterações valem na hora.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4">
@@ -514,7 +511,6 @@ function ComponentDetail({
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button onClick={() => setSheet(null)} size="sm">
-              
               Concluído
             </Button>
           </DialogFooter>
@@ -529,14 +525,15 @@ function ComponentDetail({
           <DialogHeader>
             <DialogTitle>Pode ler</DialogTitle>
             <DialogDescription>
-              
-              Os dados que este componente pode buscar para se desenhar. Isso é separado de Disponível para. Com tudo isto desativado, ele mostra só o que o Bot passar. Cada leitura aparece em Auditoria. As alterações valem na hora.
+              Os dados que este componente pode buscar para se desenhar. Isso é
+              separado de Disponível para. Com tudo isto desativado, ele mostra
+              só o que o Bot passar. Cada leitura aparece em Auditoria. As
+              alterações valem na hora.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4">
             {dataFunctions.length === 0 ? (
               <p className="text-muted-foreground text-sm">
-                
                 Esta implantação não tem funções de dados.
               </p>
             ) : (
@@ -570,7 +567,6 @@ function ComponentDetail({
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button onClick={() => setSheet(null)} size="sm">
-              
               Concluído
             </Button>
           </DialogFooter>

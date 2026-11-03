@@ -51,7 +51,6 @@ export function BotResponsibilities({ agentId }: { agentId?: string }) {
       action={
         <Button onClick={() => setCreating(true)} size="sm" variant="ghost">
           <IconPlus />
-          
           Nova responsabilidade
         </Button>
       }
@@ -71,7 +70,6 @@ export function BotResponsibilities({ agentId }: { agentId?: string }) {
               variant="outline"
             >
               <IconPlus />
-              
               Nova responsabilidade
             </Button>
           }

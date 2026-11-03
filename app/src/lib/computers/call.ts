@@ -129,7 +129,8 @@ export function failedComputerCall(
   }
   return {
     ok: false,
-    reason: typeof body?.error === "string" ? body.error : "Isso não funcionou.",
+    reason:
+      typeof body?.error === "string" ? body.error : "Isso não funcionou.",
     // Preserve refusal/stale-ref/control distinctions for the model's next step.
     ...(status === 403 ? { refused: true, rule: body?.rule ?? null } : {}),
     ...(status === 409

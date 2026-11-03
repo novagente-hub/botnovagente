@@ -31,7 +31,6 @@ function BotsPage() {
           variant="ghost"
         >
           <IconPlus />
-          
           Novo Bot
         </Button>
       }

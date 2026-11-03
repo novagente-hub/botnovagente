@@ -102,8 +102,8 @@ export function BotProfile({
         ) : null}
         {lifecycle.isPending ? null : lifecycle.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            
-            Não foi possível carregar as configurações deste Bot. Recarregue a página.
+            Não foi possível carregar as configurações deste Bot. Recarregue a
+            página.
           </p>
         ) : (
           <PageRows>
@@ -181,8 +181,8 @@ export function BotProfile({
                   <ItemContent>
                     <ItemTitle>Notificações do navegador</ItemTitle>
                     <ItemDescription>
-                      
-                      Desativadas neste navegador. Ative-as para saber quando um Bot precisar de você.
+                      Desativadas neste navegador. Ative-as para saber quando um
+                      Bot precisar de você.
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions>
@@ -197,7 +197,6 @@ export function BotProfile({
                       size="sm"
                       variant="outline"
                     >
-                      
                       Ativar
                     </Button>
                   </ItemActions>

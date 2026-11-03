@@ -38,7 +38,6 @@ export function EditSkill({ slug }: { slug: string }) {
     return (
       <div className="mx-auto flex w-full max-w-xl flex-col gap-6 p-8">
         <p className="text-destructive text-sm" role="alert">
-          
           Não foi possível carregar esta habilidade. Recarregue a página.
         </p>
       </div>
@@ -55,7 +54,6 @@ export function EditSkill({ slug }: { slug: string }) {
          * not own.
          */}
         <p className="text-muted-foreground text-sm">
-          
           Esta habilidade foi excluída ou não é sua para editar.
         </p>
       </div>
@@ -67,9 +65,8 @@ export function EditSkill({ slug }: { slug: string }) {
       <header>
         <h1 className="text-2xl font-semibold">Editar habilidade</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          
-          As alterações valem na próxima vez que alguém usar <code>/{skill.slug}</code>.
-          Os Bots que já a têm continuam com ela.
+          As alterações valem na próxima vez que alguém usar{" "}
+          <code>/{skill.slug}</code>. Os Bots que já a têm continuam com ela.
         </p>
       </header>
 

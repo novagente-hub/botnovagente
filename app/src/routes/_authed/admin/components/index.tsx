@@ -36,7 +36,6 @@ function RouteComponent() {
        */}
       {components.isPending ? null : components.error ? (
         <p className="mt-12 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar os componentes. Recarregue a página.
         </p>
       ) : components.data?.length === 0 ? (
@@ -44,7 +43,6 @@ function RouteComponent() {
           <EmptyHeader>
             <EmptyTitle>Nenhum componente ainda</EmptyTitle>
             <EmptyDescription className="text-pretty">
-              
               Os componentes que seus Bots podem usar aparecem aqui.
             </EmptyDescription>
           </EmptyHeader>

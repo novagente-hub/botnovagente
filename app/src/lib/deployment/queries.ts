@@ -62,7 +62,8 @@ export function deploymentCapabilitiesQueryOptions() {
        */
       const body = (await (
         await client("/api/capabilities", {
-          fallback: "Não foi possível carregar as capacidades desta implantação.",
+          fallback:
+            "Não foi possível carregar as capacidades desta implantação.",
         })
       ).json()) as {
         generativeUi?: boolean;

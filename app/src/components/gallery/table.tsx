@@ -73,7 +73,6 @@ export function DataTable(props: Record<string, unknown>) {
     return (
       <GalleryFrame title="Tabela">
         <p className="text-sm text-muted-foreground">
-          
           Aguardando os dados completos da tabela…
         </p>
       </GalleryFrame>
@@ -201,7 +200,6 @@ export function DataTable(props: Record<string, unknown>) {
                   colSpan={columns.length}
                   className="px-3 py-8 text-center text-muted-foreground"
                 >
-                  
                   Nenhuma linha para mostrar.
                 </td>
               </tr>
@@ -232,7 +230,8 @@ export const GALLERY: GalleryComponent[] = [
     confirmation: "The sortable table is now on screen for the person.",
     preview: {
       title: "Capacidade da equipe",
-      caption: "Três equipes, um lançamento compartilhado. Horas disponíveis nesta semana.",
+      caption:
+        "Três equipes, um lançamento compartilhado. Horas disponíveis nesta semana.",
       columns: ["Equipe", "Horas disponíveis", "Foco"],
       rows: [
         { cells: ["Produto", 24, "Integração de clientes"] },

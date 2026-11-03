@@ -134,8 +134,8 @@ function EnterprisePage() {
       ) : null}
       {overview.isPending ? null : overview.error ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          
-          Não foi possível carregar os controles empresariais. Recarregue a página.
+          Não foi possível carregar os controles empresariais. Recarregue a
+          página.
         </p>
       ) : (
         <EnterpriseSections
@@ -400,7 +400,6 @@ function EnterpriseSections({
             size="sm"
             variant="outline"
           >
-            
             Adicionar política de grupo
           </Button>
         ) : null}
@@ -648,14 +647,12 @@ function ModelUsage() {
   if (usage.error)
     return (
       <p className="mt-4 text-destructive text-sm" role="alert">
-        
         Não foi possível carregar o uso de modelos. Recarregue a página.
       </p>
     );
   if (usage.data.summary.length === 0)
     return (
       <PageEmpty icon={IconChartBar} title="Nenhuma execução recente">
-        
         Nenhuma execução de Bot nos últimos 30 dias.
       </PageEmpty>
     );
@@ -671,10 +668,12 @@ function ModelUsage() {
             <ItemContent>
               <ItemTitle>{row.model}</ItemTitle>
               <ItemDescription>
-                {row.runs}  execuções por {row.people}{" "}
-                {row.people === 1 ? "pessoa" : "pessoas"}  em 30 dias
-                {row.refused > 0 ? ` · ${row.refused} fora da lista de permissões` : ""} ·{" "}
-                {row.source}
+                {row.runs} execuções por {row.people}{" "}
+                {row.people === 1 ? "pessoa" : "pessoas"} em 30 dias
+                {row.refused > 0
+                  ? ` · ${row.refused} fora da lista de permissões`
+                  : ""}{" "}
+                · {row.source}
               </ItemDescription>
             </ItemContent>
             <ItemActions>
@@ -695,12 +694,13 @@ function RecordedActions() {
   if (actions.error)
     return (
       <p className="mt-4 text-destructive text-sm" role="alert">
-        
         Não foi possível carregar as ações gravadas. Recarregue a página.
       </p>
     );
   if (actions.data.length === 0)
-    return <PageEmpty icon={IconTerminal2} title="Nenhum comando gravado ainda" />;
+    return (
+      <PageEmpty icon={IconTerminal2} title="Nenhum comando gravado ainda" />
+    );
   return (
     <PageRows>
       {actions.data.map((action, index) => (
@@ -740,7 +740,6 @@ function SweepNow() {
       </Button>
       {sweep.data ? (
         <span className="text-muted-foreground text-sm">
-          
           Parado {sweep.data.stopped.length}.
         </span>
       ) : null}
@@ -864,7 +863,6 @@ function OverridesDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={() => onOpenChange(false)} size="sm" type="button">
-            
             Concluído
           </Button>
         </DialogFooter>
@@ -982,16 +980,16 @@ function NetworkDialog({
                 value={rules}
               />
               <p className="text-muted-foreground text-xs">
-                
-                Um por linha. Um domínio cobre os subdomínios. *.nome cobre só subdomínios. Uma faixa de IP pode listar portas. Os padrões são{" "}
+                Um por linha. Um domínio cobre os subdomínios. *.nome cobre só
+                subdomínios. Uma faixa de IP pode listar portas. Os padrões são{" "}
                 {data.defaultDestinations.slice(0, 4).join(", ")} and{" "}
-                {data.defaultDestinations.length - 4}  hosts de pacotes e código a mais.
+                {data.defaultDestinations.length - 4} hosts de pacotes e código
+                a mais.
               </p>
             </div>
             {initial.scopeKind === "organization" ? (
               <div className="flex items-center justify-between gap-4">
                 <Label htmlFor="network-locked">
-                  
                   Bloquear para que grupos não substituam esta política
                 </Label>
                 <Switch
@@ -1022,12 +1020,10 @@ function NetworkDialog({
               type="button"
               variant="destructive"
             >
-              
               Remover política
             </Button>
           ) : null}
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            
             Cancelar
           </Button>
           <Button
@@ -1082,7 +1078,6 @@ function ListDialog({
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            
             Cancelar
           </Button>
           <Button
@@ -1098,7 +1093,6 @@ function ListDialog({
             size="sm"
             type="button"
           >
-            
             Salvar
           </Button>
         </DialogFooter>
@@ -1139,13 +1133,11 @@ function DaysDialog({
             value={days}
           />
           <p className="text-muted-foreground text-xs">
-            
             0 desativa. Verificado a cada hora.
           </p>
         </DialogBody>
         <DialogFooter className="mt-4">
           <Button onClick={onClose} size="sm" type="button" variant="outline">
-            
             Cancelar
           </Button>
           <Button
@@ -1157,7 +1149,6 @@ function DaysDialog({
             size="sm"
             type="button"
           >
-            
             Salvar
           </Button>
         </DialogFooter>

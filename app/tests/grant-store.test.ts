@@ -64,7 +64,9 @@ function snapshot(overrides: Partial<GrantSnapshot> = {}): GrantSnapshot {
 }
 
 test("a card waits, never refuses, while grants are unknown", () => {
-  expect(cardState(snapshot(), "chart", "Gráfico de barras")).toBe("wait-for-grant");
+  expect(cardState(snapshot(), "chart", "Gráfico de barras")).toBe(
+    "wait-for-grant",
+  );
 });
 
 test("a held component draws", () => {
@@ -89,7 +91,11 @@ test("a component the Bot does not hold is refused", () => {
 
 test("grants that failed refuse with the couldn't-check reason", () => {
   expect(
-    cardState(snapshot({ grants: { status: "failed" } }), "chart", "Gráfico de barras"),
+    cardState(
+      snapshot({ grants: { status: "failed" } }),
+      "chart",
+      "Gráfico de barras",
+    ),
   ).toEqual({ refused: COULDNT_CHECK("Gráfico de barras") });
   expect(COULDNT_CHECK("Gráfico de barras")).toBe(
     "Não foi possível verificar se este Bot pode mostrar Gráfico de barras. Tente de novo em instantes.",

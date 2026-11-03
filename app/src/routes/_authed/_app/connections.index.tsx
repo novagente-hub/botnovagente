@@ -326,7 +326,6 @@ function RouteComponent() {
        */}
       {arrival.outcome === "failed" ? (
         <p className="mt-4 text-destructive text-sm" role="alert">
-          
           Não foi possível conectar essa conta. Nada foi salvo. Tente novamente.
         </p>
       ) : null}
@@ -364,12 +363,11 @@ function RouteComponent() {
          */}
         {loading ? null : plugins.error || connections.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            
-            Não foi possível carregar suas conexões. Recarregue a página ou fale com um administrador se continuar acontecendo.
+            Não foi possível carregar suas conexões. Recarregue a página ou fale
+            com um administrador se continuar acontecendo.
           </p>
         ) : rows.length === 0 ? (
           <PageEmpty icon={IconPlug} title="Nenhum app ainda">
-            
             Os apps aparecem aqui quando um administrador os ativa.
           </PageEmpty>
         ) : (
@@ -387,12 +385,11 @@ function RouteComponent() {
                 />
               </InputGroup>
               <p className="shrink-0 text-xs text-muted-foreground">
-                {inUse}  em uso · {rows.length}  no total
+                {inUse} em uso · {rows.length} no total
               </p>
             </div>
             {matching.length === 0 ? (
               <p className="mt-4 text-sm text-muted-foreground" role="status">
-                
                 Nada corresponde a “{search.trim()}”.
               </p>
             ) : (
@@ -411,8 +408,8 @@ function RouteComponent() {
         )}
         {links.error || providers.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            
-            Não foi possível carregar o GitHub e o Slack, então eles não aparecem. Recarregue a página.
+            Não foi possível carregar o GitHub e o Slack, então eles não
+            aparecem. Recarregue a página.
           </p>
         ) : null}
       </PageSection>
@@ -464,13 +461,14 @@ function ConnectionStateLabel({ state }: { state: ConnectionRow["state"] }) {
           aria-hidden="true"
           className="size-3.5 text-emerald-600 dark:text-emerald-400"
         />
-        
         Conectado
       </span>
     );
   }
   if (state === "team") {
-    return <span className="text-xs text-muted-foreground">Conta da equipe</span>;
+    return (
+      <span className="text-xs text-muted-foreground">Conta da equipe</span>
+    );
   }
   return (
     <span className="rounded-full bg-muted px-3 py-1 text-xs font-medium">

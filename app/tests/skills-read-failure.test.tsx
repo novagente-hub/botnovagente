@@ -181,10 +181,14 @@ test("a person's skills page says the skills failed to load, not that they have 
   await waitForFailedRead(client);
 
   expect(
-    await view.findByText("Não foi possível carregar suas habilidades. Recarregue a página."),
+    await view.findByText(
+      "Não foi possível carregar suas habilidades. Recarregue a página.",
+    ),
   ).toBeTruthy();
   expect(
-    view.queryByText("Nenhuma habilidade ainda. Escreva uma com Nova habilidade."),
+    view.queryByText(
+      "Nenhuma habilidade ainda. Escreva uma com Nova habilidade.",
+    ),
   ).toBeNull();
 });
 
@@ -194,10 +198,14 @@ test("a person with genuinely no skills is still told so", async () => {
   await waitForFailedRead(client);
 
   expect(
-    await view.findByText("Nenhuma habilidade ainda. Escreva uma com Nova habilidade."),
+    await view.findByText(
+      "Nenhuma habilidade ainda. Escreva uma com Nova habilidade.",
+    ),
   ).toBeTruthy();
   expect(
-    view.queryByText("Não foi possível carregar suas habilidades. Recarregue a página."),
+    view.queryByText(
+      "Não foi possível carregar suas habilidades. Recarregue a página.",
+    ),
   ).toBeNull();
 });
 
@@ -210,7 +218,9 @@ test("the admin skills page says the skills failed to load, not that there are n
   await waitForFailedRead(client);
 
   expect(
-    await view.findByText("Não foi possível carregar as habilidades. Recarregue a página."),
+    await view.findByText(
+      "Não foi possível carregar as habilidades. Recarregue a página.",
+    ),
   ).toBeTruthy();
   expect(
     view.queryByText("No skills yet. Write one with Write a skill."),
@@ -226,7 +236,11 @@ test("a deployment with genuinely no skills still says so on the admin page", as
   await waitForFailedRead(client);
 
   expect(await view.findByText("Nenhuma habilidade ainda")).toBeTruthy();
-  expect(view.queryByText("Não foi possível carregar as habilidades. Recarregue a página.")).toBeNull();
+  expect(
+    view.queryByText(
+      "Não foi possível carregar as habilidades. Recarregue a página.",
+    ),
+  ).toBeNull();
 });
 
 test("opening a skill to edit says it failed to load, not that it no longer exists", async () => {
@@ -235,7 +249,9 @@ test("opening a skill to edit says it failed to load, not that it no longer exis
   await waitForFailedRead(client);
 
   expect(
-    await view.findByText("Não foi possível carregar esta habilidade. Recarregue a página."),
+    await view.findByText(
+      "Não foi possível carregar esta habilidade. Recarregue a página.",
+    ),
   ).toBeTruthy();
   expect(
     view.queryByText("Esta habilidade foi excluída ou não é sua para editar."),

@@ -173,8 +173,8 @@ export function ThisBrowser({
     <PageSection title="Este navegador">
       {connections.error ? (
         <p className="text-destructive text-sm" role="alert">
-          
-          Não foi possível verificar se este navegador está conectado. Recarregue a página.
+          Não foi possível verificar se este navegador está conectado.
+          Recarregue a página.
         </p>
       ) : detected === undefined ? null : (
         <PageRows>
@@ -195,7 +195,6 @@ export function ThisBrowser({
                   disabled={attempt.state === "sending" || awaiting}
                   onClick={() => void connect()}
                 >
-                  
                   Conectar este navegador
                 </Button>
               </ItemActions>
@@ -239,7 +238,8 @@ function describe(
   connected: boolean,
   attempt: Attempt,
 ): string {
-  if (!detected) return "O OpenBot Recorder não está instalado neste navegador.";
+  if (!detected)
+    return "O OpenBot Recorder não está instalado neste navegador.";
   if (connected) return "Conectado";
   switch (attempt.state) {
     case "awaiting":

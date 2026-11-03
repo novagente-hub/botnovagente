@@ -48,7 +48,6 @@ function RouteComponent() {
             <ItemContent>
               <ItemTitle>Tema escuro</ItemTitle>
               <ItemDescription>
-                
                 Usar a aparência escura em todo o OpenBot.
               </ItemDescription>
             </ItemContent>

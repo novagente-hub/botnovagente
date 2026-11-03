@@ -91,7 +91,6 @@ function RouteComponent() {
       action={
         <Button onClick={() => setWriting(true)} size="lg" type="button">
           <IconPlus />
-          
           Escrever uma habilidade
         </Button>
       }
@@ -111,7 +110,6 @@ function RouteComponent() {
         {/* A read that failed says so; `isPending` goes false on it too, and it is not "none". */}
         {plugins.isPending ? null : !plugins.data ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            
             Não foi possível carregar as habilidades. Recarregue a página.
           </p>
         ) : skills.length === 0 ? (
@@ -124,7 +122,6 @@ function RouteComponent() {
                 variant="outline"
               >
                 <IconPlus />
-                
                 Escrever uma habilidade
               </Button>
             }
@@ -181,7 +178,6 @@ function RouteComponent() {
                       type="button"
                       variant="ghost"
                     >
-                      
                       Remover
                     </Button>
                   </ItemActions>
@@ -198,8 +194,8 @@ function RouteComponent() {
           <DialogHeader>
             <DialogTitle>Escrever uma habilidade para todos</DialogTitle>
             <DialogDescription>
-              
-              As pessoas digitam o slug depois de /. O Bot então segue as instruções. Todos podem usar, e você escolhe quais Bots a têm.
+              As pessoas digitam o slug depois de /. O Bot então segue as
+              instruções. Todos podem usar, e você escolhe quais Bots a têm.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="mt-4">
@@ -247,10 +243,7 @@ function RouteComponent() {
                 />
               </Field>
               <Field>
-                <FieldLabel htmlFor="skill-instructions">
-                  
-                  Instruções
-                </FieldLabel>
+                <FieldLabel htmlFor="skill-instructions">Instruções</FieldLabel>
                 <Textarea
                   className="h-28 font-mono text-sm"
                   id="skill-instructions"
@@ -268,7 +261,6 @@ function RouteComponent() {
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button onClick={() => setWriting(false)} size="sm" variant="ghost">
-              
               Cancelar
             </Button>
             <Button
@@ -281,7 +273,6 @@ function RouteComponent() {
               }}
               size="sm"
             >
-              
               Instalar habilidade
             </Button>
           </DialogFooter>

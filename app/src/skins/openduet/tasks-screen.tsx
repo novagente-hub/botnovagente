@@ -91,11 +91,9 @@ function TasksSwitch({
         role="tablist"
       >
         <SwitchTab id="active" onView={onView} view={view}>
-          
           Ativo
         </SwitchTab>
         <SwitchTab id="up_next" onView={onView} view={view}>
-          
           A seguir
         </SwitchTab>
       </div>

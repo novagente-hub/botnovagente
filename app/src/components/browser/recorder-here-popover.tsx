@@ -117,7 +117,6 @@ function RecordingHere({
         ref={stop}
         size="sm"
       >
-        
         Parar
       </Button>
     </>
@@ -140,8 +139,10 @@ function IdleHere({
       <PopoverHeader>
         <PopoverTitle>Gravar uma tarefa</PopoverTitle>
         <PopoverDescription>
-          
-          O que você faz neste navegador vai para o seu próprio espaço de Aprendizado, em todas as abas que usar, até você parar: seus passos, o que cada passo salva, conversas com assistentes de IA e sua narração, quando ativada.
+          O que você faz neste navegador vai para o seu próprio espaço de
+          Aprendizado, em todas as abas que usar, até você parar: seus passos, o
+          que cada passo salva, conversas com assistentes de IA e sua narração,
+          quando ativada.
         </PopoverDescription>
       </PopoverHeader>
       {stopped ? (

@@ -394,16 +394,15 @@ export function summarise(steps: readonly StepDetails[]): string {
   if (read) phrases.push(`leu ${plural(read, "página", "páginas")}`);
   const browser = of("browser");
   const browsed = browser.reduce((sum, step) => sum + step.pages, 0);
-  if (browsed) phrases.push(`navegou por ${plural(browsed, "página", "páginas")}`);
+  if (browsed)
+    phrases.push(`navegou por ${plural(browsed, "página", "páginas")}`);
   else if (browser.length) phrases.push("usou o navegador");
   const connectors = [
     ...new Set(of("connector").map((step) => step.connector ?? "")),
   ].filter(Boolean);
   if (connectors.length === 1) phrases.push(`usou ${connectors[0]}`);
   else if (connectors.length > 1)
-    phrases.push(
-      `usou ${plural(connectors.length, "conector", "conectores")}`,
-    );
+    phrases.push(`usou ${plural(connectors.length, "conector", "conectores")}`);
   const tools = of("tool").length;
   if (tools) phrases.push(`usou ${plural(tools, "ferramenta", "ferramentas")}`);
   const sentence = joinPhrases(phrases);
@@ -465,7 +464,6 @@ function StepStatus({ step, active }: { step: StepDetails; active: boolean }) {
   if (step.failed)
     return (
       <span className="shrink-0 text-amber-600 dark:text-amber-500">
-        
         Não funcionou
       </span>
     );

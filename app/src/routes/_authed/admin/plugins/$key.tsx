@@ -201,8 +201,9 @@ function ConnectionStateUnreadable() {
       <ItemContent>
         <ItemTitle>Sua conta</ItemTitle>
         <ItemDescription role="alert">
-          
-          Não foi possível verificar se você conectou uma conta aqui. Recarregue a página ou confira os logs desta implantação se continuar acontecendo.
+          Não foi possível verificar se você conectou uma conta aqui. Recarregue
+          a página ou confira os logs desta implantação se continuar
+          acontecendo.
         </ItemDescription>
       </ItemContent>
     </Item>
@@ -526,7 +527,6 @@ function RouteComponent() {
         title="Plugins"
       >
         <p className="mt-12 text-destructive text-sm" role="alert">
-          
           Não foi possível carregar os plugins. Recarregue a página.
         </p>
       </PageShell>
@@ -540,7 +540,6 @@ function RouteComponent() {
         title="Não é um plugin"
       >
         <PageEmpty icon={IconPuzzle} title="Plugin não encontrado">
-          
           Nada para configurar.
         </PageEmpty>
       </PageShell>
@@ -750,13 +749,12 @@ function RouteComponent() {
                 <ItemContent>
                   <ItemTitle>Conexão</ItemTitle>
                   <ItemDescription>
-                    
-                    Nada para configurar. Estas ferramentas rodam dentro desta implantação, com os dados dela.
+                    Nada para configurar. Estas ferramentas rodam dentro desta
+                    implantação, com os dados dela.
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
                   <span className="text-muted-foreground text-xs">
-                    
                     Integrado
                   </span>
                 </ItemActions>
@@ -794,7 +792,6 @@ function RouteComponent() {
                 <ItemContent>
                   <ItemTitle>Token de acesso</ItemTitle>
                   <ItemDescription>
-                    
                     Enviado em cada chamada a este fornecedor.
                   </ItemDescription>
                 </ItemContent>
@@ -817,13 +814,12 @@ function RouteComponent() {
                 <ItemContent>
                   <ItemTitle>Cliente OAuth</ItemTitle>
                   <ItemDescription>
-                    
-                    Esta implantação se registra no fornecedor na primeira conexão. Não há nada para colar.
+                    Esta implantação se registra no fornecedor na primeira
+                    conexão. Não há nada para colar.
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
                   <span className="text-muted-foreground text-xs">
-                    
                     Autorregistrado
                   </span>
                 </ItemActions>
@@ -840,8 +836,8 @@ function RouteComponent() {
                 <ItemContent>
                   <ItemTitle>Cliente OAuth</ItemTitle>
                   <ItemDescription>
-                    
-                    Identifica esta implantação para o fornecedor. Sozinho, não acessa os documentos de ninguém.
+                    Identifica esta implantação para o fornecedor. Sozinho, não
+                    acessa os documentos de ninguém.
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions>
@@ -946,7 +942,6 @@ function RouteComponent() {
                             className="size-1.5 rounded-full bg-emerald-500"
                           />
                           <span className="text-muted-foreground text-xs">
-                            
                             Conectado
                           </span>
                         </>
@@ -962,7 +957,6 @@ function RouteComponent() {
                           type="button"
                           variant="outline"
                         >
-                          
                           Conectar
                           <IconArrowUpRight />
                         </Button>
@@ -988,8 +982,9 @@ function RouteComponent() {
                   <ItemContent>
                     <ItemTitle>Host da instância</ItemTitle>
                     <ItemDescription>
-                      
-                      Este fornecedor dá a cada cliente um hostname próprio. Ele é verificado contra o padrão do fornecedor antes de ser salvo.
+                      Este fornecedor dá a cada cliente um hostname próprio. Ele
+                      é verificado contra o padrão do fornecedor antes de ser
+                      salvo.
                     </ItemDescription>
                   </ItemContent>
                   <ItemActions>
@@ -1035,19 +1030,21 @@ function RouteComponent() {
             <div className="mt-3 p-3">
               {server?.dynamicClient ? (
                 <p className="text-muted-foreground text-sm">
-                  
-                  A implantação registra a própria URI de redirecionamento. Não há nada a adicionar no fornecedor.
+                  A implantação registra a própria URI de redirecionamento. Não
+                  há nada a adicionar no fornecedor.
                 </p>
               ) : (
                 <p className="text-muted-foreground text-sm">
-                  
-                  Adicione isto às URIs de redirecionamento autorizadas do cliente no fornecedor, exatamente como está escrito. Um caractere errado falha lá, com um erro que não menciona o OpenBot.
+                  Adicione isto às URIs de redirecionamento autorizadas do
+                  cliente no fornecedor, exatamente como está escrito. Um
+                  caractere errado falha lá, com um erro que não menciona o
+                  OpenBot.
                 </p>
               )}
               {!plugins.data?.redirectUri ? (
                 <p className="mt-3 text-destructive text-sm" role="alert">
-                  
-                  Esta implantação não tem URL pública, então ninguém consegue concluir a conexão. Defina OPENBOT_PUBLIC_URL.
+                  Esta implantação não tem URL pública, então ninguém consegue
+                  concluir a conexão. Defina OPENBOT_PUBLIC_URL.
                 </p>
               ) : server?.dynamicClient ? null : (
                 /* Selectable and monospaced: it is copied by hand into somebody else's console. */
@@ -1076,7 +1073,6 @@ function RouteComponent() {
                 type="button"
                 variant="ghost"
               >
-                
                 Atualizar ferramentas
               </Button>
               {/*
@@ -1095,7 +1091,6 @@ function RouteComponent() {
                   type="button"
                   variant="outline"
                 >
-                  
                   Conceder ferramentas…
                 </Button>
               ) : null}
@@ -1107,7 +1102,8 @@ function RouteComponent() {
           <SkippedToolsNotice names={server.skippedTools ?? []} />
           {server.tools.length === 0 ? (
             <PageEmpty icon={IconTool} title="Nenhuma ferramenta listada">
-              {server.lastError ?? "Atualize as ferramentas para verificar de novo."}
+              {server.lastError ??
+                "Atualize as ferramentas para verificar de novo."}
             </PageEmpty>
           ) : (
             <PageRows>
@@ -1246,9 +1242,10 @@ function RouteComponent() {
                       {held.name}
                     </ItemTitle>
                     <ItemDescription>
-                      
                       Não listado por {title}
-                      {server.toolsRefreshedAt ? ` desde a última atualização` : ""}
+                      {server.toolsRefreshedAt
+                        ? ` desde a última atualização`
+                        : ""}
                       .
                     </ItemDescription>
                   </ItemContent>
@@ -1305,7 +1302,6 @@ function RouteComponent() {
                   </Field>
                   <Field>
                     <FieldLabel htmlFor="client-secret">
-                      
                       Segredo do cliente
                     </FieldLabel>
                     <Input
@@ -1323,7 +1319,9 @@ function RouteComponent() {
                 </>
               ) : dialog === "instance" ? (
                 <Field>
-                  <FieldLabel htmlFor="instance-host">Host da instância</FieldLabel>
+                  <FieldLabel htmlFor="instance-host">
+                    Host da instância
+                  </FieldLabel>
                   <Input
                     id="instance-host"
                     onChange={(event) => setInstanceHost(event.target.value)}
@@ -1333,7 +1331,9 @@ function RouteComponent() {
                 </Field>
               ) : (
                 <Field>
-                  <FieldLabel htmlFor="access-token">Token de acesso</FieldLabel>
+                  <FieldLabel htmlFor="access-token">
+                    Token de acesso
+                  </FieldLabel>
                   <Input
                     id="access-token"
                     onChange={(event) => setToken(event.target.value)}
@@ -1346,7 +1346,6 @@ function RouteComponent() {
           </DialogBody>
           <DialogFooter className="mt-4">
             <Button onClick={() => setDialog(null)} size="sm" variant="ghost">
-              
               Cancelar
             </Button>
             <Button
@@ -1362,7 +1361,6 @@ function RouteComponent() {
               }}
               size="sm"
             >
-              
               Salvar
             </Button>
           </DialogFooter>
@@ -1383,8 +1381,9 @@ function RouteComponent() {
             <DialogHeader>
               <DialogTitle>Conceder ferramentas</DialogTitle>
               <DialogDescription>
-                
-                Cada concessão é uma linha própria em Auditoria. Ferramentas que alteram coisas ainda são verificadas contra os limites em cada chamada.
+                Cada concessão é uma linha própria em Auditoria. Ferramentas que
+                alteram coisas ainda são verificadas contra os limites em cada
+                chamada.
               </DialogDescription>
             </DialogHeader>
             <DialogBody className="mt-4 space-y-5">
@@ -1401,7 +1400,6 @@ function RouteComponent() {
                */}
               <fieldset aria-labelledby="grant-to-heading" className="min-w-0">
                 <p className="mb-2 font-medium text-sm" id="grant-to-heading">
-                  
                   Para
                 </p>
                 <div className="space-y-2">
@@ -1437,7 +1435,6 @@ function RouteComponent() {
                         className="font-medium text-sm"
                         id="grant-reads-heading"
                       >
-                        
                         Leituras
                       </p>
                       <Button
@@ -1452,7 +1449,6 @@ function RouteComponent() {
                         type="button"
                         variant="ghost"
                       >
-                        
                         Selecionar tudo
                       </Button>
                     </div>
@@ -1489,7 +1485,6 @@ function RouteComponent() {
                         className="font-medium text-amber-600 text-sm dark:text-amber-500"
                         id="grant-writes-heading"
                       >
-                        
                         Altera coisas
                       </p>
                       <Button
@@ -1504,7 +1499,6 @@ function RouteComponent() {
                         type="button"
                         variant="ghost"
                       >
-                        
                         Selecionar tudo
                       </Button>
                     </div>
@@ -1549,7 +1543,6 @@ function RouteComponent() {
                 </p>
               ) : null}
               <Button onClick={() => setDialog(null)} size="sm" variant="ghost">
-                
                 Cancelar
               </Button>
               <Button

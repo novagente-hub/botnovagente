@@ -277,7 +277,9 @@ async function withFocus(focused: boolean, run: () => Promise<void>) {
 test("closing the sign-in tab ends the wait, rather than waiting for it forever", async () => {
   await withFocus(true, async () => {
     const { view, tabs } = mounted(appAccess({ state: "not_connected" }));
-    fireEvent.click(await view.findByRole("button", { name: "Conectar Gmail" }));
+    fireEvent.click(
+      await view.findByRole("button", { name: "Conectar Gmail" }),
+    );
     await view.findByText("Aguardando Gmail…");
     const [tab] = tabs;
     if (!tab) throw new Error("no tab was claimed");
@@ -297,7 +299,9 @@ test("closing the sign-in tab ends the wait, rather than waiting for it forever"
 test("a sign-in tab that only reads closed keeps the wait until this tab has the focus back", async () => {
   await withFocus(false, async () => {
     const { view, tabs } = mounted(appAccess({ state: "not_connected" }));
-    fireEvent.click(await view.findByRole("button", { name: "Conectar Gmail" }));
+    fireEvent.click(
+      await view.findByRole("button", { name: "Conectar Gmail" }),
+    );
     await view.findByText("Aguardando Gmail…");
     const [tab] = tabs;
     if (!tab) throw new Error("no tab was claimed");
@@ -336,7 +340,10 @@ test("a Shared app waiting on an admin's approval offers nothing: the refused ca
 
 test.each([
   [{ accountHolder: "owner" }, /conta Gmail do dono/],
-  [{ asksFirst: true }, /Pronto para usar com sua própria conta Gmail\. Você terá que permitir na primeira vez\./],
+  [
+    { asksFirst: true },
+    /Pronto para usar com sua própria conta Gmail\. Você terá que permitir na primeira vez\./,
+  ],
 ] as const)(
   "ready on somebody else's Team Bot offers nothing to press",
   async (overrides, sentence) => {
@@ -534,7 +541,9 @@ test.each([
 
 test("an owner is asked about their own app, by the Bot's name where the caller has it", () => {
   const owners = appAccess({ state: "owner_grantable", granted: false });
-  expect(appAccessSentence(owners)).toBe("Permitir que este Bot use seu Gmail?");
+  expect(appAccessSentence(owners)).toBe(
+    "Permitir que este Bot use seu Gmail?",
+  );
   expect(appAccessSentence(owners, "Research Bot")).toBe(
     "Permitir que Research Bot use seu Gmail?",
   );

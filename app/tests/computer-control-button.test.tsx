@@ -144,8 +144,12 @@ test("chat and sidebar always show controls and update together using the exact 
   expect(
     await view.sidebar.findByRole("button", { name: "Devolver controle" }),
   ).toBeTruthy();
-  expect(view.chat.getByRole("button", { name: "Devolver controle" })).toBeTruthy();
-  fireEvent.click(view.sidebar.getByRole("button", { name: "Devolver controle" }));
+  expect(
+    view.chat.getByRole("button", { name: "Devolver controle" }),
+  ).toBeTruthy();
+  fireEvent.click(
+    view.sidebar.getByRole("button", { name: "Devolver controle" }),
+  );
   expect(
     await view.chat.findByRole("button", { name: "Assumir controle" }),
   ).toBeTruthy();
@@ -182,7 +186,9 @@ test("an in-flight takeover disables both controls and prevents duplicate reques
         .hasAttribute("disabled"),
     ).toBe(true),
   );
-  fireEvent.click(view.sidebar.getByRole("button", { name: "Assumir controle" }));
+  fireEvent.click(
+    view.sidebar.getByRole("button", { name: "Assumir controle" }),
+  );
   backend.finishTake();
   await view.chat.findByRole("button", { name: "Devolver controle" });
   expect(
@@ -205,7 +211,9 @@ test("a failed takeover is visible in both surfaces and can be retried", async (
   expect(await view.chat.findByRole("alert")).toBeTruthy();
   expect(view.sidebar.getByRole("alert")).toBeTruthy();
   backend.recover();
-  fireEvent.click(view.sidebar.getByRole("button", { name: "Assumir controle" }));
+  fireEvent.click(
+    view.sidebar.getByRole("button", { name: "Assumir controle" }),
+  );
   expect(
     await view.chat.findByRole("button", { name: "Devolver controle" }),
   ).toBeTruthy();
@@ -218,7 +226,9 @@ test("active human control is immediately offered as Hand back on mounting eithe
   expect(
     await view.chat.findByRole("button", { name: "Devolver controle" }),
   ).toBeTruthy();
-  expect(view.sidebar.getByRole("button", { name: "Devolver controle" })).toBeTruthy();
+  expect(
+    view.sidebar.getByRole("button", { name: "Devolver controle" }),
+  ).toBeTruthy();
 });
 
 test("Strict Mode keeps chat and sidebar on one ownership store", async () => {
@@ -236,9 +246,13 @@ test("Strict Mode keeps chat and sidebar on one ownership store", async () => {
         .every((button) => !button.hasAttribute("disabled")),
     ).toBe(true),
   );
-  fireEvent.click(view.getAllByRole("button", { name: "Assumir controle" })[0]!);
+  fireEvent.click(
+    view.getAllByRole("button", { name: "Assumir controle" })[0]!,
+  );
   await waitFor(() =>
-    expect(view.getAllByRole("button", { name: "Devolver controle" })).toHaveLength(2),
+    expect(
+      view.getAllByRole("button", { name: "Devolver controle" }),
+    ).toHaveLength(2),
   );
   expect(
     backend.calls.filter((call) => call.path.endsWith("/control/request")),
@@ -262,7 +276,9 @@ test("a takeover stays shared when chat remounts before its response", async () 
   const second = render(<ComputerControlButton computerId="remount-control" />);
   expect(second.getByRole("button").hasAttribute("disabled")).toBe(true);
   backend.finishTake();
-  expect(await second.findByRole("button", { name: "Devolver controle" })).toBeTruthy();
+  expect(
+    await second.findByRole("button", { name: "Devolver controle" }),
+  ).toBeTruthy();
 });
 
 test("the header's Computer toggle is an icon alone; taking control lives in the Computer itself", async () => {

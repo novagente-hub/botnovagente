@@ -64,5 +64,7 @@ test("memory names the sources and whether research is on", () => {
   expect(memorySummary(0, false)).toBe("Nada conectado");
   expect(memorySummary(2, false)).toBe("2 fontes");
   expect(memorySummary(0, true)).toBe("Pesquisa em segundo plano ativada");
-  expect(memorySummary(1, true)).toBe("1 fonte, pesquisa em segundo plano ativada");
+  expect(memorySummary(1, true)).toBe(
+    "1 fonte, pesquisa em segundo plano ativada",
+  );
 });

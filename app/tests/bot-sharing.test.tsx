@@ -145,8 +145,11 @@ test("publishing to specific people sends them and their groups", async () => {
   );
   await user.type(view.getByLabelText("Grupos"), "finance");
   fireEvent.submit(
-    (view.getByRole("button", { name: "Publicar para a equipe" }) as HTMLButtonElement)
-      .form as HTMLFormElement,
+    (
+      view.getByRole("button", {
+        name: "Publicar para a equipe",
+      }) as HTMLButtonElement
+    ).form as HTMLFormElement,
   );
   await waitFor(() =>
     expect(writes).toContainEqual({
@@ -167,7 +170,9 @@ test("a published Bot of yours can be updated, unpublished and its link copied",
   expect(await view.findByRole("button", { name: "Despublicar" })).toBeTruthy();
   expect(view.getByRole("button", { name: "Copiar link" })).toBeTruthy();
   // Not an administrator: no group assignment.
-  expect(view.queryByRole("button", { name: /Atribuir a um grupo/ })).toBeNull();
+  expect(
+    view.queryByRole("button", { name: /Atribuir a um grupo/ }),
+  ).toBeNull();
   const user = userEvent.setup({ document });
   await user.click(view.getByRole("button", { name: /Público-alvo/ }));
   expect(await view.findByRole("button", { name: "Atualizar" })).toBeTruthy();

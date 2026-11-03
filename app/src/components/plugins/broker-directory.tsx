@@ -206,7 +206,6 @@ export function BrokerDirectory({ provider }: { provider: PluginsProvider }) {
                        */}
                       {entry.enabled ? (
                         <span className="text-muted-foreground text-xs">
-                          
                           Adicionado
                         </span>
                       ) : (

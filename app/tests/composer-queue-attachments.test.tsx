@@ -316,7 +316,9 @@ async function dropAndWait(view: RenderResult, files: File[]) {
   await waitFor(() => expect(chips(view)).toHaveLength(files.length));
   await waitFor(() => {
     const button = (view.queryByLabelText("Enviar mensagem") ??
-      view.queryByLabelText("Colocar mensagem na fila")) as HTMLButtonElement | null;
+      view.queryByLabelText(
+        "Colocar mensagem na fila",
+      )) as HTMLButtonElement | null;
     expect(button?.disabled).toBe(false);
   });
 }

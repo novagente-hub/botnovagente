@@ -269,7 +269,8 @@ test("a parked message keeps the rows it is carrying", async () => {
   releaseUploads();
   await waitFor(() =>
     expect(
-      (view.getByLabelText("Colocar mensagem na fila") as HTMLButtonElement).disabled,
+      (view.getByLabelText("Colocar mensagem na fila") as HTMLButtonElement)
+        .disabled,
     ).toBe(false),
   );
 

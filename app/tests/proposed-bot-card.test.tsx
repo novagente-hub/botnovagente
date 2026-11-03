@@ -217,9 +217,7 @@ test("a refusal keeps the run open with the buttons still live", async () => {
 
   await view.findByText("A coworker called Renewal Desk already exists.");
   expect(answers).toEqual([]);
-  expect((view.getByText("Criar") as HTMLButtonElement).disabled).toBe(
-    false,
-  );
+  expect((view.getByText("Criar") as HTMLButtonElement).disabled).toBe(false);
 });
 
 test("declining answers without creating anything", async () => {

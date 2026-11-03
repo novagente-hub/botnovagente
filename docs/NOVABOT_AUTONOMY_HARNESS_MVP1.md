@@ -46,8 +46,9 @@ Harness, nem copia seu runtime, nem muda o provedor de IA atual.
 
 1. Manter esta branch em PR; não atualizar a VPS de produção neste ciclo.
 2. Instalar a aplicação em ambiente de teste separado e configurar
-   `NOVABOT_AUTONOMY_ENABLED=true` em **server**, **agent-bot** e
-   **agent-langgraph** apenas quando esses processos existirem.
+   `NOVABOT_AUTONOMY_ENABLED=true` no arquivo `.env` **do ambiente de testes**.
+   O Compose passa a flag aos serviços **server** e **agent-bot**; configurar
+   **agent-langgraph** separadamente apenas quando esse serviço existir.
 3. Confirmar: uma ferramenta falha com erro recuperável; o Bot usa outra
    alternativa permitida e verifica se resolveu.
 4. Confirmar: uma ferramenta reporta recusa por política; o Bot informa o

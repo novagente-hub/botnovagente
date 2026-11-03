@@ -14,6 +14,7 @@ import {
   ToolMessage,
 } from "@langchain/core/messages";
 import { computerGuidance, NO_ANSWER_CAME } from "../../shared/bot-prompt";
+import { autonomyEnabled } from "../../shared/autonomy";
 import { researchRoleOfToolName } from "../../shared/research";
 import { userContent } from "../../shared/user-content";
 
@@ -46,6 +47,7 @@ export function toLangChainMessages(
         search: (input.tools ?? []).some(
           (tool) => researchRoleOfToolName(tool.name) === "search",
         ),
+        autonomy: autonomyEnabled(process.env.NOVABOT_AUTONOMY_ENABLED),
       }),
     ),
     // AG-UI carries application context separately from conversation history. CopilotKit puts

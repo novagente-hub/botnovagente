@@ -8,6 +8,11 @@
 import type { RunAgentInput } from "@ag-ui/core";
 import type OpenAI from "openai";
 import { computerGuidance, NO_ANSWER_CAME } from "../../shared/bot-prompt";
+import {
+  autonomyEnabled,
+  autonomyState,
+  autonomyTurnGuidance,
+} from "../../shared/autonomy";
 import { researchRoleOfToolName } from "../../shared/research";
 import { userContent } from "../../shared/user-content";
 
@@ -16,7 +21,10 @@ export { NO_ANSWER_CAME };
 /** Translate the conversation AG-UI carries into the shape the model provider expects. */
 export function toProviderMessages(
   input: RunAgentInput,
+  options: { autonomy?: boolean } = {},
 ): OpenAI.Chat.ChatCompletionMessageParam[] {
+  const autonomy =
+    options.autonomy ?? autonomyEnabled(process.env.NOVABOT_AUTONOMY_ENABLED);
   const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
     /*
      * Worded for the tools this run offers, which is all this Bot can see of its grants: the names
@@ -29,8 +37,17 @@ export function toProviderMessages(
         search: (input.tools ?? []).some(
           (tool) => researchRoleOfToolName(tool.name) === "search",
         ),
+        autonomy,
       }),
     },
+    ...(autonomy
+      ? [
+          {
+            role: "system" as const,
+            content: autonomyTurnGuidance(autonomyState(input.messages)),
+          },
+        ]
+      : []),
     // AG-UI application context is separate from history. The A2UI catalog and tool instructions
     // arrive here; omitting them leaves the model guessing component names and action schemas.
     ...(input.context ?? []).map(({ description, value }) => ({

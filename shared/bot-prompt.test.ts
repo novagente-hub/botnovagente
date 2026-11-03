@@ -110,3 +110,13 @@ describe("computerGuidance", () => {
     }
   });
 });
+
+test("autonomy guidance is opt-in and never overrides permissions", () => {
+  expect(computerGuidance({ search: false })).not.toContain(
+    "accountable for the requested outcome",
+  );
+  const guidance = computerGuidance({ search: false, autonomy: true });
+  expect(guidance).toContain("accountable for the requested outcome");
+  expect(guidance).toContain("not permission to bypass");
+  expect(guidance).toContain("observable evidence");
+});

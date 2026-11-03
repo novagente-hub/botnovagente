@@ -10,6 +10,11 @@ import {
   keyIsRequired,
   requiresResponsesApi,
 } from "../../shared/model-providers";
+import {
+  autonomyEnabled,
+  autonomyState,
+  takeAllowedToolCalls,
+} from "../../shared/autonomy";
 import { toProviderMessages } from "./history";
 
 /**
@@ -128,6 +133,8 @@ function toProviderTools(input: RunAgentInput) {
 }
 
 async function runAgent(input: RunAgentInput): Promise<Response> {
+  const autonomous = autonomyEnabled(process.env.NOVABOT_AUTONOMY_ENABLED);
+  const budget = autonomous ? autonomyState(input.messages) : null;
   const encoder = new EventEncoder();
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -145,7 +152,10 @@ async function runAgent(input: RunAgentInput): Promise<Response> {
         const completion = await openai.chat.completions.create({
           model: MODEL,
           messages: toProviderMessages(input),
-          tools: toProviderTools(input),
+          tools:
+            budget && budget.mode !== "active"
+              ? undefined
+              : toProviderTools(input),
           stream: true,
         });
 
@@ -196,7 +206,10 @@ async function runAgent(input: RunAgentInput): Promise<Response> {
           send({ type: "TEXT_MESSAGE_END", messageId } as BaseEvent);
         }
 
-        for (const call of toolCalls.values()) {
+        const permittedCalls = budget
+          ? takeAllowedToolCalls(budget, [...toolCalls.values()])
+          : [...toolCalls.values()];
+        for (const call of permittedCalls) {
           send({
             type: "TOOL_CALL_START",
             toolCallId: call.id,
@@ -211,6 +224,23 @@ async function runAgent(input: RunAgentInput): Promise<Response> {
           send({ type: "TOOL_CALL_END", toolCallId: call.id } as BaseEvent);
         }
 
+        if (budget && toolCalls.size > permittedCalls.length) {
+          send({
+            type: "TEXT_MESSAGE_START",
+            messageId: `budget_${input.runId}`,
+            role: "assistant",
+          } as BaseEvent);
+          send({
+            type: "TEXT_MESSAGE_CONTENT",
+            messageId: `budget_${input.runId}`,
+            delta:
+              "Limite de ações autônomas atingido. Não executei as chamadas adicionais; preciso registrar o que foi verificado e o que falta.",
+          } as BaseEvent);
+          send({
+            type: "TEXT_MESSAGE_END",
+            messageId: `budget_${input.runId}`,
+          } as BaseEvent);
+        }
         send({
           type: "RUN_FINISHED",
           threadId: input.threadId,

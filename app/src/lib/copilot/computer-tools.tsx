@@ -641,13 +641,31 @@ export function ComputerTools() {
         method: "POST",
         body: input ?? {},
       });
+      // Only files owned by this Bot get an authenticated download link.
+      // The route applies ownership and download policy again on every GET.
+      const enriched =
+        result.ok === true && Array.isArray(result.entries)
+          ? {
+              ...result,
+              entries: result.entries.map((entry) => {
+                if (!entry || typeof entry !== "object") return entry;
+                const file = entry as { kind?: unknown; path?: unknown };
+                if (file.kind !== "file" || typeof file.path !== "string")
+                  return entry;
+                return {
+                  ...file,
+                  downloadUrl: `/api/computers/${encodeURIComponent(computerId)}/files/download?path=${encodeURIComponent(file.path)}`,
+                };
+              }),
+            }
+          : result;
       recordActivity(computerId, {
         kind: "list_files",
         subject: input?.path ?? "the workspace",
-        output: outputOf(result),
-        ...(result.refused === true ? { refused: true } : {}),
+        output: outputOf(enriched),
+        ...(enriched.refused === true ? { refused: true } : {}),
       });
-      return result;
+      return enriched;
     },
     render: ({ result, status }) => {
       const outcome = outcomeOf(result);
@@ -857,7 +875,9 @@ export function ComputerTools() {
       return (
         <ActionLine
           running={status !== "complete"}
-          label={args?.append === true ? "Adicionado ao arquivo" : "Arquivo salvo"}
+          label={
+            args?.append === true ? "Adicionado ao arquivo" : "Arquivo salvo"
+          }
           // Show the path, never file contents.
           detail={
             outcome.refused === true
@@ -929,7 +949,10 @@ export function ComputerTools() {
       if (!shot.frame)
         return {
           ok: false,
-          reason: shot.error ?? shot.notReady?.reason ?? "O computador ainda não está pronto.",
+          reason:
+            shot.error ??
+            shot.notReady?.reason ??
+            "O computador ainda não está pronto.",
         };
       if (toolCall?.id) SCREENSHOTS.set(toolCall.id, shot.frame.base64);
       return {

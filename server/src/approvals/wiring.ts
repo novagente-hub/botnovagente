@@ -38,9 +38,19 @@ export async function savedToolCall(
     const call = history.messages
       .flatMap((message) => message.toolCalls ?? [])
       .find((saved) => saved.id === snapshot.toolCallId);
-    if (!call || call.name !== snapshot.toolName) return false;
+    if (!call) return false;
+    // The persisted AG-UI messages use { id, type: "function",
+    // function: { name, arguments } }. Older Intelligence responses used
+    // { id, name, args }. Both must match the exact call and arguments;
+    // never infer permission from tool availability or a mere call ID.
+    const stored = call as typeof call & {
+      function?: { name?: string; arguments?: string };
+    };
+    const name = stored.function?.name ?? stored.name;
+    const args = stored.function?.arguments ?? stored.args;
+    if (name !== snapshot.toolName || typeof args !== "string") return false;
     try {
-      return isDeepStrictEqual(JSON.parse(call.args), snapshot.args);
+      return isDeepStrictEqual(JSON.parse(args), snapshot.args);
     } catch {
       // Arguments still being saved.
       return false;

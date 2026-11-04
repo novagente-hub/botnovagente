@@ -19,7 +19,11 @@ const conversation = (args: string | null, answered = false) =>
               id: "1941c748-b06c-4cf6-89f0-a8904e89b22c",
               role: "assistant",
               toolCalls: [
-                { id: snapshot.toolCallId, name: "computer_click", args },
+                {
+                  id: snapshot.toolCallId,
+                  type: "function",
+                  function: { name: "computer_click", arguments: args },
+                },
               ],
             },
           ]),
@@ -77,5 +81,79 @@ describe("the saved copy of a call the browser is about to run", () => {
         noWait,
       ),
     ).toEqual({ matches: true, answered: true });
+  });
+});
+
+describe("persisted AG-UI tool call verification", () => {
+  test("supports a legacy flat saved call without weakening exact argument checks", async () => {
+    const legacy = {
+      messages: [
+        {
+          role: "assistant",
+          toolCalls: [
+            {
+              id: snapshot.toolCallId,
+              name: snapshot.toolName,
+              args: JSON.stringify(snapshot.args),
+            },
+          ],
+        },
+      ],
+    } as never;
+    expect(await savedToolCall(reads(legacy), snapshot, noWait)).toEqual({
+      matches: true,
+      answered: false,
+    });
+  });
+
+  test("rejects another tool name even when the call id and args match", async () => {
+    const other = {
+      messages: [
+        {
+          role: "assistant",
+          toolCalls: [
+            {
+              id: snapshot.toolCallId,
+              type: "function",
+              function: {
+                name: "computer_write_file",
+                arguments: JSON.stringify(snapshot.args),
+              },
+            },
+          ],
+        },
+      ],
+    } as never;
+    expect((await savedToolCall(reads(other), snapshot, noWait)).matches).toBe(
+      false,
+    );
+  });
+
+  test("refuses a changed argument payload even with the right name and id", async () => {
+    expect(
+      (
+        await savedToolCall(
+          reads(conversation('{"ref":"f2e94","snapshotId":999}')),
+          snapshot,
+          noWait,
+        )
+      ).matches,
+    ).toBe(false);
+  });
+
+  test("refuses a forged call id even when name and args match", async () => {
+    const wrong = {
+      ...snapshot,
+      toolCallId: "call_forged",
+    };
+    expect(
+      (
+        await savedToolCall(
+          reads(conversation('{"ref":"f2e94","snapshotId":7}')),
+          wrong,
+          noWait,
+        )
+      ).matches,
+    ).toBe(false);
   });
 });

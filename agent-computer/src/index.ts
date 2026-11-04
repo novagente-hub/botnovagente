@@ -22,6 +22,7 @@ import {
 } from "./authorisation";
 import { createBotBrowserHost, isBotBrowserPath } from "./bot-browser-host";
 import { isPlainBotId, seatIdFor } from "./bot-id";
+import { saveBrowserDownload } from "./browser-downloads";
 import { createBrowserHost, isBrowserPath } from "./browser-host";
 import { browserRuntimeFromEnv } from "./browser-runtime";
 import { detectChallenge } from "./challenge";
@@ -349,6 +350,24 @@ const profiles = createProfiles(
     // it is never closed for memory whoever is at it (`chooseForMemory`), and its tabs are never swept.
     heldByPerson: (botId) =>
       !isPersonBrowserId(botId) && sessions.personHasTheWheel(botId),
+    onDownload: async (botId, download) => {
+      const file = await saveBrowserDownload({
+        root: process.env.WORKSPACE_DIR?.trim() || "/workspace",
+        botId,
+        separateWorkspaces:
+          process.env.COMPUTER_SEPARATE_WORKSPACES?.trim().toLowerCase() ===
+          "on",
+        download,
+      });
+      console.info(
+        JSON.stringify({
+          type: "computer-file-downloaded",
+          botId,
+          path: file.path,
+          bytes: file.bytes,
+        }),
+      );
+    },
   },
 );
 

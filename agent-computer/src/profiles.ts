@@ -39,6 +39,7 @@ import {
   type BrowserContext,
   type CDPSession,
   chromium,
+  type Download,
   type Page,
 } from "playwright";
 import {
@@ -444,6 +445,8 @@ export type ProfilesOptions = {
    * them. The computer's sessions answer it (`sessions.personHasTheWheel`); without it, nobody does.
    */
   heldByPerson?: (botId: string) => boolean;
+  /** Called for actual Chrome downloads, including popups; failures remain logged. */
+  onDownload?: (botId: string, download: Download) => Promise<void> | void;
 };
 
 /** Opening a person's browser, which is the one way it starts. See `person-browser.ts`. */
@@ -1286,9 +1289,30 @@ export function createProfiles(
           });
         };
         watchForRecorderPages(page);
+        // Download events belong to a PAGE (not the context). Attach before any
+        // navigation and also to popups so the file outlives Chromium closing.
+        const watchDownloads = (opened: Page) => {
+          opened.on("download", (download) => {
+            if (!own(opened) || !options.onDownload) return;
+            void Promise.resolve()
+              .then(() => options.onDownload?.(botId, download))
+              .catch((error) =>
+                console.error(
+                  JSON.stringify({
+                    type: "computer-download-failed",
+                    botId,
+                    reason:
+                      error instanceof Error ? error.message : String(error),
+                  }),
+                ),
+              );
+          });
+        };
+        for (const opened of context.pages()) watchDownloads(opened);
         // Without this the Bot stays pinned to the page it launched with, so a sign-in the site opens
         // in a new window is neither shown to the person taking the wheel nor reachable by input.
         context.on("page", (opened) => {
+          watchDownloads(opened);
           if (!local) void attachPageNetwork(context, opened, network);
           if (own(opened)) pinned = undefined;
           touchTab(opened);

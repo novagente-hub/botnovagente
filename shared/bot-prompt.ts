@@ -10,6 +10,7 @@
  * and then said it could not, never calling `computer_request_help` to have a person sign in.
  */
 import { SHOW_APP_ACCESS_TOOL } from "./connect-prompt";
+import { OPERATING_CONTRACT } from "./operating-contract";
 import { RESEARCH_APP_NAMES } from "./research";
 
 const OPENING_A_PAGE_LINES = [
@@ -166,6 +167,8 @@ export function computerGuidance(holding: ComputerHolding): string {
     ...(holding.search ? WITH_SEARCH_LINES : WITHOUT_SEARCH_LINES),
     "",
     ...ACTING_LINES,
+    "",
+    OPERATING_CONTRACT,
   ]);
 }
 

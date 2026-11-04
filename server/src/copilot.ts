@@ -1,6 +1,3 @@
-import { createLocalIntelligence } from "./local/local-intelligence";
-import { isLocalRuntime } from "./local/mode";
-import { localRunner } from "./local/pg-runner";
 import type { Message, RunAgentInput } from "@ag-ui/client";
 import { type AbstractAgent, HttpAgent } from "@ag-ui/client";
 import type {
@@ -21,6 +18,7 @@ import {
   defaultModelFor,
   requiresResponsesApi,
 } from "@openbot/shared/model-providers";
+import { OPERATING_CONTRACT } from "@openbot/shared/operating-contract";
 import {
   BuiltInAgentWithSaneHistory,
   CloningRemoteAgent,
@@ -69,6 +67,9 @@ import {
   type PersonalSkillSources,
 } from "./learning/runtime";
 import type { LearningSettingsStore } from "./learning/settings";
+import { createLocalIntelligence } from "./local/local-intelligence";
+import { isLocalRuntime } from "./local/mode";
+import { localRunner } from "./local/pg-runner";
 import {
   type LoadPersonalMemory,
   PersonalMemoryMiddleware,
@@ -190,6 +191,7 @@ export function standingRoleMessage(
        * "Investigate policies, transaction monitoring, and control evidence."
        */
       PROVENANCE_GUIDANCE,
+      OPERATING_CONTRACT,
       // And for the same reason, how to read the untrusted-content envelope its tool results carry.
       UNTRUSTED_GUIDANCE,
     ].join("\n\n"),
@@ -489,6 +491,7 @@ export function builtInAgentConfiguration(
        * it says comes from its own knowledge, and saying so is the only honest move available.
        */
       PROVENANCE_GUIDANCE,
+      OPERATING_CONTRACT,
       // How to read the untrusted-content envelope every outside result arrives in.
       UNTRUSTED_GUIDANCE,
       ...(grantedToolGuidance(tools, connectedVendors)
@@ -1834,34 +1837,34 @@ export function mountCopilotRuntime(
   const intelligenceClient: CopilotKitIntelligence = local
     ? createLocalIntelligence()
     : observeIntelligenceAuthentication(
-      new IntelligenceKnowingANewThread({
-        apiUrl: intelligence.apiUrl,
-        wsUrl: intelligence.gatewayWsUrl,
-        browserWsUrl: intelligence.browserGatewayWsUrl,
-        apiKey: intelligence.apiKey,
-        getLearningContainerId: async ({
-          agentId,
-          input,
-          user,
-        }): Promise<string | undefined> => {
-          if (!user)
-            throw new Error(
-              "Learning Thread assignment requires a verified user.",
-            );
-          return learning?.containerForThread({
+        new IntelligenceKnowingANewThread({
+          apiUrl: intelligence.apiUrl,
+          wsUrl: intelligence.gatewayWsUrl,
+          browserWsUrl: intelligence.browserGatewayWsUrl,
+          apiKey: intelligence.apiKey,
+          getLearningContainerId: async ({
             agentId,
-            threadId: input.threadId,
-            userId: user.id,
-          });
-        },
-        ...(trajectoryCapture
-          ? {
-              getTrajectoryLearningContainerIds:
-                trajectoryCapture.selectLearningContainers,
-            }
-          : {}),
-      }),
-    );
+            input,
+            user,
+          }): Promise<string | undefined> => {
+            if (!user)
+              throw new Error(
+                "Learning Thread assignment requires a verified user.",
+              );
+            return learning?.containerForThread({
+              agentId,
+              threadId: input.threadId,
+              userId: user.id,
+            });
+          },
+          ...(trajectoryCapture
+            ? {
+                getTrajectoryLearningContainerIds:
+                  trajectoryCapture.selectLearningContainers,
+              }
+            : {}),
+        }),
+      );
 
   const learning: LearningRuntime | undefined = learningSettings
     ? createLearningRuntime({
@@ -1883,7 +1886,10 @@ export function mountCopilotRuntime(
     // NovaBot: local mode is the runtime's self-hosted SSE mode on the durable Postgres runner.
     ...(local
       ? { runner: localRunner() }
-      : { intelligence: intelligenceClient, licenseToken: intelligence.licenseToken }),
+      : {
+          intelligence: intelligenceClient,
+          licenseToken: intelligence.licenseToken,
+        }),
     // Carried on the events the runtime already sends, so OpenBot's traffic is separable from any
     // other deployment's. Adds no events of its own.
     telemetryProperties: {

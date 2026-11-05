@@ -1,0 +1,18 @@
+{
+  "name": "@novagente/pomerado-deepseek-adapter",
+  "private": true,
+  "type": "module",
+  "description": "Isolated optional DeepSeek model adapter for the Pomerado MCP minting harness",
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check src/provider.mjs && node --check src/mcp.mjs && node --test",
+    "mint": "node src/mcp.mjs mint"
+  },
+  "dependencies": {
+    "@openai/agents": "0.18.0",
+    "pomerado": "0.4.0-canary.522"
+  },
+  "engines": {
+    "node": ">=24.21.0 <25"
+  }
+}

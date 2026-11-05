@@ -20,7 +20,7 @@ export type Person = {
   email: string;
   name: string | null;
   image: string | null;
-  role: OpenBotRole;
+  role: OpenBotRole | "pending";
   /**
    * Which identity providers this person has arrived through. More than one is normal for a company
    * mid-migration, where the same address exists in both Entra and Okta.
@@ -247,8 +247,13 @@ export function createPeopleStore(
         email: row.email,
         name: row.name,
         image: row.image,
-        // `admin` wins, the same way the request guard reads it. Anything else is a plain user.
-        role: row.roles.includes("admin") ? "admin" : "user",
+        // A signed-in identity with no role is a pending access request.
+        // It does not pass requireUser until an administrator approves it.
+        role: row.roles.includes("admin")
+          ? "admin"
+          : row.roles.includes("user")
+            ? "user"
+            : "pending",
         providers: row.providers,
         lastSignedInAt: row.lastSignedInAt
           ? new Date(row.lastSignedInAt).toISOString()

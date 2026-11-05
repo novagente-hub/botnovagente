@@ -532,6 +532,10 @@ export function createApp(
        * build machine cannot offer a provider that machine had never heard of.
        */
       authProviders: configuredAuthProviders(config.auth),
+      approvalRequired:
+        Boolean(config.auth) &&
+        process.env.NOVABOT_APPROVAL_REQUIRED === "true",
+      emailOtpEnabled: Boolean(config.auth?.emailOtp),
       /*
        * Whether any enterprise identity provider has been registered.
        *
@@ -685,6 +689,35 @@ export function createApp(
         : undefined,
     ),
   );
+
+  /**
+   * A newly authenticated OAuth account can be valid but not approved yet.
+   * This endpoint only reveals the caller's own status, without giving a
+   * pending identity access to any of the protected app APIs.
+   */
+  app.get("/api/access-status", async (context) => {
+    if (config.singleUser) {
+      return context.json({ status: "approved" as const });
+    }
+    const session = await auth?.api.getSession({
+      headers: context.req.raw.headers,
+      query: { disableCookieCache: true },
+    });
+    if (!session?.user) {
+      return context.json({ status: "signed_out" as const });
+    }
+    if (!peopleStore) {
+      return context.json({ error: "Access status is unavailable." }, 503);
+    }
+    const person = await peopleStore.find(session.user.id);
+    return context.json({
+      status: person?.revoked
+        ? "revoked"
+        : person?.role === "pending" || !person
+          ? "pending"
+          : "approved",
+    });
+  });
 
   app.get("/api/me", requireUser, async (context) =>
     context.json({
@@ -1044,6 +1077,16 @@ export function createApp(
     if (context.var.actor.id === userId && role !== "admin") {
       return context.json(
         { error: "You can't remove your own admin role." },
+        409,
+      );
+    }
+
+    if (person.role === "pending" && role === "admin") {
+      return context.json(
+        {
+          error:
+            "Approve this person as a user before granting administrator permissions.",
+        },
         409,
       );
     }

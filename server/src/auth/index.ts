@@ -5,7 +5,7 @@ import { scim } from "@better-auth/scim";
 import { sso } from "@better-auth/sso";
 import { betterAuth } from "better-auth";
 import { APIError, createAuthMiddleware } from "better-auth/api";
-import { genericOAuth, okta } from "better-auth/plugins";
+import { emailOTP, genericOAuth, okta } from "better-auth/plugins";
 import { eq, sql } from "drizzle-orm";
 import { createEnterpriseStore } from "../admin/settings-store";
 import type { AuditEventInput, AuditStore } from "../audit";
@@ -29,7 +29,13 @@ import {
 import { DOMAIN_REFUSAL_MESSAGE, emailDomainAllowed } from "./email-domain";
 import { encryptSsoConfig } from "./encrypt-sso-config";
 import { SIGN_OUT_UNFINISHED } from "./organization";
-import { applyConfiguredAdmin, isConfiguredAdmin, seedRole } from "./roles";
+import { sendNovabotOtp } from "./otp-email";
+import {
+  applyConfiguredAdmin,
+  initialRoleWithApproval,
+  isConfiguredAdmin,
+  seedRole,
+} from "./roles";
 import { recordProvisioned, scimOptions } from "./scim";
 
 /** What a person sees when SSO is required and they tried another way in. */
@@ -216,6 +222,7 @@ export function createAuth(
   };
   const scimPluginOptions = scimOptions(scimDeps);
   const enterpriseStore = createEnterpriseStore(database);
+  const approvalRequired = process.env.NOVABOT_APPROVAL_REQUIRED === "true";
 
   /*
    * The native app signs in through its custom scheme, and the Expo plugin appends the session cookie
@@ -224,7 +231,20 @@ export function createAuth(
    * never be sent there.
    */
   const nativeApp = Boolean(process.env.EXPO_PROJECT_ID?.trim());
+  const otpTransport = authConfig.emailOtp;
   const plugins = [
+    ...(otpTransport
+      ? [
+          emailOTP({
+            otpLength: 6,
+            expiresIn: 300,
+            allowedAttempts: 5,
+            async sendVerificationOTP({ email, otp, type }) {
+              await sendNovabotOtp(otpTransport, { email, otp, type });
+            },
+          }),
+        ]
+      : []),
     ...(nativeApp ? [expo()] : []),
     /*
      * SCIM 2.0 at /api/auth/scim/v2, only when SCIM_BEARER_TOKEN is set. See scim.ts.
@@ -258,12 +278,20 @@ export function createAuth(
      */
     sso({
       provisionUser: async ({ user }) => {
-        await seedRole(
-          database,
-          user.id,
-          user.email,
-          authConfig.initialAdminEmails,
-        );
+        if (
+          initialRoleWithApproval(
+            user.email,
+            authConfig.initialAdminEmails,
+            approvalRequired,
+          )
+        ) {
+          await seedRole(
+            database,
+            user.id,
+            user.email,
+            authConfig.initialAdminEmails,
+          );
+        }
       },
     }),
   ];
@@ -367,6 +395,19 @@ export function createAuth(
     },
     baseURL: authConfig.baseUrl,
     secret: authConfig.secret,
+    ...(authConfig.emailOtp
+      ? {
+          rateLimit: {
+            enabled: true,
+            window: 60,
+            max: 100,
+            customRules: {
+              "/email-otp/send-verification-otp": { window: 60, max: 3 },
+              "/sign-in/email-otp": { window: 60, max: 5 },
+            },
+          },
+        }
+      : {}),
     trustedOrigins: [
       ...authConfig.trustedOrigins,
       ...(nativeApp ? [NATIVE_APP_ORIGIN] : []),
@@ -481,12 +522,20 @@ export function createAuth(
              * deployment mid-migration has the same person arriving through Entra one week and
              * Okta the next, and they are the same person to this list.
              */
-            await seedRole(
-              database,
-              user.id,
-              user.email,
-              authConfig.initialAdminEmails,
-            );
+            if (
+              initialRoleWithApproval(
+                user.email,
+                authConfig.initialAdminEmails,
+                approvalRequired,
+              )
+            ) {
+              await seedRole(
+                database,
+                user.id,
+                user.email,
+                authConfig.initialAdminEmails,
+              );
+            }
             if (context?.path?.startsWith("/scim")) {
               await recordProvisioned(scimDeps, user);
             }

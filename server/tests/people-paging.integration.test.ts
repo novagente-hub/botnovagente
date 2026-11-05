@@ -207,7 +207,8 @@ describe("reading the people in a deployment", () => {
     expect(found?.id).toBe(wanted);
     // The same shape the list answers with, because the screen renders both through one type.
     expect(found?.email).toBe(`${wanted}@openbot.test`);
-    expect(found?.role).toBe("user");
+    // Without an approved user_roles row, this identity is pending.
+    expect(found?.role).toBe("pending");
   });
 
   test("finding somebody who is not there answers undefined", async () => {

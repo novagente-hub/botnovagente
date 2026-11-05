@@ -1,4 +1,3 @@
-import { isLocalRuntime, LOCAL_INTELLIGENCE_SETTINGS } from "./local/mode";
 /**
  * What the runtime can do. There is exactly one answer because CopilotKit Intelligence is required
  * for durable threads and memory. Configuration the product cannot function without belongs at the
@@ -24,6 +23,7 @@ import {
   type TranscriptionConfig,
   transcriptionConfig,
 } from "./dictation/config";
+import { isLocalRuntime, LOCAL_INTELLIGENCE_SETTINGS } from "./local/mode";
 import type { BrokerProvider } from "./plugins/access";
 import { type VoiceConfig, voiceConfig } from "./voice/config";
 import { type WebBotAuth, webBotAuthFromEnv } from "./web-bot-auth";
@@ -122,6 +122,8 @@ export type AuthConfig = {
    * `auth/email-domain.ts` for why the provider's own answer is not this question.
    */
   allowedEmailDomains: string[];
+  /** Optional passwordless sign-in, with server-side Resend API delivery. */
+  emailOtp?: { apiKey: string; from: string };
   google?: OAuthClient;
   /**
    * `tenantId` decides who may sign in at all, so it is not a detail. `common` admits any Microsoft
@@ -820,11 +822,31 @@ function authConfig(
 ): AuthConfig | undefined {
   const microsoft = microsoftAuth(environment);
   const okta = oktaAuth(environment);
+  const otpApiKey = optional(environment, "NOVABOT_OTP_RESEND_API_KEY");
+  const otpFrom = optional(environment, "NOVABOT_OTP_FROM");
+  if (Boolean(otpApiKey) !== Boolean(otpFrom)) {
+    throw new Error(
+      "NOVABOT_OTP_RESEND_API_KEY and NOVABOT_OTP_FROM must be set together.",
+    );
+  }
+  if (
+    otpFrom &&
+    (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(otpFrom) || /[\r\n]/.test(otpFrom))
+  ) {
+    throw new Error("NOVABOT_OTP_FROM must be a valid plain email address.");
+  }
+  const emailOtp =
+    otpApiKey && otpFrom ? { apiKey: otpApiKey, from: otpFrom } : undefined;
+  if (emailOtp && environment.NOVABOT_APPROVAL_REQUIRED !== "true") {
+    throw new Error(
+      "Passwordless email sign-in requires NOVABOT_APPROVAL_REQUIRED=true.",
+    );
+  }
 
   const secret = optional(environment, "BETTER_AUTH_SECRET");
   const baseUrl = url(environment, "BETTER_AUTH_URL");
 
-  if (!google && !microsoft && !okta) {
+  if (!google && !microsoft && !okta && !emailOtp) {
     if (secret || baseUrl) {
       throw new Error(
         "BETTER_AUTH_SECRET or BETTER_AUTH_URL is set but no identity provider is. Configure GOOGLE_OAUTH_*, MICROSOFT_OAUTH_* or OKTA_OAUTH_*, or unset both",
@@ -935,6 +957,7 @@ function authConfig(
         ["http://127.0.0.1:3010", "http://[::1]:3010", "http://localhost:3010"],
     initialAdminEmails,
     allowedEmailDomains,
+    ...(emailOtp ? { emailOtp } : {}),
     ...(google ? { google } : {}),
     ...(microsoft ? { microsoft } : {}),
     ...(okta ? { okta } : {}),
@@ -1479,8 +1502,7 @@ export function loadConfig(
      * reached and so cannot refuse a combination that already resolves.
      */
     singleUser:
-      !organizationAuthUrl &&
-      singleUserAllowed(environment, configuredAuthProviders(auth).length > 0),
+      !organizationAuthUrl && singleUserAllowed(environment, Boolean(auth)),
     accessibility: accessibilityEnabled(environment),
     generativeUi: generativeUiEnabled(environment),
     selfHostBanner: selfHostBannerEnabled(environment),

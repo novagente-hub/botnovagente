@@ -34,7 +34,7 @@ function person(overrides: Partial<Person> = {}): Person {
 
 function appWith(
   people: Person[],
-  role: "admin" | "user" = "admin",
+  role: "admin" | "user" | "none" = "admin",
 ): {
   request: (path: string, init?: RequestInit) => Promise<Response>;
   calls: string[];
@@ -66,7 +66,7 @@ function appWith(
       handler: () => new Response(null, { status: 204 }),
       api: { getSession: async () => ({ user: ADMIN }) },
     } as never,
-    { rolesForUser: async () => [role] },
+    { rolesForUser: async () => (role === "none" ? [] : [role]) },
     /*
      * Positions 4-17 are the other stores; `store` is 18, peopleStore.
      *
@@ -246,5 +246,101 @@ describe("people routes", () => {
     const response = await app.request("http://openbot.test/api/admin/people");
 
     expect(response.status).toBe(503);
+  });
+});
+
+describe("pending person approval", () => {
+  test("shows an OAuth identity with no role as awaiting approval", async () => {
+    const { request } = appWith([person({ role: "pending" })]);
+    const response = await request("/api/admin/people");
+    expect(response.status).toBe(200);
+    expect((await response.json()).people[0].role).toBe("pending");
+  });
+
+  test("administrator approves a pending person only as a normal user", async () => {
+    const { request, calls } = appWith([person({ role: "pending" })]);
+    const response = await request(
+      "/api/admin/people/u1/role",
+      json({ role: "user" }),
+    );
+    expect(response.status).toBe(200);
+    expect(calls).toEqual(["setRole:u1:user"]);
+  });
+
+  test("cannot make an unapproved applicant an administrator", async () => {
+    const { request, calls } = appWith([person({ role: "pending" })]);
+    const response = await request(
+      "/api/admin/people/u1/role",
+      json({ role: "admin" }),
+    );
+    expect(response.status).toBe(409);
+    expect(calls).toEqual([]);
+  });
+
+  test("can reject a pending request without granting access", async () => {
+    const { request, calls } = appWith([person({ role: "pending" })]);
+    const response = await request(
+      "/api/admin/people/u1/access",
+      json({ revoked: true }),
+    );
+    expect(response.status).toBe(200);
+    expect(calls).toEqual(["revoke:u1:admin-1", "retireOwned:u1:admin-1"]);
+  });
+});
+
+describe("signed-in but not approved", () => {
+  test("can see only their own pending status, not protected APIs", async () => {
+    const { request } = appWith(
+      [person({ id: ADMIN.id, email: ADMIN.email, role: "pending" })],
+      "none",
+    );
+    const status = await request("/api/access-status");
+    expect(status.status).toBe(200);
+    expect(await status.json()).toEqual({ status: "pending" });
+    expect((await request("/api/me")).status).toBe(403);
+    expect((await request("/api/admin/people")).status).toBe(403);
+  });
+
+  test("pending status does not expose the member directory", async () => {
+    const { request } = appWith(
+      [
+        person({ id: ADMIN.id, email: ADMIN.email, role: "pending" }),
+        person({
+          id: "another-person",
+          email: "other@example.com",
+          role: "user",
+        }),
+      ],
+      "none",
+    );
+    const status = await request("/api/access-status");
+    expect(await status.json()).toEqual({ status: "pending" });
+  });
+
+  test("approved users see their own status", async () => {
+    const { request } = appWith(
+      [person({ id: ADMIN.id, email: ADMIN.email, role: "user" })],
+      "user",
+    );
+    expect(await (await request("/api/access-status")).json()).toEqual({
+      status: "approved",
+    });
+  });
+
+  test("revoked users see a rejection status", async () => {
+    const { request } = appWith(
+      [
+        person({
+          id: ADMIN.id,
+          email: ADMIN.email,
+          role: "pending",
+          revoked: true,
+        }),
+      ],
+      "none",
+    );
+    expect(await (await request("/api/access-status")).json()).toEqual({
+      status: "revoked",
+    });
   });
 });

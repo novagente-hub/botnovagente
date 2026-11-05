@@ -61,6 +61,14 @@ export const auditEventTypes = [
    */
   "credential.rotation_refused",
   "credential.revoked",
+  // NovaBot text resource governance; no text, credentials or secrets in audit payloads.
+  "novabot.resource_created",
+  "novabot.resource_updated",
+  "novabot.resource_deleted",
+  "novabot.resource_grant_changed",
+  "novabot.resource_grant_revoked",
+  "novabot.resource_read_by_bot",
+  "novabot.resource_written_by_bot",
   /**
    * Which coworker an untagged message was routed to, and why.
    *
@@ -666,6 +674,10 @@ export const auditEventTypes = [
   /* A person opened one of their own learned Skills to every Bot, or closed it again. Target and payload `skill`. */
   "learning.skill_opened",
   "learning.skill_closed",
+  "conexoes.application_created",
+  "conexoes.application_removed",
+  "conexoes.permission_granted",
+  "conexoes.permission_revoked",
 ] as const;
 
 export type AuditEventType = (typeof auditEventTypes)[number];

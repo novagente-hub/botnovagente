@@ -42,6 +42,8 @@ export default defineConfig({
     "./src/db/schema/shared-use.ts",
     "./src/db/schema/identity.ts",
     "./src/db/schema/recorder.ts",
+    "./src/db/schema/novagente-conexoes.ts",
+    "./src/db/schema/novabot-resources.ts",
   ],
   out: "./drizzle",
   dbCredentials: {

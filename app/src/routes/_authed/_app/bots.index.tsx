@@ -3,6 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { NewBotSheet } from "@/components/agents/new-bot-sheet";
 import { BotRoster } from "@/components/bots/bot-roster";
+import { SharedResourcesPanel } from "@/components/bots/shared-resources-panel";
+import { ConexoesPanel } from "@/components/conexoes/conexoes-panel";
 import { PageShell } from "@/components/layout/page-shell";
 import { Button } from "@/components/ui/button";
 
@@ -37,6 +39,8 @@ function BotsPage() {
       title="Bots"
     >
       <BotRoster />
+      <ConexoesPanel />
+      <SharedResourcesPanel />
       <NewBotSheet
         onClose={() => void navigate({ search: {} })}
         onCreated={(agentId) => {

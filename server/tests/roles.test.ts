@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import {
   applyConfiguredAdmin,
+  initialRoleWithApproval,
   isConfiguredAdmin,
   roleForEmail,
   seedRole,
@@ -278,5 +279,33 @@ describe("isConfiguredAdmin", () => {
     expect(
       isConfiguredAdmin("  Admin@OpenBot.test ", [" admin@openbot.TEST "]),
     ).toBe(true);
+  });
+});
+
+describe("approval-only OAuth onboarding", () => {
+  test("keeps the existing automatic user role when the feature is off", () => {
+    expect(
+      initialRoleWithApproval(
+        "person@example.com",
+        ["admin@example.com"],
+        false,
+      ),
+    ).toBe("user");
+  });
+
+  test("new non-admin identities have no role until an administrator approves", () => {
+    expect(
+      initialRoleWithApproval(
+        "person@example.com",
+        ["admin@example.com"],
+        true,
+      ),
+    ).toBeNull();
+  });
+
+  test("preserves the configured administrator even when approval is required", () => {
+    expect(
+      initialRoleWithApproval("ADMIN@EXAMPLE.COM", ["admin@example.com"], true),
+    ).toBe("admin");
   });
 });

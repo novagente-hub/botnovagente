@@ -63,6 +63,8 @@ function describe(person: Person): string {
 
   if (person.revoked)
     return `Acesso removido · ${providers || "sem provedor"} · ${when}`;
+  if (person.role === "pending")
+    return `Aguardando aprovação · ${providers || "sem provedor"} · ${when}`;
   if (person.configuredAdmin) {
     return `Admin por configuração · ${when}`;
   }
@@ -95,7 +97,7 @@ function PeoplePage() {
 
   return (
     <PageShell
-      description="Gerencie o acesso das pessoas que já entraram. Só administradores acessam as páginas de Admin."
+      description="Aprove ou recuse solicitações de quem entrou com Google ou Microsoft. Só administradores acessam esta página."
       title="Pessoas"
     >
       <PageSection
@@ -109,9 +111,10 @@ function PeoplePage() {
         ) : null}
         {terminate.data ? (
           <p className="mt-4 text-muted-foreground text-sm" role="status">
-            
             Parado {terminate.data.stopped.length}{" "}
-            {terminate.data.stopped.length === 1 ? "computador" : "computadores"}
+            {terminate.data.stopped.length === 1
+              ? "computador"
+              : "computadores"}
             {terminate.data.failed.length > 0
               ? `. ${terminate.data.failed.length} não puderam ser parados`
               : ""}
@@ -132,7 +135,6 @@ function PeoplePage() {
 
         {people.isPending ? null : people.error ? (
           <p className="mt-4 text-destructive text-sm" role="alert">
-            
             Não foi possível carregar as pessoas. Recarregue a página.
           </p>
         ) : rows.length === 0 ? (
@@ -170,6 +172,17 @@ function PeoplePage() {
                       </ItemDescription>
                     </ItemContent>
                     <ItemActions>
+                      {person.role === "pending" && !person.revoked ? (
+                        <Button
+                          disabled={busy}
+                          size="sm"
+                          onClick={() =>
+                            setRole.mutate({ userId: person.id, role: "user" })
+                          }
+                        >
+                          Aprovar acesso
+                        </Button>
+                      ) : null}
                       {/*
                        * Removing access is the louder decision, so it is a button rather than a
                        * second switch: two switches on one row invites somebody to flip the wrong
@@ -181,7 +194,6 @@ function PeoplePage() {
                         size="sm"
                         variant="outline"
                       >
-                        
                         Parar computadores
                       </Button>
                       <Button
@@ -195,12 +207,21 @@ function PeoplePage() {
                         size="sm"
                         variant={person.revoked ? "outline" : "destructive"}
                       >
-                        {person.revoked ? "Restaurar" : "Remover"}
+                        {person.revoked
+                          ? "Restaurar"
+                          : person.role === "pending"
+                            ? "Recusar"
+                            : "Remover"}
                       </Button>
                       <Switch
                         aria-label={`Admin: ${person.email}`}
                         checked={person.role === "admin"}
-                        disabled={busy || person.configuredAdmin || isSelf}
+                        disabled={
+                          busy ||
+                          person.configuredAdmin ||
+                          isSelf ||
+                          person.role === "pending"
+                        }
                         onCheckedChange={(checked) =>
                           setRole.mutate({
                             userId: person.id,

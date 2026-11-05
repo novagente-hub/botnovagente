@@ -49,6 +49,7 @@ export type SignInOptions = {
   sso: boolean;
   /** An administrator requires SSO; social sign-in stays only as the administrators' break-glass. */
   ssoRequired: boolean;
+  approvalRequired: boolean;
 };
 
 async function signInOptions(): Promise<SignInOptions> {
@@ -56,17 +57,21 @@ async function signInOptions(): Promise<SignInOptions> {
   // returns without a key quietly yields undefined: the screen would say no provider is configured
   // while the server was saying it has one.
   const body = (await (
-    await client("/api/capabilities", { fallback: "Não foi possível carregar o login" })
+    await client("/api/capabilities", {
+      fallback: "Não foi possível carregar o login",
+    })
   ).json()) as {
     authProviders?: AuthProviderId[];
     ssoConfigured?: boolean;
     ssoRequired?: boolean;
+    approvalRequired?: boolean;
   };
 
   return {
     providers: body.authProviders ?? [],
     sso: body.ssoConfigured === true,
     ssoRequired: body.ssoRequired === true,
+    approvalRequired: body.approvalRequired === true,
   };
 }
 
@@ -91,11 +96,15 @@ async function currentUser(): Promise<AuthenticatedUser | null> {
    * arrives as a 401 that has to be read before anything decides the request went wrong.
    */
   const response = await tryClient("/api/me");
-  if (response.status === 401) {
+  if (response.status === 401 || response.status === 403) {
+    // A valid OAuth identity awaiting administrator approval has no role yet.
+    // Its status is shown on /sign; it cannot reach protected endpoints.
     return null;
   }
   if (!response.ok) {
-    throw new Error(`Não foi possível carregar o usuário atual (${response.status})`);
+    throw new Error(
+      `Não foi possível carregar o usuário atual (${response.status})`,
+    );
   }
 
   const body = (await response.json()) as { user: AuthenticatedUser };

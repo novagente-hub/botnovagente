@@ -30,6 +30,22 @@ export function roleForEmail(
 }
 
 /**
+ * Optional NOVABOT_APPROVAL_REQUIRED onboarding policy.
+ * An OAuth identity proves who signed in; it does not, by itself, grant
+ * permission to work in this deployment. New non-admin users start with
+ * no role and appear as pending in Admin > People. Only an administrator
+ * grants the initial "user" role. Existing grants are never stripped.
+ */
+export function initialRoleWithApproval(
+  email: string,
+  initialAdminEmails: readonly string[],
+  approvalRequired: boolean,
+): OpenBotRole | null {
+  if (!approvalRequired) return roleForEmail(email, initialAdminEmails);
+  return isConfiguredAdmin(email, initialAdminEmails) ? "admin" : null;
+}
+
+/**
  * Give somebody exactly one role.
  *
  * `user_roles` is a set with a `(user_id, role)` primary key and the guard takes `admin` if any row

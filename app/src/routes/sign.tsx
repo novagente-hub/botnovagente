@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AgentOrb from "@/components/agents/orb/agent-orb";
 import { ProviderLogo } from "@/components/auth/provider-logo";
 import { Button } from "@/components/ui/button";
@@ -81,6 +81,29 @@ function SignScreen() {
   const [error, setError] = useState<string | null>(null);
   const { data: options } = useQuery(authProvidersQueryOptions());
   const providers = options?.providers ?? [];
+  const { data: access } = useQuery({
+    queryKey: ["auth", "access-status"],
+    enabled: options?.approvalRequired === true,
+    queryFn: async (): Promise<{
+      status: "signed_out" | "pending" | "approved" | "revoked";
+    }> => {
+      const response = await fetch("/api/access-status", {
+        credentials: "same-origin",
+        cache: "no-store",
+      });
+      if (!response.ok)
+        throw new Error("Não foi possível consultar a solicitação de acesso.");
+      return response.json();
+    },
+    refetchInterval: 10_000,
+  });
+  useEffect(() => {
+    if (options?.approvalRequired && access?.status === "approved") {
+      window.location.replace("/");
+    }
+  }, [options?.approvalRequired, access?.status]);
+  const awaitingApproval = access?.status === "pending";
+  const deniedAccess = access?.status === "revoked";
   const [email, setEmail] = useState("");
 
   /**
@@ -203,18 +226,47 @@ function SignScreen() {
           transition={{ duration: ENTRANCE_SECONDS, ease: EASE_OUT }}
           variants={{ hidden, shown }}
         >
-          {options?.ssoRequired ? (
+          {options?.approvalRequired && access?.status === "signed_out" ? (
+            <p className="mb-4 text-center text-sm text-muted-foreground">
+              É seu primeiro acesso? Entre com sua conta Google ou Microsoft
+              para solicitar autorização. Você não precisa pedir um convite.
+            </p>
+          ) : null}
+          {awaitingApproval ? (
+            <div className="mb-4 text-center" role="status">
+              <p className="font-medium">Solicitação de acesso recebida</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Sua identidade foi confirmada. Aguarde a aprovação da
+                administradora. Esta página verifica automaticamente quando o
+                acesso for liberado.
+              </p>
+            </div>
+          ) : deniedAccess ? (
+            <p
+              className="mb-4 text-center text-sm text-destructive"
+              role="alert"
+            >
+              Seu acesso não foi autorizado. Entre em contato com a
+              administradora.
+            </p>
+          ) : null}
+          {!awaitingApproval && !deniedAccess && options?.ssoRequired ? (
             <p className="mb-3 text-center text-sm text-muted-foreground">
-              
               Sua organização exige que você entre com a conta da empresa.
             </p>
           ) : null}
-          {providers.length > 0 && !options?.ssoRequired ? (
+          {!awaitingApproval &&
+          !deniedAccess &&
+          providers.length > 0 &&
+          !options?.ssoRequired ? (
             providerButtons
-          ) : options?.sso || options?.ssoRequired ? null : (
+          ) : awaitingApproval ||
+            deniedAccess ||
+            options?.sso ||
+            options?.ssoRequired ? null : (
             <p className="text-center text-sm text-muted-foreground">
-              
-              O login ainda não está configurado. Um administrador precisa configurá-lo primeiro.
+              O login ainda não está configurado. Um administrador precisa
+              configurá-lo primeiro.
             </p>
           )}
           {/*
@@ -223,7 +275,7 @@ function SignScreen() {
            * Below the buttons, because a deployment with both has more people arriving through the
            * buttons: the registered providers are for the companies whose IdP was added by hand.
            */}
-          {options?.sso ? (
+          {!awaitingApproval && !deniedAccess && options?.sso ? (
             <form className="mt-3" onSubmit={handleDomainSignIn}>
               {providers.length > 0 ? (
                 <div className="mb-3 flex items-center gap-3">
@@ -254,10 +306,12 @@ function SignScreen() {
             </form>
           ) : null}
           {/* The administrators' audited break-glass while SSO is required; everybody else is refused. */}
-          {options?.ssoRequired && providers.length > 0 ? (
+          {!awaitingApproval &&
+          !deniedAccess &&
+          options?.ssoRequired &&
+          providers.length > 0 ? (
             <details className="mt-4 text-sm">
               <summary className="cursor-pointer text-center text-muted-foreground">
-                
                 Login de administrador
               </summary>
               <div className="mt-3">{providerButtons}</div>

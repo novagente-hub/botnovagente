@@ -29,7 +29,12 @@ import {
 import { DOMAIN_REFUSAL_MESSAGE, emailDomainAllowed } from "./email-domain";
 import { encryptSsoConfig } from "./encrypt-sso-config";
 import { SIGN_OUT_UNFINISHED } from "./organization";
-import { applyConfiguredAdmin, isConfiguredAdmin, seedRole } from "./roles";
+import {
+  applyConfiguredAdmin,
+  initialRoleWithApproval,
+  isConfiguredAdmin,
+  seedRole,
+} from "./roles";
 import { recordProvisioned, scimOptions } from "./scim";
 
 /** What a person sees when SSO is required and they tried another way in. */
@@ -216,6 +221,7 @@ export function createAuth(
   };
   const scimPluginOptions = scimOptions(scimDeps);
   const enterpriseStore = createEnterpriseStore(database);
+  const approvalRequired = process.env.NOVABOT_APPROVAL_REQUIRED === "true";
 
   /*
    * The native app signs in through its custom scheme, and the Expo plugin appends the session cookie
@@ -258,12 +264,20 @@ export function createAuth(
      */
     sso({
       provisionUser: async ({ user }) => {
-        await seedRole(
-          database,
-          user.id,
-          user.email,
-          authConfig.initialAdminEmails,
-        );
+        if (
+          initialRoleWithApproval(
+            user.email,
+            authConfig.initialAdminEmails,
+            approvalRequired,
+          )
+        ) {
+          await seedRole(
+            database,
+            user.id,
+            user.email,
+            authConfig.initialAdminEmails,
+          );
+        }
       },
     }),
   ];
@@ -481,12 +495,20 @@ export function createAuth(
              * deployment mid-migration has the same person arriving through Entra one week and
              * Okta the next, and they are the same person to this list.
              */
-            await seedRole(
-              database,
-              user.id,
-              user.email,
-              authConfig.initialAdminEmails,
-            );
+            if (
+              initialRoleWithApproval(
+                user.email,
+                authConfig.initialAdminEmails,
+                approvalRequired,
+              )
+            ) {
+              await seedRole(
+                database,
+                user.id,
+                user.email,
+                authConfig.initialAdminEmails,
+              );
+            }
             if (context?.path?.startsWith("/scim")) {
               await recordProvisioned(scimDeps, user);
             }

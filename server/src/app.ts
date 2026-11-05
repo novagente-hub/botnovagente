@@ -535,6 +535,7 @@ export function createApp(
       approvalRequired:
         Boolean(config.auth) &&
         process.env.NOVABOT_APPROVAL_REQUIRED === "true",
+      emailOtpEnabled: Boolean(config.auth?.emailOtp),
       /*
        * Whether any enterprise identity provider has been registered.
        *

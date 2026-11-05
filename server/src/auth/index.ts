@@ -5,7 +5,7 @@ import { scim } from "@better-auth/scim";
 import { sso } from "@better-auth/sso";
 import { betterAuth } from "better-auth";
 import { APIError, createAuthMiddleware } from "better-auth/api";
-import { genericOAuth, okta } from "better-auth/plugins";
+import { emailOTP, genericOAuth, okta } from "better-auth/plugins";
 import { eq, sql } from "drizzle-orm";
 import { createEnterpriseStore } from "../admin/settings-store";
 import type { AuditEventInput, AuditStore } from "../audit";
@@ -29,6 +29,7 @@ import {
 import { DOMAIN_REFUSAL_MESSAGE, emailDomainAllowed } from "./email-domain";
 import { encryptSsoConfig } from "./encrypt-sso-config";
 import { SIGN_OUT_UNFINISHED } from "./organization";
+import { sendNovabotOtp } from "./otp-email";
 import {
   applyConfiguredAdmin,
   initialRoleWithApproval,
@@ -230,7 +231,20 @@ export function createAuth(
    * never be sent there.
    */
   const nativeApp = Boolean(process.env.EXPO_PROJECT_ID?.trim());
+  const otpTransport = authConfig.emailOtp;
   const plugins = [
+    ...(otpTransport
+      ? [
+          emailOTP({
+            otpLength: 6,
+            expiresIn: 300,
+            allowedAttempts: 5,
+            async sendVerificationOTP({ email, otp, type }) {
+              await sendNovabotOtp(otpTransport, { email, otp, type });
+            },
+          }),
+        ]
+      : []),
     ...(nativeApp ? [expo()] : []),
     /*
      * SCIM 2.0 at /api/auth/scim/v2, only when SCIM_BEARER_TOKEN is set. See scim.ts.
@@ -381,6 +395,19 @@ export function createAuth(
     },
     baseURL: authConfig.baseUrl,
     secret: authConfig.secret,
+    ...(authConfig.emailOtp
+      ? {
+          rateLimit: {
+            enabled: true,
+            window: 60,
+            max: 100,
+            customRules: {
+              "/email-otp/send-verification-otp": { window: 60, max: 3 },
+              "/sign-in/email-otp": { window: 60, max: 5 },
+            },
+          },
+        }
+      : {}),
     trustedOrigins: [
       ...authConfig.trustedOrigins,
       ...(nativeApp ? [NATIVE_APP_ORIGIN] : []),

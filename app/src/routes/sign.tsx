@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
+  authClient,
   providerName,
   signInWith,
   signInWithEmailDomain,
@@ -105,6 +106,59 @@ function SignScreen() {
   const awaitingApproval = access?.status === "pending";
   const deniedAccess = access?.status === "revoked";
   const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpBusy, setOtpBusy] = useState(false);
+
+  async function requestOtp(event: React.FormEvent) {
+    event.preventDefault();
+    if (!options?.emailOtpEnabled) return;
+    setOtpBusy(true);
+    setError(null);
+    try {
+      const result = await authClient.emailOtp.sendVerificationOtp({
+        email: email.trim().toLowerCase(),
+        type: "sign-in",
+      });
+      if (result.error)
+        throw new Error(
+          "Não foi possível enviar o código. Confira o e-mail e tente novamente.",
+        );
+      setOtpSent(true);
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Não foi possível enviar o código.",
+      );
+    } finally {
+      setOtpBusy(false);
+    }
+  }
+
+  async function confirmOtp(event: React.FormEvent) {
+    event.preventDefault();
+    if (!options?.emailOtpEnabled || !/^\d{6}$/.test(otp)) return;
+    setOtpBusy(true);
+    setError(null);
+    try {
+      const result = await authClient.signIn.emailOtp({
+        email: email.trim().toLowerCase(),
+        otp,
+      });
+      if (result.error)
+        throw new Error("Código inválido ou expirado. Solicite outro.");
+      window.location.replace("/sign");
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Não foi possível confirmar o código.",
+      );
+    } finally {
+      setOtpBusy(false);
+    }
+  }
 
   /**
    * Sign in through whichever identity provider covers this address.
@@ -228,8 +282,8 @@ function SignScreen() {
         >
           {options?.approvalRequired && access?.status === "signed_out" ? (
             <p className="mb-4 text-center text-sm text-muted-foreground">
-              É seu primeiro acesso? Entre com sua conta Google ou Microsoft
-              para solicitar autorização. Você não precisa pedir um convite.
+              É seu primeiro acesso? Informe seu e-mail para solicitar
+              autorização. Você não precisa pedir um convite.
             </p>
           ) : null}
           {awaitingApproval ? (
@@ -263,7 +317,8 @@ function SignScreen() {
           ) : awaitingApproval ||
             deniedAccess ||
             options?.sso ||
-            options?.ssoRequired ? null : (
+            options?.ssoRequired ||
+            options?.emailOtpEnabled ? null : (
             <p className="text-center text-sm text-muted-foreground">
               O login ainda não está configurado. Um administrador precisa
               configurá-lo primeiro.
@@ -275,6 +330,75 @@ function SignScreen() {
            * Below the buttons, because a deployment with both has more people arriving through the
            * buttons: the registered providers are for the companies whose IdP was added by hand.
            */}
+          {!awaitingApproval && !deniedAccess && options?.emailOtpEnabled ? (
+            <form
+              className="flex flex-col gap-3"
+              onSubmit={otpSent ? confirmOtp : requestOtp}
+            >
+              <label className="text-sm font-medium" htmlFor="novabot-email">
+                Seu e-mail
+              </label>
+              <Input
+                id="novabot-email"
+                type="email"
+                autoComplete="email"
+                required
+                disabled={otpBusy || otpSent}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="voce@exemplo.com"
+              />
+              {otpSent ? (
+                <>
+                  <label className="text-sm font-medium" htmlFor="novabot-otp">
+                    Código recebido por e-mail
+                  </label>
+                  <Input
+                    id="novabot-otp"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    maxLength={6}
+                    pattern="[0-9]{6}"
+                    value={otp}
+                    onChange={(event) =>
+                      setOtp(event.target.value.replace(/[^0-9]/g, ""))
+                    }
+                    placeholder="000000"
+                    required
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    O código expira em 5 minutos. Nunca compartilhe seu código.
+                  </p>
+                </>
+              ) : null}
+              <Button
+                type="submit"
+                disabled={
+                  otpBusy || !email.trim() || (otpSent && otp.length !== 6)
+                }
+              >
+                {otpBusy
+                  ? "Aguarde…"
+                  : otpSent
+                    ? "Confirmar código"
+                    : "Enviar código"}
+              </Button>
+              {otpSent ? (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  disabled={otpBusy}
+                  onClick={() => {
+                    setOtpSent(false);
+                    setOtp("");
+                    setError(null);
+                  }}
+                >
+                  Usar outro e-mail ou solicitar novo código
+                </Button>
+              ) : null}
+            </form>
+          ) : null}
           {!awaitingApproval && !deniedAccess && options?.sso ? (
             <form className="mt-3" onSubmit={handleDomainSignIn}>
               {providers.length > 0 ? (

@@ -50,6 +50,7 @@ export type SignInOptions = {
   /** An administrator requires SSO; social sign-in stays only as the administrators' break-glass. */
   ssoRequired: boolean;
   approvalRequired: boolean;
+  emailOtpEnabled: boolean;
 };
 
 async function signInOptions(): Promise<SignInOptions> {
@@ -65,6 +66,7 @@ async function signInOptions(): Promise<SignInOptions> {
     ssoConfigured?: boolean;
     ssoRequired?: boolean;
     approvalRequired?: boolean;
+    emailOtpEnabled?: boolean;
   };
 
   return {
@@ -72,6 +74,7 @@ async function signInOptions(): Promise<SignInOptions> {
     sso: body.ssoConfigured === true,
     ssoRequired: body.ssoRequired === true,
     approvalRequired: body.approvalRequired === true,
+    emailOtpEnabled: body.emailOtpEnabled === true,
   };
 }
 

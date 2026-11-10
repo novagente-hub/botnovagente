@@ -59,3 +59,29 @@ It never declares a login successful, replays browser actions, or retries HTTP 4
 Checkpoint persistence is best-effort: an unavailable checkpoint database does
 not lock a human out of returning the browser. Production activation requires
 merging, deployment and end-to-end authorised login validation; none done here.
+
+## Phase 4: exactly-one continuation claim for live AG-UI chats (draft)
+
+When a person's browser control is returned, the **same restored conversation**
+now attempts its outstanding `computer_request_help` tool automatically, but
+only if the browser reports a completed request with its original `toolCallId`
+and the original thread still holds the unanswered tool call. The original
+live frontend tool follows the same claim protocol, so another tab cannot
+resume the same pending tool while the original tab is also resuming.
+
+The new `/api/computers/:botId/control/resume-claim` endpoint is protected by
+the session's computer permissions and validates the control state by reading
+it from the computer. A matching `model` handoff + tenant-owned PostgreSQL
+checkpoint must be `ready_to_resume`; an atomic revision transition grants a
+single caller its right to complete the original tool result. Nothing here
+replays clicks, publishes a post or stores credentials. A fresh snapshot is
+required before the claim. A rate limit/CAPTCHA never triggers auto-login.
+
+**Explicit limitations:** this auto-continues interactive AG-UI conversations
+that are still open or are later reopened by their owner. It does **not** yet
+resume fully unattended jobs when every browser/chat tab is closed; those need
+a durable server-side continuation snapshot and worker. Browser-generated
+challenges without a model tool-call checkpoint still use the existing manual
+handoff path. If a tab crashes after claiming but before executing a run, the
+claim stays held to avoid duplicate external side effects; a reviewed recovery
+workflow is needed before a retry. Instagram HTTP 429 is unaffected. No Meta API.

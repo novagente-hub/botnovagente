@@ -25,3 +25,26 @@ These are behavioral instructions, not an automatic durable queue. Existing host
 4. Provide approved session login through the customer's *hosted* browser with human takeover and provider-compliant access. Do not assume IP changes will fix Instagram's HTTP 429 responses.
 5. End-to-end test on staging against a permitted test account before enabling any production login automation.
 6. Review OpenMausBot LICENSE and `enterprise/LICENSE` before reusing any upstream source. The upstream OSS core is Apache 2.0; hosted/white-label enterprise features are not freely licensed.
+
+## Phase 2: persistent checkpoint storage (implemented in the draft PR)
+
+`server/src/agents/task-checkpoints.ts` stores a typed, tenant- and agent-scoped
+checkpoint in the existing `work_items` PostgreSQL table under the dedicated
+`novabot.task-checkpoint` kind. No new migration is required; this kind has no
+worker and a far-future `runAt` so it cannot accidentally run as a task.
+
+- `begin`: create checkpoint idempotently (owner + agent + task digest).
+- `read`: enforce owner, agent and task scope on every lookup.
+- `transition`: compare-and-swap version/status; explicit permissible states.
+- Saves only a site *origin*, not URL paths, query strings, cookies or passwords.
+- `completed` is terminal; no transition can automatically replay side effects.
+
+Status model: `in_progress`, `awaiting_human`, `ready_to_resume`,
+`rate_limited`, `blocked`, `completed`.
+
+The storage layer is independently tested, including live PostgreSQL tests against
+an isolated staging test database. It is **not connected to live job execution or
+browser release hooks yet**. The next integration must attach checkpoints to
+an authenticated run, update state on handoff/release and use the existing
+lease-based queue to resume only approved, idempotent work. A database checkpoint
+by itself neither resumes the original run nor fixes Instagram login.

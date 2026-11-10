@@ -48,3 +48,14 @@ browser release hooks yet**. The next integration must attach checkpoints to
 an authenticated run, update state on handoff/release and use the existing
 lease-based queue to resume only approved, idempotent work. A database checkpoint
 by itself neither resumes the original run nor fixes Instagram login.
+
+## Phase 3: computer gateway handoff event integration (draft)
+
+`createComputerGateway` now accepts an optional `handoffCheckpoint` adapter.
+Both model/headless and manual help requests pass through this gateway, so a
+waiting control request creates an `awaiting_human` checkpoint. Only a matching,
+completed release advances it to `ready_to_resume` via revision-checked writes.
+It never declares a login successful, replays browser actions, or retries HTTP 429.
+Checkpoint persistence is best-effort: an unavailable checkpoint database does
+not lock a human out of returning the browser. Production activation requires
+merging, deployment and end-to-end authorised login validation; none done here.

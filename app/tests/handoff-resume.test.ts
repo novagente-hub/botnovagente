@@ -144,3 +144,136 @@ test("an interrupted restored handoff continues with an honest failure result", 
   expect(result?.content).toContain('"handoffStatus":"interrupted"');
   expect(r.order).toEqual(["result", "run"]);
 });
+
+test("auto continuation only uses a completed, matching, unanswered tool call", async () => {
+  const { canAutoResumeHandoff } = await import(
+    "../src/lib/copilot/handoff-resume"
+  );
+  const r = resumedAgent();
+  const control = {
+    holder: "bot" as const,
+    since: "2026-11-10T00:00:00Z",
+    requested: false,
+    transitioning: false,
+    resumeSnapshotRequired: false,
+    recoveryRequired: false,
+    request: {
+      id: "request-1",
+      status: "completed" as const,
+      source: "model" as const,
+      toolCallId: "tool-1",
+      reason: "Sign in",
+      createdAt: "2026-11-10T00:00:00Z",
+      updatedAt: "2026-11-10T00:00:00Z",
+    },
+  };
+  expect(canAutoResumeHandoff(pending, control, r.agent)).toBe(true);
+  expect(
+    canAutoResumeHandoff(
+      pending,
+      { ...control, recoveryRequired: true },
+      r.agent,
+    ),
+  ).toBe(false);
+  expect(
+    canAutoResumeHandoff(
+      pending,
+      {
+        ...control,
+        request: { ...control.request, status: "waiting" },
+      },
+      r.agent,
+    ),
+  ).toBe(false);
+  expect(
+    canAutoResumeHandoff(
+      pending,
+      {
+        ...control,
+        request: { ...control.request, toolCallId: "another-tool" },
+      },
+      r.agent,
+    ),
+  ).toBe(false);
+  expect(
+    canAutoResumeHandoff(
+      pending,
+      {
+        ...control,
+        request: { ...control.request, source: "manual" },
+      },
+      r.agent,
+    ),
+  ).toBe(false);
+  expect(
+    canAutoResumeHandoff(pending, control, { ...r.agent, isRunning: true }),
+  ).toBe(false);
+  expect(
+    canAutoResumeHandoff(pending, control, { ...r.agent, messages: [] }),
+  ).toBe(false);
+});
+
+test("active frontend tool claims the durable handoff before continuing", async () => {
+  const r = resumedAgent();
+  fetchSpy.mockImplementation(
+    Object.assign(
+      async (path: Parameters<typeof fetch>[0]) => {
+        if (String(path).endsWith("/snapshot")) {
+          r.order.push("snapshot");
+          return Response.json({ snapshotId: 42, elements: [] });
+        }
+        if (String(path).includes("/resume-claim")) {
+          r.order.push("claim");
+          return Response.json({ claimed: true });
+        }
+        return Response.json({
+          holder: "bot",
+          requested: false,
+          request: {
+            id: "request-1",
+            status: "completed",
+            source: "model",
+            toolCallId: "tool-1",
+            reason: "Sign in",
+          },
+        });
+      },
+      { preconnect: () => undefined },
+    ),
+  );
+  await resumeHandoffTask("bot-1", pending, r.agent, r.run);
+  expect(r.order).toEqual(["snapshot", "claim", "result", "run"]);
+});
+
+test("a handoff already claimed elsewhere never starts the original run again", async () => {
+  const r = resumedAgent();
+  fetchSpy.mockImplementation(
+    Object.assign(
+      async (path: Parameters<typeof fetch>[0]) => {
+        if (String(path).endsWith("/snapshot"))
+          return Response.json({ snapshotId: 43, elements: [] });
+        if (String(path).includes("/resume-claim"))
+          return Response.json({ claimed: false, reason: "Already resumed" });
+        return Response.json({
+          holder: "bot",
+          requested: false,
+          request: {
+            id: "request-1",
+            status: "completed",
+            source: "model",
+            toolCallId: "tool-1",
+            reason: "Sign in",
+          },
+        });
+      },
+      { preconnect: () => undefined },
+    ),
+  );
+  await expect(
+    resumeHandoffTask("bot-1", pending, r.agent, r.run),
+  ).rejects.toThrow("Already resumed");
+  expect(r.order).toEqual([]);
+  expect(r.agent.messages.some((message) => message.role === "tool")).toBe(
+    false,
+  );
+});

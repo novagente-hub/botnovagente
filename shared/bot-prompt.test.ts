@@ -101,6 +101,19 @@ describe("computerGuidance", () => {
     expect(guidance).toContain("cannot search");
   });
 
+  test.each([true, false])(
+    "resumes a task after human browser control (search=%s)",
+    (search) => {
+      const guidance = computerGuidance({ search });
+      expect(guidance).toContain(
+        "After control is returned, use computer_read",
+      );
+      expect(guidance).toContain("computer_snapshot");
+      expect(guidance).toContain("resume the original");
+      expect(guidance).toContain("do not keep retrying a rate-limited");
+    },
+  );
+
   test("says what it is about to do before its first computer action", () => {
     // A first action can sit through a cold start; a sentence first means the wait has a reason.
     for (const search of [true, false]) {

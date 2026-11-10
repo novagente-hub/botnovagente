@@ -58,6 +58,55 @@ export function createTaskCheckpointHandoff(store: TaskCheckpointHandoffStore) {
       }
     },
 
+    /**
+     * Claim one restored AG-UI tool call. The browser must report the same
+     * completed human request and toolCallId, then the checkpoint CAS permits
+     * exactly one caller to continue. This never executes external actions.
+     */
+    async claim(
+      seat: ComputerSeat,
+      actor: ActionActor,
+      requestId: string,
+      toolCallId: string,
+      state: ComputerControlState,
+    ): Promise<{ claimed: boolean; reason?: string }> {
+      if (
+        state.holder !== "bot" ||
+        state.request?.id !== requestId ||
+        state.request.status !== "completed" ||
+        state.request.source !== "model" ||
+        state.request.toolCallId !== toolCallId ||
+        !toolCallId.trim()
+      )
+        return {
+          claimed: false,
+          reason: "Browser handoff has not completed for this tool call.",
+        };
+      const scope = scopeFor(seat, actor, requestId);
+      const before = await store.read(scope);
+      if (before?.status !== "ready_to_resume")
+        return {
+          claimed: false,
+          reason: "This handoff is not ready or has already been claimed.",
+        };
+      try {
+        await store.transition(scope, {
+          status: "in_progress",
+          expectedRevision: before.revision,
+          lastVerifiedStep:
+            "Original tool call claimed for continuation; external result not yet verified.",
+        });
+        return { claimed: true };
+      } catch (error) {
+        if (error instanceof CheckpointConflictError)
+          return {
+            claimed: false,
+            reason: "Another conversation already claimed this handoff.",
+          };
+        throw error;
+      }
+    },
+
     async released(
       seat: ComputerSeat,
       actor: ActionActor,

@@ -145,6 +145,20 @@ export type ComputerGatewayOptions = {
   token?: string;
   /** An injectable fetch implementation for focused gateway tests. */
   fetchImpl?: typeof fetch;
+  /** Optional durable task tracking for human browser takeovers. Never executes work. */
+  handoffCheckpoint?: {
+    requested: (
+      seat: ComputerSeat,
+      actor: ActionActor,
+      state: ControlState,
+    ) => Promise<void>;
+    released: (
+      seat: ComputerSeat,
+      actor: ActionActor,
+      requestId: string,
+      state: ControlState,
+    ) => Promise<void>;
+  };
   /**
    * Where the snapshot a ref is resolved against is kept.
    *
@@ -960,6 +974,14 @@ export function createComputerGateway(
         actor,
         reason,
       });
+      try {
+        await options.handoffCheckpoint?.requested(seat, actor, state);
+      } catch (error) {
+        console.warn(
+          "task-checkpoint-handoff-request-failed",
+          error instanceof Error ? error.message : "unknown error",
+        );
+      }
       return state;
     },
 
@@ -996,6 +1018,19 @@ export function createComputerGateway(
         seat,
         actor,
       });
+      try {
+        await options.handoffCheckpoint?.released(
+          seat,
+          actor,
+          requestId,
+          state,
+        );
+      } catch (error) {
+        console.warn(
+          "task-checkpoint-handoff-release-failed",
+          error instanceof Error ? error.message : "unknown error",
+        );
+      }
       return state;
     },
 

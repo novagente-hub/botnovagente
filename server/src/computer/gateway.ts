@@ -158,6 +158,13 @@ export type ComputerGatewayOptions = {
       requestId: string,
       state: ControlState,
     ) => Promise<void>;
+    claim?: (
+      seat: ComputerSeat,
+      actor: ActionActor,
+      requestId: string,
+      toolCallId: string,
+      state: ControlState,
+    ) => Promise<{ claimed: boolean; reason?: string }>;
   };
   /**
    * Where the snapshot a ref is resolved against is kept.
@@ -278,6 +285,13 @@ export interface ComputerGateway {
     input: WriteFileInput,
   ): Promise<WriteFileResult>;
   control(seat: ComputerSeat, requestId?: string): Promise<ControlState>;
+  /** One-shot claim: never replays a tool action; denies missing or mismatched handoffs. */
+  claimHandoffResume(
+    seat: ComputerSeat,
+    actor: ActionActor,
+    requestId: string,
+    toolCallId: string,
+  ): Promise<{ claimed: boolean; reason?: string }>;
   /** `source` is `manual` for a person taking the wheel themselves; the Bot's own requests are `model`. */
   requestHelp(
     seat: ComputerSeat,
@@ -1047,6 +1061,31 @@ export function createComputerGateway(
         actor,
       });
       return state;
+    },
+
+    async claimHandoffResume(
+      seat: ComputerSeat,
+      actor: ActionActor,
+      requestId: string,
+      toolCallId: string,
+    ): Promise<{ claimed: boolean; reason?: string }> {
+      if (!options.handoffCheckpoint?.claim)
+        return {
+          claimed: false,
+          reason: "Durable handoff continuation is not enabled.",
+        };
+      // Fresh read from the computer: no caller may claim based only on UI state.
+      const state = await get<ControlState>(
+        seat,
+        `/control?requestId=${encodeURIComponent(requestId)}`,
+      );
+      return options.handoffCheckpoint.claim(
+        seat,
+        actor,
+        requestId,
+        toolCallId,
+        state,
+      );
     },
 
     control(seat: ComputerSeat, requestId?: string): Promise<ControlState> {

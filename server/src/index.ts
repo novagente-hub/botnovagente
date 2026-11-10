@@ -44,6 +44,8 @@ import { createBotReset } from "./agents/lifecycle-reset";
 import { createAgentProfileStore } from "./agents/profile-store";
 import type { AgentActor } from "./agents/profile-types";
 import { createRuntimeAgentLoader } from "./agents/runtime-agents";
+import { createTaskCheckpointHandoff } from "./agents/task-checkpoint-handoff";
+import { createTaskCheckpointStore } from "./agents/task-checkpoints";
 import { serverTurnAdmission } from "./agents/turn-admission";
 import {
   createWakeUpRunner,
@@ -835,6 +837,9 @@ const computerGateway = computerProvider
           ).map((row) => [row.id, { name: row.name, email: row.email }]),
         ),
       auditStore: bootAuditStore,
+      handoffCheckpoint: createTaskCheckpointHandoff(
+        createTaskCheckpointStore(database),
+      ),
       approvalGate: approvalService.gate,
       policy: () => policyStore.get(),
       // In Postgres, so the ref a click carries resolves against the snapshot that produced it even

@@ -3,7 +3,7 @@ import type {
   HandoffRequest,
 } from "@openbot/shared/computer-control";
 import { callComputer, type ToolOutcome } from "./call";
-import { cancelControl, readControl } from "./control";
+import { cancelControl, claimHandoffResume, readControl } from "./control";
 
 export type PendingHandoff = { requestId: string; toolCallId: string };
 const active = new Map<string, number>();
@@ -96,6 +96,7 @@ export async function awaitHandoff(
   requestId: string,
   signal?: AbortSignal,
   pollMs = 1000,
+  toolCallId?: string,
 ): Promise<ToolOutcome> {
   const identity = `${botId}:${requestId}`;
   active.set(identity, (active.get(identity) ?? 0) + 1);
@@ -161,8 +162,42 @@ export async function awaitHandoff(
             nextChallenge.requestId,
             signal,
             pollMs,
+            toolCallId,
           );
           return { ...next, challenge: nextChallenge };
+        }
+        const expectedToolCallId =
+          toolCallId ??
+          (pendingHandoff(botId)?.requestId === requestId
+            ? pendingHandoff(botId)?.toolCallId
+            : undefined);
+        if (
+          lastRequest.source === "model" &&
+          lastRequest.toolCallId &&
+          expectedToolCallId
+        ) {
+          if (lastRequest.toolCallId !== expectedToolCallId)
+            return {
+              ok: false,
+              reconnecting: true,
+              requestId,
+              reason:
+                "O repasse retornou outra chamada. Não vou repetir esta tarefa.",
+            };
+          const claim = await claimHandoffResume(
+            botId,
+            requestId,
+            expectedToolCallId,
+          );
+          if (!claim.claimed)
+            return {
+              ok: false,
+              reconnecting: true,
+              requestId,
+              reason:
+                claim.reason ??
+                "Esta tarefa já foi retomada em outra conversa. Não vou executá-la novamente.",
+            };
         }
         answered.add(identity);
         return {
@@ -235,7 +270,7 @@ export async function runHelpRequest(
 ): Promise<ToolOutcome> {
   const stored = pendingHandoff(botId);
   if (toolCallId && stored?.toolCallId === toolCallId)
-    return awaitHandoff(botId, stored.requestId, signal);
+    return awaitHandoff(botId, stored.requestId, signal, 1000, toolCallId);
   const asked = await callComputer(
     botId,
     "/control/request",
@@ -250,7 +285,7 @@ export async function runHelpRequest(
       reason: "O computador não identificou o pedido de repasse.",
     };
   rememberHandoff(botId, request.id, toolCallId);
-  return awaitHandoff(botId, request.id, signal);
+  return awaitHandoff(botId, request.id, signal, 1000, toolCallId);
 }
 
 export async function runNavigation(
@@ -261,7 +296,7 @@ export async function runNavigation(
 ): Promise<ToolOutcome> {
   const stored = pendingHandoff(botId);
   if (toolCallId && stored?.toolCallId === toolCallId)
-    return awaitHandoff(botId, stored.requestId, signal);
+    return awaitHandoff(botId, stored.requestId, signal, 1000, toolCallId);
   const result = await callComputer(
     botId,
     "/navigate",
@@ -271,7 +306,13 @@ export async function runNavigation(
   const challenge = challengeFrom(result);
   if (!challenge?.requestId) return result;
   rememberHandoff(botId, challenge.requestId, toolCallId);
-  const resumed = await awaitHandoff(botId, challenge.requestId, signal);
+  const resumed = await awaitHandoff(
+    botId,
+    challenge.requestId,
+    signal,
+    1000,
+    toolCallId,
+  );
   // Only the resumed snapshot describes the current page. The initial response belongs to
   // the challenge page and may carry text/truncation fields absent from a snapshot.
   return { ...resumed, challenge, challengeResolved: resumed.ok };
@@ -301,7 +342,7 @@ export async function runBrowserRead(
 ): Promise<ToolOutcome> {
   const stored = pendingHandoff(botId);
   if (toolCallId && stored?.toolCallId === toolCallId)
-    return awaitHandoff(botId, stored.requestId, signal);
+    return awaitHandoff(botId, stored.requestId, signal, 1000, toolCallId);
   const result = await callComputer(
     botId,
     path,
@@ -311,6 +352,12 @@ export async function runBrowserRead(
   const challenge = challengeFrom(result);
   if (!challenge) return result;
   rememberHandoff(botId, challenge.requestId, toolCallId);
-  const resumed = await awaitHandoff(botId, challenge.requestId, signal);
+  const resumed = await awaitHandoff(
+    botId,
+    challenge.requestId,
+    signal,
+    1000,
+    toolCallId,
+  );
   return { ...resumed, challenge, challengeResolved: resumed.ok };
 }

@@ -103,7 +103,9 @@ export async function supplySecret(
     } | null;
     return {
       ok: false,
-      error: body?.error ?? "Não foi possível digitar isso na página. Tente novamente.",
+      error:
+        body?.error ??
+        "Não foi possível digitar isso na página. Tente novamente.",
     };
   } catch {
     return {
@@ -135,4 +137,37 @@ export function sendHumanInput(
     )
     // Fire-and-forget: the user can see/retry input failures, while the input queue must keep moving.
     .catch(() => undefined);
+}
+
+/**
+ * Atomic server-side claim for one resumed tool call. Other tabs/replicas
+ * receive a refusal rather than running that original conversation twice.
+ * The server checks the signed-in actor, completed browser request, stored
+ * checkpoint and matching toolCallId before granting the claim.
+ */
+export async function claimHandoffResume(
+  computerId: string,
+  requestId: string,
+  toolCallId: string,
+): Promise<{ claimed: boolean; reason?: string }> {
+  const response = await tryClient(
+    `/api/computers/${encodeURIComponent(computerId)}/control/resume-claim`,
+    { method: "POST", body: { requestId, toolCallId } },
+  );
+  if (!response.ok)
+    return {
+      claimed: false,
+      reason: "Não foi possível confirmar a retomada com o servidor.",
+    };
+  const data: unknown = await response.json().catch(() => null);
+  if (!data || typeof data !== "object" || !("claimed" in data))
+    return {
+      claimed: false,
+      reason: "A autorização de retomada não foi reconhecida.",
+    };
+  const result = data as { claimed: unknown; reason?: unknown };
+  return {
+    claimed: result.claimed === true,
+    ...(typeof result.reason === "string" ? { reason: result.reason } : {}),
+  };
 }

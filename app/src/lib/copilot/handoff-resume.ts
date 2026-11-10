@@ -1,4 +1,5 @@
 import type { Message, ToolCall } from "@ag-ui/core";
+import type { ComputerControlState } from "@openbot/shared/computer-control";
 import {
   awaitHandoff,
   forgetHandoff,
@@ -75,6 +76,28 @@ export function findPendingTool(
   return accepted ? null : call;
 }
 
+/**
+ * Auto-resume is permitted only for the exact, completed handoff and unresolved
+ * tool call in the original conversation. An open browser or returned wheel is
+ * not evidence of a successful login. The Bot must inspect the fresh page.
+ */
+export function canAutoResumeHandoff(
+  pending: PendingHandoff,
+  control: ComputerControlState | null,
+  agent: Pick<HandoffAgent, "messages" | "isRunning">,
+): boolean {
+  return (
+    !agent.isRunning &&
+    control?.holder === "bot" &&
+    control.recoveryRequired === false &&
+    control.request?.id === pending.requestId &&
+    control.request.status === "completed" &&
+    control.request.source === "model" &&
+    control.request.toolCallId === pending.toolCallId &&
+    findPendingTool(agent.messages, pending) !== null
+  );
+}
+
 /** Resume the restored call on its original channel agent; never add a new user task. */
 export async function resumeHandoffTask(
   botId: string,
@@ -89,20 +112,31 @@ export async function resumeHandoffTask(
       m.toolCalls?.some((c) => c.id === pending.toolCallId),
   );
   if (!hasCall)
-    throw new Error("A chamada de ferramenta do repasse não está nesta conversa.");
+    throw new Error(
+      "A chamada de ferramenta do repasse não está nesta conversa.",
+    );
   if (!findPendingTool(agent.messages, pending))
     throw new Error("Esta chamada de ferramenta já foi respondida.");
   if (agent.isRunning || hasActiveHandoff(botId, pending.requestId))
     throw new Error("Esta tarefa já está em execução.");
-  const result = await awaitHandoff(botId, pending.requestId, signal);
+  const result = await awaitHandoff(
+    botId,
+    pending.requestId,
+    signal,
+    1000,
+    pending.toolCallId,
+  );
   if (signal?.aborted) return;
   if (result.reconnecting || result.snapshotRequired)
     throw new Error(
       String(
-        result.reason ?? "Não foi possível acessar o computador. Tente de novo para retomar.",
+        result.reason ??
+          "Não foi possível acessar o computador. Tente de novo para retomar.",
       ),
     );
   // Another handler/tab may have supplied the result while we waited. Keep accepted work accepted.
+  if (!findPendingTool(agent.messages, pending)) return;
+  // Even after acquiring the durable claim, never add a duplicate result to this thread.
   if (!findPendingTool(agent.messages, pending)) return;
   const messages = agent.messages.filter(
     (m) =>

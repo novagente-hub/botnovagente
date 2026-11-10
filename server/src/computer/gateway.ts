@@ -145,6 +145,27 @@ export type ComputerGatewayOptions = {
   token?: string;
   /** An injectable fetch implementation for focused gateway tests. */
   fetchImpl?: typeof fetch;
+  /** Optional durable task tracking for human browser takeovers. Never executes work. */
+  handoffCheckpoint?: {
+    requested: (
+      seat: ComputerSeat,
+      actor: ActionActor,
+      state: ControlState,
+    ) => Promise<void>;
+    released: (
+      seat: ComputerSeat,
+      actor: ActionActor,
+      requestId: string,
+      state: ControlState,
+    ) => Promise<void>;
+    claim?: (
+      seat: ComputerSeat,
+      actor: ActionActor,
+      requestId: string,
+      toolCallId: string,
+      state: ControlState,
+    ) => Promise<{ claimed: boolean; reason?: string }>;
+  };
   /**
    * Where the snapshot a ref is resolved against is kept.
    *
@@ -264,6 +285,13 @@ export interface ComputerGateway {
     input: WriteFileInput,
   ): Promise<WriteFileResult>;
   control(seat: ComputerSeat, requestId?: string): Promise<ControlState>;
+  /** One-shot claim: never replays a tool action; denies missing or mismatched handoffs. */
+  claimHandoffResume(
+    seat: ComputerSeat,
+    actor: ActionActor,
+    requestId: string,
+    toolCallId: string,
+  ): Promise<{ claimed: boolean; reason?: string }>;
   /** `source` is `manual` for a person taking the wheel themselves; the Bot's own requests are `model`. */
   requestHelp(
     seat: ComputerSeat,
@@ -960,6 +988,14 @@ export function createComputerGateway(
         actor,
         reason,
       });
+      try {
+        await options.handoffCheckpoint?.requested(seat, actor, state);
+      } catch (error) {
+        console.warn(
+          "task-checkpoint-handoff-request-failed",
+          error instanceof Error ? error.message : "unknown error",
+        );
+      }
       return state;
     },
 
@@ -996,6 +1032,19 @@ export function createComputerGateway(
         seat,
         actor,
       });
+      try {
+        await options.handoffCheckpoint?.released(
+          seat,
+          actor,
+          requestId,
+          state,
+        );
+      } catch (error) {
+        console.warn(
+          "task-checkpoint-handoff-release-failed",
+          error instanceof Error ? error.message : "unknown error",
+        );
+      }
       return state;
     },
 
@@ -1012,6 +1061,31 @@ export function createComputerGateway(
         actor,
       });
       return state;
+    },
+
+    async claimHandoffResume(
+      seat: ComputerSeat,
+      actor: ActionActor,
+      requestId: string,
+      toolCallId: string,
+    ): Promise<{ claimed: boolean; reason?: string }> {
+      if (!options.handoffCheckpoint?.claim)
+        return {
+          claimed: false,
+          reason: "Durable handoff continuation is not enabled.",
+        };
+      // Fresh read from the computer: no caller may claim based only on UI state.
+      const state = await get<ControlState>(
+        seat,
+        `/control?requestId=${encodeURIComponent(requestId)}`,
+      );
+      return options.handoffCheckpoint.claim(
+        seat,
+        actor,
+        requestId,
+        toolCallId,
+        state,
+      );
     },
 
     control(seat: ComputerSeat, requestId?: string): Promise<ControlState> {

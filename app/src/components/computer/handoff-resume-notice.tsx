@@ -9,6 +9,7 @@ import {
   wasHandoffAnswered,
 } from "@/lib/computers/handoff";
 import {
+  canAutoResumeHandoff,
   findPendingTool,
   type HandoffAgent,
   resumeHandoffTask,
@@ -30,6 +31,16 @@ export function HandoffResumeNotice({
   const [busy, setBusy] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
   const controller = useRef<AbortController | null>(null);
+  const executing = useRef(false);
+  const attemptedAutomatically = useRef(new Set<string>());
+  // Callbacks change as messages stream; use current references in polling effects.
+  const current = useRef({ agent, run });
+  current.current = { agent, run };
+  const resumeRef = useRef<(target: PendingHandoff) => Promise<void>>(
+    async () => {},
+  );
+  // An agent rerender is not a human cancel. Only unmount or switching Bot detaches.
+  useEffect(() => () => controller.current?.abort("detached"), []);
   useEffect(() => {
     if (!ready) return;
     let live = true;
@@ -80,27 +91,64 @@ export function HandoffResumeNotice({
     return () => {
       live = false;
       clearTimeout(timer);
-      controller.current?.abort("detached");
     };
   }, [botId, agent, ready]);
 
-  const resume = async () => {
-    if (!pending || busy) return;
+  const resume = async (target: PendingHandoff) => {
+    if (executing.current) return;
+    executing.current = true;
     const abort = new AbortController();
     controller.current = abort;
     setBusy(true);
     setProblem(null);
     try {
-      await resumeHandoffTask(botId, pending, agent, run, abort.signal);
+      await resumeHandoffTask(
+        botId,
+        target,
+        current.current.agent,
+        current.current.run,
+        abort.signal,
+      );
     } catch (error) {
       setProblem(
-        error instanceof Error ? error.message : "Não foi possível retomar a tarefa.",
+        error instanceof Error
+          ? error.message
+          : "Não foi possível retomar a tarefa.",
       );
     } finally {
+      executing.current = false;
       setBusy(false);
       controller.current = null;
     }
   };
+  resumeRef.current = resume;
+
+  useEffect(() => {
+    if (!ready || !pending || busy || agent.isRunning) return;
+    let live = true;
+    const identity = `${botId}:${pending.requestId}:${pending.toolCallId}`;
+    if (attemptedAutomatically.current.has(identity)) return;
+    void (async () => {
+      const state = await readControl(botId, pending.requestId).catch(
+        () => null,
+      );
+      if (
+        !live ||
+        executing.current ||
+        !canAutoResumeHandoff(pending, state, current.current.agent) ||
+        attemptedAutomatically.current.has(identity)
+      )
+        return;
+      // One automatic attempt per restored tool call on this tab; another tab
+      // must also claim the durable checkpoint before it can run.
+      attemptedAutomatically.current.add(identity);
+      await resumeRef.current(pending);
+    })();
+    return () => {
+      live = false;
+    };
+  }, [agent.isRunning, botId, busy, pending, ready]);
+
   if (!pending && !busy && !problem) return null;
   return (
     <div
@@ -119,7 +167,6 @@ export function HandoffResumeNotice({
           className="underline"
           onClick={() => controller.current?.abort()}
         >
-          
           Parar de esperar
         </button>
       ) : (
@@ -127,9 +174,10 @@ export function HandoffResumeNotice({
           type="button"
           className="underline"
           disabled={!pending || agent.isRunning}
-          onClick={() => void resume()}
+          onClick={() => {
+            if (pending) void resumeRef.current(pending);
+          }}
         >
-          
           Retomar tarefa
         </button>
       )}

@@ -44,6 +44,8 @@ import { createBotReset } from "./agents/lifecycle-reset";
 import { createAgentProfileStore } from "./agents/profile-store";
 import type { AgentActor } from "./agents/profile-types";
 import { createRuntimeAgentLoader } from "./agents/runtime-agents";
+import { createTaskCheckpointHandoff } from "./agents/task-checkpoint-handoff";
+import { createTaskCheckpointStore } from "./agents/task-checkpoints";
 import { serverTurnAdmission } from "./agents/turn-admission";
 import {
   createWakeUpRunner,
@@ -203,6 +205,9 @@ import {
   createLearningSharingStore,
   createOpenSkillIndex,
 } from "./learning/sharing";
+import { createLocalIntelligence } from "./local/local-intelligence";
+import { isLocalRuntime } from "./local/mode";
+import { localRunner, registerLocalSql } from "./local/pg-runner";
 import { createMemoryDefaults } from "./memory/defaults";
 import { createMemoryIngestion } from "./memory/ingestion";
 import { createIntelligenceMemory } from "./memory/intelligence";
@@ -292,9 +297,6 @@ import { createUserInstructionsStore } from "./user-instructions";
 import { createUserPreferencesStore } from "./user-preferences";
 import { createVoiceSessionStore } from "./voice/sessions";
 import { createVoiceSummarizer } from "./voice/summary";
-import { createLocalIntelligence } from "./local/local-intelligence";
-import { isLocalRuntime } from "./local/mode";
-import { localRunner, registerLocalSql } from "./local/pg-runner";
 import { repeatAfterEach } from "./work/loop";
 import { createWorkQueue, type WorkOfferedListener } from "./work/queue";
 
@@ -835,6 +837,9 @@ const computerGateway = computerProvider
           ).map((row) => [row.id, { name: row.name, email: row.email }]),
         ),
       auditStore: bootAuditStore,
+      handoffCheckpoint: createTaskCheckpointHandoff(
+        createTaskCheckpointStore(database),
+      ),
       approvalGate: approvalService.gate,
       policy: () => policyStore.get(),
       // In Postgres, so the ref a click carries resolves against the snapshot that produced it even

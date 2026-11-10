@@ -22,6 +22,23 @@ describe("NovaBot default operating contract", () => {
     expect(OPERATING_CONTRACT).toContain("genuinely");
   });
 
+  test("keeps task context across sign-in handoff and checks the resumed browser", () => {
+    expect(OPERATING_CONTRACT).toContain("concrete task continuation");
+    expect(OPERATING_CONTRACT).toContain("After any approval, sign-in handoff");
+    expect(OPERATING_CONTRACT).toContain("inspect the current state afresh");
+    expect(OPERATING_CONTRACT).toContain(
+      "A handoff request alone is not a completed login",
+    );
+  });
+
+  test("does not treat CAPTCHA or rate limits as permission to evade controls", () => {
+    expect(OPERATING_CONTRACT).toContain("never ask for");
+    expect(OPERATING_CONTRACT).toContain("attempt to solve CAPTCHA");
+    expect(OPERATING_CONTRACT).toContain(
+      "change identity, proxy or IP to evade",
+    );
+  });
+
   test("never treats the harness as an authorization bypass", () => {
     expect(OPERATING_CONTRACT).toContain("Never bypass a denial");
     expect(OPERATING_CONTRACT).toContain(

@@ -606,6 +606,30 @@ export function createComputerRoutes(
     }),
   );
 
+  /**
+   * Claim the original tool result once across tabs/replicas. This does not run
+   * the agent. Existing ownership + login guards above also apply here.
+   */
+  routes.post("/:botId/control/resume-claim", (context) =>
+    act(context, gateway.seatFor, (seat, actor, body) => {
+      const requestId = body?.requestId;
+      const toolCallId = body?.toolCallId;
+      if (
+        typeof requestId !== "string" ||
+        !requestId.trim() ||
+        requestId.length > 200 ||
+        typeof toolCallId !== "string" ||
+        !toolCallId.trim() ||
+        toolCallId.length > 200
+      )
+        return {
+          ok: false,
+          error: "A handoff request and tool call must be identified.",
+        };
+      return gateway.claimHandoffResume(seat, actor, requestId, toolCallId);
+    }),
+  );
+
   routes.post("/:botId/control/cancel", (context) =>
     act(context, gateway.seatFor, async (seat, actor, body) => {
       let state: Awaited<ReturnType<typeof gateway.cancelControl>>;

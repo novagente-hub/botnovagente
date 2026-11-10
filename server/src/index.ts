@@ -205,6 +205,9 @@ import {
   createLearningSharingStore,
   createOpenSkillIndex,
 } from "./learning/sharing";
+import { createLocalIntelligence } from "./local/local-intelligence";
+import { isLocalRuntime } from "./local/mode";
+import { localRunner, registerLocalSql } from "./local/pg-runner";
 import { createMemoryDefaults } from "./memory/defaults";
 import { createMemoryIngestion } from "./memory/ingestion";
 import { createIntelligenceMemory } from "./memory/intelligence";
@@ -294,9 +297,6 @@ import { createUserInstructionsStore } from "./user-instructions";
 import { createUserPreferencesStore } from "./user-preferences";
 import { createVoiceSessionStore } from "./voice/sessions";
 import { createVoiceSummarizer } from "./voice/summary";
-import { createLocalIntelligence } from "./local/local-intelligence";
-import { isLocalRuntime } from "./local/mode";
-import { localRunner, registerLocalSql } from "./local/pg-runner";
 import { repeatAfterEach } from "./work/loop";
 import { createWorkQueue, type WorkOfferedListener } from "./work/queue";
 

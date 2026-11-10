@@ -180,3 +180,75 @@ test("gateway handoff becomes resumable only when a person returns control", asy
     await store.read({ ...handoffScope, ownerUserId: "another-user" }),
   ).toBeNull();
 });
+
+test("only one browser continuation can claim a completed matching handoff", async () => {
+  const { createTaskCheckpointHandoff } = await import(
+    "../src/agents/task-checkpoint-handoff"
+  );
+  const { personSeat } = await import("../src/computer/computer-key");
+  const handoff = createTaskCheckpointHandoff(store);
+  const seat = personSeat(owner, agent);
+  const actor = { id: owner };
+  const requestId = `${prefix}-claim`;
+  const request = {
+    id: requestId,
+    toolCallId: `${prefix}-tool`,
+    reason: "Sign in",
+    source: "model" as const,
+    status: "waiting" as const,
+    createdAt: "2026-11-10T00:00:00Z",
+    updatedAt: "2026-11-10T00:00:00Z",
+  };
+  const control = {
+    holder: "bot" as const,
+    since: "2026-11-10T00:00:00Z",
+    requested: true,
+    transitioning: false,
+    resumeSnapshotRequired: false,
+    recoveryRequired: false,
+    request,
+  };
+  await handoff.requested(seat, actor, control);
+  const finished = {
+    ...control,
+    requested: false,
+    request: { ...request, status: "completed" as const },
+  };
+  expect(
+    await handoff.claim(seat, actor, requestId, request.toolCallId, control),
+  ).toMatchObject({ claimed: false });
+  expect(
+    await handoff.claim(seat, actor, requestId, "another-tool", finished),
+  ).toMatchObject({ claimed: false });
+  expect(
+    await handoff.claim(
+      seat,
+      { id: "someone-else" },
+      requestId,
+      request.toolCallId,
+      finished,
+    ),
+  ).toMatchObject({ claimed: false });
+  expect(
+    await handoff.claim(seat, actor, requestId, request.toolCallId, {
+      ...finished,
+      request: { ...finished.request, source: "manual" as const },
+    }),
+  ).toMatchObject({ claimed: false });
+  await handoff.released(seat, actor, requestId, finished);
+  const contenders = await Promise.all([
+    handoff.claim(seat, actor, requestId, request.toolCallId, finished),
+    handoff.claim(seat, actor, requestId, request.toolCallId, finished),
+  ]);
+  expect(contenders.filter((c) => c.claimed)).toHaveLength(1);
+  expect(contenders.filter((c) => !c.claimed)).toHaveLength(1);
+  expect(
+    (
+      await store.read({
+        ownerUserId: owner,
+        agentId: agent,
+        taskId: `handoff:${requestId}`,
+      })
+    )?.status,
+  ).toBe("in_progress");
+});

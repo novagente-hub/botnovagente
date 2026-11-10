@@ -31,6 +31,9 @@ const state: ComputerControlState = {
 function fixture(
   reply: (path: string, init?: RequestInit) => Response = () =>
     Response.json(state),
+  handoffCheckpoint?: Parameters<
+    typeof createComputerGateway
+  >[0]["handoffCheckpoint"],
 ) {
   const requests: { path: string; init?: RequestInit }[] = [];
   const provider: ComputerProvider = {
@@ -57,6 +60,7 @@ function fixture(
     fetchImpl,
     policy: () => policy,
     auditStore: { insert: async () => {} },
+    ...(handoffCheckpoint ? { handoffCheckpoint } : {}),
   });
   const policyStore: PolicyStore = {
     get: () => policy,
@@ -202,4 +206,59 @@ test("ownership, freshness, unknown ID and superseded ID survive transport and r
     expect(response.status).toBe(status);
     expect(await response.json()).toEqual(body);
   }
+});
+
+test("both request and release reach optional checkpoint hooks with the signed-in actor", async () => {
+  const events: string[] = [];
+  const { post } = fixture(
+    (path) =>
+      Response.json(
+        path === "/control/release"
+          ? {
+              ...state,
+              request: { ...state.request, status: "completed" },
+              holder: "bot",
+            }
+          : state,
+      ),
+    {
+      requested: async (seat, actor, current) => {
+        expect(seat.botId).toBe("bot-1");
+        expect(actor.id).toBe("user-1");
+        expect(current.request?.status).toBe("waiting");
+        events.push("waiting");
+      },
+      released: async (seat, actor, requestId, current) => {
+        expect(seat.botId).toBe("bot-1");
+        expect(actor.id).toBe("user-1");
+        expect(requestId).toBe("request-1");
+        expect(current.request?.status).toBe("completed");
+        events.push("released");
+      },
+    },
+  );
+  expect(
+    (await post("/control/request", { reason: "Login required" })).status,
+  ).toBe(200);
+  expect(
+    (await post("/control/release", { requestId: "request-1" })).status,
+  ).toBe(200);
+  expect(events).toEqual(["waiting", "released"]);
+});
+
+test("checkpoint storage failure does not lock the human out of the browser", async () => {
+  const { post } = fixture(() => Response.json(state), {
+    requested: async () => {
+      throw new Error("test checkpoint database unavailable");
+    },
+    released: async () => {
+      throw new Error("test checkpoint database unavailable");
+    },
+  });
+  expect(
+    (await post("/control/request", { reason: "Login required" })).status,
+  ).toBe(200);
+  expect(
+    (await post("/control/release", { requestId: "request-1" })).status,
+  ).toBe(200);
 });

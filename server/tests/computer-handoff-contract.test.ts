@@ -262,3 +262,43 @@ test("checkpoint storage failure does not lock the human out of the browser", as
     (await post("/control/release", { requestId: "request-1" })).status,
   ).toBe(200);
 });
+
+test("only signed-in computer owner can submit a matching durable resume claim", async () => {
+  const calls: { requestId: string; toolCallId: string; actorId: string }[] =
+    [];
+  const { post, requests } = fixture(
+    () =>
+      Response.json({
+        ...state,
+        request: {
+          ...state.request,
+          status: "completed",
+          toolCallId: "call-1",
+        },
+      }),
+    {
+      requested: async () => {},
+      released: async () => {},
+      claim: async (_seat, actor, requestId, toolCallId, live) => {
+        expect(live.request?.status).toBe("completed");
+        calls.push({ requestId, toolCallId, actorId: actor.id });
+        return { claimed: true };
+      },
+    },
+  );
+  expect(
+    (await post("/control/resume-claim", { requestId: "request-1" })).status,
+  ).toBe(400);
+  const result = await post("/control/resume-claim", {
+    requestId: "request-1",
+    toolCallId: "call-1",
+  });
+  expect(result.status).toBe(200);
+  expect(await result.json()).toMatchObject({ claimed: true });
+  expect(calls).toEqual([
+    { requestId: "request-1", toolCallId: "call-1", actorId: "user-1" },
+  ]);
+  expect(requests.map((call) => call.path)).toEqual([
+    "/control?requestId=request-1",
+  ]);
+});

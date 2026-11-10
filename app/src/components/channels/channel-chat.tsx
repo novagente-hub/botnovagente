@@ -1066,6 +1066,7 @@ export function ChannelChat({
                */
               <>
                 <HandoffResumeNotice
+                  key={runtimeAgentId}
                   botId={runtimeAgentId}
                   agent={agent}
                   ready={isReady && !restoring && channel.active}

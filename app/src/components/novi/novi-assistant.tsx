@@ -102,7 +102,13 @@ export function NoviAssistant() {
   const busyRef = useRef(false);
 
   useEffect(() => {
-    if (open) inputRef.current?.focus();
+    if (open) {
+      inputRef.current?.focus();
+    } else {
+      // Closing the panel must end any microphone session and spoken feedback.
+      recognizerRef.current?.stop();
+      window.speechSynthesis?.cancel();
+    }
   }, [open]);
 
   useEffect(() => {

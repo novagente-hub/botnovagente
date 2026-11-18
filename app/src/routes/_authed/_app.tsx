@@ -1,10 +1,10 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { AppSidebar } from "@/components/app-sidebar/app-sidebar";
-import { NoviAssistant } from "@/components/novi/novi-assistant";
-import { PwaInstallBar } from "@/components/pwa/pwa-install-bar";
 import { SelfHostBanner } from "@/components/layout/self-host-banner";
 import { SidebarShell } from "@/components/layout/sidebar-shell";
+import { NoviAssistant } from "@/components/novi/novi-assistant";
+import { PwaInstallBar } from "@/components/pwa/pwa-install-bar";
 import { useActiveSkin } from "@/skins/registry";
 
 export const Route = createFileRoute("/_authed/_app")({
@@ -22,7 +22,7 @@ function RouteComponent() {
       );
       document.documentElement.style.setProperty(
         "--novabot-keyboard-inset",
-        String(Math.round(obscured)) + "px",
+        `${Math.round(obscured)}px`,
       );
     };
     sync();

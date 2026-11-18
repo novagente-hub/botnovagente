@@ -1,9 +1,18 @@
-import { IconMicrophone, IconSend, IconVolume, IconVolumeOff, IconX } from "@tabler/icons-react";
+import {
+  IconMicrophone,
+  IconSend,
+  IconVolume,
+  IconVolumeOff,
+  IconX,
+} from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { defaultAgentProfile } from "@/lib/agents/default-agent";
 import { agentListQueryOptions } from "@/lib/agents/queries";
-import { CoworkerRoutingRefusedError, routeMessage } from "@/lib/channels/route";
+import {
+  CoworkerRoutingRefusedError,
+  routeMessage,
+} from "@/lib/channels/route";
 import { useStartChannel } from "@/lib/channels/start";
 import "./novi-assistant.css";
 
@@ -16,7 +25,11 @@ type Recognizer = {
   lang: string;
   continuous: boolean;
   interimResults: boolean;
-  onresult: ((event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+  onresult:
+    | ((event: {
+        results: ArrayLike<ArrayLike<{ transcript: string }>>;
+      }) => void)
+    | null;
   onerror: ((event: { error: string }) => void) | null;
   onend: (() => void) | null;
   start(): void;
@@ -44,12 +57,18 @@ function NoviCharacter({
         small ? "novi-character--small" : "",
         listening ? "novi-character--listening" : "",
         working ? "novi-character--working" : "",
-      ].filter(Boolean).join(" ")}
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       <span className="novi-antenna" />
       <span className="novi-head">
-        <span className="novi-eye novi-eye--left"><span /></span>
-        <span className="novi-eye novi-eye--right"><span /></span>
+        <span className="novi-eye novi-eye--left">
+          <span />
+        </span>
+        <span className="novi-eye novi-eye--right">
+          <span />
+        </span>
         <span className="novi-cheek novi-cheek--left" />
         <span className="novi-cheek novi-cheek--right" />
         <span className="novi-mouth" />
@@ -64,14 +83,18 @@ function NoviCharacter({
  * Once routed, the normal channel UI owns the run, approvals and history.
  */
 export function NoviAssistant() {
-  const { data: agents, isError: agentsFailed } = useQuery(agentListQueryOptions());
+  const { data: agents, isError: agentsFailed } = useQuery(
+    agentListQueryOptions(),
+  );
   const { start, pending } = useStartChannel();
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [listening, setListening] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(false);
-  const [status, setStatus] = useState("Oi! Sou o Novi. Me diga o que precisa e eu encontro o agente certo.");
+  const [status, setStatus] = useState(
+    "Oi! Sou o Novi. Me diga o que precisa e eu encontro o agente certo.",
+  );
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -131,17 +154,23 @@ export function NoviAssistant() {
       } catch (caught) {
         if (caught instanceof CoworkerRoutingRefusedError) throw caught;
         const fallback = defaultAgentProfile(agents);
-        if (!fallback) throw new Error("Não encontrei um agente disponível para encaminhar este pedido.");
+        if (!fallback)
+          throw new Error(
+            "Não encontrei um agente disponível para encaminhar este pedido.",
+          );
         agentId = fallback.id;
         agentName = fallback.name;
       }
 
-      setStatus(`Encaminhando para ${agentName}. Você poderá acompanhar tudo no chat.`);
+      setStatus(
+        `Encaminhando para ${agentName}. Você poderá acompanhar tudo no chat.`,
+      );
       say(`Encontrei ${agentName}. Vou abrir a conversa para você acompanhar.`);
       await start(agentId, message);
       setOpen(false);
     } catch (caught) {
-      const detail = caught instanceof Error ? caught.message : "Tente novamente.";
+      const detail =
+        caught instanceof Error ? caught.message : "Tente novamente.";
       setError(detail);
       setStatus("Não consegui encaminhar seu pedido.");
     } finally {
@@ -161,9 +190,12 @@ export function NoviAssistant() {
       return;
     }
     const speechWindow = window as SpeechWindow;
-    const Recognition = speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition;
+    const Recognition =
+      speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition;
     if (!Recognition) {
-      setError("O reconhecimento de voz não está disponível neste navegador. Você pode digitar seu pedido.");
+      setError(
+        "O reconhecimento de voz não está disponível neste navegador. Você pode digitar seu pedido.",
+      );
       return;
     }
     try {
@@ -176,7 +208,9 @@ export function NoviAssistant() {
         if (transcript) void sendMessage(transcript);
       };
       recognition.onerror = (event) => {
-        setError(`Não consegui usar o microfone (${event.error}). Verifique a permissão do navegador.`);
+        setError(
+          `Não consegui usar o microfone (${event.error}). Verifique a permissão do navegador.`,
+        );
       };
       recognition.onend = () => {
         recognizerRef.current = null;
@@ -190,7 +224,9 @@ export function NoviAssistant() {
     } catch {
       recognizerRef.current = null;
       setListening(false);
-      setError("Não foi possível iniciar o microfone. Tente digitar seu pedido.");
+      setError(
+        "Não foi possível iniciar o microfone. Tente digitar seu pedido.",
+      );
     }
   }
 
@@ -198,7 +234,11 @@ export function NoviAssistant() {
   return (
     <div className="novi-dock" data-testid="novi-assistant">
       {open && (
-        <section className="novi-panel" aria-label="Conversar com Novi" id="novi-panel">
+        <section
+          className="novi-panel"
+          aria-label="Conversar com Novi"
+          id="novi-panel"
+        >
           <header className="novi-panel-header">
             <NoviCharacter listening={listening} working={sending} />
             <div className="novi-panel-heading">
@@ -209,23 +249,47 @@ export function NoviAssistant() {
               type="button"
               className="novi-icon-button"
               aria-label="Fechar conversa com Novi"
-              onClick={() => { setOpen(false); toggleRef.current?.focus(); }}
+              onClick={() => {
+                setOpen(false);
+                toggleRef.current?.focus();
+              }}
             >
               <IconX size={18} />
             </button>
           </header>
-          <p className="novi-status" role="status" aria-live="polite">{status}</p>
+          <p className="novi-status" role="status" aria-live="polite">
+            {status}
+          </p>
           <p className="novi-help">
-            Eu encontro o agente e abro a conversa real. As ações e aprovações continuam no chat.
+            Eu encontro o agente e abro a conversa real. As ações e aprovações
+            continuam no chat.
           </p>
           <div className="novi-suggestions" aria-label="Sugestões de pedidos">
-            {["Organize minhas prioridades", "Como estão os meus agentes?", "Verificar oportunidades de vendas"].map((text) => (
-              <button key={text} type="button" disabled={sending || !agents?.length}
-                onClick={() => void sendMessage(text)}>{text}</button>
+            {[
+              "Organize minhas prioridades",
+              "Como estão os meus agentes?",
+              "Verificar oportunidades de vendas",
+            ].map((text) => (
+              <button
+                key={text}
+                type="button"
+                disabled={sending || !agents?.length}
+                onClick={() => void sendMessage(text)}
+              >
+                {text}
+              </button>
             ))}
           </div>
-          {error && <p className="novi-error" role="alert">{error}</p>}
-          {agentsFailed && <p className="novi-error">Não foi possível carregar seus agentes.</p>}
+          {error && (
+            <p className="novi-error" role="alert">
+              {error}
+            </p>
+          )}
+          {agentsFailed && (
+            <p className="novi-error">
+              Não foi possível carregar seus agentes.
+            </p>
+          )}
           <form className="novi-form" onSubmit={handleSubmit}>
             <input
               ref={inputRef}
@@ -246,23 +310,40 @@ export function NoviAssistant() {
             >
               <IconMicrophone size={19} />
             </button>
-            <button type="submit" className="novi-send" aria-label="Enviar pedido"
-              disabled={sending || !draft.trim() || !agents?.length}>
+            <button
+              type="submit"
+              className="novi-send"
+              aria-label="Enviar pedido"
+              disabled={sending || !draft.trim() || !agents?.length}
+            >
               <IconSend size={19} />
             </button>
           </form>
           <footer className="novi-footer">
-            <span>{sending ? "Encaminhando…" : listening ? "Ouvindo…" : "Microfone desligado até você clicar"}</span>
-            <button type="button"
+            <span>
+              {sending
+                ? "Encaminhando…"
+                : listening
+                  ? "Ouvindo…"
+                  : "Microfone desligado até você clicar"}
+            </span>
+            <button
+              type="button"
               onClick={() => {
                 setVoiceEnabled((current) => !current);
                 window.speechSynthesis?.cancel();
               }}
-              aria-label={voiceEnabled ? "Desativar voz do Novi" : "Ativar voz do Novi"}
+              aria-label={
+                voiceEnabled ? "Desativar voz do Novi" : "Ativar voz do Novi"
+              }
               aria-pressed={voiceEnabled}
               title="Ativar ou desativar leitura de respostas"
             >
-              {voiceEnabled ? <IconVolume size={17} /> : <IconVolumeOff size={17} />}
+              {voiceEnabled ? (
+                <IconVolume size={17} />
+              ) : (
+                <IconVolumeOff size={17} />
+              )}
             </button>
           </footer>
         </section>

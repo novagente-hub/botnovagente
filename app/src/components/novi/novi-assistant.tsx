@@ -6,7 +6,7 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { defaultAgentProfile } from "@/lib/agents/default-agent";
 import { agentListQueryOptions } from "@/lib/agents/queries";
 import {
@@ -264,7 +264,7 @@ export function NoviAssistant() {
             Eu encontro o agente e abro a conversa real. As ações e aprovações
             continuam no chat.
           </p>
-          <div className="novi-suggestions" aria-label="Sugestões de pedidos">
+          <div className="novi-suggestions">
             {[
               "Organize minhas prioridades",
               "Como estão os meus agentes?",

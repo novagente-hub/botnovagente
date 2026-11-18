@@ -20,13 +20,18 @@
   padding: 6px 16px 6px 5px;
   color: #f5f9ff;
   background: #0c1c35;
-  box-shadow: 0 8px 30px #0009, 0 0 24px #166bdf33;
+  box-shadow:
+    0 8px 30px #0009,
+    0 0 24px #166bdf33;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
 }
-.novi-trigger:hover { background: #16345b; }
-.novi-dock button:focus-visible, .novi-dock input:focus-visible {
+.novi-trigger:hover {
+  background: #16345b;
+}
+.novi-dock button:focus-visible,
+.novi-dock input:focus-visible {
   outline: 3px solid #73dfff;
   outline-offset: 3px;
 }
@@ -47,9 +52,20 @@
   align-items: center;
   min-height: 112px;
 }
-.novi-panel-heading { display: flex; flex: 1; flex-direction: column; gap: 4px; }
-.novi-panel-heading strong { font-size: 18px; line-height: 1.2; }
-.novi-panel-heading span { color: #a6c8ee; font-size: 12px; }
+.novi-panel-heading {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+.novi-panel-heading strong {
+  font-size: 18px;
+  line-height: 1.2;
+}
+.novi-panel-heading span {
+  color: #a6c8ee;
+  font-size: 12px;
+}
 .novi-icon-button {
   align-self: flex-start;
   border: 1px solid #315174;
@@ -74,7 +90,12 @@
   font-size: 11px;
   line-height: 1.5;
 }
-.novi-suggestions { display: flex; flex-wrap: wrap; gap: 7px; margin: 12px 0 16px; }
+.novi-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 12px 0 16px;
+}
 .novi-suggestions button {
   border: 1px solid #315984;
   border-radius: 24px;
@@ -84,15 +105,24 @@
   font-size: 11px;
   cursor: pointer;
 }
-.novi-suggestions button:hover { background: #1f426c; }
-.novi-suggestions button:disabled { opacity: .5; cursor: not-allowed; }
+.novi-suggestions button:hover {
+  background: #1f426c;
+}
+.novi-suggestions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .novi-error {
   margin: 8px 0;
   color: #ffd0ca;
   font-size: 12px;
   line-height: 1.5;
 }
-.novi-form { display: flex; align-items: center; gap: 7px; }
+.novi-form {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
 .novi-form input {
   flex: 1;
   min-width: 0;
@@ -104,7 +134,9 @@
   padding: 0 10px;
   font-size: 12px;
 }
-.novi-form input::placeholder { color: #a2bbd6; }
+.novi-form input::placeholder {
+  color: #a2bbd6;
+}
 .novi-form button {
   flex-shrink: 0;
   width: 42px;
@@ -115,10 +147,22 @@
   color: white;
   cursor: pointer;
 }
-.novi-form button:disabled { opacity: .5; cursor: not-allowed; }
-.novi-mic { background: #194373; border: 1px solid #376ca7; }
-.novi-mic--active { background: #097c9b; box-shadow: 0 0 0 4px #27d7eb24; }
-.novi-send { background: #1679ed; border: 1px solid #288afa; }
+.novi-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.novi-mic {
+  background: #194373;
+  border: 1px solid #376ca7;
+}
+.novi-mic--active {
+  background: #097c9b;
+  box-shadow: 0 0 0 4px #27d7eb24;
+}
+.novi-send {
+  background: #1679ed;
+  border: 1px solid #288afa;
+}
 .novi-footer {
   display: flex;
   justify-content: space-between;
@@ -147,7 +191,9 @@
   height: var(--novi-unit);
   animation: novi-float 3.5s ease-in-out infinite;
 }
-.novi-character--small { --novi-unit: 50px; }
+.novi-character--small {
+  --novi-unit: 50px;
+}
 .novi-head {
   position: absolute;
   left: 6%;
@@ -156,8 +202,17 @@
   height: 71%;
   border-radius: 40% 40% 43% 43% / 38% 38% 47% 47%;
   transform: rotate(-5deg);
-  background: linear-gradient(135deg, #6ce6ff 0%, #298eff 35%, #1168e4 76%, #0743bb 100%);
-  box-shadow: inset -8px -8px 12px #012d9b66, inset 7px 8px 13px #fff5, 0 10px 22px #1374ff80;
+  background: linear-gradient(
+    135deg,
+    #6ce6ff 0%,
+    #298eff 35%,
+    #1168e4 76%,
+    #0743bb 100%
+  );
+  box-shadow:
+    inset -8px -8px 12px #012d9b66,
+    inset 7px 8px 13px #fff5,
+    0 10px 22px #1374ff80;
 }
 .novi-head::before {
   content: "";
@@ -189,7 +244,7 @@
   width: 230%;
   aspect-ratio: 1;
   border-radius: 50%;
-  border: max(2px, calc(var(--novi-unit) * .035)) solid #0a76ed;
+  border: max(2px, calc(var(--novi-unit) * 0.035)) solid #0a76ed;
   background: #73f6ff;
   box-shadow: 0 0 10px #63e9ff;
 }
@@ -202,8 +257,12 @@
   border-radius: 50%;
   animation: novi-blink 5s infinite;
 }
-.novi-eye--left { left: 27%; }
-.novi-eye--right { right: 27%; }
+.novi-eye--left {
+  left: 27%;
+}
+.novi-eye--right {
+  right: 27%;
+}
 .novi-eye span {
   position: absolute;
   top: 37%;
@@ -222,8 +281,12 @@
   background: #ff9bc399;
   filter: blur(2px);
 }
-.novi-cheek--left { left: 19%; }
-.novi-cheek--right { right: 19%; }
+.novi-cheek--left {
+  left: 19%;
+}
+.novi-cheek--right {
+  right: 19%;
+}
 .novi-mouth {
   position: absolute;
   top: 64%;
@@ -235,29 +298,64 @@
   border-bottom: 2px solid #caeeff;
 }
 .novi-character--listening .novi-head {
-  box-shadow: inset -8px -8px 12px #012d9b66, 0 0 0 6px #55e4ff33, 0 10px 22px #1374ff80;
+  box-shadow:
+    inset -8px -8px 12px #012d9b66,
+    0 0 0 6px #55e4ff33,
+    0 10px 22px #1374ff80;
 }
 .novi-character--working .novi-mouth {
-  animation: novi-talk .45s ease-in-out infinite alternate;
+  animation: novi-talk 0.45s ease-in-out infinite alternate;
 }
 @keyframes novi-float {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 -4px; }
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -4px;
+  }
 }
 @keyframes novi-blink {
-  0%, 45%, 49%, 100% { scale: 1 1; }
-  47% { scale: 1 .12; }
+  0%,
+  45%,
+  49%,
+  100% {
+    scale: 1 1;
+  }
+  47% {
+    scale: 1 0.12;
+  }
 }
 @keyframes novi-talk {
-  from { height: 6%; border-radius: 0 0 20px 20px; }
-  to { height: 15%; border-radius: 50%; }
+  from {
+    height: 6%;
+    border-radius: 0 0 20px 20px;
+  }
+  to {
+    height: 15%;
+    border-radius: 50%;
+  }
 }
 @media (max-width: 550px) {
-  .novi-dock { right: 12px; bottom: calc(12px + var(--novabot-keyboard-inset, 0px)); }
-  .novi-panel { max-height: min(580px, calc(100dvh - 96px)); }
-  .novi-trigger { height: 54px; padding-right: 12px; }
-  .novi-character--small { --novi-unit: 42px; }
+  .novi-dock {
+    right: 12px;
+    bottom: calc(12px + var(--novabot-keyboard-inset, 0px));
+  }
+  .novi-panel {
+    max-height: min(580px, calc(100dvh - 96px));
+  }
+  .novi-trigger {
+    height: 54px;
+    padding-right: 12px;
+  }
+  .novi-character--small {
+    --novi-unit: 42px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .novi-character, .novi-eye, .novi-mouth { animation: none; }
+  .novi-character,
+  .novi-eye,
+  .novi-mouth {
+    animation: none;
+  }
 }
